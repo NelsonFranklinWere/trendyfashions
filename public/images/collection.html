@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trendy Fashion Zone | Home of Fashions Nairobi, Kenya</title>
+    <meta name="description" content="Browse our full collection of premium sneakers & shoes in Nairobi, Kenya. Air Jordans, Air Force 1, Clarks, Adidas, Vans, Timberland & more. Fast delivery & 24/7 support.">
+    <meta name="keywords" content="Trendy Fashion Zone | Home of Fashions Nairobi, Kenya, sneakers collection Nairobi, buy shoes Kenya, Air Jordan collection, Adidas Campus Nairobi, Vans, Timberland boots Kenya, Trendy Fashion Zone | Home of Fashions Nairobi, Kenya shoes, , Affordable shoes in nairobi, Casuals shoes Nairobi, Formal shoes Kenya, Running shoes Nairobi, Customized sneakers Kenya">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Trendy Fashion Zone | Home of Fashions Nairobi, Kenya">
+    <meta property="og:description" content="Explore our sneakers & footwear collection. Authentic brands: Jordans, Adidas, Clarks, Vans & more. Nairobi delivery.">
+    <meta property="og:image" content="trendylogo.jpg">
+    <meta property="og:url" content="https://trendyfashions.store/collection.html">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Trendy Fashion Zone | Home of Fashions Nairobi, Kenya">
+    <meta name="twitter:description" content="Trendy Fashion Zone | Home of Fashions Nairobi, Kenya. Authentic brands. Nairobi delivery.">
+    <meta name="twitter:image" content="trendyfashionzone">
+
+    <link rel="canonical" href="https://trendyfashions.store/collection.html">
+    <link rel="icon" href="trendylogo.jpg" type="image/jpeg">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="collection.css">
+
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Trendy Fashion Zone | Home of Fashions Nairobi, Kenya",
+        "description": "Trendy Fashion Zone | Home of Fashions Nairobi, Kenya. Shop Jordans, Adidas, Vans, Timberland, Clarks & more.",
+        "url": "https://trendyfashions.store/collection.html",
+        "publisher": {
+            "@type": "Organization",
+            "name": "TrendyFashionZone",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "trendylogo.jpg"
+            }
+        }
+    }
+    </script>
+</head>
+<body>
+   <!-- WhatsApp Float Button -->
+<a href="https://wa.me/254743869564" class="whatsapp-float" target="_blank">
+  <img src="trendylogo.jpg" alt="Chat with us">
+</a>
+
+<!-- Popup Message -->
+<div class="whatsapp-popup" id="whatsappPopup">
+Welcome Trendy Fashions, Let's Find your fit?
+</div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-shoe-prints"></i>
+                <span>Trendy Fashions</span>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#products">Products</a></li>
+                    <li><a href="collection.html" class="active">Collection</a></li>
+                    <li><a href="index.html#categories">Categories</a></li>
+                    <!--li><a href="index.html#about">About Us</a></li-->
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container collection-container">
+        <h1 class="collection-title">Our Premium Collection</h1>
+        <p class="collection-subtitle">Step into Style with Our Premium Footwear</p>
+
+        <div class="filter-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search for shoes...">
+            </div>
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="running">Running</button>
+                <button class="filter-btn" data-filter="casual">Casual</button>
+                <button class="filter-btn" data-filter="customized">Customized</button>
+                <button class="filter-btn" data-filter="sports">Sports</button>
+                <button class="filter-btn" data-filter="formal">Formal</button>
+                <button class="filter-btn" data-filter="all">All</button>
+            </div>
+            <div class="cart-section">
+                <button class="cart-btn" id="cartBtn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount">0</span>
+                    Cart
+                </button>
+                <button class="order-all-btn" id="orderAllBtn" style="display: none;">
+                    <i class="fab fa-whatsapp"></i>
+                    Order All via WhatsApp
+                </button>
+            </div>
+        </div>
+
+        <div class="collection-grid" id="shoe-collection">
+            <!-- Shoes will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Trendy Fashion Zone | Home of Fashions Nairobi, Kenya</h3>
+                    <p>Your one-stop shop for quality unisex and men's footwear in Nairobi. We offer stylish, comfortable shoes for every occasion.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="index.html">Home</a></p>
+                    <p><a href="index.html#products">Products</a></p>
+                    <p><a href="index.html#categories">Categories</a></p>
+                    <p><a href="index.html#contact">Contact</a></p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Moi Avenue, Nairobi</p>
+                    <p><i class="fas fa-phone"></i> +254 743 869 564</p>
+                    <p><i class="fas fa-envelope"></i> info@trendyfashionzone.store</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/franklabels.store"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/254743869564"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 TrendyFashionZone. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping cart functionality
+        let cart = [];
+        let cartCount = 0;
+
+        // Function to update cart count
+        function updateCartCount() {
+            cartCount = cart.length;
+            document.getElementById('cartCount').textContent = cartCount;
+            const orderAllBtn = document.getElementById('orderAllBtn');
+            if (cartCount > 0) {
+                orderAllBtn.style.display = 'inline-block';
+            } else {
+                orderAllBtn.style.display = 'none';
+            }
+        }
+
+        // Function to add item to cart
+        function addToCart(shoeData) {
+            const existingItem = cart.find(item => item.name === shoeData.name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...shoeData,
+                    quantity: 1
+                });
+            }
+            updateCartCount();
+            
+            // Show success message
+            const button = event.target.closest('.add-to-cart');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check"></i> Added!';
+            button.style.background = '#28a745';
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.style.background = '';
+            }, 2000);
+        }
+
+        // Function to create WhatsApp message for cart
+        function createCartWhatsAppMessage() {
+            let totalPrice = 0;
+            let message = `🛍️ *MULTIPLE ITEMS ORDER FROM TRENDY FASHIONS* 🛍️\n\n`;
+            
+            cart.forEach((item, index) => {
+                message += `👟 *Item ${index + 1}:*\n`;
+                message += `• Name: ${item.name}\n`;
+                message += `• Category: ${item.category.charAt(0).toUpperCase() + item.category.slice(1)}\n`;
+                message += `• Description: ${item.description}\n`;
+                message += `• Price: Ksh. ${item.price}\n`;
+                message += `• Quantity: ${item.quantity}\n`;
+                message += `• Subtotal: Ksh. ${(item.price * item.quantity).toFixed(2)}\n\n`;
+                message += `📸 *Product Image ${index + 1}:*\n`;
+                message += `${window.location.origin}/${item.image}\n\n`;
+                
+                totalPrice += (item.price * item.quantity);
+            });
+            
+            message += `💰 *ORDER SUMMARY:*\n`;
+            message += `• Total Items: ${cartCount}\n`;
+            message += `• Total Amount: Ksh. ${totalPrice.toFixed(2)}\n\n`;
+            message += `🌐 *View on Website:*\n`;
+            message += `https://trendyfashions.store/collection.html\n\n`;
+            message += `📱 *Customer Details:*\n`;
+            message += `[Please provide your name, phone number, and delivery address]\n\n`;
+            message += `💬 *Additional Notes:*\n`;
+            message += `[Any specific requirements or questions]\n\n`;
+            message += `---\n`;
+            message += `*Thank you for choosing Trendy Fashions! We'll contact you shortly to confirm your order and arrange delivery.*`;
+            
+            return message;
+        }
+
+        // Sample shoe data
+        const shoes = [
+    {id: 1, name: "Premium Casual Sneakers", category: "casual", price: 3000, description: "Step into ultimate comfort with our premium casual sneakers. Crafted with superior materials and modern design, these shoes offer the perfect blend of style and durability. Perfect for everyday wear, these casuals deliver unmatched quality that lasts.", image: "IMG-20251001-WA0002.jpg", badge: "New"},
+    {id: 2, name: "Urban Street Casuals", category: "casual", price: 3000, description: "Embrace urban style with our street-ready casual shoes. Designed for the modern lifestyle, these premium casuals combine comfort with contemporary fashion. Built to last with quality materials that withstand daily wear.", image: "IMG-20251001-WA0003.jpg", badge: "New"},
+    {id: 3, name: "Classic Comfort Casuals", category: "casual", price: 3000, description: "Experience timeless comfort with our classic casual collection. These shoes redefine everyday footwear with their superior craftsmanship and attention to detail. Quality you can feel, style you can trust.", image: "IMG-20251001-WA0004.jpg", badge: "New"},
+    {id: 4, name: "Trendy Lifestyle Casuals", category: "casual", price: 3000, description: "Stay ahead of trends with our lifestyle casual shoes. Engineered for comfort and designed for style, these premium casuals are your perfect everyday companion. Quality materials ensure long-lasting performance.", image: "IMG-20251001-WA0005.jpg", badge: "New"},
+    {id: 5, name: "Elite Casual Footwear", category: "casual", price: 3000, description: "Join the elite with our premium casual footwear. These shoes represent the perfect marriage of comfort and sophistication. Made with the finest materials, they deliver exceptional quality that exceeds expectations.", image: "IMG-20251001-WA0006.jpg", badge: "New"},
+    {id: 6, name: "Modern Day Casuals", category: "casual", price: 3000, description: "Meet your modern lifestyle with our contemporary casual shoes. Designed for today's active individual, these premium casuals offer superior comfort and lasting quality. Step into excellence with every wear.", image: "IMG-20251001-WA0007.jpg", badge: "New"},
+    {id: 7, name: "Supreme Quality Casuals", category: "casual", price: 3000, description: "Discover supreme quality with our exceptional casual shoes. Every detail is crafted with precision to deliver unmatched comfort and style. These premium casuals are built to impress and designed to last.", image: "IMG-20251001-WA0008.jpg", badge: "New"},
+    {id: 8, name: "Luxury Comfort Casuals", category: "casual", price: 3000, description: "Indulge in luxury comfort with our premium casual collection. These shoes elevate your everyday style while providing exceptional comfort. Superior materials and expert craftsmanship ensure lasting quality.", image: "IMG-20251001-WA0009.jpg", badge: "New"},
+    {id: 9, name: "Premium Street Casuals", category: "casual", price: 3000, description: "Conquer the streets in style with our premium casual shoes. Designed for urban adventures, these quality casuals combine durability with modern aesthetics. Experience the difference that premium quality makes.", image: "IMG-20251001-WA0010.jpg", badge: "New"},
+    {id: 10, name: "Executive Style Casuals", category: "casual", price: 3000, description: "Command attention with our executive-style casual shoes. Perfect for the discerning individual who demands both comfort and sophistication. These premium casuals deliver exceptional quality and timeless appeal.", image: "IMG-20251001-WA0011.jpg", badge: "New"},
+    {id: 11, name: "Signature Quality Casuals", category: "casual", price: 3000, description: "Make your signature statement with our quality casual shoes. Every pair is crafted with meticulous attention to detail and superior materials. These premium casuals represent the pinnacle of everyday footwear excellence.", image: "IMG-20251001-WA0012.jpg", badge: "New"},
+    {id: 12, name: "Professional Grade Casuals", category: "casual", price: 3000, description: "Step into professional grade quality with our premium casual shoes. Engineered for the modern professional who values both style and substance. These quality casuals deliver performance you can depend on.", image: "IMG-20251001-WA0013.jpg", badge: "New"},
+    {id: 13, name: "Champion Quality Casuals", category: "casual", price: 3000, description: "Be a champion of style with our premium casual shoes. Built with championship-level quality and designed for everyday victories. These exceptional casuals offer comfort and durability that exceeds all expectations.", image: "IMG-20251001-WA0014.jpg", badge: "New"},
+    {id: 14, name: "Master Craft Casuals", category: "casual", price: 3000, description: "Experience master craftsmanship with our premium casual shoes. Every detail reflects our commitment to excellence and superior quality. These masterful casuals are designed for those who appreciate true craftsmanship.", image: "IMG-20251001-WA0015.jpg", badge: "New"},
+    {id: 15, name: "Empire Official Classic", category: "empire officials", price: 2800, description: "Premium Empire Officials with superior comfort and lasting quality.", image: "IMG-20251001-WA0016.jpg", badge: "New"},
+    {id: 16, name: "Empire Executive", category: "empire officials", price: 2800, description: "Professional Empire Officials designed for excellence and durability.", image: "IMG-20251001-WA0017.jpg", badge: "New"},
+    {id: 17, name: "Empire Elite", category: "empire officials", price: 2800, description: "Elite Empire Officials crafted with premium materials for ultimate comfort.", image: "IMG-20251001-WA0018.jpg", badge: "New"},
+    {id: 18, name: "Empire Supreme", category: "empire officials", price: 2800, description: "Supreme quality Empire Officials built to impress and last longer.", image: "IMG-20251001-WA0019.jpg", badge: "New"},
+    {id: 19, name: "Empire Professional", category: "empire officials", price: 2800, description: "Professional grade Empire Officials for the modern executive lifestyle.", image: "IMG-20251001-WA0020.jpg", badge: "New"},
+    {id: 20, name: "Empire Signature", category: "empire officials", price: 2800, description: "Signature Empire Officials with exceptional craftsmanship and style.", image: "IMG-20251001-WA0021.jpg", badge: "New"},
+    {id: 21, name: "Empire Premium", category: "empire officials", price: 2800, description: "Premium Empire Officials offering superior comfort and lasting quality.", image: "IMG-20251001-WA0022.jpg", badge: "New"},
+    {id: 22, name: "Empire Master", category: "empire officials", price: 2800, description: "Master crafted Empire Officials designed for comfort and sophistication.", image: "IMG-20251001-WA0023.jpg", badge: "New"},
+    {id: 23, name: "Empire Champion", category: "empire officials", price: 2800, description: "Champion quality Empire Officials built for performance and style.", image: "IMG-20251001-WA0024.jpg", badge: "New"},
+    {id: 24, name: "Empire Luxe", category: "empire officials", price: 2800, description: "Luxury Empire Officials with premium comfort and elegant design.", image: "IMG-20251001-WA0025.jpg", badge: "New"},
+    {id: 25, name: "Empire Authority", category: "empire officials", price: 2800, description: "Authority Empire Officials commanding respect with quality and style.", image: "IMG-20251001-WA0026.jpg", badge: "New"},
+    {id: 26, name: "Empire Excellence", category: "empire officials", price: 2800, description: "Excellence Empire Officials delivering superior comfort and durability.", image: "IMG-20251001-WA0027.jpg", badge: "New"},
+    {id: 27, name: "Empire Prestige", category: "empire officials", price: 2800, description: "Prestige Empire Officials crafted with attention to detail and quality.", image: "IMG-20251001-WA0028.jpg", badge: "New"},
+    {id: 28, name: "Empire Legacy", category: "empire officials", price: 2800, description: "Legacy Empire Officials built to last with timeless style and comfort.", image: "IMG-20251001-WA0029.jpg", badge: "New"},
+    {id: 29, name: "Empire Crown", category: "empire officials", price: 2800, description: "Crown Empire Officials offering regal comfort and superior quality.", image: "IMG-20251001-WA0030.jpg", badge: "New"},
+    {id: 30, name: "Empire Royal", category: "empire officials", price: 2800, description: "Royal Empire Officials with premium materials and exceptional comfort.", image: "IMG-20251001-WA0031.jpg", badge: "New"},
+    {id: 31, name: "Empire Noble", category: "empire officials", price: 2800, description: "Noble Empire Officials designed for comfort and lasting performance.", image: "IMG-20251001-WA0032.jpg", badge: "New"},
+    {id: 32, name: "Empire Imperial", category: "empire officials", price: 2800, description: "Imperial Empire Officials crafted for excellence and superior quality.", image: "IMG-20251001-WA0033.jpg", badge: "New"},
+    {id: 33, name: "Empire Majesty", category: "empire officials", price: 2800, description: "Majesty Empire Officials offering supreme comfort and elegant style.", image: "IMG-20251001-WA0034.jpg", badge: "New"},
+    {id: 34, name: "Empire Dynasty", category: "empire officials", price: 2800, description: "Dynasty Empire Officials built with heritage quality and modern comfort.", image: "IMG-20251001-WA0035.jpg", badge: "New"},
+    {id: 35, name: "Empire Sovereign", category: "empire officials", price: 2800, description: "Sovereign Empire Officials commanding quality with premium comfort.", image: "IMG-20251001-WA0036.jpg", badge: "New"},
+    {id: 36, name: "IMG-20251001-WA0037", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0037.jpg", badge: "New"},
+    {id: 37, name: "IMG-20251001-WA0038", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0038.jpg", badge: "New"},
+    {id: 38, name: "IMG-20251001-WA0039", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0039.jpg", badge: "New"},
+    {id: 39, name: "IMG-20251001-WA0040", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0040.jpg", badge: "New"},
+    {id: 40, name: "IMG-20251001-WA0041", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0041.jpg", badge: "New"},
+    {id: 41, name: "IMG-20251001-WA0042", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0042.jpg", badge: "New"},
+    {id: 42, name: "IMG-20251001-WA0043", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0043.jpg", badge: "New"},
+    {id: 43, name: "IMG-20251001-WA0044", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0044.jpg", badge: "New"},
+    {id: 44, name: "IMG-20251001-WA0047", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0047.jpg", badge: "New"},
+    {id: 45, name: "IMG-20251001-WA0048", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0048.jpg", badge: "New"},
+    {id: 46, name: "IMG-20251001-WA0049", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0049.jpg", badge: "New"},
+    {id: 47, name: "IMG-20251001-WA0050", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0050.jpg", badge: "New"},
+    {id: 48, name: "IMG-20251001-WA0051", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0051.jpg", badge: "New"},
+    {id: 49, name: "IMG-20251001-WA0052", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0052.jpg", badge: "New"},
+    {id: 50, name: "IMG-20251001-WA0053", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0053.jpg", badge: "New"},
+    {id: 51, name: "IMG-20251001-WA0054", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0054.jpg", badge: "New"},
+    {id: 52, name: "IMG-20251001-WA0055", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0055.jpg", badge: "New"},
+    {id: 53, name: "IMG-20251001-WA0056", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0056.jpg", badge: "New"},
+    {id: 54, name: "IMG-20251001-WA0057", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0057.jpg", badge: "New"},
+    {id: 55, name: "IMG-20251001-WA0058", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0058.jpg", badge: "New"},
+    {id: 56, name: "IMG-20251001-WA0059", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0059.jpg", badge: "New"},
+    {id: 57, name: "IMG-20251001-WA0060", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0060.jpg", badge: "New"},
+    {id: 58, name: "IMG-20251001-WA0061", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0061.jpg", badge: "New"},
+    {id: 59, name: "IMG-20251001-WA0062", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0062.jpg", badge: "New"},
+    {id: 60, name: "IMG-20251001-WA0063", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0063.jpg", badge: "New"},
+    {id: 61, name: "IMG-20251001-WA0064", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0064.jpg", badge: "New"},
+    {id: 62, name: "IMG-20251001-WA0065", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0065.jpg", badge: "New"},
+    {id: 63, name: "IMG-20251001-WA0066", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0066.jpg", badge: "New"},
+    {id: 64, name: "IMG-20251001-WA0067", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0067.jpg", badge: "New"},
+    {id: 65, name: "IMG-20251001-WA0068", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0068.jpg", badge: "New"},
+    {id: 66, name: "IMG-20251001-WA0069", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0069.jpg", badge: "New"},
+    {id: 67, name: "IMG-20251001-WA0070", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0070.jpg", badge: "New"},
+    {id: 68, name: "IMG-20251001-WA0073", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0073.jpg", badge: "New"},
+    {id: 69, name: "IMG-20251001-WA0074", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0074.jpg", badge: "New"},
+    {id: 70, name: "IMG-20251001-WA0075", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0075.jpg", badge: "New"},
+    {id: 71, name: "IMG-20251001-WA0076", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0076.jpg", badge: "New"},
+    {id: 72, name: "IMG-20251001-WA0077", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0077.jpg", badge: "New"},
+    {id: 73, name: "IMG-20251001-WA0078", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0078.jpg", badge: "New"},
+    {id: 74, name: "IMG-20251001-WA0079", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0079.jpg", badge: "New"},
+    {id: 75, name: "IMG-20251001-WA0080", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0080.jpg", badge: "New"},
+    {id: 76, name: "IMG-20251001-WA0081", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0081.jpg", badge: "New"},
+    {id: 77, name: "IMG-20251001-WA0082", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0082.jpg", badge: "New"},
+    {id: 78, name: "IMG-20251001-WA0083", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0083.jpg", badge: "New"},
+    {id: 79, name: "IMG-20251001-WA0084", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0084.jpg", badge: "New"},
+    {id: 80, name: "IMG-20251001-WA0085", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0085.jpg", badge: "New"},
+    {id: 81, name: "IMG-20251001-WA0086", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0086.jpg", badge: "New"},
+    {id: 82, name: "IMG-20251001-WA0087", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0087.jpg", badge: "New"},
+    {id: 83, name: "IMG-20251001-WA0088", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0088.jpg", badge: "New"},
+    {id: 84, name: "IMG-20251001-WA0089", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0089.jpg", badge: "New"},
+    {id: 85, name: "IMG-20251001-WA0090", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0090.jpg", badge: "New"},
+    {id: 86, name: "IMG-20251001-WA0091", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0091.jpg", badge: "New"},
+    {id: 87, name: "IMG-20251001-WA0092", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0092.jpg", badge: "New"},
+    {id: 88, name: "IMG-20251001-WA0093", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0093.jpg", badge: "New"},
+    {id: 89, name: "IMG-20251001-WA0094", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0094.jpg", badge: "New"},
+    {id: 90, name: "IMG-20251001-WA0095", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0095.jpg", badge: "New"},
+    {id: 91, name: "IMG-20251001-WA0096", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0096.jpg", badge: "New"},
+    {id: 92, name: "IMG-20251001-WA0097", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0097.jpg", badge: "New"},
+    {id: 93, name: "IMG-20251001-WA0098", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0098.jpg", badge: "New"},
+    {id: 94, name: "IMG-20251001-WA0099", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0099.jpg", badge: "New"},
+    {id: 95, name: "IMG-20251001-WA0100", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0100.jpg", badge: "New"},
+    {id: 96, name: "IMG-20251001-WA0101", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0101.jpg", badge: "New"},
+    {id: 97, name: "IMG-20251001-WA0102", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0102.jpg", badge: "New"},
+    {id: 98, name: "IMG-20251001-WA0103", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0103.jpg", badge: "New"},
+    {id: 99, name: "IMG-20251001-WA0104", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0104.jpg", badge: "New"},
+    {id: 100, name: "IMG-20251001-WA0105", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0105.jpg", badge: "New"},
+    {id: 101, name: "IMG-20251001-WA0106", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0106.jpg", badge: "New"},
+    {id: 102, name: "IMG-20251001-WA0107", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0107.jpg", badge: "New"},
+    {id: 103, name: "IMG-20251001-WA0108", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0108.jpg", badge: "New"},
+    {id: 104, name: "IMG-20251001-WA0109", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0109.jpg", badge: "New"},
+    {id: 105, name: "IMG-20251001-WA0110", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0110.jpg", badge: "New"},
+    {id: 106, name: "IMG-20251001-WA0111", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0111.jpg", badge: "New"},
+    {id: 107, name: "IMG-20251001-WA0112", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0112.jpg", badge: "New"},
+    {id: 108, name: "IMG-20251001-WA0113", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0113.jpg", badge: "New"},
+    {id: 109, name: "IMG-20251001-WA0114", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0114.jpg", badge: "New"},
+    {id: 110, name: "IMG-20251001-WA0115", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0115.jpg", badge: "New"},
+    {id: 111, name: "IMG-20251001-WA0116", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0116.jpg", badge: "New"},
+    {id: 112, name: "IMG-20251001-WA0117", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0117.jpg", badge: "New"},
+    {id: 113, name: "IMG-20251001-WA0118", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0118.jpg", badge: "New"},
+    {id: 114, name: "IMG-20251001-WA0119", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0119.jpg", badge: "New"},
+    {id: 115, name: "IMG-20251001-WA0120", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0120.jpg", badge: "New"},
+    {id: 116, name: "IMG-20251001-WA0121", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0121.jpg", badge: "New"},
+    {id: 117, name: "IMG-20251001-WA0122", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0122.jpg", badge: "New"},
+    {id: 118, name: "IMG-20251001-WA0123", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0123.jpg", badge: "New"},
+    {id: 119, name: "IMG-20251001-WA0124", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0124.jpg", badge: "New"},
+    {id: 120, name: "IMG-20251001-WA0125", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0125.jpg", badge: "New"},
+    {id: 121, name: "IMG-20251001-WA0126", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0126.jpg", badge: "New"},
+    {id: 122, name: "IMG-20251001-WA0127", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0127.jpg", badge: "New"},
+    {id: 123, name: "IMG-20251001-WA0128", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0128.jpg", badge: "New"},
+    {id: 124, name: "IMG-20251001-WA0129", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0129.jpg", badge: "New"},
+    {id: 125, name: "IMG-20251001-WA0130", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0130.jpg", badge: "New"},
+    {id: 126, name: "IMG-20251001-WA0131", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0131.jpg", badge: "New"},
+    {id: 127, name: "IMG-20251001-WA0132", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0132.jpg", badge: "New"},
+    {id: 128, name: "IMG-20251001-WA0133", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0133.jpg", badge: "New"},
+    {id: 129, name: "IMG-20251001-WA0134", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0134.jpg", badge: "New"},
+    {id: 130, name: "IMG-20251001-WA0135", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0135.jpg", badge: "New"},
+    {id: 131, name: "IMG-20251001-WA0136", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0136.jpg", badge: "New"},
+    {id: 132, name: "IMG-20251001-WA0137", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0137.jpg", badge: "New"},
+    {id: 133, name: "IMG-20251001-WA0138", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0138.jpg", badge: "New"},
+    {id: 134, name: "IMG-20251001-WA0139", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0139.jpg", badge: "New"},
+    {id: 135, name: "IMG-20251001-WA0140", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0140.jpg", badge: "New"},
+    {id: 136, name: "IMG-20251001-WA0141", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0141.jpg", badge: "New"},
+    {id: 137, name: "IMG-20251001-WA0142", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0142.jpg", badge: "New"},
+    {id: 138, name: "IMG-20251001-WA0143", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0143.jpg", badge: "New"},
+    {id: 139, name: "IMG-20251001-WA0144", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0144.jpg", badge: "New"},
+    {id: 140, name: "IMG-20251001-WA0145", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0145.jpg", badge: "New"},
+    {id: 141, name: "IMG-20251001-WA0146", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0146.jpg", badge: "New"},
+    {id: 142, name: "IMG-20251001-WA0147", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0147.jpg", badge: "New"},
+    {id: 143, name: "IMG-20251001-WA0148", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0148.jpg", badge: "New"},
+    {id: 144, name: "IMG-20251001-WA0149", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0149.jpg", badge: "New"},
+    {id: 145, name: "IMG-20251001-WA0150", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0150.jpg", badge: "New"},
+    {id: 146, name: "IMG-20251001-WA0151", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0151.jpg", badge: "New"},
+    {id: 147, name: "IMG-20251001-WA0152", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0152.jpg", badge: "New"},
+    {id: 148, name: "IMG-20251001-WA0153", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0153.jpg", badge: "New"},
+    {id: 149, name: "IMG-20251001-WA0154", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0154.jpg", badge: "New"},
+    {id: 150, name: "IMG-20251001-WA0155", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0155.jpg", badge: "New"},
+    {id: 151, name: "IMG-20251001-WA0156", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0156.jpg", badge: "New"},
+    {id: 152, name: "IMG-20251001-WA0157", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0157.jpg", badge: "New"},
+    {id: 153, name: "IMG-20251001-WA0158", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0158.jpg", badge: "New"},
+    {id: 154, name: "IMG-20251001-WA0159", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0159.jpg", badge: "New"},
+    {id: 155, name: "IMG-20251001-WA0160", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0160.jpg", badge: "New"},
+    {id: 156, name: "IMG-20251001-WA0161", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0161.jpg", badge: "New"},
+    {id: 157, name: "IMG-20251001-WA0162", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0162.jpg", badge: "New"},
+    {id: 158, name: "IMG-20251001-WA0163", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0163.jpg", badge: "New"},
+    {id: 159, name: "IMG-20251001-WA0164", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0164.jpg", badge: "New"},
+    {id: 160, name: "IMG-20251001-WA0165", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0165.jpg", badge: "New"},
+    {id: 161, name: "IMG-20251001-WA0166", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0166.jpg", badge: "New"},
+    {id: 162, name: "IMG-20251001-WA0167", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0167.jpg", badge: "New"},
+    {id: 163, name: "IMG-20251001-WA0168", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0168.jpg", badge: "New"},
+    {id: 164, name: "IMG-20251001-WA0169", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0169.jpg", badge: "New"},
+    {id: 165, name: "IMG-20251001-WA0170", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0170.jpg", badge: "New"},
+    {id: 166, name: "IMG-20251001-WA0171", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0171.jpg", badge: "New"},
+    {id: 167, name: "IMG-20251001-WA0172", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0172.jpg", badge: "New"},
+    {id: 168, name: "IMG-20251001-WA0173", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0173.jpg", badge: "New"},
+    {id: 169, name: "IMG-20251001-WA0174", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0174.jpg", badge: "New"},
+    {id: 170, name: "IMG-20251001-WA0175", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0175.jpg", badge: "New"},
+    {id: 171, name: "IMG-20251001-WA0176", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0176.jpg", badge: "New"},
+    {id: 172, name: "IMG-20251001-WA0177", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0177.jpg", badge: "New"},
+    {id: 173, name: "IMG-20251001-WA0178", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0178.jpg", badge: "New"},
+    {id: 174, name: "IMG-20251001-WA0179", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0179.jpg", badge: "New"},
+    {id: 175, name: "IMG-20251001-WA0180", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0180.jpg", badge: "New"},
+    {id: 176, name: "IMG-20251001-WA0181", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0181.jpg", badge: "New"},
+    {id: 177, name: "IMG-20251001-WA0182", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0182.jpg", badge: "New"},
+    {id: 178, name: "IMG-20251001-WA0183", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0183.jpg", badge: "New"},
+    {id: 179, name: "IMG-20251001-WA0184", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0184.jpg", badge: "New"},
+    {id: 180, name: "IMG-20251001-WA0185", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0185.jpg", badge: "New"},
+    {id: 181, name: "IMG-20251001-WA0186", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0186.jpg", badge: "New"},
+    {id: 182, name: "IMG-20251001-WA0187", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0187.jpg", badge: "New"},
+    {id: 183, name: "IMG-20251001-WA0188", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0188.jpg", badge: "New"},
+    {id: 184, name: "IMG-20251001-WA0189", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0189.jpg", badge: "New"},
+    {id: 185, name: "IMG-20251001-WA0190", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0190.jpg", badge: "New"},
+    {id: 186, name: "IMG-20251001-WA0191", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0191.jpg", badge: "New"},
+    {id: 187, name: "IMG-20251001-WA0192", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0192.jpg", badge: "New"},
+    {id: 188, name: "IMG-20251001-WA0193", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0193.jpg", badge: "New"},
+    {id: 189, name: "IMG-20251001-WA0194", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0194.jpg", badge: "New"},
+    {id: 190, name: "IMG-20251001-WA0195", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0195.jpg", badge: "New"},
+    {id: 191, name: "IMG-20251001-WA0196", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0196.jpg", badge: "New"},
+    {id: 192, name: "IMG-20251001-WA0197", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0197.jpg", badge: "New"},
+    {id: 193, name: "IMG-20251001-WA0198", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0198.jpg", badge: "New"},
+    {id: 194, name: "IMG-20251001-WA0199", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0199.jpg", badge: "New"},
+    {id: 195, name: "IMG-20251001-WA0200", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0200.jpg", badge: "New"},
+    {id: 196, name: "IMG-20251001-WA0201", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0201.jpg", badge: "New"},
+    {id: 197, name: "IMG-20251001-WA0202", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0202.jpg", badge: "New"},
+    {id: 198, name: "IMG-20251001-WA0203", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0203.jpg", badge: "New"},
+    {id: 199, name: "IMG-20251001-WA0204", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0204.jpg", badge: "New"},
+    {id: 200, name: "IMG-20251001-WA0205", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0205.jpg", badge: "New"},
+    {id: 201, name: "IMG-20251001-WA0206", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0206.jpg", badge: "New"},
+    {id: 202, name: "IMG-20251001-WA0207", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0207.jpg", badge: "New"},
+    {id: 203, name: "IMG-20251001-WA0208", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0208.jpg", badge: "New"},
+    {id: 204, name: "IMG-20251001-WA0209", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0209.jpg", badge: "New"},
+    {id: 205, name: "IMG-20251001-WA0210", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0210.jpg", badge: "New"},
+    {id: 206, name: "IMG-20251001-WA0211", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0211.jpg", badge: "New"},
+    {id: 207, name: "IMG-20251001-WA0212", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0212.jpg", badge: "New"},
+    {id: 208, name: "IMG-20251001-WA0213", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0213.jpg", badge: "New"},
+    {id: 209, name: "IMG-20251001-WA0214", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0214.jpg", badge: "New"},
+    {id: 210, name: "IMG-20251001-WA0215", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0215.jpg", badge: "New"},
+    {id: 211, name: "IMG-20251001-WA0216", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0216.jpg", badge: "New"},
+    {id: 212, name: "IMG-20251001-WA0217", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0217.jpg", badge: "New"},
+    {id: 213, name: "IMG-20251001-WA0218", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0218.jpg", badge: "New"},
+    {id: 214, name: "IMG-20251001-WA0219", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0219.jpg", badge: "New"},
+    {id: 215, name: "IMG-20251001-WA0220", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0220.jpg", badge: "New"},
+    {id: 216, name: "IMG-20251001-WA0221", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0221.jpg", badge: "New"},
+    {id: 217, name: "IMG-20251001-WA0222", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0222.jpg", badge: "New"},
+    {id: 218, name: "IMG-20251001-WA0223", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0223.jpg", badge: "New"},
+    {id: 219, name: "IMG-20251001-WA0224", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0224.jpg", badge: "New"},
+    {id: 220, name: "IMG-20251001-WA0225", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0225.jpg", badge: "New"},
+    {id: 221, name: "IMG-20251001-WA0226", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0226.jpg", badge: "New"},
+    {id: 222, name: "IMG-20251001-WA0227", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0227.jpg", badge: "New"},
+    {id: 223, name: "IMG-20251001-WA0228", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0228.jpg", badge: "New"},
+    {id: 224, name: "IMG-20251001-WA0229", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0229.jpg", badge: "New"},
+    {id: 225, name: "IMG-20251001-WA0230", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0230.jpg", badge: "New"},
+    // Other images
+    {id: 101, name: "CindyC (1)", category: "casual", price: 4000, description: "CindyC (1)", image: "CindyC (1).jpg", badge: "New"},
+    {id: 102, name: "Empire Officials (1)", category: "casual", price: 4000, description: "Empire Officials (1)", image: "Empire Officials (1).jpg", badge: "New"},
+    {id: 103, name: "Empire Officials (10)", category: "casual", price: 4000, description: "Empire Officials (10)", image: "Empire Officials (10).jpg", badge: "New"},
+    {id: 104, name: "Empire Officials (2)", category: "casual", price: 4000, description: "Empire Officials (2)", image: "Empire Officials (2).jpg", badge: "New"},
+    {id: 105, name: "Empire Officials (3)", category: "casual", price: 4000, description: "Empire Officials (3)", image: "Empire Officials (3).jpg", badge: "New"},
+    {id: 106, name: "Empire Officials (4)", category: "casual", price: 4000, description: "Empire Officials (4)", image: "Empire Officials (4).jpg", badge: "New"},
+    {id: 107, name: "Empire Officials (5)", category: "casual", price: 4000, description: "Empire Officials (5)", image: "Empire Officials (5).jpg", badge: "New"},
+    {id: 108, name: "Empire Officials (7)", category: "casual", price: 4000, description: "Empire Officials (7)", image: "Empire Officials (7).jpg", badge: "New"},
+    {id: 109, name: "Empire Officials (8)", category: "casual", price: 4000, description: "Empire Officials (8)", image: "Empire Officials (8).jpg", badge: "New"},
+    {id: 110, name: "Empire Officials (9)", category: "casual", price: 4000, description: "Empire Officials (9)", image: "Empire Officials (9).jpg", badge: "New"},
+    {id: 111, name: "FootballBoots (7)", category: "boots", price: 4500, description: "FootballBoots (7)", image: "FootballBoots (7).jpg", badge: "New"},
+    {id: 112, name: "Lacoste Loafers", category: "casual", price: 4000, description: "Lacoste Loafers", image: "Lacoste Loafers.jpg", badge: "New"},
+    {id: 113, name: "timberland casuals1", category: "casual", price: 4000, description: "timberland casuals1", image: "timberland casuals1.jpg", badge: "New"},
+    {id: 114, name: "timberland casuals2", category: "casual", price: 4000, description: "timberland casuals2", image: "timberland casuals2.jpg", badge: "New"},
+    {id: 115, name: "timberland casuals3", category: "casual", price: 4000, description: "timberland casuals3", image: "timberland casuals3.jpg", badge: "New"},
+    {id: 116, name: "timberland casuals4", category: "casual", price: 4000, description: "timberland casuals4", image: "timberland casuals4.jpg", badge: "New"},
+    {id: 117, name: "timberland casuals5", category: "casual", price: 4000, description: "timberland casuals5", image: "timberland casuals5.jpg", badge: "New"},
+    // Timberland boots from IMG images
+    {id: 118, name: "IMG-20251001-WA0002", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0002.jpg", badge: "New"},
+    {id: 119, name: "IMG-20251001-WA0003", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0003.jpg", badge: "New"},
+    {id: 120, name: "IMG-20251001-WA0004", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0004.jpg", badge: "New"},
+    {id: 121, name: "IMG-20251001-WA0005", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0005.jpg", badge: "New"},
+    {id: 122, name: "IMG-20251001-WA0006", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0006.jpg", badge: "New"},
+    {id: 123, name: "IMG-20251001-WA0007", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0007.jpg", badge: "New"},
+    {id: 124, name: "IMG-20251001-WA0008", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0008.jpg", badge: "New"},
+    {id: 125, name: "IMG-20251001-WA0009", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0009.jpg", badge: "New"},
+    {id: 126, name: "IMG-20251001-WA0010", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0010.jpg", badge: "New"},
+    {id: 127, name: "IMG-20251001-WA0011", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0011.jpg", badge: "New"},
+    {id: 128, name: "IMG-20251001-WA0012", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0012.jpg", badge: "New"},
+    {id: 129, name: "IMG-20251001-WA0013", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0013.jpg", badge: "New"},
+    {id: 130, name: "IMG-20251001-WA0014", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0014.jpg", badge: "New"},
+    {id: 131, name: "IMG-20251001-WA0015", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0015.jpg", badge: "New"},
+    {id: 132, name: "IMG-20251001-WA0016", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0016.jpg", badge: "New"},
+    {id: 133, name: "IMG-20251001-WA0017", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0017.jpg", badge: "New"},
+    {id: 134, name: "IMG-20251001-WA0018", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0018.jpg", badge: "New"},
+    {id: 135, name: "IMG-20251001-WA0019", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0019.jpg", badge: "New"},
+    {id: 136, name: "IMG-20251001-WA0020", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0020.jpg", badge: "New"},
+    {id: 137, name: "IMG-20251001-WA0021", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0021.jpg", badge: "New"},
+    {id: 138, name: "IMG-20251001-WA0022", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0022.jpg", badge: "New"},
+    {id: 139, name: "IMG-20251001-WA0023", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0023.jpg", badge: "New"},
+    {id: 140, name: "IMG-20251001-WA0024", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0024.jpg", badge: "New"},
+    {id: 141, name: "IMG-20251001-WA0025", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0025.jpg", badge: "New"},
+    {id: 142, name: "IMG-20251001-WA0026", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0026.jpg", badge: "New"},
+    {id: 143, name: "IMG-20251001-WA0027", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0027.jpg", badge: "New"},
+    {id: 144, name: "IMG-20251001-WA0028", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0028.jpg", badge: "New"},
+    {id: 145, name: "IMG-20251001-WA0029", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0029.jpg", badge: "New"},
+    {id: 146, name: "IMG-20251001-WA0030", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0030.jpg", badge: "New"},
+    {id: 147, name: "IMG-20251001-WA0031", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0031.jpg", badge: "New"},
+    {id: 148, name: "IMG-20251001-WA0032", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0032.jpg", badge: "New"},
+    {id: 149, name: "IMG-20251001-WA0033", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0033.jpg", badge: "New"},
+    {id: 150, name: "IMG-20251001-WA0034", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0034.jpg", badge: "New"},
+    {id: 151, name: "IMG-20251001-WA0035", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0035.jpg", badge: "New"},
+    {id: 152, name: "IMG-20251001-WA0036", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0036.jpg", badge: "New"},
+    {id: 153, name: "IMG-20251001-WA0037", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0037.jpg", badge: "New"},
+    {id: 154, name: "IMG-20251001-WA0038", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0038.jpg", badge: "New"},
+    {id: 155, name: "IMG-20251001-WA0039", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0039.jpg", badge: "New"},
+    {id: 156, name: "IMG-20251001-WA0040", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0040.jpg", badge: "New"},
+    {id: 157, name: "IMG-20251001-WA0041", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0041.jpg", badge: "New"},
+    {id: 158, name: "IMG-20251001-WA0042", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0042.jpg", badge: "New"},
+    {id: 159, name: "IMG-20251001-WA0043", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0043.jpg", badge: "New"},
+    {id: 160, name: "IMG-20251001-WA0044", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0044.jpg", badge: "New"},
+    {id: 161, name: "IMG-20251001-WA0045", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0045.jpg", badge: "New"},
+    {id: 162, name: "IMG-20251001-WA0046", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0046.jpg", badge: "New"},
+    {id: 163, name: "IMG-20251001-WA0047", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0047.jpg", badge: "New"},
+    {id: 164, name: "IMG-20251001-WA0048", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0048.jpg", badge: "New"},
+    {id: 165, name: "IMG-20251001-WA0049", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0049.jpg", badge: "New"},
+    {id: 166, name: "IMG-20251001-WA0050", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0050.jpg", badge: "New"},
+    {id: 167, name: "IMG-20251001-WA0051", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0051.jpg", badge: "New"},
+    {id: 168, name: "IMG-20251001-WA0052", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0052.jpg", badge: "New"},
+    {id: 169, name: "IMG-20251001-WA0053", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0053.jpg", badge: "New"},
+    {id: 170, name: "IMG-20251001-WA0054", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0054.jpg", badge: "New"},
+    {id: 171, name: "IMG-20251001-WA0055", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0055.jpg", badge: "New"},
+    {id: 172, name: "IMG-20251001-WA0056", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0056.jpg", badge: "New"},
+    {id: 173, name: "IMG-20251001-WA0057", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0057.jpg", badge: "New"},
+    {id: 174, name: "IMG-20251001-WA0058", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0058.jpg", badge: "New"},
+    {id: 175, name: "IMG-20251001-WA0059", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0059.jpg", badge: "New"},
+    {id: 176, name: "IMG-20251001-WA0060", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0060.jpg", badge: "New"},
+    {id: 177, name: "IMG-20251001-WA0061", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0061.jpg", badge: "New"},
+    {id: 178, name: "IMG-20251001-WA0062", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0062.jpg", badge: "New"},
+    {id: 179, name: "IMG-20251001-WA0063", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0063.jpg", badge: "New"},
+    {id: 180, name: "IMG-20251001-WA0064", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0064.jpg", badge: "New"},
+    {id: 181, name: "IMG-20251001-WA0065", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0065.jpg", badge: "New"},
+    {id: 182, name: "IMG-20251001-WA0066", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0066.jpg", badge: "New"},
+    {id: 183, name: "IMG-20251001-WA0067", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0067.jpg", badge: "New"},
+    {id: 184, name: "IMG-20251001-WA0068", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0068.jpg", badge: "New"},
+    {id: 185, name: "IMG-20251001-WA0069", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0069.jpg", badge: "New"},
+    {id: 186, name: "IMG-20251001-WA0070", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0070.jpg", badge: "New"},
+    {id: 187, name: "IMG-20251001-WA0071", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0071.jpg", badge: "New"},
+    {id: 188, name: "IMG-20251001-WA0072", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0072.jpg", badge: "New"},
+    {id: 189, name: "IMG-20251001-WA0073", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0073.jpg", badge: "New"},
+    {id: 190, name: "IMG-20251001-WA0074", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0074.jpg", badge: "New"},
+    {id: 191, name: "IMG-20251001-WA0075", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0075.jpg", badge: "New"},
+    {id: 192, name: "IMG-20251001-WA0076", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0076.jpg", badge: "New"},
+    {id: 193, name: "IMG-20251001-WA0077", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0077.jpg", badge: "New"},
+    {id: 194, name: "IMG-20251001-WA0078", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0078.jpg", badge: "New"},
+    {id: 195, name: "IMG-20251001-WA0079", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0079.jpg", badge: "New"},
+    {id: 196, name: "IMG-20251001-WA0080", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0080.jpg", badge: "New"},
+    {id: 197, name: "IMG-20251001-WA0081", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0081.jpg", badge: "New"},
+    {id: 198, name: "IMG-20251001-WA0082", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0082.jpg", badge: "New"},
+    {id: 199, name: "IMG-20251001-WA0083", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0083.jpg", badge: "New"},
+    {id: 200, name: "IMG-20251001-WA0084", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0084.jpg", badge: "New"},
+    {id: 201, name: "IMG-20251001-WA0085", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0085.jpg", badge: "New"},
+    {id: 202, name: "IMG-20251001-WA0086", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0086.jpg", badge: "New"},
+    {id: 203, name: "IMG-20251001-WA0087", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0087.jpg", badge: "New"},
+    {id: 204, name: "IMG-20251001-WA0088", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0088.jpg", badge: "New"},
+    {id: 205, name: "IMG-20251001-WA0089", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0089.jpg", badge: "New"},
+    {id: 206, name: "IMG-20251001-WA0090", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0090.jpg", badge: "New"},
+    {id: 207, name: "IMG-20251001-WA0091", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0091.jpg", badge: "New"},
+    {id: 208, name: "IMG-20251001-WA0092", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0092.jpg", badge: "New"},
+    {id: 209, name: "IMG-20251001-WA0093", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0093.jpg", badge: "New"},
+    {id: 210, name: "IMG-20251001-WA0094", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0094.jpg", badge: "New"},
+    {id: 211, name: "IMG-20251001-WA0095", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0095.jpg", badge: "New"},
+    {id: 212, name: "IMG-20251001-WA0096", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0096.jpg", badge: "New"},
+    {id: 213, name: "IMG-20251001-WA0097", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0097.jpg", badge: "New"},
+    {id: 214, name: "IMG-20251001-WA0098", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0098.jpg", badge: "New"},
+    {id: 215, name: "IMG-20251001-WA0099", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0099.jpg", badge: "New"},
+    {id: 216, name: "IMG-20251001-WA0100", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0100.jpg", badge: "New"},
+    {id: 217, name: "IMG-20251001-WA0101", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0101.jpg", badge: "New"},
+    {id: 218, name: "IMG-20251001-WA0102", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0102.jpg", badge: "New"},
+    {id: 219, name: "IMG-20251001-WA0103", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0103.jpg", badge: "New"},
+    {id: 220, name: "IMG-20251001-WA0104", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0104.jpg", badge: "New"},
+    {id: 221, name: "IMG-20251001-WA0105", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0105.jpg", badge: "New"},
+    {id: 222, name: "IMG-20251001-WA0106", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0106.jpg", badge: "New"},
+    {id: 223, name: "IMG-20251001-WA0107", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0107.jpg", badge: "New"},
+    {id: 224, name: "IMG-20251001-WA0108", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0108.jpg", badge: "New"},
+    {id: 225, name: "IMG-20251001-WA0109", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0109.jpg", badge: "New"},
+    {id: 226, name: "IMG-20251001-WA0110", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0110.jpg", badge: "New"},
+    {id: 227, name: "IMG-20251001-WA0111", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0111.jpg", badge: "New"},
+    {id: 228, name: "IMG-20251001-WA0112", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0112.jpg", badge: "New"},
+    {id: 229, name: "IMG-20251001-WA0113", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0113.jpg", badge: "New"},
+    {id: 230, name: "IMG-20251001-WA0114", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0114.jpg", badge: "New"},
+    {id: 231, name: "IMG-20251001-WA0115", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0115.jpg", badge: "New"},
+    {id: 232, name: "IMG-20251001-WA0116", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0116.jpg", badge: "New"},
+    {id: 233, name: "IMG-20251001-WA0117", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0117.jpg", badge: "New"},
+    {id: 234, name: "IMG-20251001-WA0118", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0118.jpg", badge: "New"},
+    {id: 235, name: "IMG-20251001-WA0119", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0119.jpg", badge: "New"},
+    {id: 236, name: "IMG-20251001-WA0120", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0120.jpg", badge: "New"},
+    {id: 237, name: "IMG-20251001-WA0121", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0121.jpg", badge: "New"},
+    {id: 238, name: "IMG-20251001-WA0122", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0122.jpg", badge: "New"},
+    {id: 239, name: "IMG-20251001-WA0123", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0123.jpg", badge: "New"},
+    {id: 240, name: "IMG-20251001-WA0124", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0124.jpg", badge: "New"},
+    {id: 241, name: "IMG-20251001-WA0125", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0125.jpg", badge: "New"},
+    {id: 242, name: "IMG-20251001-WA0126", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0126.jpg", badge: "New"},
+    {id: 243, name: "IMG-20251001-WA0127", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0127.jpg", badge: "New"},
+    {id: 244, name: "IMG-20251001-WA0128", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0128.jpg", badge: "New"},
+    {id: 245, name: "IMG-20251001-WA0129", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0129.jpg", badge: "New"},
+    {id: 246, name: "IMG-20251001-WA0130", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0130.jpg", badge: "New"},
+    {id: 247, name: "IMG-20251001-WA0131", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0131.jpg", badge: "New"},
+    {id: 248, name: "IMG-20251001-WA0132", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0132.jpg", badge: "New"},
+    {id: 249, name: "IMG-20251001-WA0133", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0133.jpg", badge: "New"},
+    {id: 250, name: "IMG-20251001-WA0134", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0134.jpg", badge: "New"},
+    {id: 251, name: "IMG-20251001-WA0135", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0135.jpg", badge: "New"},
+    {id: 252, name: "IMG-20251001-WA0136", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0136.jpg", badge: "New"},
+    {id: 253, name: "IMG-20251001-WA0137", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0137.jpg", badge: "New"},
+    {id: 254, name: "IMG-20251001-WA0138", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0138.jpg", badge: "New"},
+    {id: 255, name: "IMG-20251001-WA0139", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0139.jpg", badge: "New"},
+    {id: 256, name: "IMG-20251001-WA0140", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0140.jpg", badge: "New"},
+    {id: 257, name: "IMG-20251001-WA0141", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0141.jpg", badge: "New"},
+    {id: 258, name: "IMG-20251001-WA0142", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0142.jpg", badge: "New"},
+    {id: 259, name: "IMG-20251001-WA0143", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0143.jpg", badge: "New"},
+    {id: 260, name: "IMG-20251001-WA0144", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0144.jpg", badge: "New"},
+    {id: 261, name: "IMG-20251001-WA0145", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0145.jpg", badge: "New"},
+    {id: 262, name: "IMG-20251001-WA0146", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0146.jpg", badge: "New"},
+    {id: 263, name: "IMG-20251001-WA0147", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0147.jpg", badge: "New"},
+    {id: 264, name: "IMG-20251001-WA0148", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0148.jpg", badge: "New"},
+    {id: 265, name: "IMG-20251001-WA0149", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0149.jpg", badge: "New"},
+    {id: 266, name: "IMG-20251001-WA0150", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0150.jpg", badge: "New"},
+    {id: 267, name: "IMG-20251001-WA0151", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0151.jpg", badge: "New"},
+    {id: 268, name: "IMG-20251001-WA0152", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0152.jpg", badge: "New"},
+    {id: 269, name: "IMG-20251001-WA0153", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0153.jpg", badge: "New"},
+    {id: 270, name: "IMG-20251001-WA0154", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0154.jpg", badge: "New"},
+    {id: 271, name: "IMG-20251001-WA0155", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0155.jpg", badge: "New"},
+    {id: 272, name: "IMG-20251001-WA0156", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0156.jpg", badge: "New"},
+    {id: 273, name: "IMG-20251001-WA0157", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0157.jpg", badge: "New"},
+    {id: 274, name: "IMG-20251001-WA0158", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0158.jpg", badge: "New"},
+    {id: 275, name: "IMG-20251001-WA0159", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0159.jpg", badge: "New"},
+    {id: 276, name: "IMG-20251001-WA0160", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0160.jpg", badge: "New"},
+    {id: 277, name: "IMG-20251001-WA0161", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0161.jpg", badge: "New"},
+    {id: 278, name: "IMG-20251001-WA0162", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0162.jpg", badge: "New"},
+    {id: 279, name: "IMG-20251001-WA0163", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0163.jpg", badge: "New"},
+    {id: 280, name: "IMG-20251001-WA0164", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0164.jpg", badge: "New"},
+    {id: 281, name: "IMG-20251001-WA0165", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0165.jpg", badge: "New"},
+    {id: 282, name: "IMG-20251001-WA0166", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0166.jpg", badge: "New"},
+    {id: 283, name: "IMG-20251001-WA0167", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0167.jpg", badge: "New"},
+    {id: 284, name: "IMG-20251001-WA0168", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0168.jpg", badge: "New"},
+    {id: 285, name: "IMG-20251001-WA0169", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0169.jpg", badge: "New"},
+    {id: 286, name: "IMG-20251001-WA0170", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0170.jpg", badge: "New"},
+    {id: 287, name: "IMG-20251001-WA0171", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0171.jpg", badge: "New"},
+    {id: 288, name: "IMG-20251001-WA0172", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0172.jpg", badge: "New"},
+    {id: 289, name: "IMG-20251001-WA0173", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0173.jpg", badge: "New"},
+    {id: 290, name: "IMG-20251001-WA0174", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0174.jpg", badge: "New"},
+    {id: 291, name: "IMG-20251001-WA0175", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0175.jpg", badge: "New"},
+    {id: 292, name: "IMG-20251001-WA0176", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0176.jpg", badge: "New"},
+    {id: 293, name: "IMG-20251001-WA0177", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0177.jpg", badge: "New"},
+    {id: 294, name: "IMG-20251001-WA0178", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0178.jpg", badge: "New"},
+    {id: 295, name: "IMG-20251001-WA0179", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0179.jpg", badge: "New"},
+    {id: 296, name: "IMG-20251001-WA0180", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0180.jpg", badge: "New"},
+    {id: 297, name: "IMG-20251001-WA0181", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0181.jpg", badge: "New"},
+    {id: 298, name: "IMG-20251001-WA0182", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0182.jpg", badge: "New"},
+    {id: 299, name: "IMG-20251001-WA0183", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0183.jpg", badge: "New"},
+    {id: 300, name: "IMG-20251001-WA0184", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0184.jpg", badge: "New"},
+    {id: 301, name: "IMG-20251001-WA0185", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0185.jpg", badge: "New"},
+    {id: 302, name: "IMG-20251001-WA0186", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0186.jpg", badge: "New"},
+    {id: 303, name: "IMG-20251001-WA0187", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0187.jpg", badge: "New"},
+    {id: 304, name: "IMG-20251001-WA0188", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0188.jpg", badge: "New"},
+    {id: 305, name: "IMG-20251001-WA0189", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0189.jpg", badge: "New"},
+    {id: 306, name: "IMG-20251001-WA0190", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0190.jpg", badge: "New"},
+    {id: 307, name: "IMG-20251001-WA0191", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0191.jpg", badge: "New"},
+    {id: 308, name: "IMG-20251001-WA0192", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0192.jpg", badge: "New"},
+    {id: 309, name: "IMG-20251001-WA0193", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0193.jpg", badge: "New"},
+    {id: 310, name: "IMG-20251001-WA0194", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0194.jpg", badge: "New"},
+    {id: 311, name: "IMG-20251001-WA0195", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0195.jpg", badge: "New"},
+    {id: 312, name: "IMG-20251001-WA0196", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0196.jpg", badge: "New"},
+    {id: 313, name: "IMG-20251001-WA0197", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0197.jpg", badge: "New"},
+    {id: 314, name: "IMG-20251001-WA0198", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0198.jpg", badge: "New"},
+    {id: 315, name: "IMG-20251001-WA0199", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0199.jpg", badge: "New"},
+    {id: 316, name: "IMG-20251001-WA0200", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0200.jpg", badge: "New"},
+    {id: 317, name: "IMG-20251001-WA0201", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0201.jpg", badge: "New"},
+    {id: 318, name: "IMG-20251001-WA0202", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0202.jpg", badge: "New"},
+    {id: 319, name: "IMG-20251001-WA0203", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0203.jpg", badge: "New"},
+    {id: 320, name: "IMG-20251001-WA0204", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0204.jpg", badge: "New"},
+    {id: 321, name: "IMG-20251001-WA0205", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0205.jpg", badge: "New"},
+    {id: 322, name: "IMG-20251001-WA0206", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0206.jpg", badge: "New"},
+    {id: 323, name: "IMG-20251001-WA0207", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0207.jpg", badge: "New"},
+    {id: 324, name: "IMG-20251001-WA0208", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0208.jpg", badge: "New"},
+    {id: 325, name: "IMG-20251001-WA0209", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0209.jpg", badge: "New"},
+    {id: 326, name: "IMG-20251001-WA0210", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0210.jpg", badge: "New"},
+    {id: 327, name: "IMG-20251001-WA0211", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0211.jpg", badge: "New"},
+    {id: 328, name: "IMG-20251001-WA0212", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0212.jpg", badge: "New"},
+    {id: 329, name: "IMG-20251001-WA0213", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0213.jpg", badge: "New"},
+    {id: 330, name: "IMG-20251001-WA0214", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0214.jpg", badge: "New"},
+    {id: 331, name: "IMG-20251001-WA0215", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0215.jpg", badge: "New"},
+    {id: 332, name: "IMG-20251001-WA0216", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0216.jpg", badge: "New"},
+    {id: 333, name: "IMG-20251001-WA0217", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0217.jpg", badge: "New"},
+    {id: 334, name: "IMG-20251001-WA0218", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0218.jpg", badge: "New"},
+    {id: 335, name: "IMG-20251001-WA0219", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0219.jpg", badge: "New"},
+    {id: 336, name: "IMG-20251001-WA0220", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0220.jpg", badge: "New"},
+    {id: 337, name: "IMG-20251001-WA0221", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0221.jpg", badge: "New"},
+    {id: 338, name: "IMG-20251001-WA0222", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0222.jpg", badge: "New"},
+    {id: 339, name: "IMG-20251001-WA0223", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0223.jpg", badge: "New"},
+    {id: 340, name: "IMG-20251001-WA0224", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0224.jpg", badge: "New"},
+    {id: 341, name: "IMG-20251001-WA0225", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0225.jpg", badge: "New"},
+    {id: 342, name: "IMG-20251001-WA0226", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0226.jpg", badge: "New"},
+    {id: 343, name: "IMG-20251001-WA0227", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0227.jpg", badge: "New"},
+    {id: 344, name: "IMG-20251001-WA0228", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0228.jpg", badge: "New"},
+    {id: 345, name: "IMG-20251001-WA0229", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0229.jpg", badge: "New"},
+    {id: 346, name: "IMG-20251001-WA0230", category: "timberland boots", price: 3000, description: "official boots", image: "IMG-20251001-WA0230.jpg", badge: "New"}
+];
+
+// Function to render shoes
+function renderShoes(shoeArray) {
+    const collectionGrid = document.getElementById('shoe-collection');
+    collectionGrid.innerHTML = '';
+    shoeArray.forEach(shoe => {
+        const shoeCard = document.createElement('div');
+        shoeCard.className = 'shoe-card';
+        shoeCard.dataset.category = shoe.category;
+        shoeCard.innerHTML = `
+            <div class="shoe-image">
+                <img src="${shoe.image}" alt="${shoe.name}">
+                <div class="shoe-badge">${shoe.badge}</div>
+            </div>
+            <div class="shoe-info">
+                <div class="shoe-category">${shoe.category.charAt(0).toUpperCase() + shoe.category.slice(1)}</div>
+                <h3 class="shoe-name">${shoe.name}</h3>
+                <p class="shoe-description">${shoe.description}</p>
+                <div class="shoe-price">Ksh. ${shoe.price.toFixed(2)}</div>
+                <div class="shoe-actions">
+                    <button class="add-to-cart" data-shoe="${shoe.name}" data-price="${shoe.price}" data-image="${shoe.image}" data-category="${shoe.category}" data-description="${shoe.description}">
+                        <i class="fas fa-cart-plus"></i> Add to Cart
+                    </button>
+                    <button class="whatsapp-order" data-shoe="${shoe.name}" data-price="${shoe.price}">
+                        <i class="fab fa-whatsapp"></i> Order Now
+                    </button>
+                    <button class="wishlist"><i class="far fa-heart"></i></button>
+                </div>
+            </div>
+        `;
+        collectionGrid.appendChild(shoeCard);
+    });
+    
+    // Add event listeners for add to cart buttons
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const shoeData = {
+                name: this.getAttribute('data-shoe'),
+                price: parseFloat(this.getAttribute('data-price')),
+                image: this.getAttribute('data-image'),
+                category: this.getAttribute('data-category'),
+                description: this.getAttribute('data-description')
+            };
+            addToCart(shoeData);
+        });
+    });
+    
+    document.querySelectorAll('.whatsapp-order').forEach(button => {
+        button.addEventListener('click', function() {
+            const shoeName = this.getAttribute('data-shoe');
+            const price = this.getAttribute('data-price');
+            const shoeCard = this.closest('.shoe-card');
+            const shoeImage = shoeCard.querySelector('img').src;
+            const shoeCategory = shoeCard.querySelector('.shoe-category').textContent;
+            const shoeDescription = shoeCard.querySelector('.shoe-description').textContent;
+            
+            // Create comprehensive order message with image link
+            const message = `🛍️ *NEW ORDER FROM TRENDY FASHIONS* 🛍️
+
+👟 *Product Details:*
+• Name: ${shoeName}
+• Category: ${shoeCategory}
+• Description: ${shoeDescription}
+• Price: Ksh. ${price}
+
+📸 *Product Image:*
+${window.location.origin}/${shoeImage}
+
+🌐 *View on Website:*
+https://trendyfashions.store/collection.html
+
+📱 *Customer Details:*
+[Please provide your name, phone number, and delivery address]
+
+💬 *Additional Notes:*
+[Any specific requirements or questions]
+
+---
+*Thank you for choosing Trendy Fashions! We'll contact you shortly to confirm your order and arrange delivery.*`;
+
+            const whatsappURL = `https://wa.me/254743869564?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, '_blank');
+        });
+    });
+}
+
+// Initial render
+renderShoes(shoes);
+
+// Event listener for "Order All via WhatsApp" button
+document.getElementById('orderAllBtn').addEventListener('click', function() {
+    if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+    }
+    
+    const message = createCartWhatsAppMessage();
+    const whatsappURL = `https://wa.me/254743869564?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
+    
+    // Clear cart after order
+    cart = [];
+    updateCartCount();
+});
+
+// Event listener for cart button (to view cart contents)
+document.getElementById('cartBtn').addEventListener('click', function() {
+    if (cart.length === 0) {
+        alert('Your cart is empty! Add some items to your cart first.');
+        return;
+    }
+    
+    let cartSummary = '🛒 *YOUR CART SUMMARY* 🛒\n\n';
+    let totalPrice = 0;
+    
+    cart.forEach((item, index) => {
+        cartSummary += `${index + 1}. ${item.name}\n`;
+        cartSummary += `   Price: Ksh. ${item.price}\n`;
+        cartSummary += `   Quantity: ${item.quantity}\n`;
+        cartSummary += `   Subtotal: Ksh. ${(item.price * item.quantity).toFixed(2)}\n\n`;
+        totalPrice += (item.price * item.quantity);
+    });
+    
+    cartSummary += `Total: Ksh. ${totalPrice.toFixed(2)}\n\n`;
+    cartSummary += 'Click "Order All via WhatsApp" to place your order!';
+    
+    alert(cartSummary);
+});
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
