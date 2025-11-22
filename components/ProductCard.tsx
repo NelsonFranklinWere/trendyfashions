@@ -19,6 +19,14 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
   const feedbackTimeout = useRef<NodeJS.Timeout | null>(null);
   const whatsappLink = getWhatsAppLink(product.name);
   const { addItem } = useCart();
+  
+  // Check if product is in airmax, sneakers, or jordan category
+  const isSpecialCategory = ['airmax', 'sneakers', 'jordan'].includes(
+    product.category?.toLowerCase() || ''
+  ) || 
+  product.image?.includes('/airmax/') || 
+  product.image?.includes('/sneakers/') || 
+  product.image?.includes('/jordan/');
 
   useEffect(() => {
     return () => {
@@ -57,7 +65,12 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
       >
         {/* Product Image - Clickable */}
         <div
-          className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer"
+          className={cn(
+            "relative w-full overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer",
+            isSpecialCategory 
+              ? "aspect-[4/3] p-4" 
+              : "aspect-square"
+          )}
           onClick={() => setIsModalOpen(true)}
           role="button"
           tabIndex={0}
@@ -73,7 +86,10 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
             src={product.image}
             alt={product.name}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+            className={cn(
+              "group-hover:scale-110 transition-transform duration-700 ease-out",
+              isSpecialCategory ? "object-contain" : "object-cover"
+            )}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             quality={90}
             loading="lazy"

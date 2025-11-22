@@ -16,6 +16,11 @@ interface CategoryCardProps {
 
 const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Check if category is airmax, sneakers, or jordan
+  const isSpecialCategory = ['airmax', 'sneakers', 'jordan'].includes(
+    category.slug?.toLowerCase() || category.id?.toLowerCase() || ''
+  );
 
   return (
     <>
@@ -29,7 +34,12 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
         <div className="block bg-white rounded-lg overflow-hidden shadow-soft hover:shadow-large transition-all duration-300">
           {/* Category Image - Clickable */}
           <div
-            className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer"
+            className={cn(
+              "relative w-full overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer",
+              isSpecialCategory 
+                ? "aspect-[4/3] p-4" 
+                : "aspect-square"
+            )}
             onClick={() => setIsModalOpen(true)}
             role="button"
             tabIndex={0}
@@ -45,7 +55,10 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
               src={category.image}
               alt={category.name}
               fill
-              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+              className={cn(
+                "group-hover:scale-110 transition-transform duration-700 ease-out",
+                isSpecialCategory ? "object-contain" : "object-cover"
+              )}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
               quality={90}
               loading="lazy"

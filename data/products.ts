@@ -38,7 +38,7 @@ export const categories: Category[] = [
     name: 'Sneakers',
     slug: 'sneakers',
     description: 'Classic and modern sneakers for every style',
-    image: '/images/sneakers/Addidas-samba.jpg',
+    image: '/images/sneakers/NikeSTN.3.jpg',
     featured: true,
   },
   {
@@ -70,7 +70,7 @@ export const categories: Category[] = [
     name: 'Airmax',
     slug: 'airmax',
     description: 'Nike Air Max running and lifestyle shoes',
-    image: '/images/airmax/Air-Max97.jpg',
+    image: '/images/airmax/Airmax95.10.jpg',
     featured: true,
   },
   {
@@ -78,7 +78,7 @@ export const categories: Category[] = [
     name: 'Jordan',
     slug: 'jordan',
     description: 'Air Jordan collection - iconic basketball sneakers',
-    image: '/images/jordan/J11.jpg',
+    image: '/images/jordan/Jordan4.1.jpg',
     featured: true,
   },
   {
