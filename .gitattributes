@@ -1,0 +1,2 @@
+# Keep SVGs as text (prevent EOL normalization)
+*.svg -text
