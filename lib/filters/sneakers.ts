@@ -29,6 +29,12 @@ const includesAny = (source: string, keywords: string[]) => {
 
 const isAddidasCampus = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return (source.includes('addidas campus') || source.includes('adidas campus') || source.includes('campus')) &&
          !source.includes('samba') &&
          !source.includes('gazelle');
@@ -36,32 +42,76 @@ const isAddidasCampus = (product: Product) => {
 
 const isAddidasSamba = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return source.includes('samba') || source.includes('addidas samba') || source.includes('adidas samba');
 };
 
 const isValentino = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return includesAny(source, ['valentino', 'valentino']);
 };
 
 const isNikeS = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike SB, Nike Shox, Nike Zoom, Nike TN, Nike Cortex, and Valentino
+  if (source.includes('sb') || source.includes('shox') || source.includes('zoom') || 
+      (source.includes('tn') && source.includes('nike')) || source.includes('valentino') ||
+      source.includes('cortex') || productName.includes('cortex') || productName === 'nike cortex') {
+    return false;
+  }
   return (source.includes('nike') && source.includes('s.') && !source.includes('sb')) ||
          (source.includes('nike--s') || source.includes('nike s'));
 };
 
 const isNikeSB = (product: Product) => {
   const source = getSearchSource(product);
-  return includesAny(source, ['nike sb', 'nike-sb', 'nikesb', 'sb', 'dunk']);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // STRICT: Exclude Nike Shox and Valentino - check both name and source
+  if (productName.includes('shox') || productName.includes('valentino') ||
+      source.includes('shox') || source.includes('valentino') ||
+      productName === 'nike shox' || productName === 'valentino') {
+    return false;
+  }
+  
+  // Only match if it's clearly Nike SB
+  return includesAny(source, ['nike sb', 'nike-sb', 'nikesb']) ||
+         (source.includes('sb') && source.includes('nike') && !source.includes('shox') && !source.includes('valentino')) ||
+         (source.includes('dunk') && !source.includes('shox') && !source.includes('valentino'));
 };
 
 const isNikeCortex = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return includesAny(source, ['cortex', 'cortexnike']);
 };
 
 const isNikeTN = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return (source.includes('nike') && source.includes('tn')) ||
          (source.includes('tn') && !source.includes('cortex') && !source.includes('shox') && !source.includes('zoom'));
 };
@@ -73,11 +123,23 @@ const isNikeShox = (product: Product) => {
 
 const isNikeZoom = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return includesAny(source, ['zoom', 'nike zoom']);
 };
 
 const isNewBalance = (product: Product) => {
   const source = getSearchSource(product);
+  const productName = product.name?.toLowerCase() || '';
+  
+  // Exclude Nike Shox
+  if (source.includes('shox') || productName.includes('shox') || productName === 'nike shox') {
+    return false;
+  }
   return includesAny(source, ['new balance', 'new-balance', 'newbalance', ' nb', 'nb ', 'nb-', 'nb530', 'nb5']);
 };
 
