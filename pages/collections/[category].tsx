@@ -60,6 +60,8 @@ import { getAirforceImageProducts } from '@/lib/server/airforceImageProducts';
 import { getJordanImageProducts } from '@/lib/server/jordanImageProducts';
 import { getSneakersImageProducts } from '@/lib/server/sneakersImageProducts';
 import { getCustomizedImageProducts } from '@/lib/server/customizedImageProducts';
+import { getRandomProductsFromAllCategories } from '@/lib/server/getRandomProductsFromAllCategories';
+import RandomProductsCarousel from '@/components/RandomProductsCarousel';
 
 interface CategoryPageProps {
   category: {
@@ -69,9 +71,10 @@ interface CategoryPageProps {
     description: string;
   };
   products: Product[];
+  randomProducts: Product[];
 }
 
-const CategoryPage = ({ category, products }: CategoryPageProps) => {
+const CategoryPage = ({ category, products, randomProducts }: CategoryPageProps) => {
   const isOfficials = category.slug === 'officials';
   const isSneakers = category.slug === 'sneakers';
   const isCasuals = category.slug === 'casuals';
@@ -307,6 +310,11 @@ const CategoryPage = ({ category, products }: CategoryPageProps) => {
           )}
         </div>
       </div>
+
+      {/* Random Products Carousel - Just above footer */}
+      {randomProducts.length > 0 && (
+        <RandomProductsCarousel products={randomProducts} />
+      )}
     </>
   );
 };
@@ -370,6 +378,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       products = getProductsByCategory(categorySlug);
     }
 
+    // Get random products from all categories for the carousel
+    const randomProducts = getRandomProductsFromAllCategories(30);
+
     return {
       props: {
         category: {
@@ -379,6 +390,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           description: category.description,
         },
         products,
+        randomProducts,
       },
     };
   } catch (error) {

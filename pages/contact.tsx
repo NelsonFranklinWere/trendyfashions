@@ -63,6 +63,15 @@ const contactChannels = [
     external: true,
   },
   {
+    icon: <span aria-hidden>💬</span>,
+    title: "WhatsApp Support",
+    description: "Alternative WhatsApp line for faster response. Available 24/7.",
+    href: "https://wa.me/254792264228?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes.",
+    cta: "Tap to open WhatsApp",
+    accent: "secondary" as const,
+    external: true,
+  },
+  {
     icon: <span aria-hidden>📞</span>,
     title: "Call the Studio",
     description: "Speak to a stylist about sizing, drop-offs, and corporate orders.",
@@ -438,7 +447,7 @@ const Contact = () => {
                     </svg>
                   </button>
                   <p className="text-sm text-slate-500">
-                    Prefer faster? <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254743869564?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">WhatsApp us now</a>.
+                    Prefer faster? <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254743869564?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">WhatsApp us</a> or <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254792264228?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">+254 792 264 228</a>.
                   </p>
                 </div>
               </form>
@@ -508,7 +517,7 @@ const Contact = () => {
           </p>
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
-              href="https://wa.me/254743869564?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%20want%20to%20book%20a%20men%27s%20fitting."
+              href="https://wa.me/254792264228?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%20want%20to%20book%20a%20men%27s%20fitting."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1bbfb3] px-6 py-3 text-sm font-semibold text-white shadow-[0_15px_35px_-20px_rgba(27,191,179,0.8)] transition-transform hover:-translate-y-0.5"

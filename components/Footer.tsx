@@ -178,6 +178,17 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
+                    href="https://wa.me/254792264228?text=Hello, I'm interested in your products."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center hover:text-secondary transition-colors"
+                  >
+                    <span className="mr-2">💬</span>
+                    <span>+254 792 264 228</span>
+                  </a>
+                </li>
+                <li>
+                  <a
                     href="mailto:nelsonochieng516@gmail.com"
                     className="flex items-center hover:text-secondary transition-colors"
                   >
