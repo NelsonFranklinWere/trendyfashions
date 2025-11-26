@@ -1,12 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import NextImage from 'next/image';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CartBadge from '@/components/CartBadge';
 import CartDrawer from '@/components/CartDrawer';
 import useCart from '@/hooks/useCart';
+import SmartImage from '@/components/SmartImage';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +50,7 @@ const Navbar = () => {
               aria-label="Trendy Fashion Zone Home"
             >
               <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 rounded-lg overflow-hidden bg-light flex items-center justify-center">
-                <NextImage
+                <SmartImage
                   src="/images/logos/Logo.jpg"
                   alt="Trendy Fashion Zone Logo"
                   width={64}
@@ -58,7 +58,8 @@ const Navbar = () => {
                   className="object-contain rounded-lg"
                   sizes="(max-width: 768px) 48px, 64px"
                   priority
-                  unoptimized
+                  shimmerWidth={100}
+                  shimmerHeight={100}
                 />
               </div>
               <span className="text-xl md:text-2xl font-heading font-bold text-primary group-hover:text-secondary transition-colors hidden sm:block">

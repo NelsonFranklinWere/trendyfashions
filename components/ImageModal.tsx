@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Image from 'next/image';
+import SmartImage from './SmartImage';
 
 interface ImageModalProps {
   isOpen: boolean;
@@ -74,14 +74,17 @@ const ImageModal = ({ isOpen, imageSrc, imageAlt, onClose }: ImageModalProps) =>
               onClick={(e) => e.stopPropagation()}
             >
               <div className="relative w-full h-full max-h-full">
-                <Image
+                <SmartImage
                   src={imageSrc}
                   alt={imageAlt}
                   fill
                   className="object-contain rounded-lg"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                   priority
-                  quality={100}
+                  quality={88}
+                  placeholder="blur"
+                  shimmerWidth={1200}
+                  shimmerHeight={800}
                 />
               </div>
             </motion.div>

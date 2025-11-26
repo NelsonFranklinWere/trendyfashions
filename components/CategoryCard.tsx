@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Category } from '@/data/products';
 import { cn } from '@/lib/utils';
 import ImageModal from './ImageModal';
+import SmartImage from './SmartImage';
 
 interface CategoryCardProps {
   category: Category;
@@ -51,7 +51,7 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
             }}
             aria-label={`View larger image of ${category.name}`}
           >
-            <Image
+            <SmartImage
               src={category.image}
               alt={category.name}
               fill
@@ -60,8 +60,9 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
                 isSpecialCategory ? "object-contain" : "object-cover"
               )}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-              quality={90}
               loading="lazy"
+              shimmerWidth={isSpecialCategory ? 800 : 600}
+              shimmerHeight={isSpecialCategory ? 600 : 600}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             {/* Click indicator overlay */}
@@ -123,4 +124,3 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
 };
 
 export default CategoryCard;
-

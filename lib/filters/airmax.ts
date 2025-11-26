@@ -1,6 +1,6 @@
 import { Product } from '@/data/products';
 
-export const AIRMAX_SUBCATEGORY_FILTERS = ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax'] as const;
+export const AIRMAX_SUBCATEGORY_FILTERS = ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'] as const;
 
 export const DEFAULT_AIRMAX_FILTER = AIRMAX_SUBCATEGORY_FILTERS[0];
 
@@ -50,6 +50,15 @@ const isAirmax90 = (product: Product) => {
          source.includes('air-max 90');
 };
 
+const isAirmaxPortal = (product: Product) => {
+  const source = `${normalize(product.name)} ${normalize(product.description)} ${normalize(product.image)}`;
+  return source.includes('airmax portal') || 
+         source.includes('airmaxportal') ||
+         source.includes('air-max portal') ||
+         source.includes('air-max-portal') ||
+         source.includes('air max portal');
+};
+
 const isAirmax = (product: Product) => {
   // General Airmax products that don't match specific models
   const source = `${normalize(product.name)} ${normalize(product.description)} ${normalize(product.image)}`;
@@ -59,7 +68,8 @@ const isAirmax = (product: Product) => {
          !isAirmax1(product) && 
          !isAirmax97(product) && 
          !isAirmax95(product) && 
-         !isAirmax90(product);
+         !isAirmax90(product) &&
+         !isAirmaxPortal(product);
 };
 
 export const filterAirmaxProducts = (products: Product[], filter: AirmaxFilter): Product[] => {
@@ -77,6 +87,10 @@ export const filterAirmaxProducts = (products: Product[], filter: AirmaxFilter):
 
   if (filter === 'Airmax 90') {
     return products.filter(isAirmax90);
+  }
+
+  if (filter === 'Airmax Portal') {
+    return products.filter(isAirmaxPortal);
   }
 
   if (filter === 'Airmax') {

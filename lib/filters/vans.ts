@@ -22,11 +22,23 @@ const isCustom = (product: Product) => {
 };
 
 const isCodra = (product: Product) => {
-  return matches(product, ['codra']);
+  const source = `${normalize(product.name)} ${normalize(product.description)} ${normalize(product.image)}`;
+  // Strict: must contain codra, must NOT contain skater or off the wall
+  return source.includes('codra') && 
+         !source.includes('skater') && 
+         !source.includes('off the wall') &&
+         !source.includes('offthewall') &&
+         !source.includes('custom');
 };
 
 const isSkater = (product: Product) => {
-  return matches(product, ['skater']);
+  const source = `${normalize(product.name)} ${normalize(product.description)} ${normalize(product.image)}`;
+  // Strict: must contain skater, must NOT contain codra or off the wall
+  return source.includes('skater') && 
+         !source.includes('codra') && 
+         !source.includes('off the wall') &&
+         !source.includes('offthewall') &&
+         !source.includes('custom');
 };
 
 const isOffTheWall = (product: Product) => {

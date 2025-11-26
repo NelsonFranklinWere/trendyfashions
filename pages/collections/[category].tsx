@@ -2,9 +2,10 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
 import CategoryFilter, { FilterType } from '@/components/CategoryFilter';
+import { getAllProducts } from '@/lib/server/getAllProducts';
 import {
   getProductsByCategory,
   getCategoryBySlug,
@@ -72,9 +73,41 @@ interface CategoryPageProps {
   };
   products: Product[];
   randomProducts: Product[];
+  allProducts: Product[];
 }
 
-const CategoryPage = ({ category, products, randomProducts }: CategoryPageProps) => {
+const CategoryPage = ({ category, products, randomProducts, allProducts }: CategoryPageProps) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return [];
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    return allProducts.filter((product) => {
+      const nameMatch = product.name.toLowerCase().includes(query);
+      const descMatch = product.description?.toLowerCase().includes(query);
+      return nameMatch || descMatch;
+    });
+  }, [searchQuery, allProducts]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    setShowSearchResults(value.length > 0);
+  };
+
+  const handleSearchBlur = () => {
+    setTimeout(() => setShowSearchResults(false), 200);
+  };
+
+  const handleSearchFocus = () => {
+    if (searchQuery.length > 0) {
+      setShowSearchResults(true);
+    }
+  };
   const isOfficials = category.slug === 'officials';
   const isSneakers = category.slug === 'sneakers';
   const isCasuals = category.slug === 'casuals';
@@ -271,14 +304,101 @@ const CategoryPage = ({ category, products, randomProducts }: CategoryPageProps)
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="mb-12"
           >
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
-              {category.name} Collection
-            </h1>
-            <p className="text-lg md:text-xl text-text font-body max-w-3xl mx-auto font-medium">
-              {category.description}
-            </p>
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+              <div className="text-center md:text-left">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-2">
+                  {category.name} Collection
+                </h1>
+                <p className="text-lg md:text-xl text-text font-body max-w-3xl font-medium">
+                  {category.description}
+                </p>
+              </div>
+              
+              {/* Search Bar - Top Right */}
+              <div className="relative w-full md:w-80 flex-shrink-0">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onFocus={handleSearchFocus}
+                    onBlur={handleSearchBlur}
+                    className="w-full px-4 py-2 pl-10 pr-4 rounded-lg text-primary font-body text-sm focus:outline-none focus:ring-2 focus:ring-secondary border border-light shadow-sm"
+                  />
+                  <svg
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-primary/60"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                </div>
+
+                {/* Search Results Dropdown */}
+                <AnimatePresence>
+                  {showSearchResults && searchResults.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl max-h-96 overflow-y-auto z-50 border border-light"
+                    >
+                      <div className="p-2">
+                        <p className="px-4 py-2 text-sm font-semibold text-primary border-b">
+                          Found {searchResults.length} product{searchResults.length !== 1 ? 's' : ''}
+                        </p>
+                        <div className="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto">
+                          {searchResults.slice(0, 10).map((product) => (
+                            <Link
+                              key={product.id}
+                              href={`/collections/${product.category}`}
+                              className="flex items-center gap-3 p-3 hover:bg-light/50 rounded-lg transition-colors"
+                            >
+                              <img
+                                src={product.image}
+                                alt={product.name}
+                                className="w-16 h-16 object-cover rounded"
+                              />
+                              <div className="flex-1 min-w-0">
+                                <p className="font-semibold text-primary truncate text-sm">{product.name}</p>
+                                <p className="text-xs text-text/70 truncate">{product.description}</p>
+                                <p className="text-xs font-bold text-secondary">KES {product.price.toLocaleString()}</p>
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
+                        {searchResults.length > 10 && (
+                          <div className="px-4 py-2 text-center text-sm text-primary border-t">
+                            <p>And {searchResults.length - 10} more...</p>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                  {showSearchResults && searchQuery.length > 0 && searchResults.length === 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl z-50 p-4 border border-light"
+                    >
+                      <p className="text-center text-text text-sm">No products found matching &quot;{searchQuery}&quot;</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
           </motion.div>
 
           {/* Filters */}
@@ -380,6 +500,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     // Get random products from all categories for the carousel
     const randomProducts = getRandomProductsFromAllCategories(30);
+    
+    // Get all products for search
+    const allProducts = getAllProducts();
 
     return {
       props: {
@@ -391,6 +514,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         },
         products,
         randomProducts,
+        allProducts,
       },
     };
   } catch (error) {

@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/products';
+import SmartImage from './SmartImage';
 
 interface CartItemRowProps {
   item: CartItem;
@@ -22,12 +22,14 @@ const CartItemRow = ({ item, onIncrement, onDecrement, onRemove }: CartItemRowPr
       className="flex items-start gap-4 rounded-xl border border-light bg-white/90 p-4 shadow-soft"
     >
       <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-light">
-        <Image
+        <SmartImage
           src={item.image}
           alt={item.name}
           fill
           className="object-cover"
           sizes="80px"
+          shimmerWidth={120}
+          shimmerHeight={120}
         />
       </div>
 

@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { NextSeo } from "next-seo";
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
@@ -10,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import ContactChannelCard from "@/components/contact/ContactChannelCard";
 import ContactStat from "@/components/contact/ContactStat";
+import SmartImage from "@/components/SmartImage";
 
 const contactFormSchema = z.object({
   name: z
@@ -220,14 +220,15 @@ const Contact = () => {
             >
               <div className="relative h-full min-h-[320px] overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
                 <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-800">
-                  <Image
+                  <SmartImage
                     src="/images/formal/ClarksContact.jpg"
                     alt="Trendy Fashion Zone premium men's footwear display"
                     fill
                     className="object-cover rounded-3xl"
                     sizes="(max-width: 768px) 100vw, 50vw"
                     priority
-                    unoptimized
+                    shimmerWidth={900}
+                    shimmerHeight={675}
                   />
                   <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/10 to-transparent pointer-events-none rounded-3xl" />
                 </div>

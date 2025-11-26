@@ -73,6 +73,16 @@ const getCustomDescription = (index: number): string => {
 };
 
 const DEFAULT_PRICE = 3000;
+const CLARKS_CUSTOM_PRICE = 3300;
+
+const getPrice = (productName: string): number => {
+  // Clarks Custom = 3300
+  if (productName === 'Clarks Custom') {
+    return CLARKS_CUSTOM_PRICE;
+  }
+  // All other custom products = 3000
+  return DEFAULT_PRICE;
+};
 
 export const getCustomizedImageProducts = (): Product[] => {
   try {
@@ -87,11 +97,12 @@ export const getCustomizedImageProducts = (): Product[] => {
 
     return files.map((file, index) => {
       const name = formatName(file);
+      const price = getPrice(name);
       return {
         id: buildId(file),
         name,
         description: getCustomDescription(index),
-        price: DEFAULT_PRICE,
+        price,
         image: `/images/customized/${file}`,
         category: 'custom',
         gender: 'Unisex',

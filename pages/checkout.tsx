@@ -12,6 +12,14 @@ const CheckoutPage = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
+    
+    // M-Pesa payment is not ready yet
+    setIsError(false);
+    setStatusMessage('M-Pesa payment is coming soon. Please use the payment details below to complete your order.');
+    return;
+
+    // Original code commented out for when M-Pesa is ready
+    /*
     if (!items.length || !subtotal) {
       setIsError(true);
       setStatusMessage('Your cart is empty.');
@@ -74,6 +82,7 @@ const CheckoutPage = () => {
     } finally {
       setIsLoading(false);
     }
+    */
   };
 
   return (
@@ -85,8 +94,26 @@ const CheckoutPage = () => {
             <h1 className="mb-2 text-2xl font-heading font-bold text-primary">Checkout</h1>
             <p className="mb-6 text-sm font-body text-text/70">
               Confirm your order and pay securely via{' '}
-              <span className="font-semibold text-secondary">M-Pesa STK push</span>.
+              <span className="font-semibold text-secondary">M-Pesa</span>.
             </p>
+
+            {/* Payment Information */}
+            <div className="mb-6 rounded-xl border-2 border-secondary/20 bg-secondary/5 p-4">
+              <h3 className="mb-3 text-lg font-heading font-semibold text-primary">Payment Details</h3>
+              <div className="space-y-2 text-sm font-body">
+                <div className="flex items-center justify-between">
+                  <span className="text-text/70">Paybill Number:</span>
+                  <span className="font-semibold text-primary">542542</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-text/70">Account Number:</span>
+                  <span className="font-semibold text-primary">01207943936150</span>
+                </div>
+              </div>
+              <p className="mt-3 text-xs font-body text-text/60">
+                Use these details to pay via M-Pesa. After payment, contact us on WhatsApp to confirm your order.
+              </p>
+            </div>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
@@ -118,8 +145,14 @@ const CheckoutPage = () => {
                 disabled={isLoading || !items.length}
                 className="flex w-full items-center justify-center rounded-full bg-secondary px-6 py-3 text-sm font-heading font-semibold text-white shadow-medium transition hover:bg-secondary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-secondary/40"
               >
-                {isLoading ? 'Sending STK push…' : `Pay ${formatPrice(subtotal)} with M-Pesa`}
+                {isLoading ? 'Processing…' : `Pay ${formatPrice(subtotal)} with M-Pesa`}
               </button>
+              
+              <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-center">
+                <p className="text-sm font-body text-amber-800">
+                  <span className="font-semibold">Note:</span> M-Pesa STK push is coming soon. Please use the payment details above to complete your order.
+                </p>
+              </div>
 
               {statusMessage && (
                 <div

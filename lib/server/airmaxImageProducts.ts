@@ -15,10 +15,17 @@ const formatName = (fileName: string): string => {
     .replace(/\.\d+$/g, '') // Remove trailing .1, .2, etc.
     .replace(/\.+$/g, ''); // Remove trailing dots
   
+  // Handle Airmax Portal FIRST (before other checks to avoid conflicts)
+  if (lowerBase.includes('airmaxportal') || lowerBase.startsWith('airmaxportal') || 
+      lowerBase.includes('air-max-portal') || lowerBase.includes('air-max portal')) {
+    return 'Airmax Portal';
+  }
+  
   // Handle Air Max 1
   if (lowerBase.includes('air-max-1') || lowerBase.includes('air-max1') || 
       (lowerBase.includes('airmax') && lowerBase.includes('1') && 
-       !lowerBase.includes('90') && !lowerBase.includes('95') && !lowerBase.includes('97'))) {
+       !lowerBase.includes('90') && !lowerBase.includes('95') && !lowerBase.includes('97') &&
+       !lowerBase.includes('portal'))) {
     return 'Air Max 1';
   }
   
@@ -49,7 +56,9 @@ const formatName = (fileName: string): string => {
     .trim();
   
   // Capitalize properly
-  if (cleaned.toLowerCase().includes('airmax') || cleaned.toLowerCase().includes('air max')) {
+  const cleanedLower = cleaned.toLowerCase();
+  if ((cleanedLower.includes('airmax') || cleanedLower.includes('air max')) && 
+      !cleanedLower.includes('portal')) {
     return 'Air Max';
   }
   
@@ -91,7 +100,17 @@ const getAirmaxDescription = (index: number): string => {
   return airmaxDescriptions[index % airmaxDescriptions.length];
 };
 
-const DEFAULT_PRICE = 3000;
+const DEFAULT_PRICE = 3700;
+const AIRMAX_90_PRICE = 3000;
+
+const getPrice = (productName: string): number => {
+  // Air Max 90 = 3000
+  if (productName === 'Air Max 90') {
+    return AIRMAX_90_PRICE;
+  }
+  // All other Air Max = 3700
+  return DEFAULT_PRICE;
+};
 
 export const getAirmaxImageProducts = (): Product[] => {
   try {
@@ -106,11 +125,12 @@ export const getAirmaxImageProducts = (): Product[] => {
 
     return files.map((file, index) => {
       const name = formatName(file);
+      const price = getPrice(name);
       return {
         id: buildId(file),
         name,
         description: getAirmaxDescription(index),
-        price: DEFAULT_PRICE,
+        price,
         image: `/images/airmax/${file}`,
         category: 'running',
         gender: 'Unisex',

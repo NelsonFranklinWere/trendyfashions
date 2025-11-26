@@ -147,8 +147,13 @@ const NIKE_SB_PRICE = 3500;
 const NIKE_TN_PRICE = 3500;
 const NIKE_SHOX_PRICE = 4200;
 const NIKE_ZOOM_PRICE = 3200;
+const ADDIDAS_SAMBA_PRICE = 3000;
 
 const getPrice = (fileName: string, productName: string): number => {
+  // Addidas Samba products - all priced at 3000
+  if (productName === 'Addidas Samba') {
+    return ADDIDAS_SAMBA_PRICE;
+  }
   // Nike S products = 3500
   if (productName === 'Nike S') {
     return NIKE_S_PRICE;

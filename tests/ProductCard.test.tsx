@@ -7,14 +7,32 @@ import { CartProvider } from '@/context/CartContext';
 import { Product } from '@/data/products';
 
 vi.mock('next/image', () => ({
-  default: (props: any) => {
+  default: ({ fill: _fill, blurDataURL: _blur, placeholder: _placeholder, ...props }: any) => {
+    const { alt, ...rest } = props;
     // eslint-disable-next-line jsx-a11y/alt-text
-    return <img {...props} />;
+    return <img alt={alt} {...rest} />;
   },
 }));
 
 const renderWithCart = (ui: ReactElement) => {
   return render(<CartProvider>{ui}</CartProvider>);
+};
+
+const clearTestLocalStorage = () => {
+  const storage = window.localStorage as (Storage & { clear?: () => void }) | undefined;
+  if (!storage) {
+    return;
+  }
+  if (typeof storage.clear === 'function') {
+    storage.clear();
+    return;
+  }
+  for (let i = storage.length - 1; i >= 0; i -= 1) {
+    const key = storage.key(i);
+    if (key) {
+      storage.removeItem(key);
+    }
+  }
 };
 
 const mockProduct: Product = {
@@ -29,7 +47,7 @@ const mockProduct: Product = {
 describe('ProductCard', () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    window.localStorage.clear();
+    clearTestLocalStorage();
   });
 
   afterEach(() => {
@@ -41,19 +59,21 @@ describe('ProductCard', () => {
     renderWithCart(<ProductCard product={mockProduct} />);
 
     const addButton = screen.getByRole('button', { name: /add test sneaker to cart/i });
-    expect(addButton).toHaveTextContent(/\bcart\b/i);
+    expect(addButton).toHaveAttribute('aria-pressed', 'false');
 
     act(() => {
       fireEvent.click(addButton);
     });
 
-    expect(addButton).toHaveTextContent(/added!/i);
+    expect(addButton).toHaveAttribute('aria-label', 'Added Test Sneaker to cart');
+    expect(addButton).toHaveAttribute('aria-pressed', 'true');
 
     act(() => {
       vi.advanceTimersByTime(1700);
     });
 
-    expect(addButton).toHaveTextContent(/\bcart\b/i);
+    expect(addButton).toHaveAttribute('aria-pressed', 'false');
+    expect(addButton).toHaveAttribute('aria-label', 'Add Test Sneaker to cart');
   });
 });
 

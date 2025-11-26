@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Product, formatPrice } from '@/data/products';
 import useCart from '@/hooks/useCart';
+import SmartImage from './SmartImage';
 
 interface RandomProductsCarouselProps {
   products: Product[];
@@ -115,14 +115,15 @@ const RandomProductsCarousel = ({ products }: RandomProductsCarouselProps) => {
 
                 {/* Product Image */}
                 <div className="relative w-full aspect-square overflow-hidden bg-gradient-to-br from-light to-gray-100">
-                  <Image
+                  <SmartImage
                     src={product.image}
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     sizes="(max-width: 640px) 192px, (max-width: 1024px) 224px, 256px"
-                    quality={85}
                     loading="lazy"
+                    shimmerWidth={400}
+                    shimmerHeight={400}
                   />
                 </div>
 

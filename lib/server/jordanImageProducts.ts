@@ -99,7 +99,35 @@ const getJordanDescription = (index: number): string => {
   return jordanDescriptions[index % jordanDescriptions.length];
 };
 
+const JORDAN_1_PRICE = 3300;
+const JORDAN_3_PRICE = 3500;
+const JORDAN_4_PRICE = 3000;
+const JORDAN_9_PRICE = 3300;
+const JORDAN_11_PRICE = 3300;
+const JORDAN_14_PRICE = 3500;
 const DEFAULT_PRICE = 3500;
+
+const getPrice = (productName: string): number => {
+  if (productName === 'Jordan 1') {
+    return JORDAN_1_PRICE;
+  }
+  if (productName === 'Jordan 3') {
+    return JORDAN_3_PRICE;
+  }
+  if (productName === 'Jordan 4') {
+    return JORDAN_4_PRICE;
+  }
+  if (productName === 'Jordan 9') {
+    return JORDAN_9_PRICE;
+  }
+  if (productName === 'Jordan 11') {
+    return JORDAN_11_PRICE;
+  }
+  if (productName === 'Jordan 14') {
+    return JORDAN_14_PRICE;
+  }
+  return DEFAULT_PRICE;
+};
 
 export const getJordanImageProducts = (): Product[] => {
   try {
@@ -114,11 +142,12 @@ export const getJordanImageProducts = (): Product[] => {
 
     return files.map((file, index) => {
       const name = formatName(file);
+      const price = getPrice(name);
       return {
         id: buildId(file),
         name,
         description: getJordanDescription(index),
-        price: DEFAULT_PRICE,
+        price,
         image: `/images/jordan/${file}`,
         category: 'sports',
         gender: 'Unisex',
