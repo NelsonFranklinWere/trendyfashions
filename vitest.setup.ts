@@ -34,7 +34,7 @@ const ensureTestLocalStorage = () => {
     },
   };
 
-  // @ts-expect-error override for tests
+  // @ts-ignore override for tests
   window.localStorage = mockStorage;
 };
 

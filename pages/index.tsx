@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -170,10 +171,12 @@ const Home = ({
                             href={`/collections/${product.category}`}
                             className="flex items-center gap-3 p-3 hover:bg-light/50 rounded-lg transition-colors"
                           >
-                            <img
+                            <Image
                               src={product.image}
                               alt={product.name}
-                              className="w-16 h-16 object-cover rounded"
+                              width={64}
+                              height={64}
+                              className="w-16 h-16 object-cover rounded flex-shrink-0"
                             />
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-primary truncate">{product.name}</p>
