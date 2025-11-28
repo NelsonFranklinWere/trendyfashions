@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 70,
+  quality = 65,
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,

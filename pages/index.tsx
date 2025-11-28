@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
 import { categories, Product } from '@/data/products';
@@ -13,8 +13,8 @@ import { getAirmaxImageProducts } from '@/lib/server/airmaxImageProducts';
 import { getCasualImageProducts } from '@/lib/server/casualImageProducts';
 import { getAirforceImageProducts } from '@/lib/server/airforceImageProducts';
 import { getJordanImageProducts } from '@/lib/server/jordanImageProducts';
-import { getAllProducts } from '@/lib/server/getAllProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
+import { filterAirmaxProducts } from '@/lib/filters/airmax';
 
 interface HomeProps {
   featuredOfficials: Product[];
@@ -24,8 +24,10 @@ interface HomeProps {
   featuredCasuals: Product[];
   featuredAirforce: Product[];
   featuredJordan: Product[];
-  allProducts: Product[];
+  heroAirmax97: Product[];
+  heroClarks: Product[];
 }
+
 
 const Home = ({
   featuredOfficials,
@@ -35,40 +37,25 @@ const Home = ({
   featuredCasuals,
   featuredAirforce,
   featuredJordan,
-  allProducts,
+  heroAirmax97,
+  heroClarks,
 }: HomeProps) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showSearchResults, setShowSearchResults] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // Get 3 clarks images and 2 airmax 97 images
+  const clarksImages = heroClarks.slice(0, 3).map(p => p.image).filter(Boolean);
+  const airmax97Images = heroAirmax97.slice(0, 2).map(p => p.image).filter(Boolean);
+  const carouselImages = [...clarksImages, ...airmax97Images];
 
-  const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return [];
-    }
+  useEffect(() => {
+    if (carouselImages.length === 0) return;
+    
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 5000); // Change image every 5 seconds
 
-    const query = searchQuery.toLowerCase().trim();
-    return allProducts.filter((product) => {
-      const nameMatch = product.name.toLowerCase().includes(query);
-      const descMatch = product.description?.toLowerCase().includes(query);
-      return nameMatch || descMatch;
-    });
-  }, [searchQuery, allProducts]);
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-    setShowSearchResults(value.length > 0);
-  };
-
-  const handleSearchBlur = () => {
-    // Delay hiding results to allow clicking on them
-    setTimeout(() => setShowSearchResults(false), 200);
-  };
-
-  const handleSearchFocus = () => {
-    if (searchQuery.length > 0) {
-      setShowSearchResults(true);
-    }
-  };
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
   return (
     <>
@@ -103,111 +90,53 @@ const Home = ({
         ]}
       />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
+      {/* Hero Section with Background Carousel */}
+      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white py-12 md:py-20 overflow-hidden">
+        {/* Background Carousel */}
+        {carouselImages.length > 0 && (
+          <div className="absolute inset-0 z-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentImageIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1, ease: 'easeInOut' }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={carouselImages[currentImageIndex]}
+                  alt="Featured Product"
+                  fill
+                  className="object-cover"
+                  priority={currentImageIndex === 0}
+                  sizes="100vw"
+                  quality={currentImageIndex === 0 ? 80 : 70}
+                  loading={currentImageIndex === 0 ? 'eager' : 'lazy'}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        )}
+        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5 z-[1]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center"
+            className="text-center mb-8 md:mb-12"
           >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-bold mb-6">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6">
               Nairobi&apos;s Premier Shoe Destination
               <br />
               <span className="text-secondary">Trendy Fashion Zone</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white font-body max-w-3xl mx-auto mb-8 font-medium">
+            <p className="text-lg md:text-xl lg:text-2xl text-white font-body max-w-3xl mx-auto mb-6 md:mb-8 font-medium">
               From Moi Avenue to your doorstep — Authentic sneakers, stylish kicks, and premium footwear. 
-              <span className="block mt-2 text-lg">📍 Located in Nairobi CBD | 🚚 Free delivery in Nairobi</span>
+              <span className="block mt-2 text-base md:text-lg">📍 Located in Nairobi CBD | 🚚 Free delivery in Nairobi</span>
             </p>
             
-            {/* Search Bar */}
-            <div className="relative max-w-2xl mx-auto mb-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search for shoes, sneakers, brands..."
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  onFocus={handleSearchFocus}
-                  onBlur={handleSearchBlur}
-                  className="w-full px-6 py-4 pl-14 rounded-full text-primary font-body text-lg focus:outline-none focus:ring-2 focus:ring-secondary shadow-lg"
-                />
-                <svg
-                  className="absolute left-5 top-1/2 transform -translate-y-1/2 w-5 h-5 text-primary/60"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </div>
-
-              {/* Search Results Dropdown */}
-              <AnimatePresence>
-                {showSearchResults && searchResults.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl max-h-96 overflow-y-auto z-50"
-                  >
-                    <div className="p-2">
-                      <p className="px-4 py-2 text-sm font-semibold text-primary border-b">
-                        Found {searchResults.length} product{searchResults.length !== 1 ? 's' : ''}
-                      </p>
-                      <div className="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto">
-                        {searchResults.slice(0, 10).map((product) => (
-                          <Link
-                            key={product.id}
-                            href={`/collections/${product.category}`}
-                            className="flex items-center gap-3 p-3 hover:bg-light/50 rounded-lg transition-colors"
-                          >
-                            <Image
-                              src={product.image}
-                              alt={product.name}
-                              width={64}
-                              height={64}
-                              className="w-16 h-16 object-cover rounded flex-shrink-0"
-                            />
-                            <div className="flex-1 min-w-0">
-                              <p className="font-semibold text-primary truncate">{product.name}</p>
-                              <p className="text-sm text-text/70 truncate">{product.description}</p>
-                              <p className="text-sm font-bold text-secondary">KES {product.price.toLocaleString()}</p>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                      {searchResults.length > 10 && (
-                        <div className="px-4 py-2 text-center text-sm text-primary border-t">
-                          <p>And {searchResults.length - 10} more...</p>
-                        </div>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-                {showSearchResults && searchQuery.length > 0 && searchResults.length === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl z-50 p-4"
-                  >
-                    <p className="text-center text-text">No products found matching &quot;{searchQuery}&quot;</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
               <Link
                 href="/collections"
@@ -243,12 +172,12 @@ const Home = ({
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Professional Office Shoes
-                </h2>
-                <p className="text-text font-body">
-                  Premium formal footwear for the modern professional
-                </p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
+              Professional Office Shoes
+            </h2>
+            <p className="text-text font-body">
+              Premium formal footwear for the modern professional
+            </p>
               </motion.div>
               <Link
                 href="/collections/officials"
@@ -260,10 +189,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
-                {featuredOfficials.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredOfficials.slice(0, 8).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -284,12 +213,12 @@ const Home = ({
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Popular Sneakers
-                </h2>
-                <p className="text-text font-body">
-                  Classic and modern sneakers for every style
-                </p>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
+              Popular Sneakers
+            </h2>
+            <p className="text-text font-body">
+              Classic and modern sneakers for every style
+            </p>
               </motion.div>
               <Link
                 href="/collections/sneakers"
@@ -301,10 +230,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
-                {featuredSneakers.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredSneakers.slice(0, 8).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -383,10 +312,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
-                {featuredClarks.map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredClarks.slice(0, 8).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -424,10 +353,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
                 {featuredCasuals.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -465,10 +394,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
-                {featuredAirforce.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredAirforce.slice(0, 8).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -506,10 +435,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
-                {featuredJordan.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredJordan.slice(0, 8).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
@@ -537,7 +466,7 @@ const Home = ({
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+          <div className="grid grid-cols-4 gap-4 md:gap-6 lg:gap-8">
             {categories
               .filter((cat) => cat.featured)
               .slice(0, 8)
@@ -567,6 +496,9 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
 
     // Filter Clarks products from officials
     const clarks = filterOfficialsProducts(officials, 'Clarks');
+    
+    // Filter Airmax 97 products
+    const airmax97 = filterAirmaxProducts(airmax, 'Airmax 97');
 
     // Shuffle and select featured products (first 5-8 from each category)
     const shuffle = <T,>(array: T[]): T[] => {
@@ -578,19 +510,17 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       return shuffled;
     };
 
-    // Get all products for search
-    const allProducts = getAllProducts();
-
     return {
       props: {
-        featuredOfficials: shuffle(officials).slice(0, 5),
-        featuredSneakers: shuffle(sneakers).slice(0, 5),
-        featuredAirmax: shuffle(airmax).slice(0, 5),
-        featuredClarks: shuffle(clarks).slice(0, 10),
-        featuredCasuals: shuffle(casuals).slice(0, 5),
-        featuredAirforce: shuffle(airforce).slice(0, 5),
-        featuredJordan: shuffle(jordan).slice(0, 5),
-        allProducts,
+        featuredOfficials: shuffle(officials).slice(0, 8),
+        featuredSneakers: shuffle(sneakers).slice(0, 8),
+        featuredAirmax: shuffle(airmax).slice(0, 8),
+        featuredClarks: shuffle(clarks).slice(0, 8),
+        featuredCasuals: shuffle(casuals).slice(0, 8),
+        featuredAirforce: shuffle(airforce).slice(0, 8),
+        featuredJordan: shuffle(jordan).slice(0, 8),
+        heroAirmax97: airmax97,
+        heroClarks: clarks,
       },
     };
   } catch (error) {
@@ -604,7 +534,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredCasuals: [],
         featuredAirforce: [],
         featuredJordan: [],
-        allProducts: [],
+        heroAirmax97: [],
+        heroClarks: [],
       },
     };
   }

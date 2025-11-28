@@ -70,7 +70,7 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
             "relative w-full overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer",
             isSpecialCategory 
               ? "aspect-[4/3] p-4" 
-              : "aspect-square"
+              : "aspect-square p-2 sm:p-3"
           )}
           onClick={() => setIsModalOpen(true)}
           role="button"
