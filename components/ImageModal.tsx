@@ -81,7 +81,7 @@ const ImageModal = ({ isOpen, imageSrc, imageAlt, onClose }: ImageModalProps) =>
                   className="object-contain rounded-lg"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
                   priority
-                  quality={88}
+                  quality={100}
                   placeholder="blur"
                   shimmerWidth={1200}
                   shimmerHeight={800}

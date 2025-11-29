@@ -111,7 +111,7 @@ const Home = ({
                   className="object-cover"
                   priority
                   sizes="100vw"
-                  quality={80}
+                  quality={100}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
               </motion.div>
@@ -270,10 +270,10 @@ const Home = ({
                 </svg>
               </Link>
             </div>
-            <div className="overflow-x-auto pb-4 product-scroll">
-              <div className="flex gap-4 md:gap-6 min-w-max">
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
                 {featuredAirmax.slice(0, 5).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-48 sm:w-56 md:w-64">
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
                 ))}
