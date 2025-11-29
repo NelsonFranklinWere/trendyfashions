@@ -60,7 +60,6 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
                 isSpecialCategory ? "object-contain" : "object-cover"
               )}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
-              loading="lazy"
               shimmerWidth={isSpecialCategory ? 800 : 600}
               shimmerHeight={isSpecialCategory ? 600 : 600}
             />

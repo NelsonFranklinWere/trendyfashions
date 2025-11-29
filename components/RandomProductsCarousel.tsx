@@ -121,7 +121,6 @@ const RandomProductsCarousel = ({ products }: RandomProductsCarouselProps) => {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     sizes="(max-width: 640px) 192px, (max-width: 1024px) 224px, 256px"
-                    loading="lazy"
                     shimmerWidth={400}
                     shimmerHeight={400}
                   />
@@ -148,4 +147,3 @@ const RandomProductsCarousel = ({ products }: RandomProductsCarouselProps) => {
 };
 
 export default RandomProductsCarousel;
-

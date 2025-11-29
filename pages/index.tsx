@@ -109,10 +109,9 @@ const Home = ({
                   alt="Featured Product"
                   fill
                   className="object-cover"
-                  priority={currentImageIndex === 0}
+                  priority
                   sizes="100vw"
-                  quality={currentImageIndex === 0 ? 80 : 70}
-                  loading={currentImageIndex === 0 ? 'eager' : 'lazy'}
+                  quality={80}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
               </motion.div>
@@ -123,7 +122,7 @@ const Home = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-center mb-8 md:mb-12"
           >
