@@ -121,6 +121,8 @@ const Collections = ({ allProducts }: CollectionsProps) => {
                               width={64}
                               height={64}
                               className="w-16 h-16 object-cover rounded flex-shrink-0"
+                              quality={75}
+                              sizes="64px"
                             />
                             <div className="flex-1 min-w-0">
                               <p className="font-semibold text-primary truncate text-sm">{product.name}</p>

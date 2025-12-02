@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 100,
+  quality = 85, // Optimized default: balances quality and file size
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
@@ -59,7 +59,7 @@ const SmartImage = ({
       quality={quality}
       placeholder={placeholder}
       blurDataURL={fallbackBlur}
-      loading={props.loading || (props.priority ? undefined : 'eager')}
+      loading={props.loading || (props.priority ? 'eager' : 'lazy')}
       className={cn(
         'duration-500 ease-out will-change-transform',
         isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]',
