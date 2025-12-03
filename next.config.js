@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Output standalone for better Docker/server deployment
-  output: 'standalone',
   images: {
     // Enable Next.js Image Optimization (works on any server)
     unoptimized: false,
