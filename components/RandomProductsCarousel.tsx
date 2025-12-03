@@ -75,6 +75,11 @@ const RandomProductsCarousel = ({ products }: RandomProductsCarouselProps) => {
               ease: 'linear',
             },
           }}
+          style={{
+            willChange: 'transform',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden'
+          }}
         >
           {displayProducts.map((product, index) => (
             <motion.div

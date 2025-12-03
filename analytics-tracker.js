@@ -123,25 +123,36 @@ class TrendyFashionZoneTracker {
     setupScrollTracking() {
         let scrollTimeout;
         let lastScrollTime = 0;
+        let ticking = false;
         
-        window.addEventListener('scroll', () => {
-            const now = Date.now();
-            const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-            
-            // Throttle scroll events to avoid performance issues
-            if (now - lastScrollTime > 100) {
-                this.trackScroll(scrollPercent);
-                lastScrollTime = now;
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const now = Date.now();
+                    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                    
+                    // Throttle scroll events to avoid performance issues (increased to 200ms)
+                    if (now - lastScrollTime > 200) {
+                        this.trackScroll(scrollPercent);
+                        lastScrollTime = now;
+                    }
+
+                    // Track scroll milestones
+                    this.trackScrollMilestones(scrollPercent);
+
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        this.trackScrollEnd();
+                    }, 300);
+                    
+                    ticking = false;
+                });
+                ticking = true;
             }
-
-            // Track scroll milestones
-            this.trackScrollMilestones(scrollPercent);
-
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                this.trackScrollEnd();
-            }, 150);
-        });
+        };
+        
+        // Use passive listener for better scroll performance
+        window.addEventListener('scroll', handleScroll, { passive: true });
     }
 
     setupClickTracking() {

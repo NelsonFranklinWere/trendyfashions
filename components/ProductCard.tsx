@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Product, formatPrice, getWhatsAppLink } from '@/data/products';
@@ -14,7 +14,7 @@ interface ProductCardProps {
   className?: string;
 }
 
-const ProductCard = ({ product, className }: ProductCardProps) => {
+const ProductCard = memo(({ product, className }: ProductCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const feedbackTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -55,14 +55,19 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
         className={cn(
-          'bg-white rounded-lg overflow-hidden shadow-soft hover:shadow-large transition-all duration-300 group',
+          'bg-white rounded-lg overflow-hidden shadow-soft hover:shadow-large transition-shadow duration-200 group product-card-container',
           className
         )}
+        style={{ 
+          willChange: 'opacity',
+          backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden'
+        }}
       >
         {/* Product Image - Clickable */}
         <div
@@ -136,13 +141,15 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
             src={product.image}
             alt={product.name}
             fill
+            loading="lazy"
             className={cn(
-              "group-hover:scale-110 transition-transform duration-700 ease-out",
+              "group-hover:scale-105 transition-transform duration-300 ease-out",
               isSpecialCategory ? "object-contain" : "object-cover"
             )}
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
+            quality={75}
           />
           {product.tags?.includes('New Arrivals') && (
             <div className="absolute top-3 left-3 bg-secondary text-white px-3 py-1.5 rounded-full text-xs font-body font-bold z-10 shadow-lg">
@@ -197,6 +204,8 @@ const ProductCard = ({ product, className }: ProductCardProps) => {
     />
     </>
   );
-};
+});
+
+ProductCard.displayName = 'ProductCard';
 
 export default ProductCard;

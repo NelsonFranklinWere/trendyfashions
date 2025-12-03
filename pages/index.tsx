@@ -101,8 +101,13 @@ const Home = ({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 1, ease: 'easeInOut' }}
+                transition={{ duration: 0.5, ease: 'easeInOut' }}
                 className="absolute inset-0"
+                style={{ 
+                  willChange: 'opacity',
+                  backfaceVisibility: 'hidden',
+                  WebkitBackfaceVisibility: 'hidden'
+                }}
               >
                 <Image
                   src={carouselImages[currentImageIndex]}
@@ -123,7 +128,8 @@ const Home = ({
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             className="text-center mb-8 md:mb-12"
           >
             <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6">
@@ -166,10 +172,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
               Professional Office Shoes
@@ -207,10 +213,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
               Popular Sneakers
@@ -248,10 +254,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
                   Nike Air Max Collection
@@ -289,10 +295,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
                   Clarks Official
@@ -330,10 +336,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
                   Stylish Casual Shoes
@@ -371,10 +377,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
                   Nike Air Force 1
@@ -412,10 +418,10 @@ const Home = ({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-8">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
                   Air Jordan Collection
@@ -450,13 +456,13 @@ const Home = ({
       {/* All Collections Section */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="text-center mb-12"
+            >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
               Premium Collections That Define Your Style
             </h2>

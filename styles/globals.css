@@ -6,7 +6,7 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
+    /* Removed smooth scroll from html - causes janky scrolling */
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
   }
@@ -15,8 +15,11 @@
     @apply bg-white text-text font-body antialiased;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
-    scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    /* Performance optimizations */
+    transform: translateZ(0); /* Force GPU acceleration */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -118,10 +121,38 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Performance optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optimize scrolling performance */
+html {
+  scroll-behavior: auto; /* Disable smooth scroll for better performance */
+}
+
 /* Prevent layout shifts during scroll */
 body {
   overflow-x: hidden;
   position: relative;
+}
+
+/* GPU acceleration for product cards */
+.product-card-container {
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* Optimize image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Reduce repaints during scroll */
+section {
+  contain: layout style;
 }
 
 /* Smooth scroll for anchor links */
