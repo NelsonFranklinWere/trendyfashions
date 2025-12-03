@@ -262,9 +262,9 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
       <NextSeo
         title={`${category.name} Collection | Trendy Fashion Zone`}
         description={category.description}
-        canonical={`https://trendyfashionzone.online/collections/${category.slug}`}
+        canonical={`https://trendyfashionzone.co.ke/collections/${category.slug}`}
         openGraph={{
-          url: `https://trendyfashionzone.online/collections/${category.slug}`,
+          url: `https://trendyfashionzone.co.ke/collections/${category.slug}`,
           title: `${category.name} Collection | Trendy Fashion Zone`,
           description: category.description,
         }}

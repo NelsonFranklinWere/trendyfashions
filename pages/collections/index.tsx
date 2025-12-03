@@ -50,9 +50,9 @@ const Collections = ({ allProducts }: CollectionsProps) => {
       <NextSeo
         title="Explore Our Exclusive Shoe Collections | Trendy Fashion Zone"
         description="Discover styles that define comfort, confidence, and class. Browse our complete collection of sneakers, officials, casuals, Airforce, Airmax, and Jordans."
-        canonical="https://trendyfashionzone.online/collections"
+        canonical="https://trendyfashionzone.co.ke/collections"
         openGraph={{
-          url: 'https://trendyfashionzone.online/collections',
+          url: 'https://trendyfashionzone.co.ke/collections',
           title: 'Explore Our Exclusive Shoe Collections | Trendy Fashion Zone',
           description:
             'Discover styles that define comfort, confidence, and class. Browse our complete collection.',

@@ -8,9 +8,9 @@ const About = () => {
       <NextSeo
         title="Our Story — 5 Years of Trusted Style | Trendy Fashion Zone"
         description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Learn about our mission, vision, and commitment to quality."
-        canonical="https://trendyfashionzone.online/about"
+        canonical="https://trendyfashionzone.co.ke/about"
         openGraph={{
-          url: 'https://trendyfashionzone.online/about',
+          url: 'https://trendyfashionzone.co.ke/about',
           title: 'Our Story — 5 Years of Trusted Style | Trendy Fashion Zone',
           description:
             'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years.',

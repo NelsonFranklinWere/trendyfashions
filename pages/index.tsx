@@ -62,14 +62,14 @@ const Home = ({
       <NextSeo
         title="Trendy Fashion Zone | Nairobi's #1 Shoe Store"
         description="Shop sneakers, officials, casuals, Airforce, Airmax, and Jordans in Nairobi. 5 years of trusted fashion at Trendy Fashion Zone."
-        canonical="https://trendyfashionzone.online"
+        canonical="https://trendyfashionzone.co.ke"
         openGraph={{
-          url: 'https://trendyfashionzone.online',
+          url: 'https://trendyfashionzone.co.ke',
           title: 'Trendy Fashion Zone | Nairobi\'s #1 Shoe Store',
           description: 'Shop sneakers, officials, casuals, Airforce, Airmax, and Jordans in Nairobi. 5 years of trusted fashion at Trendy Fashion Zone.',
           images: [
             {
-              url: 'https://trendyfashionzone.online/images/featured-banner.jpg',
+              url: 'https://trendyfashionzone.co.ke/images/featured-banner.jpg',
               width: 1200,
               height: 630,
               alt: 'Trendy Fashion Zone',

@@ -161,9 +161,9 @@ const Contact = () => {
       <NextSeo
         title="Nairobi Men's Footwear Concierge | Trendy Fashion Zone"
         description="Reach the Trendy Fashion Zone men's footwear team for WhatsApp styling, fittings, or premium sneaker drops in Nairobi."
-        canonical="https://trendyfashionzone.online/contact"
+        canonical="https://trendyfashionzone.co.ke/contact"
         openGraph={{
-          url: "https://trendyfashionzone.online/contact",
+          url: "https://trendyfashionzone.co.ke/contact",
           title: "Nairobi Men's Footwear Concierge | Trendy Fashion Zone",
           description: "Premium men’s sneakers and officials in Nairobi CBD. Chat, call, or book a fitting.",
         }}
