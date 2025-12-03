@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Enable Next.js Image Optimization (works on any server)
-    unoptimized: false,
+    // Disable Next.js Image Optimization - Nginx serves images directly (faster)
+    unoptimized: true,
     // Prefer AVIF over WebP for better compression
     formats: ['image/avif', 'image/webp'],
     // Cache optimized images for 7 days
