@@ -90,17 +90,59 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
     const storagePath = `${category}/${subcategory}/${fileName}`;
 
+    // Check if bucket exists, if not provide helpful error
+    const { data: buckets, error: bucketsError } = await supabaseAdmin.storage.listBuckets();
+    
+    if (bucketsError) {
+      console.error('Error listing buckets:', bucketsError);
+      return res.status(500).json({ 
+        error: 'Failed to access storage', 
+        details: bucketsError.message,
+        help: 'Please ensure Supabase Storage is enabled and the service role key has storage access'
+      });
+    }
+
+    const imagesBucket = buckets?.find(b => b.name === 'images');
+    if (!imagesBucket) {
+      return res.status(500).json({ 
+        error: 'Storage bucket not found', 
+        details: 'The "images" bucket does not exist in Supabase Storage',
+        help: 'Please create a bucket named "images" in your Supabase project: Storage > New bucket > Name: "images" > Public: Yes'
+      });
+    }
+
     // Upload optimized image to Supabase Storage
     const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
       .from('images')
       .upload(storagePath, optimizedBuffer, {
         contentType: optimizedFormat,
         upsert: false,
+        cacheControl: '3600',
       });
 
     if (uploadError) {
       console.error('Supabase upload error:', uploadError);
-      return res.status(500).json({ error: 'Failed to upload image to storage', details: uploadError.message });
+      
+      // Provide more specific error messages
+      let errorMessage = uploadError.message;
+      let helpText = '';
+      
+      if (uploadError.message?.includes('Bucket not found')) {
+        errorMessage = 'Storage bucket "images" not found';
+        helpText = 'Please create a bucket named "images" in Supabase: Storage > New bucket > Name: "images" > Public: Yes';
+      } else if (uploadError.message?.includes('new row violates row-level security')) {
+        errorMessage = 'Storage bucket permissions issue';
+        helpText = 'Please check bucket policies in Supabase: Storage > images > Policies > Ensure service role can upload';
+      } else if (uploadError.message?.includes('duplicate')) {
+        errorMessage = 'File already exists';
+        helpText = 'A file with this name already exists. Try uploading with a different name.';
+      }
+      
+      return res.status(500).json({ 
+        error: 'Failed to upload image to storage', 
+        details: errorMessage,
+        help: helpText || 'Please check Supabase Storage configuration and bucket permissions'
+      });
     }
 
     // Upload thumbnail

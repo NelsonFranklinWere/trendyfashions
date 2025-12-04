@@ -1,141 +1,285 @@
-# DigitalOcean Deployment Guide
+# DigitalOcean Deployment Guide - Trendy Fashion Zone
 
-## Server Information
-- **IP Address**: 178.128.47.122
-- **OS**: Ubuntu 24.04 (LTS) x64
-- **Specs**: 1 GB Memory / 1 AMD vCPU / 25 GB Disk
-- **Location**: LON1 (London)
+Complete step-by-step guide to deploy Trendy Fashion Zone to DigitalOcean using PM2, NGINX, and Let's Encrypt SSL.
 
 ## Prerequisites
+- DigitalOcean account
+- Domain: `trendyfashionzone.co.ke` (already configured)
+- GitHub repository with your code
+- SSH access to your droplet
 
-### On Your Local Machine
-1. **Install SSH client** (usually pre-installed on Linux/Mac)
-2. **Install sshpass** (for automated password entry):
-   ```bash
-   # Ubuntu/Debian
-   sudo apt-get install sshpass
-   
-   # macOS
-   brew install sshpass
-   ```
+---
 
-### On DigitalOcean Server
-- Root access with password: `Trendy@254Zone`
+## Step 1: Create Droplet and Initial Setup
 
-## Deployment Methods
+### 1.1 Create Droplet
+1. Go to DigitalOcean Dashboard
+2. Click **"Create"** → **"Droplets"**
+3. Choose:
+   - **Image**: Ubuntu 22.04 LTS
+   - **Plan**: Basic (at least 2GB RAM recommended for Next.js)
+   - **Region**: Choose closest to your users
+   - **Authentication**: SSH keys (recommended) or root password
+4. Click **"Create Droplet"**
 
-### Method 1: Automated Deployment (Recommended)
-
-1. **Make scripts executable**:
-   ```bash
-   chmod +x scripts/deploy-digitalocean.sh
-   chmod +x scripts/server-setup.sh
-   ```
-
-2. **Run deployment script**:
-   ```bash
-   ./scripts/deploy-digitalocean.sh
-   ```
-
-This will:
-- Create a deployment package
-- Upload files to server
-- Set up Node.js, PM2, Nginx
-- Build and start the application
-
-### Method 2: Manual Deployment
-
-#### Step 1: Initial Server Setup (One-time)
-
-SSH into your server:
+### 1.2 SSH into Droplet
 ```bash
-ssh root@178.128.47.122
-# Password: Trendy@254Zone
+ssh root@YOUR_DROPLET_IP
 ```
 
-Run the setup script:
+---
+
+## Step 2: Create Non-Root User Account
+
+### 2.1 Create User
 ```bash
-# Copy server-setup.sh to server first, then:
-chmod +x server-setup.sh
-./server-setup.sh
+# Create user named 'trendyfashion' (or your preferred name)
+adduser trendyfashion
+
+# Add user to sudo group
+usermod -aG sudo trendyfashion
+
+# Switch to new user
+su - trendyfashion
 ```
 
-Or manually:
-
+### 2.2 Setup SSH for New User (Optional but Recommended)
 ```bash
-# Update system
-apt-get update && apt-get upgrade -y
+# On your local machine, copy your SSH key
+ssh-copy-id trendyfashion@YOUR_DROPLET_IP
 
-# Install Node.js 20
-curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
-apt-get install -y nodejs
-
-# Install PM2
-npm install -g pm2
-
-# Install Nginx
-apt-get install -y nginx
-
-# Create swap file (important for 1GB RAM)
-fallocate -l 2G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo '/swapfile none swap sw 0 0' >> /etc/fstab
+# Test login
+ssh trendyfashion@YOUR_DROPLET_IP
 ```
 
-#### Step 2: Deploy Application
+---
 
-On your local machine:
+## Step 3: Install Node.js and NPM
+
 ```bash
-# Create deployment package
-tar --exclude='.git' \
-    --exclude='node_modules' \
-    --exclude='.next' \
-    --exclude='.vscode' \
-    -czf deploy.tar.gz .
+# Update system packages
+sudo apt update
+sudo apt upgrade -y
 
-# Upload to server
-scp deploy.tar.gz root@178.128.47.122:/tmp/
-scp ecosystem.config.js root@178.128.47.122:/tmp/
+# Install Node.js 20.x (LTS - recommended for Next.js)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installation
+node --version
+npm --version
+
+# Should show:
+# v20.x.x
+# 10.x.x
 ```
 
-On the server:
+---
+
+## Step 4: Install Git and Clone Repository
+
 ```bash
-# Create app directory
-mkdir -p /var/www/trendyfashions
-cd /var/www/trendyfashions
+# Install Git
+sudo apt install git -y
 
-# Extract files
-tar -xzf /tmp/deploy.tar.gz
+# Clone your repository
+cd ~
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git trendyfashionzone
 
-# Install dependencies
-npm ci
+# Navigate to project
+cd trendyfashionzone
 
-# Build application
+# Verify files
+ls -la
+```
+
+**Note**: Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your actual GitHub details.
+
+---
+
+## Step 5: Install Dependencies and Build
+
+```bash
+# Install project dependencies
+npm install
+
+# Build the Next.js application for production
 npm run build
 
-# Start with PM2
-cp /tmp/ecosystem.config.js .
-pm2 start ecosystem.config.js
-pm2 save
-pm2 startup systemd -u root --hp /root
+# Test the production build locally (optional)
+npm start
+
+# Press Ctrl+C to stop after testing
 ```
 
-#### Step 3: Configure Nginx
+**Expected output**: Should see "Ready on http://localhost:3000" (or your configured port)
 
-Create Nginx config:
+---
+
+## Step 6: Setup Environment Variables
+
 ```bash
-nano /etc/nginx/sites-available/trendyfashions
+# Create .env.local file
+nano .env.local
 ```
 
-Paste this configuration:
+**Add your environment variables:**
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://zdeupdkbsueczuoercmm.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key_here
+
+# Optional: Set port (default is 3000)
+PORT=3000
+NODE_ENV=production
+```
+
+**Save and exit**: `Ctrl+X`, then `Y`, then `Enter`
+
+---
+
+## Step 7: Install and Configure PM2
+
+### 7.1 Install PM2 Globally
+```bash
+sudo npm install -g pm2
+```
+
+### 7.2 Create PM2 Ecosystem File
+```bash
+# The ecosystem.config.js file should already exist in your project
+# Verify it exists
+cat ecosystem.config.js
+```
+
+**If it doesn't exist or needs updating, create it:**
+```bash
+nano ecosystem.config.js
+```
+
+**Add this configuration:**
+```javascript
+module.exports = {
+  apps: [{
+    name: 'trendyfashionzone',
+    script: 'npm',
+    args: 'start',
+    cwd: '/home/trendyfashion/trendyfashionzone',
+    instances: 1,
+    exec_mode: 'fork',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3000
+    },
+    error_file: './logs/err.log',
+    out_file: './logs/out.log',
+    log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
+    merge_logs: true,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '1G'
+  }]
+}
+```
+
+### 7.3 Start Application with PM2
+```bash
+# Start the app
+pm2 start ecosystem.config.js
+
+# Or if ecosystem file doesn't work:
+pm2 start npm --name "trendyfashionzone" -- start
+
+# Check status
+pm2 status
+
+# View logs
+pm2 logs trendyfashionzone
+
+# Save PM2 configuration
+pm2 save
+
+# Setup PM2 to start on system reboot
+pm2 startup
+
+# Copy and run the command that PM2 outputs (it will look like):
+# sudo env PATH=$PATH:/usr/bin pm2 startup systemd -u trendyfashion --hp /home/trendyfashion
+```
+
+### 7.4 Verify App is Running
+```bash
+# Check if app is accessible on port 3000
+curl http://localhost:3000
+
+# Should return HTML content
+```
+
+---
+
+## Step 8: Configure UFW Firewall
+
+```bash
+# Enable firewall
+sudo ufw enable
+
+# Check status
+sudo ufw status
+
+# Allow SSH (important - do this first!)
+sudo ufw allow ssh
+sudo ufw allow 22/tcp
+
+# Allow HTTP and HTTPS
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+
+# Optionally, allow your app port directly (not needed if using NGINX)
+# sudo ufw allow 3000/tcp
+
+# Check status again
+sudo ufw status verbose
+```
+
+**Expected output**: Should show SSH, HTTP (80), and HTTPS (443) as allowed.
+
+---
+
+## Step 9: Install and Configure NGINX
+
+### 9.1 Install NGINX
+```bash
+sudo apt install nginx -y
+
+# Check NGINX status
+sudo systemctl status nginx
+
+# Start and enable NGINX
+sudo systemctl start nginx
+sudo systemctl enable nginx
+```
+
+### 9.2 Create NGINX Configuration
+```bash
+# Remove default configuration
+sudo rm /etc/nginx/sites-enabled/default
+
+# Create new configuration file
+sudo nano /etc/nginx/sites-available/trendyfashionzone
+```
+
+**Add this configuration:**
 ```nginx
 server {
     listen 80;
-    server_name 178.128.47.122; # Replace with your domain when ready
+    listen [::]:80;
+    
+    server_name trendyfashionzone.co.ke www.trendyfashionzone.co.ke;
 
-    client_max_body_size 50M;
+    # Increase body size for image uploads
+    client_max_body_size 20M;
 
     location / {
         proxy_pass http://localhost:3000;
@@ -148,282 +292,292 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_cache_bypass $http_upgrade;
         
+        # Timeouts for long requests
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
         proxy_read_timeout 60s;
     }
 
+    # Optional: Serve static files directly from NGINX
     location /_next/static {
         proxy_pass http://localhost:3000;
         proxy_cache_valid 200 60m;
         add_header Cache-Control "public, immutable";
     }
-
-    location /images {
-        proxy_pass http://localhost:3000;
-        proxy_cache_valid 200 7d;
-        add_header Cache-Control "public, max-age=604800";
-    }
 }
 ```
 
-Enable site:
+**Save and exit**: `Ctrl+X`, then `Y`, then `Enter`
+
+### 9.3 Enable Site and Test Configuration
 ```bash
-ln -s /etc/nginx/sites-available/trendyfashions /etc/nginx/sites-enabled/
-rm /etc/nginx/sites-enabled/default
-nginx -t
-systemctl restart nginx
+# Create symbolic link to enable site
+sudo ln -s /etc/nginx/sites-available/trendyfashionzone /etc/nginx/sites-enabled/
+
+# Test NGINX configuration
+sudo nginx -t
+
+# If test passes, restart NGINX
+sudo systemctl restart nginx
+
+# Check NGINX status
+sudo systemctl status nginx
 ```
 
-#### Step 4: Configure Firewall
-
+### 9.4 Verify Setup
 ```bash
-ufw allow 22/tcp
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw --force enable
+# Test from server
+curl http://localhost
+
+# Should return your Next.js app HTML
 ```
 
-## Verify Deployment
+**You should now be able to access your app via:**
+- `http://YOUR_DROPLET_IP`
+- `http://trendyfashionzone.co.ke` (if DNS is configured)
 
-1. **Check PM2 status**:
-   ```bash
-   pm2 status
-   pm2 logs trendyfashions
+---
+
+## Step 10: Configure Domain DNS (If Not Already Done)
+
+### 10.1 In DigitalOcean Dashboard
+1. Go to **Networking** → **Domains**
+2. Add domain: `trendyfashionzone.co.ke`
+3. Add **A Records**:
+   - **Hostname**: `@` → Points to: `YOUR_DROPLET_IP`
+   - **Hostname**: `www` → Points to: `YOUR_DROPLET_IP`
+4. Save changes
+
+### 10.2 At Your Domain Registrar
+1. Log into your domain registrar (where you bought trendyfashionzone.co.ke)
+2. Go to DNS settings
+3. Set **Nameservers** to:
    ```
-
-2. **Check Nginx**:
-   ```bash
-   systemctl status nginx
+   ns1.digitalocean.com
+   ns2.digitalocean.com
+   ns3.digitalocean.com
    ```
+4. Wait for DNS propagation (can take 5 minutes to 48 hours)
 
-3. **Visit your site**:
-   - http://178.128.47.122
-
-## Updating the Application
-
-### Quick Update Script
-
-Create `scripts/update-app.sh`:
+### 10.3 Verify DNS
 ```bash
-#!/bin/bash
-ssh root@178.128.47.122 << 'ENDSSH'
-cd /var/www/trendyfashions
-git pull origin main  # If using git
-# OR upload new files manually
-npm ci
-npm run build
-pm2 restart trendyfashions
-ENDSSH
+# Check if DNS is resolving
+dig trendyfashionzone.co.ke
+nslookup trendyfashionzone.co.ke
+
+# Should show your droplet IP
 ```
 
-Or manually:
+---
+
+## Step 11: Install SSL Certificate with Let's Encrypt
+
+### 11.1 Install Certbot
 ```bash
-# SSH into server
-ssh root@178.128.47.122
+# Update package list
+sudo apt update
 
-# Navigate to app directory
-cd /var/www/trendyfashions
-
-# Pull latest changes (if using git)
-git pull origin main
-
-# Or upload new files via SCP
-# Then:
-npm ci
-npm run build
-pm2 restart trendyfashions
+# Install Certbot and NGINX plugin
+sudo apt install certbot python3-certbot-nginx -y
 ```
 
-## Setting Up Domain & SSL (Optional but Recommended)
-
-### 1. Point Domain to Server
-
-In your domain's DNS settings, add an A record:
-```
-Type: A
-Name: @ (or www)
-Value: 178.128.47.122
-TTL: 3600
-```
-
-### 2. Install Certbot
-
+### 11.2 Obtain SSL Certificate
 ```bash
-apt-get install -y certbot python3-certbot-nginx
+# Get certificate for both domain and www subdomain
+sudo certbot --nginx -d trendyfashionzone.co.ke -d www.trendyfashionzone.co.ke
+
+# Follow the prompts:
+# - Enter email address (for renewal notices)
+# - Agree to terms (A)
+# - Choose whether to redirect HTTP to HTTPS (recommended: 2 for redirect)
 ```
 
-### 3. Get SSL Certificate
-
+### 11.3 Verify SSL Installation
 ```bash
-certbot --nginx -d yourdomain.com -d www.yourdomain.com
+# Test certificate renewal (dry run)
+sudo certbot renew --dry-run
+
+# Check certificate status
+sudo certbot certificates
 ```
 
-Follow the prompts. Certbot will automatically:
-- Get SSL certificate
-- Update Nginx config
-- Set up auto-renewal
+### 11.4 Auto-Renewal Setup
+Certbot automatically sets up a renewal timer, but verify it:
+```bash
+# Check renewal timer
+sudo systemctl status certbot.timer
 
-### 4. Update Nginx Config
-
-Certbot will modify your Nginx config automatically. Or manually update:
-```nginx
-server {
-    listen 80;
-    server_name yourdomain.com www.yourdomain.com;
-    return 301 https://$server_name$request_uri;
-}
-
-server {
-    listen 443 ssl http2;
-    server_name yourdomain.com www.yourdomain.com;
-    
-    ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-    
-    # ... rest of config
-}
+# Test renewal manually
+sudo certbot renew --dry-run
 ```
 
-## Monitoring & Maintenance
+---
+
+## Step 12: Final Verification and Testing
+
+### 12.1 Check All Services
+```bash
+# Check PM2
+pm2 status
+pm2 logs trendyfashionzone --lines 50
+
+# Check NGINX
+sudo systemctl status nginx
+
+# Check firewall
+sudo ufw status
+```
+
+### 12.2 Test Website
+1. Visit: `https://trendyfashionzone.co.ke`
+2. Visit: `https://www.trendyfashionzone.co.ke`
+3. Check:
+   - ✅ Site loads correctly
+   - ✅ SSL certificate is valid (green lock icon)
+   - ✅ Images load from Supabase
+   - ✅ Admin panel works: `https://trendyfashionzone.co.ke/admin/login`
+   - ✅ Image uploads work
+
+### 12.3 Monitor Logs
+```bash
+# PM2 logs
+pm2 logs trendyfashionzone
+
+# NGINX error logs
+sudo tail -f /var/log/nginx/error.log
+
+# NGINX access logs
+sudo tail -f /var/log/nginx/access.log
+```
+
+---
+
+## Step 13: Useful Commands Reference
 
 ### PM2 Commands
 ```bash
-pm2 status              # Check app status
-pm2 logs trendyfashions  # View logs
-pm2 restart trendyfashions  # Restart app
-pm2 stop trendyfashions      # Stop app
-pm2 delete trendyfashions     # Remove from PM2
+pm2 status                    # Check app status
+pm2 restart trendyfashionzone # Restart app
+pm2 stop trendyfashionzone    # Stop app
+pm2 start trendyfashionzone   # Start app
+pm2 logs trendyfashionzone   # View logs
+pm2 logs trendyfashionzone --lines 100  # Last 100 lines
+pm2 monit                     # Monitor dashboard
+pm2 save                      # Save current process list
 ```
 
-### System Monitoring
+### NGINX Commands
+```bash
+sudo systemctl restart nginx  # Restart NGINX
+sudo systemctl reload nginx   # Reload config (no downtime)
+sudo nginx -t                 # Test configuration
+sudo tail -f /var/log/nginx/error.log  # View errors
+```
+
+### Deployment Workflow
+```bash
+# 1. SSH into server
+ssh trendyfashion@YOUR_DROPLET_IP
+
+# 2. Navigate to project
+cd ~/trendyfashionzone
+
+# 3. Pull latest changes
+git pull origin main
+
+# 4. Install new dependencies (if any)
+npm install
+
+# 5. Rebuild application
+npm run build
+
+# 6. Restart PM2
+pm2 restart trendyfashionzone
+
+# 7. Check logs
+pm2 logs trendyfashionzone --lines 50
+```
+
+---
+
+## Troubleshooting
+
+### App Not Loading
+```bash
+# Check if app is running
+pm2 status
+
+# Check if port 3000 is in use
+sudo lsof -i :3000
+
+# Check NGINX configuration
+sudo nginx -t
+
+# Check NGINX error logs
+sudo tail -50 /var/log/nginx/error.log
+```
+
+### SSL Certificate Issues
+```bash
+# Renew certificate manually
+sudo certbot renew
+
+# Check certificate expiry
+sudo certbot certificates
+```
+
+### Permission Issues
+```bash
+# Fix file permissions
+sudo chown -R trendyfashion:trendyfashion ~/trendyfashionzone
+
+# Fix PM2 permissions
+sudo chown -R trendyfashion:trendyfashion ~/.pm2
+```
+
+### Out of Memory
 ```bash
 # Check memory usage
 free -h
 
-# Check disk usage
-df -h
+# Restart app to free memory
+pm2 restart trendyfashionzone
 
-# Check CPU usage
-top
-
-# Check swap
-swapon --show
+# Or increase droplet size in DigitalOcean dashboard
 ```
 
-### Logs
-```bash
-# PM2 logs
-pm2 logs trendyfashions
+---
 
-# Nginx logs
-tail -f /var/log/nginx/access.log
-tail -f /var/log/nginx/error.log
+## Security Checklist
 
-# System logs
-journalctl -u nginx -f
-```
+- [x] Created non-root user
+- [x] Configured UFW firewall
+- [x] Installed SSL certificate
+- [x] NGINX configured with security headers
+- [ ] Set up automatic backups (recommended)
+- [ ] Configured fail2ban (optional but recommended)
+- [ ] Set up monitoring/alerts (optional)
 
-## Troubleshooting
+---
 
-### App Not Starting
-1. Check PM2 logs: `pm2 logs trendyfashions`
-2. Check if port 3000 is in use: `netstat -tulpn | grep 3000`
-3. Verify build: `cd /var/www/trendyfashions && npm run build`
+## Next Steps (Optional Enhancements)
 
-### Out of Memory
-- Check swap: `swapon --show`
-- Increase swap if needed
-- Consider upgrading droplet to 2GB RAM
+1. **Set up automatic backups** of your database and files
+2. **Configure monitoring** (e.g., UptimeRobot, Pingdom)
+3. **Set up CI/CD** for automatic deployments from GitHub
+4. **Configure CDN** for faster image delivery
+5. **Set up database backups** for Supabase data
 
-### Nginx 502 Bad Gateway
-- Check if app is running: `pm2 status`
-- Check app logs: `pm2 logs trendyfashions`
-- Verify proxy_pass URL in Nginx config
-
-### Images Not Loading
-- Check file permissions: `ls -la /var/www/trendyfashions/public/images`
-- Verify image paths in code
-- Check Nginx static file serving config
-
-## Security Recommendations
-
-1. **Change default SSH port** (optional):
-   ```bash
-   nano /etc/ssh/sshd_config
-   # Change Port 22 to Port 2222
-   systemctl restart sshd
-   ```
-
-2. **Set up SSH keys** (recommended):
-   ```bash
-   # On local machine
-   ssh-copy-id root@178.128.47.122
-   ```
-
-3. **Disable root login** (recommended):
-   ```bash
-   # Create new user
-   adduser deploy
-   usermod -aG sudo deploy
-   # Then disable root login in /etc/ssh/sshd_config
-   ```
-
-4. **Keep system updated**:
-   ```bash
-   apt-get update && apt-get upgrade -y
-   ```
-
-## Performance Optimization
-
-### For 1GB RAM Server
-
-1. **Enable swap** (already done in setup script)
-2. **Optimize Node.js**:
-   ```bash
-   export NODE_OPTIONS="--max-old-space-size=512"
-   ```
-3. **Use PM2 cluster mode** (if needed):
-   ```javascript
-   // In ecosystem.config.js
-   instances: 1, // Keep at 1 for 1GB RAM
-   ```
-4. **Monitor memory**:
-   ```bash
-   pm2 monit
-   ```
-
-## Backup Strategy
-
-1. **Backup application files**:
-   ```bash
-   tar -czf /root/backup-$(date +%Y%m%d).tar.gz /var/www/trendyfashions
-   ```
-
-2. **Backup PM2 config**:
-   ```bash
-   pm2 save
-   cp ~/.pm2/dump.pm2 /root/
-   ```
-
-3. **Set up automated backups** (cron):
-   ```bash
-   crontab -e
-   # Add: 0 2 * * * tar -czf /root/backup-$(date +\%Y\%m\%d).tar.gz /var/www/trendyfashions
-   ```
-
-## Next Steps
-
-1. ✅ Deploy application
-2. ⬜ Set up domain name
-3. ⬜ Configure SSL certificate
-4. ⬜ Set up monitoring (optional)
-5. ⬜ Configure backups
-6. ⬜ Set up CI/CD (optional)
+---
 
 ## Support
 
 If you encounter issues:
-1. Check PM2 logs: `pm2 logs trendyfashions`
-2. Check Nginx logs: `tail -f /var/log/nginx/error.log`
-3. Verify all services: `systemctl status nginx pm2-root`
+1. Check PM2 logs: `pm2 logs trendyfashionzone`
+2. Check NGINX logs: `sudo tail -f /var/log/nginx/error.log`
+3. Verify environment variables are set correctly
+4. Ensure all services are running: `pm2 status` and `sudo systemctl status nginx`
+
+---
+
+**Your app should now be live at: https://trendyfashionzone.co.ke** 🚀

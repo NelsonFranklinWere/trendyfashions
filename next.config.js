@@ -4,20 +4,6 @@ const nextConfig = {
   images: {
     // Enable Next.js Image Optimization with Supabase
     unoptimized: false,
-    formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.supabase.in',
-      },
-    ],
     // Prefer AVIF over WebP for better compression
     formats: ['image/avif', 'image/webp'],
     // Cache optimized images for 7 days
@@ -29,8 +15,20 @@ const nextConfig = {
     // Security settings
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Remote patterns for external images (if needed in future)
+    // Remote patterns for external images
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.in',
+      },
+      {
+        protocol: 'https',
+        hostname: 'zdeupdkbsueczuoercmm.supabase.co',
+      },
       {
         protocol: 'https',
         hostname: '**.online',
@@ -41,4 +39,3 @@ const nextConfig = {
 }
 
 module.exports = nextConfig
-

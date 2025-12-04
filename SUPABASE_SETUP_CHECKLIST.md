@@ -79,9 +79,21 @@ npm run dev
 - Restart dev server after updating `.env.local`
 
 ### Error: "Failed to upload image to storage"
-- Verify storage bucket `images` exists
-- Check bucket is set to **Public**
-- Verify storage policies allow uploads
+**Most Common Issue:** The storage bucket doesn't exist or has wrong permissions.
+
+**Fix Steps:**
+1. Go to: https://supabase.com/dashboard/project/zdeupdkbsueczuoercmm/storage/buckets
+2. Check if bucket named `images` exists
+3. If it doesn't exist:
+   - Click **"New bucket"**
+   - Name: `images` (exactly this name, lowercase)
+   - **Uncheck** "Private bucket" (make it Public)
+   - Click **"Create bucket"**
+4. If bucket exists but upload fails:
+   - Go to Storage → `images` bucket → Policies
+   - Ensure there's a policy allowing uploads for service role
+   - Or temporarily disable RLS on the bucket for testing
+5. Verify service role key is correct in `.env.local`
 
 ### Error: "Authentication required" on admin pages
 - Run the setup-admin script to create admin user
