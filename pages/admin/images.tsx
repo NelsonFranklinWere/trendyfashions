@@ -13,13 +13,15 @@ const uploadSchema = z.object({
 type UploadFormData = z.infer<typeof uploadSchema>;
 
 const CATEGORIES = [
+  // Officials: includes Official Boots and other formal subcategories
   { value: 'officials', label: 'Officials', subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
   { value: 'sneakers', label: 'Sneakers', subcategories: ['Addidas Campus', 'Addidas Samba', 'Valentino', 'Nike S', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance'] },
   { value: 'vans', label: 'Vans', subcategories: ['Custom', 'Codra', 'Skater', 'Off the Wall'] },
   { value: 'jordan', label: 'Jordan', subcategories: ['Jordan 1', 'Jordan 3', 'Jordan 4', 'Jordan 9', 'Jordan 11', 'Jordan 14'] },
   { value: 'airmax', label: 'Airmax', subcategories: ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'] },
   { value: 'airforce', label: 'Airforce', subcategories: ['Airforce'] },
-  { value: 'casuals', label: 'Casuals', subcategories: ['Casuals'] },
+  // Casuals: restore brand-based subcategories for sorting/filtering on frontend
+  { value: 'casuals', label: 'Casuals', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiggr', 'Boss', 'Other'] },
   { value: 'custom', label: 'Custom', subcategories: ['Custom'] },
 ];
 

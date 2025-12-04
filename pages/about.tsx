@@ -6,15 +6,21 @@ const About = () => {
   return (
     <>
       <NextSeo
-        title="Our Story — 5 Years of Trusted Style | Trendy Fashion Zone"
-        description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Learn about our mission, vision, and commitment to quality."
+        title="About Us - Best Sellers & Quality Original Shoes | Trendy Fashion Zone"
+        description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Best sellers and quality original shoes - trusted by thousands. Learn about our mission, vision, and commitment to authentic brands."
         canonical="https://trendyfashionzone.co.ke/about"
         openGraph={{
           url: 'https://trendyfashionzone.co.ke/about',
-          title: 'Our Story — 5 Years of Trusted Style | Trendy Fashion Zone',
-          description:
-            'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years.',
+          title: 'About Us - Best Sellers & Quality Original Shoes | Trendy Fashion Zone',
+          description: 'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years. Best sellers and quality original shoes.',
+          type: 'website',
         }}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content: 'about Trendy Fashion Zone, best sellers shoe store Nairobi, quality original shoes Kenya, trusted shoe retailer Nairobi, Moi Avenue shoe shop',
+          },
+        ]}
       />
 
       <div className="bg-gradient-to-b from-light/30 to-white py-12 md:py-20">
@@ -27,7 +33,7 @@ const About = () => {
             className="text-center mb-12"
           >
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
-              Our Story — 5 Years of Trusted Style
+              Our Story — Best Sellers & Quality Original Shoes Since 2020
             </h1>
           </motion.div>
 

@@ -60,22 +60,23 @@ const Home = ({
   return (
     <>
       <NextSeo
-        title="Trendy Fashion Zone | Nairobi's #1 Shoe Store"
-        description="Shop sneakers, officials, casuals, Airforce, Airmax, and Jordans in Nairobi. 5 years of trusted fashion at Trendy Fashion Zone."
+        title="Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone"
+        description="Shop best sellers and quality original shoes in Nairobi. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. 5+ years trusted. Free delivery. Located Moi Avenue."
         canonical="https://trendyfashionzone.co.ke"
         openGraph={{
           url: 'https://trendyfashionzone.co.ke',
-          title: 'Trendy Fashion Zone | Nairobi\'s #1 Shoe Store',
-          description: 'Shop sneakers, officials, casuals, Airforce, Airmax, and Jordans in Nairobi. 5 years of trusted fashion at Trendy Fashion Zone.',
+          title: 'Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone',
+          description: 'Shop best sellers and quality original shoes in Nairobi. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. 5+ years trusted.',
           images: [
             {
               url: 'https://trendyfashionzone.co.ke/images/featured-banner.jpg',
               width: 1200,
               height: 630,
-              alt: 'Trendy Fashion Zone',
+              alt: 'Best Sellers - Quality Original Shoes Nairobi',
             },
           ],
           siteName: 'Trendy Fashion Zone',
+          type: 'website',
         }}
         twitter={{
           cardType: 'summary_large_image',
@@ -85,9 +86,69 @@ const Home = ({
           {
             name: 'keywords',
             content:
-              'shoes Nairobi, sneakers Kenya, Airforce, Airmax, Trendy Fashion Zone, Moi Avenue shoe shop',
+              'best sellers shoes Nairobi, quality original shoes Kenya, authentic sneakers Nairobi, best shoes Nairobi, original Nike Airforce, original Airmax Kenya, Clarks officials Nairobi, Jordan shoes Kenya, casual shoes Nairobi, trending footwear Kenya, premium shoes Nairobi, Moi Avenue shoe shop, trusted shoe store Nairobi',
+          },
+          {
+            name: 'author',
+            content: 'Trendy Fashion Zone',
+          },
+          {
+            name: 'robots',
+            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+          },
+          {
+            name: 'googlebot',
+            content: 'index, follow',
           },
         ]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Store',
+            name: 'Trendy Fashion Zone',
+            url: 'https://trendyfashionzone.co.ke',
+            logo: 'https://trendyfashionzone.co.ke/images/logos/Logo.jpg',
+            description: 'Nairobi\'s premier destination for best sellers and quality original shoes. Authentic sneakers, officials, casuals, Airforce, Airmax, and Jordans.',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: 'Moi Avenue',
+              addressLocality: 'Nairobi',
+              addressCountry: 'KE',
+            },
+            contactPoint: {
+              '@type': 'ContactPoint',
+              telephone: '+254743869564',
+              contactType: 'Customer Service',
+            },
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.8',
+              reviewCount: '150',
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            name: 'Trendy Fashion Zone',
+            url: 'https://trendyfashionzone.co.ke',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: {
+                '@type': 'EntryPoint',
+                urlTemplate: 'https://trendyfashionzone.co.ke/collections?search={search_term_string}',
+              },
+              'query-input': 'required name=search_term_string',
+            },
+          }),
+        }}
       />
 
       {/* Hero Section with Background Carousel */}
@@ -133,12 +194,12 @@ const Home = ({
             className="text-center mb-8 md:mb-12"
           >
             <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6">
-              Nairobi&apos;s Premier Shoe Destination
+              Best Sellers & Quality Original Shoes in Nairobi
               <br />
               <span className="text-secondary">Trendy Fashion Zone</span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-white font-body max-w-3xl mx-auto mb-6 md:mb-8 font-medium">
-              From Moi Avenue to your doorstep — Authentic sneakers, stylish kicks, and premium footwear. 
+              Authentic sneakers, trending footwear, and premium quality original shoes. Best sellers from Nike, Jordan, Clarks, and more. 
               <span className="block mt-2 text-base md:text-lg">📍 Located in Nairobi CBD | 🚚 Free delivery in Nairobi</span>
             </p>
             
@@ -219,10 +280,10 @@ const Home = ({
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-              Popular Sneakers
+              Best Sellers: Popular Sneakers
             </h2>
             <p className="text-text font-body">
-              Classic and modern sneakers for every style
+              Quality original sneakers - Nike, Adidas, New Balance, and trending styles
             </p>
               </motion.div>
               <Link
@@ -301,10 +362,10 @@ const Home = ({
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Clarks Official
+                  Best Sellers: Clarks Official Shoes
                 </h2>
                 <p className="text-text font-body">
-                  Premium professional footwear
+                  Quality original Clarks professional footwear - trusted brand
                 </p>
               </motion.div>
               <Link
@@ -342,10 +403,10 @@ const Home = ({
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Stylish Casual Shoes
+                  Best Sellers: Stylish Casual Shoes
                 </h2>
                 <p className="text-text font-body">
-                  Everyday comfort meets style
+                  Quality original casuals - Lacoste, Timberland, Tommy Hilfiger, and more
                 </p>
               </motion.div>
               <Link
@@ -383,10 +444,10 @@ const Home = ({
                 transition={{ duration: 0.3, ease: 'easeOut' }}
               >
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Nike Air Force 1
+                  Best Sellers: Nike Air Force 1
                 </h2>
                 <p className="text-text font-body">
-                  Classic and customized designs
+                  Quality original Air Force 1 - classic and customized designs
                 </p>
               </motion.div>
               <Link
@@ -464,10 +525,10 @@ const Home = ({
               className="text-center mb-12"
             >
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
-              Premium Collections That Define Your Style
+              Quality Original Shoes - Best Sellers & Trending Footwear
             </h2>
             <p className="text-lg text-text font-body max-w-2xl mx-auto font-medium">
-              Every collection is handpicked for quality, authenticity, and style. From office elegance to street-ready sneakers—find your perfect match and stand out from the crowd.
+              Every collection features quality original shoes, best sellers, and trending styles. From office elegance to street-ready sneakers—authentic brands, premium quality, trusted by thousands in Nairobi.
             </p>
           </motion.div>
 

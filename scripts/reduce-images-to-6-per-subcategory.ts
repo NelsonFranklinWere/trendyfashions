@@ -4,6 +4,7 @@ import path from 'path';
 const IMAGES_DIR = path.join(process.cwd(), 'public', 'images');
 
 // Map categories to their subcategories
+// IMPORTANT: Keep this aligned with frontend filters (officials/casuals, etc.)
 const CATEGORY_SUBCATEGORIES: Record<string, string[]> = {
   officials: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'],
   sneakers: ['Addidas Campus', 'Addidas Samba', 'Valentino', 'Nike S', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance'],
@@ -11,7 +12,8 @@ const CATEGORY_SUBCATEGORIES: Record<string, string[]> = {
   jordan: ['Jordan 1', 'Jordan 3', 'Jordan 4', 'Jordan 9', 'Jordan 11', 'Jordan 14'],
   airmax: ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'],
   airforce: ['Airforce'], // Single subcategory
-  casuals: ['Casuals'], // Single subcategory
+  // Casuals brand subcategories (match CASUAL_BRAND_FILTERS)
+  casuals: ['Lacoste', 'Timberland', 'Tommy Hilfiggr', 'Boss', 'Other'],
   custom: ['Custom'], // Single subcategory
 };
 
@@ -83,7 +85,16 @@ function getSubcategoryFromFilename(filename: string, category: string): string 
   }
   
   if (category === 'airforce') return 'Airforce';
-  if (category === 'casuals') return 'Casuals';
+
+  if (category === 'casuals') {
+    // Brand-based casuals mapping (aligned with lib/filters/casuals.ts)
+    if (lower.includes('lacoste')) return 'Lacoste';
+    if (lower.includes('timberland') || lower.includes('timba')) return 'Timberland';
+    if (lower.includes('tommy') || lower.includes('hilfig')) return 'Tommy Hilfiggr';
+    if (lower.includes('boss') || lower.includes('hugo')) return 'Boss';
+    return 'Other';
+  }
+
   if (category === 'custom') return 'Custom';
   
   return null;

@@ -260,13 +260,40 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
   return (
     <>
       <NextSeo
-        title={`${category.name} Collection | Trendy Fashion Zone`}
-        description={category.description}
+        title={`Best Sellers: ${category.name} | Quality Original Shoes Nairobi | Trendy Fashion Zone`}
+        description={`Shop best sellers and quality original ${category.name.toLowerCase()} shoes in Nairobi. ${category.description} Authentic brands, premium quality, trusted by thousands.`}
         canonical={`https://trendyfashionzone.co.ke/collections/${category.slug}`}
         openGraph={{
           url: `https://trendyfashionzone.co.ke/collections/${category.slug}`,
-          title: `${category.name} Collection | Trendy Fashion Zone`,
-          description: category.description,
+          title: `Best Sellers: ${category.name} | Quality Original Shoes Nairobi`,
+          description: `Shop best sellers and quality original ${category.name.toLowerCase()} shoes. ${category.description}`,
+          type: 'website',
+        }}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content: `best sellers ${category.name.toLowerCase()} Nairobi, quality original ${category.name.toLowerCase()} Kenya, authentic ${category.name.toLowerCase()} shoes, ${category.name.toLowerCase()} best sellers, trending ${category.name.toLowerCase()} footwear`,
+          },
+        ]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: `${category.name} Collection - Best Sellers`,
+            description: `Best sellers and quality original ${category.name.toLowerCase()} shoes in Nairobi. ${category.description}`,
+            url: `https://trendyfashionzone.co.ke/collections/${category.slug}`,
+            breadcrumb: {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendyfashionzone.co.ke' },
+                { '@type': 'ListItem', position: 2, name: 'Collections', item: 'https://trendyfashionzone.co.ke/collections' },
+                { '@type': 'ListItem', position: 3, name: category.name, item: `https://trendyfashionzone.co.ke/collections/${category.slug}` },
+              ],
+            },
+          }),
         }}
       />
 
@@ -310,10 +337,10 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
               <div className="text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-2">
-                  {category.name} Collection
+                  Best Sellers: {category.name} Collection
                 </h1>
                 <p className="text-lg md:text-xl text-text font-body max-w-3xl font-medium">
-                  {category.description}
+                  Quality original {category.name.toLowerCase()} shoes - {category.description}
                 </p>
               </div>
               

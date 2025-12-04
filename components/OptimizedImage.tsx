@@ -76,7 +76,23 @@ export default function OptimizedImage({
     );
   }
 
-  const imageProps = {
+  const imageProps: {
+    src: string;
+    alt: string;
+    className: string;
+    quality?: number;
+    priority?: boolean;
+    loading?: 'lazy' | 'eager';
+    sizes?: string;
+    placeholder?: 'blur';
+    blurDataURL?: string;
+    onLoad: () => void;
+    onError: () => void;
+    style: {
+      objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+      objectPosition?: string;
+    };
+  } = {
     src,
     alt,
     className: `${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`,

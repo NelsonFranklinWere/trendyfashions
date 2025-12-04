@@ -48,14 +48,39 @@ const Collections = ({ allProducts }: CollectionsProps) => {
   return (
     <>
       <NextSeo
-        title="Explore Our Exclusive Shoe Collections | Trendy Fashion Zone"
-        description="Discover styles that define comfort, confidence, and class. Browse our complete collection of sneakers, officials, casuals, Airforce, Airmax, and Jordans."
+        title="Best Sellers & Quality Original Shoes Collections | Trendy Fashion Zone"
+        description="Browse best sellers and quality original shoes collections. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. Premium quality, trusted brands, trending footwear in Nairobi."
         canonical="https://trendyfashionzone.co.ke/collections"
         openGraph={{
           url: 'https://trendyfashionzone.co.ke/collections',
-          title: 'Explore Our Exclusive Shoe Collections | Trendy Fashion Zone',
-          description:
-            'Discover styles that define comfort, confidence, and class. Browse our complete collection.',
+          title: 'Best Sellers & Quality Original Shoes Collections | Trendy Fashion Zone',
+          description: 'Browse best sellers and quality original shoes collections. Authentic brands, premium quality, trending footwear.',
+          type: 'website',
+        }}
+        additionalMetaTags={[
+          {
+            name: 'keywords',
+            content: 'best sellers shoes collections Nairobi, quality original shoes Kenya, shoe collections Nairobi, best shoe collections, trending footwear collections, premium shoe collections',
+          },
+        ]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            name: 'Best Sellers & Quality Original Shoes Collections',
+            description: 'Browse best sellers and quality original shoes collections. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans.',
+            url: 'https://trendyfashionzone.co.ke/collections',
+            breadcrumb: {
+              '@type': 'BreadcrumbList',
+              itemListElement: [
+                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendyfashionzone.co.ke' },
+                { '@type': 'ListItem', position: 2, name: 'Collections', item: 'https://trendyfashionzone.co.ke/collections' },
+              ],
+            },
+          }),
         }}
       />
 
@@ -163,10 +188,10 @@ const Collections = ({ allProducts }: CollectionsProps) => {
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-3 sm:mb-4">
-              Explore Our Exclusive Shoe Collections
+              Best Sellers & Quality Original Shoes Collections
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-text font-body max-w-3xl mx-auto font-medium">
-              Discover styles that define comfort, confidence, and class.
+              Browse best sellers and quality original shoes. Authentic brands, premium quality, trending footwear - trusted by thousands in Nairobi.
             </p>
           </motion.div>
 

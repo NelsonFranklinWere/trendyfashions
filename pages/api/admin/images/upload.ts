@@ -23,11 +23,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // TODO: Add authentication check here
-  // const authHeader = req.headers.authorization;
-  // if (!authHeader || !isValidToken(authHeader)) {
-  //   return res.status(401).json({ error: 'Unauthorized' });
-  // }
+  // Check if Supabase is configured
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return res.status(500).json({ 
+      error: 'Supabase configuration missing',
+      details: 'Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your .env.local file'
+    });
+  }
+
+  // Require authentication
+  const { requireAuth } = await import('@/lib/auth/middleware');
+  const isAuthenticated = await requireAuth(req as any, res);
+  if (!isAuthenticated) {
+    return;
+  }
 
   try {
     const form = formidable({
