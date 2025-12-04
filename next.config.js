@@ -2,8 +2,22 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Disable Next.js Image Optimization - Nginx serves images directly (faster)
-    unoptimized: true,
+    // Enable Next.js Image Optimization with Supabase
+    unoptimized: false,
+    formats: ['image/avif', 'image/webp'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.in',
+      },
+    ],
     // Prefer AVIF over WebP for better compression
     formats: ['image/avif', 'image/webp'],
     // Cache optimized images for 7 days

@@ -53,6 +53,9 @@ const SmartImage = ({
     return `data:image/svg+xml;base64,${toBase64(shimmer(shimmerWidth, shimmerHeight))}`;
   }, [placeholder, blurDataURL, shimmerWidth, shimmerHeight]);
 
+  // Optimize sizes for responsive loading
+  const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
+
   return (
     <NextImage
       {...props}
@@ -60,6 +63,8 @@ const SmartImage = ({
       placeholder={placeholder}
       blurDataURL={fallbackBlur}
       loading={props.loading || (props.priority ? 'eager' : 'lazy')}
+      sizes={optimizedSizes}
+      // Enable automatic format optimization (WebP/AVIF)
       className={cn(
         'duration-500 ease-out will-change-transform',
         isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]',
