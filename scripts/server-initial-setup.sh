@@ -98,3 +98,4 @@ echo "  3. Run: npm install && npm run build"
 echo "  4. Start with PM2: pm2 start ecosystem.config.js"
 echo "  5. Configure NGINX (see deployment guide)"
 echo "  6. Setup SSL: sudo certbot --nginx -d trendyfashionzone.co.ke -d www.trendyfashionzone.co.ke"
+

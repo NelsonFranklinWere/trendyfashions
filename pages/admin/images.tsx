@@ -7,7 +7,7 @@ import Image from 'next/image';
 const uploadSchema = z.object({
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().min(1, 'Subcategory is required'),
-  file: z.instanceof(FileList).refine((files) => files.length > 0, 'File is required'),
+  file: z.any().refine((files) => files && files.length > 0, 'File is required'),
 });
 
 type UploadFormData = z.infer<typeof uploadSchema>;

@@ -96,3 +96,4 @@ echo "  http://${DROPLET_IP}"
 echo "  https://trendyfashionzone.co.ke"
 echo ""
 echo "To check logs: ssh ${DROPLET_USER}@${DROPLET_IP} 'pm2 logs ${APP_NAME}'"
+

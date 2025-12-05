@@ -80,3 +80,4 @@ export DROPLET_IP=YOUR_IP
 export DROPLET_USER=trendyfashion
 ./scripts/deploy-to-digitalocean.sh
 ```
+

@@ -70,3 +70,4 @@ fi
 echo ""
 echo "✅ NGINX configured successfully!"
 echo "Your app should now be accessible at: http://${DOMAIN}"
+
