@@ -185,7 +185,11 @@ export default function AdminImagesPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90"
               />
               {errors.file && (
-                <p className="mt-1 text-sm text-red-600">{errors.file.message}</p>
+                <p className="mt-1 text-sm text-red-600">
+                  {typeof errors.file === 'object' && 'message' in errors.file
+                    ? errors.file.message
+                    : 'File is required'}
+                </p>
               )}
             </div>
 

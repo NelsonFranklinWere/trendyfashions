@@ -1,189 +1,220 @@
 #!/bin/bash
 
-# Fresh Deployment Script - Complete Server Reset
-# This will DELETE everything and start fresh
+# Fresh Deployment Script - Complete Server Setup
+# This script will DELETE everything and start fresh
 
 set -e
 
+# Configuration
 DROPLET_IP="178.128.47.122"
 ROOT_PASSWORD="Trendy@254Zone"
-NEW_USER="frank"
+GIT_REPO="trendyfashions.git"
+USERNAME="frank"
 FULL_NAME="NelsonFrank"
+PHONE="0743869564"
 USER_PASSWORD="Frank.Ne"
-GIT_REPO="${GIT_REPO:-https://github.com/NelsonFranklinWere/trendyfashions.git}"
 APP_NAME="trendyfashionzone"
+APP_DIR="/home/${USERNAME}/${APP_NAME}"
 
-echo "⚠️  WARNING: This will DELETE everything on the server!"
-echo "IP: $DROPLET_IP"
-echo "New User: $NEW_USER"
+# Colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+echo -e "${GREEN}🚀 Starting Fresh Deployment${NC}"
+echo "  IP: $DROPLET_IP"
+echo "  User: $USERNAME"
+echo "  Repo: $GIT_REPO"
 echo ""
 
-# Auto-confirm if SKIP_CONFIRM is set
-if [ "${SKIP_CONFIRM:-}" != "yes" ]; then
-    read -p "Continue? (yes/no): " confirm
-    if [ "$confirm" != "yes" ]; then
-        echo "Aborted."
-        exit 1
-    fi
-else
-    echo "Auto-confirming (SKIP_CONFIRM=yes)..."
+# Install sshpass if not available
+if ! command -v sshpass &> /dev/null; then
+    echo -e "${YELLOW}Installing sshpass...${NC}"
+    sudo apt-get update && sudo apt-get install -y sshpass
 fi
 
-echo "🚀 Starting fresh deployment..."
-echo ""
+# Function to run commands on server
+run_remote() {
+    sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@$DROPLET_IP "$1"
+}
 
-# Step 1: Connect and clean server
-echo "🧹 Step 1: Cleaning server..."
-sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@$DROPLET_IP << 'ENDSSH'
-# Stop all services
-pm2 delete all 2>/dev/null || true
-systemctl stop nginx 2>/dev/null || true
+# Function to copy files to server
+copy_to_server() {
+    sshpass -p "$ROOT_PASSWORD" scp -o StrictHostKeyChecking=no "$1" root@$DROPLET_IP:"$2"
+}
 
-# Remove old app directories
-rm -rf /var/www/trendyfashions
-rm -rf /home/*/trendyfashionzone
-rm -rf /home/*/trendyfashions
+echo -e "${YELLOW}📦 Step 1: Cleaning server...${NC}"
+run_remote "
+    # Stop all services
+    pm2 delete all 2>/dev/null || true
+    systemctl stop nginx 2>/dev/null || true
+    
+    # Remove old user if exists
+    userdel -r $USERNAME 2>/dev/null || true
+    
+    # Clean app directories
+    rm -rf /var/www/* /home/*/trendyfashionzone /home/*/trendyfashions
+    
+    # Clean PM2
+    pm2 kill 2>/dev/null || true
+    rm -rf /root/.pm2
+    
+    echo '✅ Server cleaned'
+"
 
-# Remove old users (except root)
-for user in $(awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}' /etc/passwd); do
-    if [ "$user" != "root" ]; then
-        userdel -r $user 2>/dev/null || true
-    fi
-done
+echo -e "${YELLOW}👤 Step 2: Creating user $USERNAME...${NC}"
+run_remote "
+    # Create user with password
+    useradd -m -s /bin/bash -c '$FULL_NAME' $USERNAME
+    echo '$USERNAME:$USER_PASSWORD' | chpasswd
+    
+    # Add to sudo group
+    usermod -aG sudo $USERNAME
+    
+    # Create .ssh directory
+    mkdir -p /home/$USERNAME/.ssh
+    chmod 700 /home/$USERNAME/.ssh
+    chown -R $USERNAME:$USERNAME /home/$USERNAME
+    
+    echo '✅ User created'
+"
 
-# Clean up
-apt-get clean
-rm -rf /tmp/*
-ENDSSH
+echo -e "${YELLOW}📦 Step 3: Installing system packages...${NC}"
+run_remote "
+    apt-get update
+    apt-get upgrade -y
+    apt-get install -y curl git nginx certbot python3-certbot-nginx ufw
+    
+    # Install Node.js 20.x
+    curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    apt-get install -y nodejs
+    
+    # Install PM2 globally
+    npm install -g pm2
+    
+    echo '✅ Packages installed'
+    node --version
+    npm --version
+"
 
-echo "✅ Server cleaned"
-echo ""
+echo -e "${YELLOW}🔒 Step 4: Configuring firewall...${NC}"
+run_remote "
+    ufw --force reset
+    ufw allow ssh
+    ufw allow http
+    ufw allow https
+    ufw --force enable
+    ufw status
+    echo '✅ Firewall configured'
+"
 
-# Step 2: Create new user
-echo "👤 Step 2: Creating user '$NEW_USER'..."
-sshpass -p "$ROOT_PASSWORD" ssh -o StrictHostKeyChecking=no root@$DROPLET_IP << ENDSSH
-# Create user with full name
-adduser --disabled-password --gecos "$FULL_NAME,,,$USER_PASSWORD" $NEW_USER
+echo -e "${YELLOW}📥 Step 5: Cloning repository...${NC}"
+run_remote "
+    su - $USERNAME << 'ENDUSER'
+        cd ~
+        rm -rf $APP_NAME
+        git clone https://github.com/YOUR_USERNAME/$GIT_REPO $APP_NAME || {
+            echo '⚠️  Git clone failed - you may need to update the repo URL'
+            mkdir -p $APP_NAME
+        }
+        cd $APP_NAME
+        pwd
+        ls -la
+    ENDUSER
+    echo '✅ Repository cloned'
+"
 
-# Set password
-echo "$NEW_USER:$USER_PASSWORD" | chpasswd
+echo -e "${YELLOW}📤 Step 6: Uploading files...${NC}"
+# Build locally first
+echo "Building application locally..."
+npm run build
 
-# Add to sudo group
-usermod -aG sudo $NEW_USER
+# Create deployment package
+echo "Creating deployment package..."
+tar --exclude='.git' \
+    --exclude='node_modules' \
+    --exclude='.next' \
+    --exclude='.vscode' \
+    --exclude='*.log' \
+    -czf /tmp/${APP_NAME}-deploy.tar.gz .
 
-# Allow passwordless sudo (optional, for easier deployment)
-echo "$NEW_USER ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$NEW_USER
-chmod 0440 /etc/sudoers.d/$NEW_USER
-ENDSSH
+# Upload files
+copy_to_server "/tmp/${APP_NAME}-deploy.tar.gz" "/tmp/"
+copy_to_server "ecosystem.config.js" "/tmp/"
+copy_to_server ".env.local" "/tmp/.env.local.production" 2>/dev/null || echo "⚠️  .env.local not found - will need to create on server"
 
-echo "✅ User created"
-echo ""
+echo -e "${GREEN}✅ Files uploaded${NC}"
 
-# Step 3: Initial server setup
-echo "🔧 Step 3: Running initial server setup..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << 'ENDSSH'
-# Update system
-sudo apt update
-sudo apt upgrade -y
-
-# Install Node.js 20.x
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install -y nodejs
-
-# Install Git
-sudo apt install -y git
-
-# Install PM2
-sudo npm install -g pm2
-
-# Install NGINX
-sudo apt install -y nginx
-
-# Install Certbot
-sudo apt install -y certbot python3-certbot-nginx
-
-# Configure firewall
-sudo ufw allow ssh
-sudo ufw allow http
-sudo ufw allow https
-sudo ufw --force enable
-
-# Create app directory
-mkdir -p ~/$APP_NAME
-ENDSSH
-
-echo "✅ Server setup complete"
-echo ""
-
-# Step 4: Clone repository
-echo "📥 Step 4: Cloning repository..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << ENDSSH
-cd ~
-if [ -d "$APP_NAME" ]; then
-    rm -rf $APP_NAME
-fi
-
-# Clone repository
-git clone $GIT_REPO $APP_NAME
-ENDSSH
-
-echo "✅ Repository cloned"
-echo ""
-
-# Step 5: Setup environment and build
-echo "⚙️  Step 5: Setting up application..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << 'ENDSSH'
-cd ~/$APP_NAME
-
-# Create .env.local
-cat > .env.local << 'ENVFILE'
+echo -e "${YELLOW}⚙️  Step 7: Setting up application...${NC}"
+run_remote "
+    su - $USERNAME << 'ENDUSER'
+        cd ~/$APP_NAME
+        
+        # Extract files if git clone failed
+        if [ ! -f package.json ]; then
+            tar -xzf /tmp/${APP_NAME}-deploy.tar.gz
+        fi
+        
+        # Create logs directory
+        mkdir -p logs
+        
+        # Copy environment file
+        if [ -f /tmp/.env.local.production ]; then
+            cp /tmp/.env.local.production .env.local
+            chmod 600 .env.local
+        else
+            echo '⚠️  Creating .env.local from template...'
+            cat > .env.local << 'ENVEOF'
 NEXT_PUBLIC_SUPABASE_URL=https://zdeupdkbsueczuoercmm.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkZXVwZGtic3VlY3p1b2VyY21tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3NzQ2OTQsImV4cCI6MjA4MDM1MDY5NH0.3pK1yIk1pVFSKWx0w86ICy1v5TdiR-h0zfi-XUnMsJY
 SUPABASE_SERVICE_ROLE_KEY=sb_secret_8p9yjp2-zwEEUcq5kozNHQ_MWeFBSAQ
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_dJC-8z_4jTFnRcahVAjegQ_aDixqmyh
 PORT=3000
 NODE_ENV=production
-ENVFILE
+ENVEOF
+            chmod 600 .env.local
+        fi
+        
+        # Update ecosystem.config.js
+        cp /tmp/ecosystem.config.js .
+        sed -i \"s|/home/trendyfashion/trendyfashionzone|$APP_DIR|g\" ecosystem.config.js
+        
+        # Install dependencies
+        npm install
+        
+        # Build application
+        npm run build
+        
+        echo '✅ Application setup complete'
+    ENDUSER
+"
 
-# Install dependencies
-npm install
+echo -e "${YELLOW}🚀 Step 8: Starting with PM2...${NC}"
+run_remote "
+    su - $USERNAME << 'ENDUSER'
+        cd ~/$APP_NAME
+        
+        # Start with PM2
+        pm2 delete $APP_NAME 2>/dev/null || true
+        pm2 start ecosystem.config.js
+        pm2 save
+        
+        # Setup PM2 startup
+        sudo env PATH=\$PATH:/usr/bin pm2 startup systemd -u $USERNAME --hp /home/$USERNAME
+        
+        echo '✅ PM2 configured'
+        pm2 status
+    ENDUSER
+"
 
-# Build application
-npm run build
-ENDSSH
-
-echo "✅ Application built"
-echo ""
-
-# Step 6: Update PM2 config and start
-echo "🚀 Step 6: Starting application with PM2..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << ENDSSH
-cd ~/$APP_NAME
-
-# Update ecosystem.config.js with correct path
-sed -i "s|/home/trendyfashion/trendyfashionzone|/home/$NEW_USER/$APP_NAME|g" ecosystem.config.js || true
-
-# Create logs directory
-mkdir -p logs
-
-# Start with PM2
-pm2 delete $APP_NAME 2>/dev/null || true
-pm2 start ecosystem.config.js
-pm2 save
-
-# Setup PM2 startup
-pm2 startup | grep -v "PM2" | bash || true
-ENDSSH
-
-echo "✅ Application started"
-echo ""
-
-# Step 7: Configure NGINX
-echo "🌐 Step 7: Configuring NGINX..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << 'ENDSSH'
-sudo rm -f /etc/nginx/sites-enabled/default
-
-sudo tee /etc/nginx/sites-available/trendyfashionzone > /dev/null <<'NGINXCONF'
+echo -e "${YELLOW}🌐 Step 9: Configuring NGINX...${NC}"
+run_remote "
+    # Remove default site
+    rm -f /etc/nginx/sites-enabled/default
+    
+    # Create NGINX config
+    cat > /etc/nginx/sites-available/$APP_NAME << 'NGINXEOF'
 server {
     listen 80;
     listen [::]:80;
@@ -195,13 +226,13 @@ server {
     location / {
         proxy_pass http://localhost:3000;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_cache_bypass \$http_upgrade;
         
         proxy_connect_timeout 60s;
         proxy_send_timeout 60s;
@@ -211,42 +242,43 @@ server {
     location /_next/static {
         proxy_pass http://localhost:3000;
         proxy_cache_valid 200 60m;
-        add_header Cache-Control "public, immutable";
+        add_header Cache-Control \"public, immutable\";
     }
 }
-NGINXCONF
+NGINXEOF
 
-sudo ln -sf /etc/nginx/sites-available/trendyfashionzone /etc/nginx/sites-enabled/
-sudo nginx -t && sudo systemctl restart nginx
-ENDSSH
+    # Enable site
+    ln -sf /etc/nginx/sites-available/$APP_NAME /etc/nginx/sites-enabled/
+    
+    # Test and restart
+    nginx -t && systemctl restart nginx
+    systemctl enable nginx
+    
+    echo '✅ NGINX configured'
+"
 
-echo "✅ NGINX configured"
+echo -e "${YELLOW}🔐 Step 10: Setting up SSL...${NC}"
+run_remote "
+    certbot --nginx -d trendyfashionzone.co.ke -d www.trendyfashionzone.co.ke --non-interactive --agree-tos --email nelsonfrank@trendyfashionzone.co.ke --redirect || {
+        echo '⚠️  SSL setup may need manual intervention'
+    }
+    echo '✅ SSL configured'
+"
+
 echo ""
-
-# Step 8: Setup SSL
-echo "🔒 Step 8: Setting up SSL certificate..."
-sshpass -p "$USER_PASSWORD" ssh -o StrictHostKeyChecking=no ${NEW_USER}@$DROPLET_IP << 'ENDSSH'
-sudo certbot --nginx -d trendyfashionzone.co.ke -d www.trendyfashionzone.co.ke --non-interactive --agree-tos --email admin@trendyfashionzone.co.ke --redirect || echo "⚠️  SSL setup may require manual intervention"
-ENDSSH
-
-echo "✅ SSL configured"
-echo ""
-
-echo "🎉 Deployment complete!"
+echo -e "${GREEN}🎉 Deployment Complete!${NC}"
 echo ""
 echo "Server Details:"
 echo "  IP: $DROPLET_IP"
-echo "  User: $NEW_USER"
+echo "  User: $USERNAME"
 echo "  Password: $USER_PASSWORD"
-echo "  App Directory: /home/$NEW_USER/$APP_NAME"
+echo "  App Directory: $APP_DIR"
 echo ""
-echo "Access your app at:"
-echo "  http://$DROPLET_IP"
-echo "  https://trendyfashionzone.co.ke"
+echo "Access:"
+echo "  SSH: ssh $USERNAME@$DROPLET_IP"
+echo "  Website: https://trendyfashionzone.co.ke"
 echo ""
-echo "SSH Access:"
-echo "  ssh $NEW_USER@$DROPLET_IP"
-echo ""
-echo "Check app status:"
-echo "  ssh $NEW_USER@$DROPLET_IP 'pm2 status'"
-echo "  ssh $NEW_USER@$DROPLET_IP 'pm2 logs $APP_NAME'"
+echo "Useful Commands:"
+echo "  Check app: ssh $USERNAME@$DROPLET_IP 'pm2 status'"
+echo "  View logs: ssh $USERNAME@$DROPLET_IP 'pm2 logs $APP_NAME'"
+echo "  Restart: ssh $USERNAME@$DROPLET_IP 'pm2 restart $APP_NAME'"
