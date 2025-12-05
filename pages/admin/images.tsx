@@ -186,9 +186,7 @@ export default function AdminImagesPage() {
               />
               {errors.file && (
                 <p className="mt-1 text-sm text-red-600">
-                  {typeof errors.file === 'object' && 'message' in errors.file
-                    ? errors.file.message
-                    : 'File is required'}
+                  {errors.file?.message ? String(errors.file.message) : 'File is required'}
                 </p>
               )}
             </div>
