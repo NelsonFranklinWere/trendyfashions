@@ -37,6 +37,7 @@ export default function AddProduct() {
   const { user, loading: authLoading } = useAdminAuth();
   const [submitting, setSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [availableImages, setAvailableImages] = useState<Array<{ id: string; url: string; category: string; subcategory: string }>>([]);
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -124,14 +125,14 @@ export default function AddProduct() {
   }
 
   // Handle file upload from device
-  const handleFileUpload = async (file: File) => {
+  const handleFileUpload = async (file: File, index?: number) => {
     if (!selectedCategory || !selectedSubcategory) {
       alert('Please select category and subcategory first');
       return;
     }
 
     setUploadingImage(true);
-    setUploadProgress('Uploading image...');
+    setUploadProgress(`Uploading image ${index !== undefined ? `${index + 1}/4` : ''}...`);
 
     try {
       const formData = new FormData();
@@ -150,7 +151,6 @@ export default function AddProduct() {
           const error = await response.json();
           errorMessage = error.error || error.details || errorMessage;
         } catch (e) {
-          // If response is not JSON, try to get text
           const text = await response.text();
           if (text) {
             errorMessage = text;
@@ -163,9 +163,19 @@ export default function AddProduct() {
       const imageUrl = result.image?.url || result.imageUrl;
 
       if (imageUrl) {
-        setValue('image', imageUrl);
-        setImagePreview(imageUrl);
-        setUploadProgress('Image uploaded successfully!');
+        if (index !== undefined) {
+          // Multiple images mode
+          setUploadedImages(prev => {
+            const newImages = [...prev];
+            newImages[index] = imageUrl;
+            return newImages;
+          });
+        } else {
+          // Single image mode
+          setValue('image', imageUrl);
+          setImagePreview(imageUrl);
+        }
+        setUploadProgress(`Image ${index !== undefined ? `${index + 1}/4` : ''} uploaded successfully!`);
       } else {
         throw new Error('No image URL returned from upload');
       }
@@ -180,20 +190,73 @@ export default function AddProduct() {
     }
   };
 
+  const handleMultipleFileUpload = async (files: FileList) => {
+    if (!selectedCategory || !selectedSubcategory) {
+      alert('Please select category and subcategory first');
+      return;
+    }
+
+    const fileArray = Array.from(files).slice(0, 4); // Limit to 4 images
+    
+    if (fileArray.length === 0) {
+      alert('Please select at least one image');
+      return;
+    }
+
+    if (fileArray.length > 4) {
+      alert('Maximum 4 images allowed');
+      return;
+    }
+
+    setUploadedImages([]);
+    setUploadingImage(true);
+    setUploadProgress('Uploading images...');
+
+    try {
+      const uploadPromises = fileArray.map((file, index) => {
+        // Validate file
+        if (!file.type.startsWith('image/')) {
+          throw new Error(`File ${index + 1} is not an image`);
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          throw new Error(`File ${index + 1} is larger than 10MB`);
+        }
+        return handleFileUpload(file, index);
+      });
+
+      // Upload images sequentially to avoid overwhelming the server
+      for (let i = 0; i < fileArray.length; i++) {
+        await handleFileUpload(fileArray[i], i);
+      }
+      setUploadProgress(`Successfully uploaded ${fileArray.length} images!`);
+    } catch (error: any) {
+      setUploadProgress('');
+      alert(`Upload failed: ${error.message}`);
+    } finally {
+      setUploadingImage(false);
+      setTimeout(() => setUploadProgress(''), 5000);
+    }
+  };
+
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
-        return;
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      if (files.length === 1) {
+        // Single image mode
+        const file = files[0];
+        if (!file.type.startsWith('image/')) {
+          alert('Please select an image file');
+          return;
+        }
+        if (file.size > 10 * 1024 * 1024) {
+          alert('Image size must be less than 10MB');
+          return;
+        }
+        handleFileUpload(file);
+      } else {
+        // Multiple images mode
+        handleMultipleFileUpload(files);
       }
-      // Validate file size (10MB max)
-      if (file.size > 10 * 1024 * 1024) {
-        alert('Image size must be less than 10MB');
-        return;
-      }
-      handleFileUpload(file);
     }
   };
 
@@ -201,23 +264,51 @@ export default function AddProduct() {
     setSubmitting(true);
     try {
       const tagsArray = data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [];
-
-      const response = await fetch('/api/admin/products', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...data,
-          tags: tagsArray,
-        }),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to create product');
+      
+      // Determine which images to use
+      const imagesToUse = uploadedImages.length > 0 ? uploadedImages.filter(Boolean) : [data.image];
+      
+      if (imagesToUse.length === 0) {
+        alert('Please upload at least one image');
+        setSubmitting(false);
+        return;
       }
 
+      // Create products for each image
+      const productPromises = imagesToUse.map((imageUrl) => {
+        return fetch('/api/admin/products', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...data,
+            image: imageUrl,
+            tags: tagsArray,
+          }),
+        });
+      });
+
+      const responses = await Promise.all(productPromises);
+      
+      const errors = [];
+      for (const response of responses) {
+        if (!response.ok) {
+          const error = await response.json();
+          errors.push(error.error || 'Failed to create product');
+        }
+      }
+
+      if (errors.length > 0) {
+        throw new Error(errors.join(', '));
+      }
+
+      // Success - show message and redirect
+      const successMessage = imagesToUse.length > 1 
+        ? `Successfully created ${imagesToUse.length} products with the same details!`
+        : 'Product created successfully!';
+      
+      alert(successMessage);
       router.push('/admin/products');
     } catch (error: any) {
       alert(error.message || 'Failed to create product');
@@ -335,64 +426,90 @@ export default function AddProduct() {
           {/* Image Upload */}
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-              Product Image *
+              Product Images * (Upload 1-4 images)
             </label>
-            
-            <div className="flex gap-4 items-start">
-              {/* File Upload Section */}
-              <div className="flex-1 mb-4">
-                {/* File Upload */}
-                <div className="mb-4">
-                  <label htmlFor="file-upload" className="block text-sm font-medium text-gray-700 mb-2">
-                    Upload from Device
-                  </label>
-                  <input
-                    id="file-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileInputChange}
-                    disabled={uploadingImage || !selectedCategory || !selectedSubcategory}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  />
-                  {!selectedCategory || !selectedSubcategory ? (
-                    <p className="mt-1 text-xs text-gray-500">Please select category and subcategory first</p>
-                  ) : null}
-                  {uploadProgress && (
-                    <p className={`mt-1 text-sm ${uploadProgress.includes('successfully') ? 'text-green-600' : 'text-blue-600'}`}>
-                      {uploadProgress}
-                    </p>
+            <p className="text-xs text-gray-500 mb-2">
+              Upload up to 4 images. All images will create separate products with the same name, description, and price.
+            </p>
+            <div className="mb-4">
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileInputChange}
+                disabled={uploadingImage || !selectedCategory || !selectedSubcategory}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+              {!selectedCategory || !selectedSubcategory ? (
+                <p className="mt-1 text-xs text-gray-500">Please select category and subcategory first</p>
+              ) : (
+                <p className="mt-1 text-xs text-gray-500">You can select 1-4 images at once</p>
+              )}
+              {uploadProgress && (
+                <p className={`mt-1 text-sm ${uploadProgress.includes('successfully') ? 'text-green-600' : 'text-blue-600'}`}>
+                  {uploadProgress}
+                </p>
+              )}
+            </div>
+
+            {/* Image Previews Grid */}
+            {(uploadedImages.length > 0 || imagePreview || selectedImage) && (
+              <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Image Previews ({uploadedImages.length > 0 ? uploadedImages.length : 1} image{uploadedImages.length > 1 ? 's' : ''})
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {uploadedImages.length > 0 ? (
+                    uploadedImages.map((imgUrl, index) => (
+                      imgUrl && (
+                        <div key={index} className="relative">
+                          <div className="relative w-full h-32 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-100">
+                            <Image
+                              src={imgUrl}
+                              alt={`Product preview ${index + 1}`}
+                              fill
+                              className="object-cover"
+                              onError={() => {
+                                setUploadedImages(prev => prev.filter((_, i) => i !== index));
+                              }}
+                            />
+                          </div>
+                          <p className="mt-1 text-xs text-gray-500 text-center">Image {index + 1}</p>
+                        </div>
+                      )
+                    ))
+                  ) : (
+                    (imagePreview || selectedImage) && (
+                      <div className="relative">
+                        <div className="relative w-full h-32 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-100">
+                          <Image
+                            src={imagePreview || selectedImage || ''}
+                            alt="Product preview"
+                            fill
+                            className="object-cover"
+                            onError={() => setImagePreview('')}
+                          />
+                        </div>
+                        <p className="mt-1 text-xs text-gray-500 text-center">Single Image</p>
+                      </div>
+                    )
                   )}
                 </div>
               </div>
-
-              {/* Image Preview */}
-              {(imagePreview || selectedImage) && (
-                <div className="flex-shrink-0">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Preview</label>
-                  <div className="relative w-32 h-32 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-100">
-                    <Image
-                      src={imagePreview || selectedImage || ''}
-                      alt="Product preview"
-                      fill
-                      className="object-cover"
-                      onError={() => setImagePreview('')}
-                    />
-                  </div>
-                  <p className="mt-2 text-xs text-gray-500 break-all max-w-[128px]">
-                    {imagePreview || selectedImage}
-                  </p>
-                </div>
-              )}
-            </div>
+            )}
 
             {/* Hidden image URL field for form validation */}
             <input
               id="image"
               type="hidden"
               {...register('image')}
+              value={uploadedImages.length > 0 ? uploadedImages[0] : (imagePreview || selectedImage || '')}
             />
             {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>}
-
+            {uploadedImages.length === 0 && !imagePreview && !selectedImage && (
+              <p className="mt-1 text-sm text-red-600">Please upload at least one image</p>
+            )}
           </div>
 
           {/* Gender */}
