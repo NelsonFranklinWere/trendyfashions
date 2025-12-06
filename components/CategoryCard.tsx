@@ -55,6 +55,7 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
               src={category.image}
               alt={category.name}
               fill
+              priority
               className={cn(
                 "group-hover:scale-110 transition-transform duration-700 ease-out",
                 isSpecialCategory ? "object-contain" : "object-cover"
@@ -62,6 +63,7 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
               shimmerWidth={isSpecialCategory ? 800 : 600}
               shimmerHeight={isSpecialCategory ? 600 : 600}
+              quality={85}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             {/* Click indicator overlay */}

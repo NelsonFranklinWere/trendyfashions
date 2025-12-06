@@ -151,7 +151,6 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
             quality={80}
-            priority={index < 8}
           />
           {product.tags?.includes('New Arrivals') && (
             <div className="absolute top-3 left-3 bg-secondary text-white px-3 py-1.5 rounded-full text-xs font-body font-bold z-10 shadow-lg">
