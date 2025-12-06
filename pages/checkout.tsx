@@ -23,6 +23,9 @@ const CheckoutPage = () => {
     city: '',
     deliveryNotes: '',
   });
+  
+  // Get base URL for product links
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://trendyfashionzone.co.ke';
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
@@ -31,11 +34,31 @@ const CheckoutPage = () => {
       return;
     }
 
-    // Build WhatsApp message with order details
+    // Build WhatsApp message with order details including product image links
     const orderItems = items.map((item) => {
       const lineTotal = formatPrice(item.price * item.quantity);
-      return `• ${item.quantity}x ${item.name} - ${lineTotal}`;
-    }).join('\n');
+      // Create full URL to product image
+      let imageLink = item.image;
+      if (!imageLink.startsWith('http')) {
+        // Handle relative paths
+        if (imageLink.startsWith('/')) {
+          imageLink = `${baseUrl}${imageLink}`;
+        } else {
+          imageLink = `${baseUrl}/${imageLink}`;
+        }
+      }
+      // Create link to category page if available
+      const categoryLink = item.category 
+        ? `${baseUrl}/collections/${item.category}` 
+        : null;
+      
+      let itemLine = `• ${item.quantity}x ${item.name} - ${lineTotal}`;
+      itemLine += `\n  📷 Image Link: ${imageLink}`;
+      if (categoryLink) {
+        itemLine += `\n  🔗 View Product: ${categoryLink}`;
+      }
+      return itemLine;
+    }).join('\n\n');
 
     const message = [
       '🛍️ *NEW ORDER REQUEST*',

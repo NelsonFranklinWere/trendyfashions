@@ -11,7 +11,19 @@ const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
   description: z.string().min(1, 'Description is required'),
   price: z.number().min(0.01, 'Price must be greater than 0'),
-  image: z.string().url('Valid image URL is required'),
+  image: z.string().min(1, 'Please upload at least one image').refine(
+    (url) => {
+      // Allow empty string during upload, but validate URL format if provided
+      if (!url || url.trim() === '') return false;
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    { message: 'Valid image URL is required' }
+  ),
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().min(1, 'Subcategory is required'),
   gender: z.enum(['Men', 'Unisex']).optional(),
@@ -160,24 +172,34 @@ export default function AddProduct() {
       }
 
       const result = await response.json();
-      const imageUrl = result.image?.url || result.imageUrl;
+      const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
 
-      if (imageUrl) {
-        if (index !== undefined) {
-          // Multiple images mode
-          setUploadedImages(prev => {
-            const newImages = [...prev];
-            newImages[index] = imageUrl;
-            return newImages;
-          });
-        } else {
-          // Single image mode
-          setValue('image', imageUrl);
-          setImagePreview(imageUrl);
+      if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
+        // Ensure it's a valid URL
+        try {
+          new URL(imageUrl);
+          if (index !== undefined) {
+            // Multiple images mode
+            setUploadedImages(prev => {
+              const newImages = [...prev];
+              newImages[index] = imageUrl;
+              return newImages;
+            });
+            // Also update the hidden field with the first image
+            if (index === 0) {
+              setValue('image', imageUrl, { shouldValidate: true });
+            }
+          } else {
+            // Single image mode
+            setValue('image', imageUrl, { shouldValidate: true });
+            setImagePreview(imageUrl);
+          }
+          setUploadProgress(`Image ${index !== undefined ? `${index + 1}/4` : ''} uploaded successfully!`);
+        } catch (urlError) {
+          throw new Error(`Invalid image URL format: ${imageUrl}`);
         }
-        setUploadProgress(`Image ${index !== undefined ? `${index + 1}/4` : ''} uploaded successfully!`);
       } else {
-        throw new Error('No image URL returned from upload');
+        throw new Error('No valid image URL returned from upload');
       }
     } catch (error: any) {
       setUploadProgress('');
@@ -265,11 +287,29 @@ export default function AddProduct() {
     try {
       const tagsArray = data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [];
       
-      // Determine which images to use
-      const imagesToUse = uploadedImages.length > 0 ? uploadedImages.filter(Boolean) : [data.image];
+      // Determine which images to use - prioritize uploadedImages
+      const imagesToUse = uploadedImages.length > 0 
+        ? uploadedImages.filter(Boolean) 
+        : (data.image && data.image.trim() !== '' ? [data.image] : []);
       
       if (imagesToUse.length === 0) {
-        alert('Please upload at least one image');
+        alert('Please upload at least one image before submitting');
+        setSubmitting(false);
+        return;
+      }
+
+      // Validate all image URLs
+      const invalidImages = imagesToUse.filter(url => {
+        try {
+          new URL(url);
+          return false;
+        } catch {
+          return true;
+        }
+      });
+
+      if (invalidImages.length > 0) {
+        alert('One or more image URLs are invalid. Please re-upload the images.');
         setSubmitting(false);
         return;
       }
@@ -503,7 +543,34 @@ export default function AddProduct() {
             <input
               id="image"
               type="hidden"
-              {...register('image')}
+              {...register('image', {
+                required: 'Please upload at least one image',
+                validate: (value) => {
+                  // If we have uploaded images, use those instead
+                  if (uploadedImages.length > 0) {
+                    const firstImage = uploadedImages[0];
+                    if (!firstImage || firstImage.trim() === '') {
+                      return 'Please wait for image upload to complete';
+                    }
+                    try {
+                      new URL(firstImage);
+                      return true;
+                    } catch {
+                      return 'Invalid image URL format';
+                    }
+                  }
+                  // Otherwise validate the provided value
+                  if (!value || value.trim() === '') {
+                    return 'Please upload at least one image';
+                  }
+                  try {
+                    new URL(value);
+                    return true;
+                  } catch {
+                    return 'Valid image URL is required';
+                  }
+                }
+              })}
               value={uploadedImages.length > 0 ? uploadedImages[0] : (imagePreview || selectedImage || '')}
             />
             {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>}

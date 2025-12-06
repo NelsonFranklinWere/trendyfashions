@@ -43,6 +43,7 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
       name: product.name,
       price: product.price,
       image: product.image,
+      category: product.category,
     });
 
     setIsAdded(true);

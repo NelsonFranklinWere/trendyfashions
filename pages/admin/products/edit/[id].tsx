@@ -11,7 +11,19 @@ const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
   description: z.string().min(1, 'Description is required'),
   price: z.number().min(0.01, 'Price must be greater than 0'),
-  image: z.string().url('Valid image URL is required'),
+  image: z.string().min(1, 'Please upload an image').refine(
+    (url) => {
+      // Allow empty string during upload, but validate URL format if provided
+      if (!url || url.trim() === '') return false;
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    { message: 'Valid image URL is required' }
+  ),
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().min(1, 'Subcategory is required'),
   gender: z.enum(['Men', 'Unisex']).optional(),
@@ -161,14 +173,20 @@ export default function EditProduct() {
       }
 
       const result = await response.json();
-      const imageUrl = result.image?.url || result.imageUrl;
+      const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
 
-      if (imageUrl) {
-        setValue('image', imageUrl);
-        setImagePreview(imageUrl);
-        setUploadProgress('Image uploaded successfully!');
+      if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
+        // Ensure it's a valid URL
+        try {
+          new URL(imageUrl);
+          setValue('image', imageUrl, { shouldValidate: true });
+          setImagePreview(imageUrl);
+          setUploadProgress('Image uploaded successfully!');
+        } catch (urlError) {
+          throw new Error(`Invalid image URL format: ${imageUrl}`);
+        }
       } else {
-        throw new Error('No image URL returned from upload');
+        throw new Error('No valid image URL returned from upload');
       }
     } catch (error: any) {
       setUploadProgress('');
@@ -398,9 +416,36 @@ export default function EditProduct() {
             <input
               id="image"
               type="hidden"
-              {...register('image')}
+              {...register('image', {
+                required: 'Please upload an image',
+                validate: (value) => {
+                  // If we have imagePreview, use that instead
+                  if (imagePreview && imagePreview.trim() !== '') {
+                    try {
+                      new URL(imagePreview);
+                      return true;
+                    } catch {
+                      return 'Invalid image URL format';
+                    }
+                  }
+                  // Otherwise validate the provided value
+                  if (!value || value.trim() === '') {
+                    return 'Please upload an image';
+                  }
+                  try {
+                    new URL(value);
+                    return true;
+                  } catch {
+                    return 'Valid image URL is required';
+                  }
+                }
+              })}
+              value={imagePreview || selectedImage || ''}
             />
             {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>}
+            {!imagePreview && !selectedImage && (
+              <p className="mt-1 text-sm text-red-600">Please upload an image</p>
+            )}
 
           </div>
 

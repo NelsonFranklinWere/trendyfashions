@@ -46,7 +46,7 @@ export const categories: Category[] = [
     name: 'Casuals',
     slug: 'casuals',
     description: 'Stylish casual shoes for everyday wear',
-    image: '/images/casual/TommyHilfiger1.jpg',
+    image: '/images/casual/LacosteCassual1.jpg',
     featured: true,
   },
   {
@@ -86,7 +86,7 @@ export const categories: Category[] = [
     name: 'Custom',
     slug: 'custom',
     description: 'Exclusive custom designs and personalized products',
-    image: '/images/customized/clarks1.jpg',
+    image: '/images/customized/Cactus-Jack.jpg',
     featured: true,
   },
 ];

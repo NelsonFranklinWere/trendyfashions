@@ -33,6 +33,7 @@ const RandomProductsCarousel = ({ products }: RandomProductsCarouselProps) => {
       name: product.name,
       price: product.price,
       image: product.image,
+      category: product.category,
     });
 
     setIsAdded(product.id);
