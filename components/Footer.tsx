@@ -1,35 +1,39 @@
 import Link from 'next/link';
+import { categories } from '@/data/products';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-primary text-light mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-gradient-to-br from-primary via-primary to-primary/95 text-light mt-20 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
           {/* Brand Section */}
-          <div>
-            <h3 className="text-2xl font-heading font-bold text-white mb-4">
+          <div className="lg:col-span-1">
+            <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mb-4">
               Trendy Fashion Zone
             </h3>
-            <p className="text-light/80 font-body mb-4">
+            <p className="text-light/90 font-body mb-4 leading-relaxed">
               Walk the Talk — Style that Speaks.
             </p>
-            <p className="text-light/70 font-body text-sm mb-6">
-              5 years of trust and style in Kenya&apos;s fashion industry
+            <p className="text-light/70 font-body text-sm mb-6 leading-relaxed">
+              5+ years of trust and style in Kenya&apos;s fashion industry. Quality original shoes, best sellers, and trending footwear.
             </p>
             
             {/* Social Links */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 flex-wrap">
               <a
                 href="https://www.facebook.com/franklabels254"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light/80 hover:text-secondary transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Facebook"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -45,11 +49,11 @@ const Footer = () => {
                 href="https://www.instagram.com/franklabels.store"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light/80 hover:text-secondary transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Instagram"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -65,11 +69,11 @@ const Footer = () => {
                 href="https://twitter.com/frank_labels"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light/80 hover:text-secondary transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Twitter"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -81,11 +85,11 @@ const Footer = () => {
                 href="https://tiktok.com/@franklabels254"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light/80 hover:text-secondary transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="TikTok"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -97,11 +101,11 @@ const Footer = () => {
                 href="https://wa.me/254743869564"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-light/80 hover:text-secondary transition-colors"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="WhatsApp"
               >
                 <svg
-                  className="w-6 h-6"
+                  className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -112,84 +116,212 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links and Contact - Side by side on small screens */}
-          <div className="grid grid-cols-2 md:contents gap-8">
-            {/* Quick Links */}
-            <div>
-              <h4 className="text-lg font-heading font-semibold text-white mb-4">
-                Quick Links
-              </h4>
-              <ul className="space-y-2">
-                <li>
-                  <Link
-                    href="/collections"
-                    className="text-light/80 hover:text-secondary transition-colors font-body"
-                  >
-                    Collections
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="text-light/80 hover:text-secondary transition-colors font-body"
-                  >
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </div>
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
+              Quick Links
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  href="/"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collections"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  All Collections
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collections/officials"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  Officials
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collections/sneakers"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  Sneakers
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collections/casuals"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  Casuals
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  Contact Us
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-            {/* Contact Info */}
-            <div>
-              <h4 className="text-lg font-heading font-semibold text-white mb-4">
-                Contact Us
-              </h4>
-              <ul className="space-y-3 text-light/80 font-body">
-                <li className="flex items-start">
-                  <span className="mr-2">📍</span>
-                  <span>Nairobi CBD, Moi Avenue</span>
-                </li>
-                <li>
-                  <a
-                    href="https://wa.me/254743869564?text=Hello, I'm interested in your products."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center hover:text-secondary transition-colors"
+          {/* Services */}
+          <div>
+            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
+              Services
+            </h4>
+            <ul className="space-y-3">
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>Quality Original Shoes</span>
+              </li>
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>Free Delivery in Nairobi</span>
+              </li>
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>Custom Designs Available</span>
+              </li>
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>Authentic Brands Only</span>
+              </li>
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>5+ Years Trusted Service</span>
+              </li>
+              <li className="text-light/80 font-body flex items-start">
+                <span className="text-secondary mr-2 mt-1">✓</span>
+                <span>Best Sellers & Trending Styles</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
+              Contact Us
+            </h4>
+            <ul className="space-y-4 text-light/80 font-body">
+              <li className="flex items-start group">
+                <svg
+                  className="w-5 h-5 text-secondary mr-3 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+                <span className="group-hover:text-white transition-colors">
+                  Nairobi CBD, Moi Avenue
+                </span>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/254743869564?text=Hello, I'm interested in your products."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center hover:text-secondary transition-colors group"
+                >
+                  <svg
+                    className="w-5 h-5 text-secondary mr-3 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <span className="mr-2">💬</span>
-                    <span>+254 743 869 564</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://wa.me/254792264228?text=Hello, I'm interested in your products."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center hover:text-secondary transition-colors"
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                  </svg>
+                  <span className="group-hover:text-white transition-colors">+254 743 869 564</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/254792264228?text=Hello, I'm interested in your products."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center hover:text-secondary transition-colors group"
+                >
+                  <svg
+                    className="w-5 h-5 text-secondary mr-3 flex-shrink-0"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <span className="mr-2">💬</span>
-                    <span>+254 792 264 228</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="mailto:nelsonochieng516@gmail.com"
-                    className="flex items-center hover:text-secondary transition-colors"
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                  </svg>
+                  <span className="group-hover:text-white transition-colors">+254 792 264 228</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:nelsonochieng516@gmail.com"
+                  className="flex items-start hover:text-secondary transition-colors group"
+                >
+                  <svg
+                    className="w-5 h-5 text-secondary mr-3 mt-0.5 flex-shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <span className="mr-2">📧</span>
-                    <span className="break-words">nelsonochieng516@gmail.com</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="break-words group-hover:text-white transition-colors">
+                    nelsonochieng516@gmail.com
+                  </span>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-light/20 mt-8 pt-8 text-center">
-          <p className="text-light/70 font-body text-sm">
-            Copyright © {currentYear} Trendy Fashion Zone. All rights reserved.
-          </p>
+        <div className="border-t border-light/20 pt-8 mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-light/70 font-body text-sm text-center md:text-left">
+              Copyright © {currentYear} Trendy Fashion Zone. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6 text-sm text-light/70 font-body">
+              <Link href="/contact" className="hover:text-secondary transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/contact" className="hover:text-secondary transition-colors">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

@@ -15,6 +15,7 @@ import { getAirforceImageProducts } from '@/lib/server/airforceImageProducts';
 import { getJordanImageProducts } from '@/lib/server/jordanImageProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
 import { filterAirmaxProducts } from '@/lib/filters/airmax';
+import { filterCasualProducts } from '@/lib/filters/casuals';
 
 interface HomeProps {
   featuredOfficials: Product[];
@@ -26,6 +27,8 @@ interface HomeProps {
   featuredJordan: Product[];
   heroAirmax97: Product[];
   heroClarks: Product[];
+  heroTimberland: Product[];
+  heroEmpire: Product[];
 }
 
 
@@ -39,13 +42,17 @@ const Home = ({
   featuredJordan,
   heroAirmax97,
   heroClarks,
+  heroTimberland,
+  heroEmpire,
 }: HomeProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
-  // Get 3 clarks images and 2 airmax 97 images
-  const clarksImages = heroClarks.slice(0, 3).map(p => p.image).filter(Boolean);
-  const airmax97Images = heroAirmax97.slice(0, 2).map(p => p.image).filter(Boolean);
-  const carouselImages = [...clarksImages, ...airmax97Images];
+  // Get exactly 3 carousel images: one Timberland casual, one Empire official, one Airmax 97
+  const timberlandImage = heroTimberland.length > 0 ? heroTimberland[0].image : null;
+  const empireImage = heroEmpire.length > 0 ? heroEmpire[0].image : null;
+  const airmax97Image = heroAirmax97.length > 0 ? heroAirmax97[0].image : null;
+  
+  const carouselImages = [timberlandImage, empireImage, airmax97Image].filter(Boolean) as string[];
 
   useEffect(() => {
     if (carouselImages.length === 0) return;
@@ -574,6 +581,12 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     
     // Filter Airmax 97 products
     const airmax97 = filterAirmaxProducts(airmax, 'Airmax 97');
+    
+    // Filter Timberland casual products
+    const timberland = filterCasualProducts(casuals, 'Timberland');
+    
+    // Filter Empire official products
+    const empire = filterOfficialsProducts(officials, 'Empire');
 
     // Shuffle and select featured products (first 5-8 from each category)
     const shuffle = <T,>(array: T[]): T[] => {
@@ -596,6 +609,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredJordan: shuffle(jordan).slice(0, 8),
         heroAirmax97: airmax97,
         heroClarks: clarks,
+        heroTimberland: timberland,
+        heroEmpire: empire,
       },
     };
   } catch (error) {
@@ -611,6 +626,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredJordan: [],
         heroAirmax97: [],
         heroClarks: [],
+        heroTimberland: [],
+        heroEmpire: [],
       },
     };
   }
