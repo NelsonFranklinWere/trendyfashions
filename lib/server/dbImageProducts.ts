@@ -15,6 +15,9 @@ interface DbImage {
   mime_type?: string;
   width?: number;
   height?: number;
+  // Optional fields that may exist if database schema was updated
+  name?: string;
+  price?: number;
 }
 
 // Map category slugs to database category values
@@ -37,7 +40,23 @@ const formatProductName = (filename: string, subcategory: string, category: stri
   const lowerFilename = filename.toLowerCase();
   const lowerSubcategory = subcategory.toLowerCase();
 
-  // For officials category, use subcategory-specific naming
+  // Generic category/subcategory names to ignore (use filename instead)
+  const genericNames = [
+    'custom', 'customized', 'jordan', 'sports', 'casual', 'casuals', 
+    'sneakers', 'airmax', 'airforce', 'vans', 'officials', 'formal',
+    'running', 'boots', 'mules', 'empire', 'clarks'
+  ];
+
+  // PRIORITY 1: Use subcategory if it's meaningful (not generic)
+  // This is the name the user uploaded the product with
+  if (subcategory && subcategory.trim() && 
+      subcategory.length > 2 &&
+      !genericNames.includes(lowerSubcategory) &&
+      !/^\d+$/.test(subcategory.trim())) { // Not just a number
+    return subcategory.trim();
+  }
+
+  // For officials category, use subcategory-specific naming (fallback)
   if (category === 'officials') {
     if (lowerSubcategory === 'empire') {
       return 'Empire Leather';
@@ -52,7 +71,89 @@ const formatProductName = (filename: string, subcategory: string, category: stri
     }
   }
 
-  // Default: format filename
+  // For Jordan category, preserve Jordan model numbers (especially Jordan 11)
+  if (category === 'jordan') {
+    // If subcategory contains meaningful content, use it (might be the actual product name)
+    if (subcategory && subcategory.trim() && 
+        subcategory.toLowerCase() !== 'jordan' && 
+        subcategory.toLowerCase() !== 'sports' &&
+        subcategory.length > 2) {
+      return subcategory.trim();
+    }
+    
+    const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+    const lowerBase = base.toLowerCase();
+    
+    // Handle Jordan 11 specifically
+    if (lowerBase.includes('jordan11') || lowerBase.includes('jordan 11') || lowerBase.includes('j11')) {
+      // Extract colorway or variant if present
+      const parts = base.replace(/jordan11|jordan-11|j11|thumb-|\d+-/gi, '').trim();
+      if (parts && parts.length > 0) {
+        const variant = parts.replace(/[-_@]+/g, ' ').trim();
+        return variant ? `Jordan 11 ${variant.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')}` : 'Jordan 11';
+      }
+      return 'Jordan 11';
+    }
+    
+    // Handle other Jordan models
+    if (lowerBase.includes('jordan1') || lowerBase.includes('jordan 1') || lowerBase.includes('j1')) {
+      return 'Jordan 1';
+    }
+    if (lowerBase.includes('jordan3') || lowerBase.includes('jordan 3') || lowerBase.includes('j3')) {
+      return 'Jordan 3';
+    }
+    if (lowerBase.includes('jordan4') || lowerBase.includes('jordan 4') || lowerBase.includes('j4')) {
+      return 'Jordan 4';
+    }
+    if (lowerBase.includes('jordan9') || lowerBase.includes('jordan 9') || lowerBase.includes('j9')) {
+      return 'Jordan 9';
+    }
+    if (lowerBase.includes('jordan14') || lowerBase.includes('jordan 14') || lowerBase.includes('j14')) {
+      return 'Jordan 14';
+    }
+    
+    // General Jordan - preserve more of the filename
+    const spaced = base.replace(/[-_@]+/g, ' ').replace(/\s+/g, ' ').trim();
+    return spaced
+      .split(' ')
+      .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  // For custom category, preserve the filename better (don't strip too much)
+  if (category === 'custom' || category === 'customized') {
+    // If subcategory has meaningful content (not just "Custom" or a number), use it as the name
+    if (subcategory && subcategory.trim() && 
+        subcategory.toLowerCase() !== 'custom' && 
+        subcategory.toLowerCase() !== 'customized' &&
+        !/^\d+$/.test(subcategory.trim()) && // Not just a number
+        subcategory.length > 2) {
+      return subcategory.trim();
+    }
+    
+    const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+    // Remove common prefixes like "thumb-", timestamps, and IDs
+    let cleaned = base.replace(/^thumb-|\d{13}-|\d{10}-/gi, '').trim();
+    
+    // If after cleaning it's just a number or empty, try to use subcategory or a default
+    if (!cleaned || /^\d+$/.test(cleaned)) {
+      if (subcategory && subcategory.trim() && subcategory.length > 2) {
+        return subcategory.trim();
+      }
+      return 'Custom Product';
+    }
+    
+    // Replace underscores and dashes with spaces, but preserve the structure
+    const spaced = cleaned.replace(/[-_@]+/g, ' ').replace(/\s+/g, ' ').trim();
+    
+    // Format the filename preserving more detail
+    return spaced
+      .split(' ')
+      .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1).toLowerCase())
+      .join(' ');
+  }
+
+  // Default: format filename (for other categories)
   const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
   const spaced = base.replace(/[-_@]+/g, ' ').replace(/\s+/g, ' ').trim();
   const cleaned = spaced.replace(/\s+\d+$/, '').trim();
@@ -128,17 +229,52 @@ const mapToProductCategory = (category: string): string => {
 // Convert database image to Product
 const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
   const category = categoryMapping[dbImage.category] || dbImage.category;
-  const name = formatProductName(dbImage.filename, dbImage.subcategory, category);
   const productCategory = mapToProductCategory(category);
   
+  // PRIORITY: Use name from database if available (the name user uploaded)
+  // Otherwise, use subcategory if meaningful, or format from filename
+  let name: string;
+  if (dbImage.name && dbImage.name.trim() && dbImage.name.length > 0) {
+    // Use the name field from database (exact name user uploaded)
+    name = dbImage.name.trim();
+  } else {
+    // Fallback to formatting from subcategory/filename
+    name = formatProductName(dbImage.filename, dbImage.subcategory, category);
+  }
+  
+  // PRIORITY: Use price from database if available (the price user uploaded)
+  // Otherwise, calculate based on category/subcategory
+  let price: number;
+  if (dbImage.price !== undefined && dbImage.price !== null && dbImage.price > 0) {
+    // Use the price field from database (exact price user uploaded)
+    price = Number(dbImage.price);
+  } else {
+    // Fallback to calculated price
+    price = getPrice(category, dbImage.subcategory);
+  }
+  
   // Use thumbnail URL if available for faster initial load, fallback to full URL
-  const imageUrl = dbImage.thumbnail_url || dbImage.url;
+  let imageUrl = dbImage.thumbnail_url || dbImage.url;
+  
+  // Validate URL - ensure it's a valid string and not empty
+  if (!imageUrl || typeof imageUrl !== 'string' || imageUrl.trim() === '') {
+    console.warn(`Invalid image URL for product ${dbImage.id} (${dbImage.filename}): URL is missing or invalid`);
+    throw new Error(`Invalid image URL for product ${dbImage.id}`);
+  }
+  
+  // Ensure Supabase URLs are public (remove any signed token if present, use public URL)
+  // Supabase Storage public URLs should work directly with Next.js Image
+  if (imageUrl.includes('supabase.co') || imageUrl.includes('supabase.in')) {
+    // If URL contains a signed token, we might need to use the public URL
+    // For now, use the URL as-is since it should be public
+    imageUrl = imageUrl.trim();
+  }
   
   return {
     id: `db-${dbImage.id}`,
     name,
     description: generateDescription(name, dbImage.subcategory, category),
-    price: getPrice(category, dbImage.subcategory),
+    price,
     image: imageUrl, // Use thumbnail for faster loading, full URL for high-res
     // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
     category: category === 'officials' ? 'officials' : productCategory,
@@ -152,11 +288,23 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
 
 /**
  * Get products from database for a specific category
+ * PRIORITY: Try products table first (has exact names/prices), fallback to images table
  */
 export async function getDbImageProducts(category: string): Promise<Product[]> {
   try {
     const dbCategory = categoryMapping[category] || category;
     
+    // FIRST: Try products table (same as admin section - has exact names and prices)
+    const productsFromTable = await getDbProducts(category);
+    if (productsFromTable.length > 0) {
+      console.log(`Found ${productsFromTable.length} products from products table for category: ${category}`);
+      if (productsFromTable.length > 0) {
+        console.log(`Sample product: "${productsFromTable[0].name}" (KES ${productsFromTable[0].price})`);
+      }
+      return productsFromTable;
+    }
+    
+    // FALLBACK: Try images table (legacy)
     const { data, error } = await supabaseAdmin
       .from('images')
       .select('*')
@@ -169,10 +317,40 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     }
 
     if (!data || data.length === 0) {
+      console.log(`No database products found for category: ${category} (mapped to: ${dbCategory})`);
       return [];
     }
 
-    return data.map((img, index) => dbImageToProduct(img as DbImage, index));
+    console.log(`Found ${data.length} database images for category: ${category} (fallback to images table)`);
+    const products: Product[] = [];
+    
+    for (const img of data) {
+      try {
+        const product = dbImageToProduct(img as DbImage, 0);
+        products.push(product);
+      } catch (error) {
+        console.warn(`Skipping product ${img.id} (${img.filename}) due to error:`, error);
+        // Continue with next product
+      }
+    }
+    
+    // Log first product for debugging
+    if (products.length > 0) {
+      const sample = products[0];
+      console.log(`Sample database product: "${sample.name}" (KES ${sample.price}), image: ${sample.image}`);
+      // Log if using database name/price vs calculated
+      const firstDbImage = data[0] as DbImage;
+      if (firstDbImage.name) {
+        console.log(`  ✓ Using database name: "${firstDbImage.name}"`);
+      }
+      if (firstDbImage.price !== undefined && firstDbImage.price !== null) {
+        console.log(`  ✓ Using database price: KES ${firstDbImage.price}`);
+      }
+    } else if (data.length > 0) {
+      console.warn(`All ${data.length} database products were filtered out due to invalid image URLs`);
+    }
+    
+    return products;
   } catch (error) {
     console.error(`Error loading ${category} products from database:`, error);
     return [];
@@ -213,7 +391,52 @@ export async function getDbImageProductsBySubcategory(
 }
 
 /**
- * Get all products from database
+ * Get products from the products table (same as admin section)
+ * This uses the exact names and prices uploaded by the user
+ */
+export async function getDbProducts(category?: string): Promise<Product[]> {
+  try {
+    let query = supabaseAdmin
+      .from('products')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (category) {
+      const dbCategory = categoryMapping[category] || category;
+      query = query.eq('category', dbCategory);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Error fetching products from database:', error);
+      return [];
+    }
+
+    if (!data || data.length === 0) {
+      return [];
+    }
+
+    // Convert database products to Product format
+    return data.map((product: any) => ({
+      id: `product-${product.id}`,
+      name: product.name,
+      description: product.description || `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
+      price: Number(product.price),
+      image: product.image,
+      category: mapToProductCategory(product.category) || product.category,
+      gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
+      tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
+      featured: product.featured || false,
+    } satisfies Product));
+  } catch (error) {
+    console.error('Error loading products from database:', error);
+    return [];
+  }
+}
+
+/**
+ * Get all products from database (images table - legacy)
  */
 export async function getAllDbImageProducts(): Promise<Product[]> {
   try {

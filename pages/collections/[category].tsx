@@ -550,7 +550,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     if (categorySlug === 'casuals') {
       const dbProducts = await getDbImageProducts('casuals');
       const fsProducts = getCasualImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'officials') {
       // Load from database (Supabase), fallback to filesystem
       const autoProducts = await getOfficialImageProducts();
@@ -558,27 +562,51 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     } else if (categorySlug === 'vans') {
       const dbProducts = await getDbImageProducts('vans');
       const fsProducts = getVansImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'airmax') {
       const dbProducts = await getDbImageProducts('airmax');
       const fsProducts = getAirmaxImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'airforce') {
       const dbProducts = await getDbImageProducts('airforce');
       const fsProducts = getAirforceImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'jordan') {
       const dbProducts = await getDbImageProducts('jordan');
       const fsProducts = getJordanImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'sneakers') {
       const dbProducts = await getDbImageProducts('sneakers');
       const fsProducts = getSneakersImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else if (categorySlug === 'custom') {
       const dbProducts = await getDbImageProducts('custom');
       const fsProducts = getCustomizedImageProducts();
-      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
+      // Merge database and filesystem products, database first
+      products = [...dbProducts, ...fsProducts];
+      if (products.length === 0) {
+        products = getProductsByCategory(categorySlug);
+      }
     } else {
       products = getProductsByCategory(categorySlug);
     }
