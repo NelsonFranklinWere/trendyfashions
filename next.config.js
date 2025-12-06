@@ -6,8 +6,8 @@ const nextConfig = {
     unoptimized: false,
     // Prefer AVIF over WebP for better compression
     formats: ['image/avif', 'image/webp'],
-    // Cache optimized images for 7 days
-    minimumCacheTTL: 60 * 60 * 24 * 7,
+    // Cache optimized images for 30 days for faster loading
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     // Device sizes for responsive images
     deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536, 1920, 2048],
     // Image sizes for different use cases

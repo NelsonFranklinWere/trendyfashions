@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 85, // Optimized default: balances quality and file size
+  quality = 80, // Optimized for faster loading while maintaining good quality
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
