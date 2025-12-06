@@ -46,6 +46,7 @@ const SmartImage = ({
   ...props
 }: SmartImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   const fallbackBlur = useMemo(() => {
     if (placeholder !== 'blur') return undefined;
@@ -66,6 +67,21 @@ const SmartImage = ({
   const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 75;
   const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 75) : qualityNum;
 
+  // Handle missing images gracefully
+  if (hasError) {
+    return (
+      <div
+        className={cn(
+          'flex items-center justify-center bg-gray-100 text-gray-400',
+          className,
+        )}
+        style={{ width: props.width, height: props.height }}
+      >
+        <span className="text-sm">Image not available</span>
+      </div>
+    );
+  }
+
   return (
     <NextImage
       {...props}
@@ -84,6 +100,9 @@ const SmartImage = ({
         setIsLoaded(true);
         onLoad?.(event);
         onLoadingComplete?.(event.currentTarget);
+      }}
+      onError={() => {
+        setHasError(true);
       }}
     />
   );

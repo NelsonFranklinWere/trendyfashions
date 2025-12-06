@@ -198,6 +198,11 @@ export const getSneakersImageProducts = (): Product[] => {
     const files = fs
       .readdirSync(SNEAKERS_DIR)
       .filter((file) => file.match(/\.(jpg|jpeg|png|webp)$/i))
+      .filter((file) => {
+        // Verify file actually exists before including it
+        const filePath = path.join(SNEAKERS_DIR, file);
+        return fs.existsSync(filePath);
+      })
       .sort((a, b) => a.localeCompare(b));
 
     return files.map((file, index) => {

@@ -72,6 +72,11 @@ export const getCasualImageProducts = (): Product[] => {
         return { file, name, shouldInclude };
       })
       .filter(({ shouldInclude }) => shouldInclude)
+      .filter(({ file }) => {
+        // Verify file actually exists before including it
+        const filePath = path.join(CASUAL_DIR, file);
+        return fs.existsSync(filePath);
+      })
       .map(({ file, name }) => {
         return {
           id: buildId(file),

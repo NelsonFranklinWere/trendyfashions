@@ -243,6 +243,11 @@ const getOfficialImageProductsFromFS = (): Product[] => {
                !lower.includes('clarksformal') &&
                !lower.includes('contact'); // Exclude contact/info images like ClarksContact.jpg
       })
+      .filter((file) => {
+        // Verify file actually exists before including it
+        const filePath = path.join(OFFICIALS_DIR, file);
+        return fs.existsSync(filePath);
+      })
       .sort((a, b) => a.localeCompare(b));
 
     return files.map((file, index) => {

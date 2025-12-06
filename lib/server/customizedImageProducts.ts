@@ -93,6 +93,11 @@ export const getCustomizedImageProducts = (): Product[] => {
     const files = fs
       .readdirSync(CUSTOMIZED_DIR)
       .filter((file) => file.match(/\.(jpg|jpeg|png|webp)$/i))
+      .filter((file) => {
+        // Verify file actually exists before including it
+        const filePath = path.join(CUSTOMIZED_DIR, file);
+        return fs.existsSync(filePath);
+      })
       .sort((a, b) => a.localeCompare(b));
 
     return files.map((file, index) => {
