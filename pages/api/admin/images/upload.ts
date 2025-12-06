@@ -162,11 +162,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .from('images')
       .getPublicUrl(storagePath);
 
+    // Get thumbnail public URL
     const { data: thumbnailUrlData } = supabaseAdmin.storage
       .from('images')
       .getPublicUrl(thumbnailPath);
 
-    // Save metadata to database
+    // Save metadata to database (including thumbnail URL)
     const { data: dbData, error: dbError } = await supabaseAdmin
       .from('images')
       .insert({
@@ -174,6 +175,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         subcategory,
         filename: uploadedFile.originalFilename,
         url: urlData.publicUrl,
+        thumbnail_url: thumbnailUrlData.publicUrl,
         storage_path: storagePath,
         file_size: optimizedBuffer.length,
         mime_type: optimizedFormat,

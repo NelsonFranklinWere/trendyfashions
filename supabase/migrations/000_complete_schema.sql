@@ -1,5 +1,7 @@
--- Combined Database Schema for Trendy Fashion Zone
--- Run this migration to set up all tables at once
+-- ============================================
+-- Complete Database Schema for Trendy Fashion Zone
+-- Run this migration ONCE to set up the entire database
+-- ============================================
 
 -- ============================================
 -- 1. IMAGES TABLE
@@ -10,6 +12,7 @@ CREATE TABLE IF NOT EXISTS images (
   subcategory VARCHAR(100) NOT NULL,
   filename VARCHAR(255) NOT NULL,
   url TEXT NOT NULL,
+  thumbnail_url TEXT,
   storage_path TEXT NOT NULL,
   uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   uploaded_by VARCHAR(255),
@@ -21,21 +24,31 @@ CREATE TABLE IF NOT EXISTS images (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Add thumbnail_url column if it doesn't exist (for existing tables)
+ALTER TABLE images 
+ADD COLUMN IF NOT EXISTS thumbnail_url TEXT;
+
 CREATE INDEX IF NOT EXISTS idx_images_category_subcategory ON images(category, subcategory);
 CREATE INDEX IF NOT EXISTS idx_images_category ON images(category);
 CREATE INDEX IF NOT EXISTS idx_images_uploaded_at ON images(uploaded_at DESC);
+CREATE INDEX IF NOT EXISTS idx_images_thumbnail_url ON images(thumbnail_url) WHERE thumbnail_url IS NOT NULL;
 
 ALTER TABLE images ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist, then recreate them
+DROP POLICY IF EXISTS "Images are viewable by everyone" ON images;
 CREATE POLICY "Images are viewable by everyone" ON images
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Only authenticated users can upload images" ON images;
 CREATE POLICY "Only authenticated users can upload images" ON images
   FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
+DROP POLICY IF EXISTS "Only authenticated users can update images" ON images;
 CREATE POLICY "Only authenticated users can update images" ON images
   FOR UPDATE USING (auth.role() = 'authenticated');
 
+DROP POLICY IF EXISTS "Only authenticated users can delete images" ON images;
 CREATE POLICY "Only authenticated users can delete images" ON images
   FOR DELETE USING (auth.role() = 'authenticated');
 
@@ -64,15 +77,20 @@ CREATE INDEX IF NOT EXISTS idx_products_created_at ON products(created_at DESC);
 
 ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist, then recreate them
+DROP POLICY IF EXISTS "Products are viewable by everyone" ON products;
 CREATE POLICY "Products are viewable by everyone" ON products
   FOR SELECT USING (true);
 
+DROP POLICY IF EXISTS "Only authenticated users can insert products" ON products;
 CREATE POLICY "Only authenticated users can insert products" ON products
   FOR INSERT WITH CHECK (auth.role() = 'authenticated');
 
+DROP POLICY IF EXISTS "Only authenticated users can update products" ON products;
 CREATE POLICY "Only authenticated users can update products" ON products
   FOR UPDATE USING (auth.role() = 'authenticated');
 
+DROP POLICY IF EXISTS "Only authenticated users can delete products" ON products;
 CREATE POLICY "Only authenticated users can delete products" ON products
   FOR DELETE USING (auth.role() = 'authenticated');
 
@@ -96,7 +114,9 @@ CREATE INDEX IF NOT EXISTS idx_admin_users_role ON admin_users(role);
 
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
 
+-- Drop existing policies if they exist, then recreate them
 -- Only admins can view admin users
+DROP POLICY IF EXISTS "Admins can view admin users" ON admin_users;
 CREATE POLICY "Admins can view admin users" ON admin_users
   FOR SELECT USING (true);
 
@@ -118,7 +138,7 @@ CREATE INDEX IF NOT EXISTS idx_admin_sessions_token ON admin_sessions(token);
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_user_id ON admin_sessions(user_id);
 CREATE INDEX IF NOT EXISTS idx_admin_sessions_expires_at ON admin_sessions(expires_at);
 
--- Clean up expired sessions
+-- Clean up expired sessions function
 CREATE OR REPLACE FUNCTION cleanup_expired_sessions()
 RETURNS void AS $$
 BEGIN
@@ -138,19 +158,29 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Apply triggers
+-- Drop existing triggers if they exist, then recreate them
+DROP TRIGGER IF EXISTS update_images_updated_at ON images;
 CREATE TRIGGER update_images_updated_at BEFORE UPDATE ON images
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_products_updated_at ON products;
 CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;
 CREATE TRIGGER update_admin_users_updated_at BEFORE UPDATE ON admin_users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- ============================================
--- 6. INITIAL ADMIN USER
+-- 6. NOTES
 -- ============================================
--- Note: Run the setup script to create admin user with proper bcrypt hash
+-- To create initial admin user, run:
 -- npx ts-node --esm scripts/setup-admin.ts [email] [password] [name]
--- Default: admin@trendyfashionzone.co.ke / admin123
+-- Default: admin@trendyfashionzone.co.ke / Trendy@Admin
+--
+-- To set up Supabase Storage bucket:
+-- 1. Go to Storage in Supabase Dashboard
+-- 2. Create bucket named "images"
+-- 3. Set bucket to Public
+-- 4. Configure policies for public read access
+

@@ -177,7 +177,7 @@ const Home = ({
                   className="object-cover"
                   priority
                   sizes="100vw"
-                  quality={100}
+                  quality={85}
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
               </motion.div>
@@ -188,6 +188,7 @@ const Home = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
@@ -234,6 +235,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -275,6 +277,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -316,6 +319,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -357,6 +361,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -398,6 +403,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -439,6 +445,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -480,6 +487,7 @@ const Home = ({
             <div className="flex items-center justify-between mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -519,6 +527,7 @@ const Home = ({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-50px' }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
@@ -552,8 +561,8 @@ const Home = ({
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
-    // Get products from each category
-    const officials = getOfficialImageProducts();
+    // Get products from each category (database first, fallback to filesystem)
+    const officials = await getOfficialImageProducts();
     const sneakers = getSneakersImageProducts();
     const airmax = getAirmaxImageProducts();
     const casuals = getCasualImageProducts();

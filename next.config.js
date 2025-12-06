@@ -6,12 +6,12 @@ const nextConfig = {
     unoptimized: false,
     // Prefer AVIF over WebP for better compression
     formats: ['image/avif', 'image/webp'],
-    // Cache optimized images for 30 days for faster loading
-    minimumCacheTTL: 60 * 60 * 24 * 30,
-    // Device sizes for responsive images
-    deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536, 1920, 2048],
-    // Image sizes for different use cases
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    // Cache optimized images for 60 days for faster loading
+    minimumCacheTTL: 60 * 60 * 24 * 60,
+    // Device sizes for responsive images (optimized for common breakpoints)
+    deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536, 1920],
+    // Image sizes for different use cases (reduced for faster processing)
+    imageSizes: [16, 32, 48, 64, 96, 128, 256],
     // Security settings
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",

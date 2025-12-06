@@ -39,7 +39,7 @@ async function hashPassword(password: string): Promise<string> {
 
 async function setupAdmin() {
   const email = process.argv[2] || 'admin@trendyfashionzone.co.ke';
-  const password = process.argv[3] || 'admin123';
+  const password = process.argv[3] || 'Trendy@Admin';
   const name = process.argv[4] || 'Admin User';
 
   console.log(`Setting up admin user: ${email}`);

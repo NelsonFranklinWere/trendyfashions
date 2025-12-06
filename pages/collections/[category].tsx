@@ -495,46 +495,50 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     let products: Product[] = [];
 
+    // Try database first, fallback to filesystem
+    const { getDbImageProducts } = await import('@/lib/server/dbImageProducts');
+    
     if (categorySlug === 'casuals') {
-      const autoProducts = getCasualImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('casuals');
+      const fsProducts = getCasualImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'officials') {
-      // Load all images from formal folder for officials
-      const autoProducts = getOfficialImageProducts();
+      // Load from database (Supabase), fallback to filesystem
+      const autoProducts = await getOfficialImageProducts();
       products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
     } else if (categorySlug === 'vans') {
-      // Load all images from vans folder
-      const autoProducts = getVansImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('vans');
+      const fsProducts = getVansImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'airmax') {
-      // Load all images from airmax folder
-      const autoProducts = getAirmaxImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('airmax');
+      const fsProducts = getAirmaxImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'airforce') {
-      // Load all images from airforce folder
-      const autoProducts = getAirforceImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('airforce');
+      const fsProducts = getAirforceImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'jordan') {
-      // Load all images from jordan folder
-      const autoProducts = getJordanImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('jordan');
+      const fsProducts = getJordanImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'sneakers') {
-      // Load all images from sneakers folder
-      const autoProducts = getSneakersImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('sneakers');
+      const fsProducts = getSneakersImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else if (categorySlug === 'custom') {
-      // Load all images from customized folder
-      const autoProducts = getCustomizedImageProducts();
-      products = autoProducts.length > 0 ? autoProducts : getProductsByCategory(categorySlug);
+      const dbProducts = await getDbImageProducts('custom');
+      const fsProducts = getCustomizedImageProducts();
+      products = dbProducts.length > 0 ? dbProducts : (fsProducts.length > 0 ? fsProducts : getProductsByCategory(categorySlug));
     } else {
       products = getProductsByCategory(categorySlug);
     }
 
     // Get random products from all categories for the carousel
-    const randomProducts = getRandomProductsFromAllCategories(30);
+    const randomProducts = await getRandomProductsFromAllCategories(30);
     
     // Get all products for search
-    const allProducts = getAllProducts();
+    const allProducts = await getAllProducts();
 
     return {
       props: {

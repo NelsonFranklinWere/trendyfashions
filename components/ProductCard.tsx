@@ -57,6 +57,7 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
     <>
       <motion.div
         initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
@@ -150,7 +151,8 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
-            quality={80}
+            quality={70}
+            {...((product as any).fullImageUrl && { fullImageUrl: (product as any).fullImageUrl })}
           />
           {product.tags?.includes('New Arrivals') && (
             <div className="absolute top-3 left-3 bg-secondary text-white px-3 py-1.5 rounded-full text-xs font-body font-bold z-10 shadow-lg">

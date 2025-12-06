@@ -36,7 +36,7 @@ The app needs a storage bucket named `images` for file uploads.
 Run this command to create your first admin user:
 
 ```bash
-npx ts-node --esm scripts/setup-admin.ts admin@trendyfashionzone.co.ke admin123 "Admin User"
+npx ts-node --esm scripts/setup-admin.ts admin@trendyfashionzone.co.ke Trendy@Admin "Admin User"
 ```
 
 Or use custom credentials:

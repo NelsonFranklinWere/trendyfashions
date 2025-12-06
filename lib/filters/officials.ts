@@ -8,10 +8,13 @@ export type OfficialFilter = (typeof OFFICIAL_SUBCATEGORY_FILTERS)[number];
 
 const normalize = (value: string | undefined) => value?.toLowerCase() ?? '';
 
-// CRITICAL: Only images from formal folder should be shown in officials
+// CRITICAL: Only images from formal folder or officials category should be shown in officials
 const isFormalImage = (product: Product) => {
   const imagePath = normalize(product.image);
-  return imagePath.includes('/images/formal/');
+  // Check for local filesystem path or Supabase Storage URL with officials category
+  return imagePath.includes('/images/formal/') || 
+         imagePath.includes('/officials/') ||
+         (product.category === 'officials');
 };
 
 const isClarks = (product: Product) => {

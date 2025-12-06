@@ -12,11 +12,12 @@ import { getSneakersImageProducts } from './sneakersImageProducts';
  * Get all products from all categories
  * @returns Array of all products from all categories
  */
-export function getAllProducts(): Product[] {
+export async function getAllProducts(): Promise<Product[]> {
   const allProducts: Product[] = [];
 
   try {
-    allProducts.push(...getOfficialImageProducts());
+    const officialProducts = await getOfficialImageProducts();
+    allProducts.push(...officialProducts);
   } catch (e) {
     console.warn('Failed to load official products:', e);
   }

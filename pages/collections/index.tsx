@@ -213,7 +213,7 @@ const Collections = ({ allProducts }: CollectionsProps) => {
 
 export const getStaticProps: GetStaticProps<CollectionsProps> = async () => {
   try {
-    const allProducts = getAllProducts();
+    const allProducts = await getAllProducts();
     return {
       props: {
         allProducts,

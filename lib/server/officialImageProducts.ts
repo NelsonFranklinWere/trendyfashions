@@ -226,7 +226,8 @@ const CASUAL_PRICE = 3500;
 const MULE_PRICE = 2500;
 const CLARKS_PRICE = 4500;
 
-export const getOfficialImageProducts = (): Product[] => {
+// Legacy filesystem-based function (kept for fallback)
+const getOfficialImageProductsFromFS = (): Product[] => {
   try {
     if (!fs.existsSync(FORMAL_DIR)) {
       return [];
@@ -288,8 +289,28 @@ export const getOfficialImageProducts = (): Product[] => {
       } satisfies Product;
     });
   } catch (error) {
-    console.error('Error loading official images:', error);
+    console.error('Error loading official images from filesystem:', error);
     return [];
+  }
+};
+
+// Main function: fetch from database, fallback to filesystem
+export const getOfficialImageProducts = async (): Promise<Product[]> => {
+  try {
+    // Try database first
+    const { getDbImageProducts } = await import('./dbImageProducts');
+    const dbProducts = await getDbImageProducts('officials');
+    
+    if (dbProducts && dbProducts.length > 0) {
+      return dbProducts;
+    }
+    
+    // Fallback to filesystem
+    console.warn('No products found in database, falling back to filesystem');
+    return getOfficialImageProductsFromFS();
+  } catch (error) {
+    console.error('Error loading official images from database, falling back to filesystem:', error);
+    return getOfficialImageProductsFromFS();
   }
 };
 

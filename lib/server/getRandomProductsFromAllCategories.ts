@@ -13,7 +13,7 @@ import { getCustomizedImageProducts } from './customizedImageProducts';
  * @param count - Number of products to return (default: 30)
  * @returns Array of random products from different categories
  */
-export function getRandomProductsFromAllCategories(count: number = 30): Product[] {
+export async function getRandomProductsFromAllCategories(count: number = 30): Promise<Product[]> {
   const categoryProducts: {
     officials: Product[];
     airmax: Product[];
@@ -30,7 +30,7 @@ export function getRandomProductsFromAllCategories(count: number = 30): Product[
 
   // Collect products from selected categories only
   try {
-    const officialProducts = getOfficialImageProducts();
+    const officialProducts = await getOfficialImageProducts();
     categoryProducts.officials = officialProducts;
   } catch (e) {
     console.warn('Failed to load official products:', e);

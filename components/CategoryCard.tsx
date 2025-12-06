@@ -26,6 +26,7 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
     <>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay }}
