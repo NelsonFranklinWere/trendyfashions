@@ -140,8 +140,11 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     description: generateDescription(name, dbImage.subcategory, category),
     price: getPrice(category, dbImage.subcategory),
     image: imageUrl, // Use thumbnail for faster loading, full URL for high-res
-    category: productCategory,
+    // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
+    category: category === 'officials' ? 'officials' : productCategory,
     gender: getGender(category),
+    // Store subcategory in tags for filtering (tags is an optional array in Product interface)
+    tags: [dbImage.subcategory],
     // Store full URL separately for high-res display when needed
     ...(dbImage.thumbnail_url && { fullImageUrl: dbImage.url }),
   } as Product & { fullImageUrl?: string };

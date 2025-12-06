@@ -5,7 +5,7 @@ console.log('🔍 Verifying images for Vercel deployment...\n');
 
 // Check featured category images
 const featuredImages = [
-  '/images/formal/ClarksOfficials1.jpg',
+  '/images/officials/ClarksOfficials1.jpg',
   '/images/sneakers/Addidas-samba.jpg',
   '/images/casual/Cassualss1.jpg',
   '/images/airforce/Af1customized1-1.jpg',

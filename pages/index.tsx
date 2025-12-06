@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useState } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
 import { categories, Product } from '@/data/products';
@@ -28,7 +28,6 @@ interface HomeProps {
   heroAirmax97: Product[];
   heroClarks: Product[];
   heroTimberland: Product[];
-  heroEmpire: Product[];
 }
 
 
@@ -43,26 +42,7 @@ const Home = ({
   heroAirmax97,
   heroClarks,
   heroTimberland,
-  heroEmpire,
 }: HomeProps) => {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  
-  // Get exactly 3 carousel images: one Timberland casual, one Empire official, one Airmax 97
-  const timberlandImage = heroTimberland.length > 0 ? heroTimberland[0].image : null;
-  const empireImage = heroEmpire.length > 0 ? heroEmpire[0].image : null;
-  const airmax97Image = heroAirmax97.length > 0 ? heroAirmax97[0].image : null;
-  
-  const carouselImages = [timberlandImage, empireImage, airmax97Image].filter(Boolean) as string[];
-
-  useEffect(() => {
-    if (carouselImages.length === 0) return;
-    
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 5000); // Change image every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [carouselImages.length]);
 
   return (
     <>
@@ -158,39 +138,8 @@ const Home = ({
         }}
       />
 
-      {/* Hero Section with Background Carousel */}
-      <section className="relative bg-gradient-to-br from-primary via-primary/95 to-primary/90 text-white py-12 md:py-20 overflow-hidden">
-        {/* Background Carousel */}
-        {carouselImages.length > 0 && (
-          <div className="absolute inset-0 z-0">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentImageIndex}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5, ease: 'easeInOut' }}
-                className="absolute inset-0"
-                style={{ 
-                  willChange: 'opacity',
-                  backfaceVisibility: 'hidden',
-                  WebkitBackfaceVisibility: 'hidden'
-                }}
-              >
-                <Image
-                  src={carouselImages[currentImageIndex]}
-                  alt="Featured Product"
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="100vw"
-                  quality={85}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/80 to-primary/90" />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        )}
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-primary via-primary to-primary/95 text-white py-12 md:py-20 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5 z-[1]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
@@ -576,17 +525,20 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     const airforce = getAirforceImageProducts();
     const jordan = getJordanImageProducts();
 
-    // Filter Clarks products from officials
-    const clarks = filterOfficialsProducts(officials, 'Clarks');
+    // Filter Clarks products from officials (manually since 'Clarks' is not in official filters)
+    const clarks = officials.filter(p => {
+      if (p.tags && p.tags.length > 0) {
+        return p.tags.some(tag => tag.toLowerCase() === 'clarks');
+      }
+      const source = `${p.name} ${p.description} ${p.image}`.toLowerCase();
+      return source.includes('clark') || source.includes('clarks official');
+    });
     
     // Filter Airmax 97 products
     const airmax97 = filterAirmaxProducts(airmax, 'Airmax 97');
     
     // Filter Timberland casual products
     const timberland = filterCasualProducts(casuals, 'Timberland');
-    
-    // Filter Empire official products
-    const empire = filterOfficialsProducts(officials, 'Empire');
 
     // Shuffle and select featured products (first 5-8 from each category)
     const shuffle = <T,>(array: T[]): T[] => {
@@ -610,7 +562,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         heroAirmax97: airmax97,
         heroClarks: clarks,
         heroTimberland: timberland,
-        heroEmpire: empire,
       },
     };
   } catch (error) {
@@ -627,7 +578,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         heroAirmax97: [],
         heroClarks: [],
         heroTimberland: [],
-        heroEmpire: [],
       },
     };
   }

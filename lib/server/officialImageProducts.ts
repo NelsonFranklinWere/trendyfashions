@@ -3,7 +3,7 @@ import path from 'path';
 
 import type { Product } from '@/data/products';
 
-const FORMAL_DIR = path.join(process.cwd(), 'public', 'images', 'formal');
+const OFFICIALS_DIR = path.join(process.cwd(), 'public', 'images', 'officials');
 
 const isBoot = (fileName: string): boolean => {
   return fileName.toLowerCase().includes('boot');
@@ -229,43 +229,21 @@ const CLARKS_PRICE = 4500;
 // Legacy filesystem-based function (kept for fallback)
 const getOfficialImageProductsFromFS = (): Product[] => {
   try {
-    if (!fs.existsSync(FORMAL_DIR)) {
+    if (!fs.existsSync(OFFICIALS_DIR)) {
       return [];
     }
 
     let files = fs
-      .readdirSync(FORMAL_DIR)
+      .readdirSync(OFFICIALS_DIR)
       .filter((file) => file.match(/\.(jpg|jpeg|png|webp)$/i))
       .filter((file) => {
         const lower = file.toLowerCase();
-        // Exclude bankrobbers, clarksformal, and the 65th clarks image (ClarksOfficials66.jpg)
-        // Also exclude specific casual files: CasualsOfficial2.jpg, CasualsOfficial20.jpg, CasualsOfficial3.jpg
-        // Also exclude specific clarks files: clarksofficial102, 28, 29, 27
+        // Only exclude clearly invalid files
         return !lower.includes('bankrobber') && 
                !lower.includes('clarksformal') &&
-               !lower.includes('clarksofficials66') &&
-               !lower.includes('casualsofficial2.jpg') &&
-               !lower.includes('casualsofficial20.jpg') &&
-               !lower.includes('casualsofficial3.jpg') &&
-               !lower.includes('clarksofficial102') &&
-               !lower.includes('clarksofficial28') &&
-               !lower.includes('clarksofficial29') &&
-               !lower.includes('clarksofficial27');
+               !lower.includes('contact'); // Exclude contact/info images like ClarksContact.jpg
       })
       .sort((a, b) => a.localeCompare(b));
-    
-    // Get first 2 casual products to exclude
-    const casualFiles = files
-      .filter((file) => {
-        const lower = file.toLowerCase();
-        return lower.includes('casual') && !lower.includes('clark');
-      })
-      .sort((a, b) => a.localeCompare(b));
-    
-    const firstTwoCasuals = casualFiles.slice(0, 2);
-    
-    // Exclude first 2 casual products
-    files = files.filter((file) => !firstTwoCasuals.includes(file));
 
     return files.map((file, index) => {
       const name = formatName(file);
@@ -273,19 +251,32 @@ const getOfficialImageProductsFromFS = (): Product[] => {
       const isCasualProduct = isCasual(file);
       const isMuleProduct = isMule(file);
       const isClarksProduct = isClarks(file);
+      const isEmpireProduct = isEmpire(file);
       // Boots are 4700, clarks are 4500, casuals are 3500, mules are 2500, empire and others are 2800
       const price = isBootProduct ? BOOT_PRICE : 
                     (isClarksProduct ? CLARKS_PRICE :
                     (isCasualProduct ? CASUAL_PRICE : 
                     (isMuleProduct ? MULE_PRICE : DEFAULT_PRICE)));
+      
+      // Determine subcategory for tags
+      // Priority: Boots > Empire > Casuals > Mules > Clarks > Other
+      let subcategory: string | undefined;
+      if (isBootProduct) subcategory = 'Boots';
+      else if (isEmpireProduct) subcategory = 'Empire';
+      else if (isCasualProduct) subcategory = 'Casuals';
+      else if (isMuleProduct) subcategory = 'Mules';
+      else if (isClarksProduct) subcategory = 'Clarks';
+      else subcategory = 'Other'; // All other products go to "Other"
+      
       return {
         id: buildId(file),
         name,
         description: sanitizeDescription(name, file, index),
         price,
-        image: `/images/formal/${file}`,
+        image: `/images/officials/${file}`,
         category: 'officials',
         gender: 'Men',
+        tags: subcategory ? [subcategory] : undefined,
       } satisfies Product;
     });
   } catch (error) {

@@ -18,6 +18,7 @@ import {
   OFFICIAL_SUBCATEGORY_FILTERS,
   OfficialFilter,
   filterOfficialsProducts,
+  hasOfficialMatches,
 } from '@/lib/filters/officials';
 import {
   DEFAULT_SNEAKER_FILTER,
@@ -80,19 +81,30 @@ interface CategoryPageProps {
 const CategoryPage = ({ category, products, randomProducts, allProducts }: CategoryPageProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
+  
+  // Safety checks - use default values instead of early return
+  const safeCategory = category || { slug: '', name: '', description: '' };
+  const safeProducts = products || [];
+  const safeAllProducts = allProducts || [];
 
   const searchResults = useMemo(() => {
-    if (!searchQuery.trim()) {
+    if (!searchQuery.trim() || !safeAllProducts || !Array.isArray(safeAllProducts)) {
       return [];
     }
 
-    const query = searchQuery.toLowerCase().trim();
-    return allProducts.filter((product) => {
-      const nameMatch = product.name.toLowerCase().includes(query);
-      const descMatch = product.description?.toLowerCase().includes(query);
-      return nameMatch || descMatch;
-    });
-  }, [searchQuery, allProducts]);
+    try {
+      const query = searchQuery.toLowerCase().trim();
+      return safeAllProducts.filter((product) => {
+        if (!product) return false;
+        const nameMatch = product.name?.toLowerCase().includes(query) || false;
+        const descMatch = product.description?.toLowerCase().includes(query) || false;
+        return nameMatch || descMatch;
+      });
+    } catch (error) {
+      console.error('Error filtering search results:', error);
+      return [];
+    }
+  }, [searchQuery, safeAllProducts]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -109,82 +121,94 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
       setShowSearchResults(true);
     }
   };
-  const isOfficials = category.slug === 'officials';
-  const isSneakers = category.slug === 'sneakers';
-  const isCasuals = category.slug === 'casuals';
-  const isVans = category.slug === 'vans';
-  const isJordan = category.slug === 'jordan';
-  const isAirmax = category.slug === 'airmax';
-  const [activeFilter, setActiveFilter] = useState<FilterType>(
-    isOfficials
-      ? (DEFAULT_OFFICIAL_FILTER as FilterType)
-      : isSneakers
-        ? (DEFAULT_SNEAKER_FILTER as FilterType)
-        : isCasuals
-          ? (DEFAULT_CASUAL_FILTER as FilterType)
-          : isVans
-            ? (DEFAULT_VANS_FILTER as FilterType)
-            : isJordan
-              ? (DEFAULT_JORDAN_FILTER as FilterType)
-              : isAirmax
-                ? (DEFAULT_AIRMAX_FILTER as FilterType)
-                : 'All'
-  );
+  const isOfficials = safeCategory.slug === 'officials';
+  const isSneakers = safeCategory.slug === 'sneakers';
+  const isCasuals = safeCategory.slug === 'casuals';
+  const isVans = safeCategory.slug === 'vans';
+  const isJordan = safeCategory.slug === 'jordan';
+  const isAirmax = safeCategory.slug === 'airmax';
+  
+  const [activeFilter, setActiveFilter] = useState<FilterType>(() => {
+    try {
+      if (isOfficials) return DEFAULT_OFFICIAL_FILTER as FilterType;
+      if (isSneakers) return DEFAULT_SNEAKER_FILTER as FilterType;
+      if (isCasuals) return DEFAULT_CASUAL_FILTER as FilterType;
+      if (isVans) return DEFAULT_VANS_FILTER as FilterType;
+      if (isJordan) return DEFAULT_JORDAN_FILTER as FilterType;
+      if (isAirmax) return DEFAULT_AIRMAX_FILTER as FilterType;
+      return 'All';
+    } catch (error) {
+      console.error('Error setting initial filter:', error);
+      return 'All';
+    }
+  });
 
   // Get available filters based on products
   const availableFilters: FilterType[] = useMemo(() => {
-    if (isOfficials) {
-      const filters = OFFICIAL_SUBCATEGORY_FILTERS.filter(
-        (filter) => filterOfficialsProducts(products, filter).length > 0
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_OFFICIAL_FILTER] as FilterType[]);
+    try {
+      if (!safeProducts || !Array.isArray(safeProducts)) {
+        return ['All'] as FilterType[];
+      }
+
+      if (isOfficials) {
+        // For officials, always show all subcategory filters if we have products
+        if (safeProducts.length > 0) {
+          // Always show all available subcategory filters
+          // This ensures users can see all available subcategories
+          return [...OFFICIAL_SUBCATEGORY_FILTERS] as FilterType[];
+        }
+        return [DEFAULT_OFFICIAL_FILTER] as FilterType[];
+      }
+
+      if (isSneakers) {
+        const filters = SNEAKER_SUBCATEGORY_FILTERS.filter((filter) =>
+          hasSneakerMatches(safeProducts, filter)
+        ) as FilterType[];
+        return filters.length > 0 ? filters : ([DEFAULT_SNEAKER_FILTER] as FilterType[]);
+      }
+
+      if (isCasuals) {
+        const filters = CASUAL_BRAND_FILTERS.filter((filter) =>
+          hasCasualMatches(safeProducts, filter)
+        ) as FilterType[];
+        return filters.length > 0 ? filters : ([DEFAULT_CASUAL_FILTER] as FilterType[]);
+      }
+
+      if (isVans) {
+        const filters = VANS_SUBCATEGORY_FILTERS.filter((filter) =>
+          hasVansMatches(safeProducts, filter)
+        ) as FilterType[];
+        return filters.length > 0 ? filters : ([DEFAULT_VANS_FILTER] as FilterType[]);
+      }
+
+      if (isJordan) {
+        const filters = JORDAN_SUBCATEGORY_FILTERS.filter((filter) =>
+          hasJordanMatches(safeProducts, filter)
+        ) as FilterType[];
+        return filters.length > 0 ? filters : ([DEFAULT_JORDAN_FILTER] as FilterType[]);
+      }
+
+      if (isAirmax) {
+        const filters = AIRMAX_SUBCATEGORY_FILTERS.filter((filter) =>
+          hasAirmaxMatches(safeProducts, filter)
+        ) as FilterType[];
+        return filters.length > 0 ? filters : ([DEFAULT_AIRMAX_FILTER] as FilterType[]);
+      }
+
+      const filters: FilterType[] = ['All'];
+      const hasMen = safeProducts.some((p) => p.gender === 'Men');
+      const hasNewArrivals = safeProducts.some((p) =>
+        p.tags?.includes('New Arrivals')
+      );
+
+      if (hasMen) filters.push('Men');
+      if (hasNewArrivals) filters.push('New Arrivals');
+
+      return filters;
+    } catch (error) {
+      console.error('Error computing available filters:', error);
+      return ['All'] as FilterType[]; // Return default filter as fallback
     }
-
-    if (isSneakers) {
-      const filters = SNEAKER_SUBCATEGORY_FILTERS.filter((filter) =>
-        hasSneakerMatches(products, filter)
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_SNEAKER_FILTER] as FilterType[]);
-    }
-
-    if (isCasuals) {
-      const filters = CASUAL_BRAND_FILTERS.filter((filter) =>
-        hasCasualMatches(products, filter)
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_CASUAL_FILTER] as FilterType[]);
-    }
-
-    if (isVans) {
-      const filters = VANS_SUBCATEGORY_FILTERS.filter((filter) =>
-        hasVansMatches(products, filter)
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_VANS_FILTER] as FilterType[]);
-    }
-
-    if (isJordan) {
-      const filters = JORDAN_SUBCATEGORY_FILTERS.filter((filter) =>
-        hasJordanMatches(products, filter)
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_JORDAN_FILTER] as FilterType[]);
-    }
-
-    if (isAirmax) {
-      const filters = AIRMAX_SUBCATEGORY_FILTERS.filter((filter) =>
-        hasAirmaxMatches(products, filter)
-      ) as FilterType[];
-      return filters.length > 0 ? filters : ([DEFAULT_AIRMAX_FILTER] as FilterType[]);
-    }
-
-    const filters: FilterType[] = ['All'];
-    const hasMen = products.some((p) => p.gender === 'Men');
-    const hasNewArrivals = products.some((p) =>
-      p.tags?.includes('New Arrivals')
-    );
-
-    if (hasMen) filters.push('Men');
-    if (hasNewArrivals) filters.push('New Arrivals');
-
-    return filters;
   }, [products, isOfficials, isSneakers, isCasuals, isVans, isJordan, isAirmax]);
 
   useEffect(() => {
@@ -208,71 +232,89 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
 
   // Filter products based on active filter
   const filteredProducts = useMemo(() => {
-    if (isOfficials) {
-      return filterOfficialsProducts(
-        products,
-        (activeFilter as OfficialFilter) ?? DEFAULT_OFFICIAL_FILTER
-      );
-    }
+    try {
+      if (!safeProducts || !Array.isArray(safeProducts)) {
+        return [];
+      }
 
-    if (isSneakers) {
-      return filterSneakerProducts(
-        products,
-        (activeFilter as SneakerFilter) ?? DEFAULT_SNEAKER_FILTER
-      );
-    }
+      if (isOfficials) {
+        return filterOfficialsProducts(
+          safeProducts,
+          (activeFilter as OfficialFilter) ?? DEFAULT_OFFICIAL_FILTER
+        );
+      }
 
-    if (isCasuals) {
-      return filterCasualProducts(
-        products,
-        (activeFilter as CasualBrandFilter) ?? DEFAULT_CASUAL_FILTER
-      );
-    }
+      if (isSneakers) {
+        return filterSneakerProducts(
+          safeProducts,
+          (activeFilter as SneakerFilter) ?? DEFAULT_SNEAKER_FILTER
+        );
+      }
 
-    if (isVans) {
-      return filterVansProducts(
-        products,
-        (activeFilter as VansFilter) ?? DEFAULT_VANS_FILTER
-      );
-    }
+      if (isCasuals) {
+        return filterCasualProducts(
+          safeProducts,
+          (activeFilter as CasualBrandFilter) ?? DEFAULT_CASUAL_FILTER
+        );
+      }
 
-    if (isJordan) {
-      return filterJordanProducts(
-        products,
-        (activeFilter as JordanFilter) ?? DEFAULT_JORDAN_FILTER
-      );
-    }
+      if (isVans) {
+        return filterVansProducts(
+          safeProducts,
+          (activeFilter as VansFilter) ?? DEFAULT_VANS_FILTER
+        );
+      }
 
-    if (isAirmax) {
-      return filterAirmaxProducts(
-        products,
-        (activeFilter as AirmaxFilter) ?? DEFAULT_AIRMAX_FILTER
-      );
-    }
+      if (isJordan) {
+        return filterJordanProducts(
+          safeProducts,
+          (activeFilter as JordanFilter) ?? DEFAULT_JORDAN_FILTER
+        );
+      }
 
-    if (activeFilter === 'All') return products;
-    if (activeFilter === 'Men') return products.filter((p) => p.gender === 'Men');
-    if (activeFilter === 'New Arrivals')
-      return products.filter((p) => p.tags?.includes('New Arrivals'));
-    return products;
-  }, [products, activeFilter, isOfficials, isSneakers, isCasuals, isVans, isJordan, isAirmax]);
+      if (isAirmax) {
+        return filterAirmaxProducts(
+          safeProducts,
+          (activeFilter as AirmaxFilter) ?? DEFAULT_AIRMAX_FILTER
+        );
+      }
+
+      if (activeFilter === 'All') return safeProducts;
+      if (activeFilter === 'Men') return safeProducts.filter((p) => p.gender === 'Men');
+      if (activeFilter === 'New Arrivals')
+        return safeProducts.filter((p) => p.tags?.includes('New Arrivals'));
+      return safeProducts;
+    } catch (error) {
+      console.error('Error filtering products:', error);
+      return safeProducts; // Return all products as fallback
+    }
+  }, [safeProducts, activeFilter, isOfficials, isSneakers, isCasuals, isVans, isJordan, isAirmax]);
+
+  // Early return after all hooks if data is missing
+  if (!category || !products || !allProducts) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-text">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <>
       <NextSeo
-        title={`Best Sellers: ${category.name} | Quality Original Shoes Nairobi | Trendy Fashion Zone`}
-        description={`Shop best sellers and quality original ${category.name.toLowerCase()} shoes in Nairobi. ${category.description} Authentic brands, premium quality, trusted by thousands.`}
-        canonical={`https://trendyfashionzone.co.ke/collections/${category.slug}`}
+        title={`Best Sellers: ${safeCategory.name} | Quality Original Shoes Nairobi | Trendy Fashion Zone`}
+        description={`Shop best sellers and quality original ${safeCategory.name.toLowerCase()} shoes in Nairobi. ${safeCategory.description} Authentic brands, premium quality, trusted by thousands.`}
+        canonical={`https://trendyfashionzone.co.ke/collections/${safeCategory.slug}`}
         openGraph={{
-          url: `https://trendyfashionzone.co.ke/collections/${category.slug}`,
-          title: `Best Sellers: ${category.name} | Quality Original Shoes Nairobi`,
-          description: `Shop best sellers and quality original ${category.name.toLowerCase()} shoes. ${category.description}`,
+          url: `https://trendyfashionzone.co.ke/collections/${safeCategory.slug}`,
+          title: `Best Sellers: ${safeCategory.name} | Quality Original Shoes Nairobi`,
+          description: `Shop best sellers and quality original ${safeCategory.name.toLowerCase()} shoes. ${safeCategory.description}`,
           type: 'website',
         }}
         additionalMetaTags={[
           {
             name: 'keywords',
-            content: `best sellers ${category.name.toLowerCase()} Nairobi, quality original ${category.name.toLowerCase()} Kenya, authentic ${category.name.toLowerCase()} shoes, ${category.name.toLowerCase()} best sellers, trending ${category.name.toLowerCase()} footwear`,
+            content: `best sellers ${safeCategory.name.toLowerCase()} Nairobi, quality original ${safeCategory.name.toLowerCase()} Kenya, authentic ${safeCategory.name.toLowerCase()} shoes, ${safeCategory.name.toLowerCase()} best sellers, trending ${safeCategory.name.toLowerCase()} footwear`,
           },
         ]}
       />
@@ -282,15 +324,15 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
-            name: `${category.name} Collection - Best Sellers`,
-            description: `Best sellers and quality original ${category.name.toLowerCase()} shoes in Nairobi. ${category.description}`,
-            url: `https://trendyfashionzone.co.ke/collections/${category.slug}`,
+            name: `${safeCategory.name} Collection - Best Sellers`,
+            description: `Best sellers and quality original ${safeCategory.name.toLowerCase()} shoes in Nairobi. ${safeCategory.description}`,
+            url: `https://trendyfashionzone.co.ke/collections/${safeCategory.slug}`,
             breadcrumb: {
               '@type': 'BreadcrumbList',
               itemListElement: [
                 { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendyfashionzone.co.ke' },
                 { '@type': 'ListItem', position: 2, name: 'Collections', item: 'https://trendyfashionzone.co.ke/collections' },
-                { '@type': 'ListItem', position: 3, name: category.name, item: `https://trendyfashionzone.co.ke/collections/${category.slug}` },
+                { '@type': 'ListItem', position: 3, name: safeCategory.name, item: `https://trendyfashionzone.co.ke/collections/${safeCategory.slug}` },
               ],
             },
           }),
@@ -337,10 +379,10 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
               <div className="text-center md:text-left">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-2">
-                  Best Sellers: {category.name} Collection
+                  Best Sellers: {safeCategory.name} Collection
                 </h1>
                 <p className="text-lg md:text-xl text-text font-body max-w-3xl font-medium">
-                  Quality original {category.name.toLowerCase()} shoes - {category.description}
+                  Quality original {safeCategory.name.toLowerCase()} shoes - {safeCategory.description}
                 </p>
               </div>
               
@@ -434,7 +476,14 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
           </motion.div>
 
           {/* Filters */}
-          {availableFilters.length > 1 && (
+          {isOfficials && availableFilters.length > 0 && (
+            <CategoryFilter
+              filters={availableFilters}
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+            />
+          )}
+          {!isOfficials && availableFilters.length > 1 && (
             <CategoryFilter
               filters={availableFilters}
               activeFilter={activeFilter}

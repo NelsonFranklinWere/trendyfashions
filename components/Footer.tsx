@@ -9,31 +9,31 @@ const Footer = () => {
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 lg:py-16 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 lg:gap-12 mb-8 md:mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <h3 className="text-2xl md:text-3xl font-heading font-bold text-white mb-4">
+            <h3 className="text-lg md:text-2xl lg:text-3xl font-heading font-bold text-white mb-3 md:mb-4">
               Trendy Fashion Zone
             </h3>
-            <p className="text-light/90 font-body mb-4 leading-relaxed">
+            <p className="text-light/90 font-body text-xs md:text-sm lg:text-base mb-2 md:mb-4 leading-relaxed">
               Walk the Talk — Style that Speaks.
             </p>
-            <p className="text-light/70 font-body text-sm mb-6 leading-relaxed">
+            <p className="text-light/70 font-body text-xs md:text-sm mb-4 md:mb-6 leading-relaxed">
               5+ years of trust and style in Kenya&apos;s fashion industry. Quality original shoes, best sellers, and trending footwear.
             </p>
             
             {/* Social Links */}
-            <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex items-center gap-2 md:gap-3 flex-wrap">
               <a
                 href="https://www.facebook.com/franklabels254"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Facebook"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -49,11 +49,11 @@ const Footer = () => {
                 href="https://www.instagram.com/franklabels.store"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Instagram"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -69,11 +69,11 @@ const Footer = () => {
                 href="https://twitter.com/frank_labels"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="Twitter"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -85,11 +85,11 @@ const Footer = () => {
                 href="https://tiktok.com/@franklabels254"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
+                className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
                 aria-label="TikTok"
               >
                 <svg
-                  className="w-5 h-5"
+                  className="w-4 h-4 md:w-5 md:h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                   aria-hidden="true"
@@ -97,82 +97,68 @@ const Footer = () => {
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
                 </svg>
               </a>
-              <a
-                href="https://wa.me/254743869564"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/10 hover:bg-secondary transition-all duration-300 flex items-center justify-center text-light/80 hover:text-white hover:scale-110"
-                aria-label="WhatsApp"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                </svg>
-              </a>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
-              Quick Links
-            </h4>
-            <ul className="space-y-3">
+          {/* Quick Links and Services - Side by side on small screens */}
+          <div className="grid grid-cols-2 md:contents gap-6 md:gap-0">
+            {/* Quick Links */}
+            <div>
+              <h4 className="text-sm md:text-lg font-heading font-semibold text-white mb-3 md:mb-5 uppercase tracking-wide">
+                Quick Links
+              </h4>
+              <ul className="space-y-2 md:space-y-3">
               <li>
                 <Link
                   href="/"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Home
                 </Link>
               </li>
               <li>
                 <Link
                   href="/collections"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   All Collections
                 </Link>
               </li>
               <li>
                 <Link
                   href="/collections/officials"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Officials
                 </Link>
               </li>
               <li>
                 <Link
                   href="/collections/sneakers"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Sneakers
                 </Link>
               </li>
               <li>
                 <Link
                   href="/collections/casuals"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Casuals
                 </Link>
               </li>
               <li>
                 <Link
                   href="/contact"
-                  className="text-light/80 hover:text-secondary transition-colors font-body inline-flex items-center group"
+                  className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-2 transition-opacity" />
+                  <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Contact Us
                 </Link>
               </li>
@@ -181,46 +167,47 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
+            <h4 className="text-sm md:text-lg font-heading font-semibold text-white mb-3 md:mb-5 uppercase tracking-wide">
               Services
             </h4>
-            <ul className="space-y-3">
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+            <ul className="space-y-2 md:space-y-3">
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>Quality Original Shoes</span>
               </li>
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>Free Delivery in Nairobi</span>
               </li>
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>Custom Designs Available</span>
               </li>
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>Authentic Brands Only</span>
               </li>
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>5+ Years Trusted Service</span>
               </li>
-              <li className="text-light/80 font-body flex items-start">
-                <span className="text-secondary mr-2 mt-1">✓</span>
+              <li className="text-light/80 font-body text-xs md:text-sm flex items-start">
+                <span className="text-secondary mr-1.5 md:mr-2 mt-0.5 md:mt-1 text-xs">✓</span>
                 <span>Best Sellers & Trending Styles</span>
               </li>
             </ul>
           </div>
+          </div>
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-heading font-semibold text-white mb-5 uppercase tracking-wide">
+            <h4 className="text-sm md:text-lg font-heading font-semibold text-white mb-3 md:mb-5 uppercase tracking-wide">
               Contact Us
             </h4>
-            <ul className="space-y-4 text-light/80 font-body">
+            <ul className="space-y-3 md:space-y-4 text-light/80 font-body text-xs md:text-sm">
               <li className="flex items-start group">
                 <svg
-                  className="w-5 h-5 text-secondary mr-3 mt-0.5 flex-shrink-0"
+                  className="w-4 h-4 md:w-5 md:h-5 text-secondary mr-2 md:mr-3 mt-0.5 flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -251,7 +238,7 @@ const Footer = () => {
                   className="flex items-center hover:text-secondary transition-colors group"
                 >
                   <svg
-                    className="w-5 h-5 text-secondary mr-3 flex-shrink-0"
+                    className="w-4 h-4 md:w-5 md:h-5 text-secondary mr-2 md:mr-3 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -269,7 +256,7 @@ const Footer = () => {
                   className="flex items-center hover:text-secondary transition-colors group"
                 >
                   <svg
-                    className="w-5 h-5 text-secondary mr-3 flex-shrink-0"
+                    className="w-4 h-4 md:w-5 md:h-5 text-secondary mr-2 md:mr-3 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 24 24"
                     aria-hidden="true"
@@ -279,41 +266,25 @@ const Footer = () => {
                   <span className="group-hover:text-white transition-colors">+254 792 264 228</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href="mailto:nelsonochieng516@gmail.com"
-                  className="flex items-start hover:text-secondary transition-colors group"
-                >
-                  <svg
-                    className="w-5 h-5 text-secondary mr-3 mt-0.5 flex-shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="break-words group-hover:text-white transition-colors">
-                    nelsonochieng516@gmail.com
-                  </span>
-                </a>
-              </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-light/20 pt-8 mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-light/70 font-body text-sm text-center md:text-left">
-              Copyright © {currentYear} Trendy Fashion Zone. All rights reserved.
+        <div className="border-t border-light/20 pt-6 md:pt-8 mt-6 md:mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+            <p className="text-light/70 font-body text-xs md:text-sm text-center md:text-left">
+              Copyright © {currentYear} Trendy Fashion Zone. All rights reserved. Designed by{' '}
+              <a
+                href="https://nelson.strivego.online"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-secondary transition-colors underline"
+              >
+                NelsonW.
+              </a>
             </p>
-            <div className="flex items-center gap-6 text-sm text-light/70 font-body">
+            <div className="flex items-center gap-4 md:gap-6 text-xs md:text-sm text-light/70 font-body">
               <Link href="/contact" className="hover:text-secondary transition-colors">
                 Privacy Policy
               </Link>

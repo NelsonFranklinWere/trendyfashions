@@ -27,7 +27,7 @@ getAllImages(imagesDir);
 
 // Check featured category images
 const featuredImages = [
-  '/images/formal/ClarksOfficials1.jpg',
+  '/images/officials/ClarksOfficials1.jpg',
   '/images/sneakers/Addidas-samba.jpg',
   '/images/casual/Cassualss1.jpg',
   '/images/airforce/Af1customized1-1.jpg',
@@ -58,7 +58,7 @@ if (!logoExists) {
 
 // Check contact page image
 console.log('\n📋 Checking contact page image:');
-const contactImagePath = '/images/formal/Empire-at-Officials1.jpg';
+const contactImagePath = '/images/officials/Empire-at-Officials1.jpg';
 const contactExists = actualImages.has(contactImagePath);
 console.log(`   ${contactExists ? '✅' : '❌'} ${contactImagePath}`);
 if (!contactExists) {

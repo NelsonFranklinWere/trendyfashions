@@ -7,17 +7,12 @@ import CartBadge from '@/components/CartBadge';
 import CartDrawer from '@/components/CartDrawer';
 import useCart from '@/hooks/useCart';
 import SmartImage from '@/components/SmartImage';
-import { OFFICIAL_SUBCATEGORY_FILTERS } from '@/lib/filters/officials';
-import { CASUAL_BRAND_FILTERS } from '@/lib/filters/casuals';
-import { AIRMAX_SUBCATEGORY_FILTERS } from '@/lib/filters/airmax';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [hoveredCollection, setHoveredCollection] = useState<string | null>(null);
   const { itemsCount } = useCart();
-  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     let ticking = false;
@@ -36,48 +31,12 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
+    { href: '/collections/officials', label: 'Officials' },
+    { href: '/collections/casuals', label: 'Casuals' },
+    { href: '/collections/airmax', label: 'Airmax' },
+    { href: '/collections', label: 'Collections' },
     { href: '/contact', label: 'Contact' },
   ];
-
-  const collectionMenus = {
-    officials: {
-      label: 'Officials',
-      href: '/collections/officials',
-      subcategories: OFFICIAL_SUBCATEGORY_FILTERS.map(filter => ({
-        label: filter,
-        href: `/collections/officials?filter=${encodeURIComponent(filter)}`,
-      })),
-    },
-    casuals: {
-      label: 'Casuals',
-      href: '/collections/casuals',
-      subcategories: CASUAL_BRAND_FILTERS.map(filter => ({
-        label: filter,
-        href: `/collections/casuals?filter=${encodeURIComponent(filter)}`,
-      })),
-    },
-    airmax: {
-      label: 'Airmax',
-      href: '/collections/airmax',
-      subcategories: AIRMAX_SUBCATEGORY_FILTERS.map(filter => ({
-        label: filter,
-        href: `/collections/airmax?filter=${encodeURIComponent(filter)}`,
-      })),
-    },
-  };
-
-  const handleMouseEnter = (collection: string) => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-    }
-    setHoveredCollection(collection);
-  };
-
-  const handleMouseLeave = () => {
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setHoveredCollection(null);
-    }, 200);
-  };
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
@@ -119,71 +78,16 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
-              {/* Collections with Dropdowns */}
-              {Object.entries(collectionMenus).map(([key, menu]) => (
-                <div
-                  key={key}
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter(key)}
-                  onMouseLeave={handleMouseLeave}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
                 >
-                  <Link
-                    href={menu.href}
-                    className="text-text font-body font-medium hover:text-secondary transition-colors relative group flex items-center gap-1"
-                  >
-                    {menu.label}
-                    <svg
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        hoveredCollection === key ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-                  </Link>
-                  
-                  {/* Dropdown Menu */}
-                  <AnimatePresence>
-                    {hoveredCollection === key && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-2xl border border-light z-50 py-2"
-                        onMouseEnter={() => handleMouseEnter(key)}
-                        onMouseLeave={handleMouseLeave}
-                      >
-                        {menu.subcategories.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className="block px-4 py-2 text-sm text-text font-body hover:bg-light hover:text-secondary transition-colors"
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                  {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
+                </Link>
               ))}
-              
-              <Link
-                href="/contact"
-                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
-              >
-                Contact
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-              </Link>
               
               <CartBadge count={itemsCount} onClick={openCart} />
             </div>
@@ -227,38 +131,16 @@ const Navbar = () => {
               className="md:hidden bg-white border-t border-light"
             >
               <div className="px-4 py-4 space-y-2">
-                {/* Collections in Mobile */}
-                {Object.entries(collectionMenus).map(([key, menu]) => (
-                  <div key={key} className="space-y-1">
-                    <Link
-                      href={menu.href}
-                      onClick={() => setIsOpen(false)}
-                      className="block text-text font-body font-semibold hover:text-secondary transition-colors py-2"
-                    >
-                      {menu.label}
-                    </Link>
-                    <div className="pl-4 space-y-1">
-                      {menu.subcategories.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          onClick={() => setIsOpen(false)}
-                          className="block text-sm text-text/70 font-body hover:text-secondary transition-colors py-1"
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                  >
+                    {link.label}
+                  </Link>
                 ))}
-                
-                <Link
-                  href="/contact"
-                  onClick={() => setIsOpen(false)}
-                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
-                >
-                  Contact
-                </Link>
               </div>
             </motion.div>
           )}
