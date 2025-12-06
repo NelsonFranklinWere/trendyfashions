@@ -15,16 +15,16 @@ const ContactStat = ({ label, value, icon, index = 0 }: ContactStatProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.6 }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5 text-white/90 backdrop-blur-lg"
+      className="flex items-start gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-5 text-slate-900 shadow-[0_10px_30px_-10px_rgba(15,23,42,0.2)] backdrop-blur"
     >
       {icon ? (
-        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-2xl text-white">
+        <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#ff8c32] to-[#ff7a12] text-2xl text-white shadow-lg">
           {icon}
         </span>
       ) : null}
       <div>
-        <p className="text-sm uppercase tracking-widest text-white/60">{label}</p>
-        <p className="mt-1 text-2xl font-heading font-bold text-white">{value}</p>
+        <p className="text-sm uppercase tracking-widest text-slate-600">{label}</p>
+        <p className="mt-1 text-2xl font-heading font-bold text-slate-900">{value}</p>
       </div>
     </motion.div>
   );

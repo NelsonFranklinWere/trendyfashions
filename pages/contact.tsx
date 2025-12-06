@@ -461,7 +461,7 @@ const Contact = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
               className="flex flex-col gap-6"
             >
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {stats.map((stat, index) => (
                   <ContactStat key={stat.label} label={stat.label} value={stat.value} icon={stat.icon} index={index} />
                 ))}
