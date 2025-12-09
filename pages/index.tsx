@@ -844,6 +844,27 @@ const Home = ({
                 ...featuredJordan.slice(0, 1),
               ]
                 .filter(p => p && p.id && p.name && p.image && p.price)
+                .reduce((acc, product) => {
+                  const nameLower = (product.name || '').toLowerCase();
+                  const isNewBalance1000 = nameLower.includes('new balance 1000') || 
+                                         nameLower.includes('newbalance 1000') ||
+                                         nameLower === 'new balance 1000';
+                  
+                  // Check if we already have a New Balance 1000 in the accumulator
+                  const hasNewBalance1000 = acc.some(p => {
+                    const pNameLower = (p.name || '').toLowerCase();
+                    return pNameLower.includes('new balance 1000') || 
+                           pNameLower.includes('newbalance 1000') ||
+                           pNameLower === 'new balance 1000';
+                  });
+                  
+                  // Skip if this is a duplicate New Balance 1000
+                  if (isNewBalance1000 && hasNewBalance1000) {
+                    return acc;
+                  }
+                  
+                  return [...acc, product];
+                }, [] as Product[])
                 .slice(0, 8)
                 .map((product, index) => (
                   <CircularProductCard

@@ -2,10 +2,9 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
-import CategoryFilter, { FilterType } from '@/components/CategoryFilter';
 import { getAllProducts } from '@/lib/server/getAllProducts';
 import {
   getProductsByCategory,
@@ -72,6 +71,34 @@ import { getSportsImageProducts } from '@/lib/server/sportsImageProducts';
 import { getRandomProductsFromAllCategories } from '@/lib/server/getRandomProductsFromAllCategories';
 import RandomProductsCarousel from '@/components/RandomProductsCarousel';
 import { siteConfig, getCategoryKeywords, getCategoryTitle, getCategoryDescription } from '@/lib/seo/config';
+
+// Get customer-focused header text for each category (2 lines max)
+function getCategorySalesHeader(categorySlug: string): string {
+  const headers: Record<string, string> = {
+    'mens-officials': 'Find Your Perfect Office Shoes',
+    'mens-nike': 'Discover Authentic Nike Styles',
+    'sports': 'Choose Your Athletic Footwear',
+    'mens-style': 'Explore Unique Men\'s Styles',
+    'vans': 'Browse Customized Vans Collection',
+    'sneakers': 'Find Your Ideal Sneakers',
+    'mens-casuals': 'Select Your Casual Footwear',
+  };
+  return headers[categorySlug] || `Browse ${categorySlug.replace(/-/g, ' ')} Collection`;
+}
+
+// Get customer-focused description text for each category (2 lines max, guiding tone)
+function getCategorySalesDescription(categorySlug: string): string {
+  const descriptions: Record<string, string> = {
+    'mens-officials': 'Quality office shoes that match your professional needs. Find comfort and style for your workday.',
+    'mens-nike': 'Original Nike shoes from Air Force to Air Max. Browse styles that fit your lifestyle.',
+    'sports': 'Performance footwear for your active pursuits. Choose what works for your training and games.',
+    'mens-style': 'Distinctive designs that reflect your personal taste. Explore options that speak to you.',
+    'vans': 'Customized Vans that express your individuality. See designs that match your style.',
+    'sneakers': 'Classic and modern sneakers in various styles. Find the pair that feels right for you.',
+    'mens-casuals': 'Comfortable casual shoes for everyday wear. Select what fits your daily routine.',
+  };
+  return descriptions[categorySlug] || `Browse quality ${categorySlug.replace(/-/g, ' ')} options that suit your needs.`;
+}
 
 /**
  * Helper function to merge products with database products taking priority
@@ -160,83 +187,20 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
   const isJordan = safeCategory?.slug === 'jordan';
   const isAirmax = safeCategory?.slug === 'airmax';
   const isMensOfficials = safeCategory?.slug === 'mens-officials';
-  
-  const [activeFilter, setActiveFilter] = useState<FilterType>(() => {
-    try {
-      if (isOfficials) return DEFAULT_OFFICIAL_FILTER as FilterType;
-      if (isSneakers) return DEFAULT_SNEAKER_FILTER as FilterType;
-      if (isCasuals) return DEFAULT_CASUAL_FILTER as FilterType;
-      if (isVans) return DEFAULT_VANS_FILTER as FilterType;
-      if (isJordan) return DEFAULT_JORDAN_FILTER as FilterType;
-      if (isAirmax) return DEFAULT_AIRMAX_FILTER as FilterType;
-      return 'All';
-    } catch (error) {
-      console.error('Error setting initial filter:', error);
-      return 'All';
-    }
-  });
 
-  // Get available filters based on products
-  const availableFilters: FilterType[] = useMemo(() => {
-    try {
-      if (!safeProducts || !Array.isArray(safeProducts)) {
-        return ['All'] as FilterType[];
-      }
-
-      // Only show gender and tags filters, no subcategory filters
-      const filters: FilterType[] = ['All'];
-      const hasMen = safeProducts.some((p) => p.gender === 'Men');
-      const hasNewArrivals = safeProducts.some((p) =>
-        p.tags?.includes('New Arrivals')
-      );
-
-      if (hasMen) filters.push('Men');
-      if (hasNewArrivals) filters.push('New Arrivals');
-
-      return filters;
-    } catch (error) {
-      console.error('Error computing available filters:', error);
-      return ['All'] as FilterType[]; // Return default filter as fallback
-    }
-  }, [safeProducts]);
-
-  useEffect(() => {
-    if (!availableFilters.includes(activeFilter)) {
-      setActiveFilter(availableFilters[0] ?? 'All');
-    }
-  }, [availableFilters, activeFilter]);
-
-  // Show all products in category without subcategory filtering
+  // Show all products in category - no filtering applied
   const filteredProducts = useMemo(() => {
     try {
       if (!safeProducts || !Array.isArray(safeProducts)) {
         return [];
       }
-
-      // For mens-officials, show all products without any filtering
-      if (isMensOfficials) {
-        return safeProducts;
-      }
-
-      // Show all products in the category, only filter by gender/tags if needed
-      let products = safeProducts;
-
-      // Apply gender filter if active
-      if (activeFilter === 'Men') {
-        products = products.filter((p) => p.gender === 'Men');
-      }
-
-      // Apply New Arrivals filter if active
-      if (activeFilter === 'New Arrivals') {
-        products = products.filter((p) => p.tags?.includes('New Arrivals'));
-      }
-
-      return products;
+      // Return all products without any filtering
+      return safeProducts;
     } catch (error) {
-      console.error('Error filtering products:', error);
+      console.error('Error loading products:', error);
       return safeProducts; // Return all products as fallback
     }
-  }, [safeProducts, activeFilter, isMensOfficials]);
+  }, [safeProducts]);
 
   // Safety check - ensure we have valid data
   if (!safeCategory || !safeCategory.name) {
@@ -379,16 +343,17 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             className="mb-12"
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-              <div className="text-center md:text-left">
+              {/* Center-aligned Header */}
+              <div className="text-center md:text-left flex-1">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-2">
-                  Best Sellers: {safeCategory.name} Collection
+                  {getCategorySalesHeader(safeCategory.slug)}
                 </h1>
-                <p className="text-lg md:text-xl text-text font-body max-w-3xl font-medium">
-                  Quality original {safeCategory.name.toLowerCase()} shoes - {safeCategory.description}
+                <p className="text-base md:text-lg text-text font-body max-w-3xl leading-relaxed">
+                  {getCategorySalesDescription(safeCategory.slug)}
                 </p>
               </div>
               
-              {/* Search Bar - Top Right */}
+              {/* Search Bar - Right Side */}
               <div className="relative w-full md:w-80 flex-shrink-0">
                 <div className="relative">
                   <input
@@ -477,21 +442,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             </div>
           </motion.div>
 
-          {/* Filters - Hide for mens-officials */}
-          {!isMensOfficials && isOfficials && availableFilters.length > 0 && (
-            <CategoryFilter
-              filters={availableFilters}
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
-          )}
-          {!isMensOfficials && !isOfficials && availableFilters.length > 1 && (
-            <CategoryFilter
-              filters={availableFilters}
-              activeFilter={activeFilter}
-              onFilterChange={setActiveFilter}
-            />
-          )}
+          {/* Filters removed - all products display openly */}
 
           {/* Products Grid */}
           {filteredProducts.length > 0 ? (
@@ -558,30 +509,66 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const autoProducts = await getOfficialImageProducts();
       
       // Combine all sources - database products take priority (keep uploaded names/descriptions/prices)
-      products = mergeProductsWithDbPriority(
+      const allProducts = mergeProductsWithDbPriority(
         [...dbProducts, ...dbImageProducts],
         autoProducts
       );
+      
+      // Remove first two products permanently
+      products = allProducts.slice(2);
       
       // Final fallback to static products if database is empty
       if (products.length === 0) {
         products = getProductsByCategory('officials');
       }
     } else if (categorySlug === 'mens-casuals') {
-      // Get all casuals products: Lacoste, Timberland, Boss, casuals images, and Puma shoes
-      const casualsDbProducts = await getDbProducts('casuals');
-      const casualsDbImageProducts = await getDbImageProducts('casuals');
+      // Get all casuals products: Lacoste, Timberland, Boss, casuals images, Puma shoes, and Sandals
+      const casualsDbProducts = await getDbProducts('mens-casuals');
+      const casualsDbImageProducts = await getDbImageProducts('mens-casuals');
       const casualsFsProducts = getCasualImageProducts();
       
-      // Get Timberland products
-      const timberlandProducts = getTimberlandImageProducts();
+      // Get Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
+      const timberlandProducts = getTimberlandImageProducts().filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme');
+      });
       
-      // Get Timberland products from Mensstyle folder
+      // Get Timberland products from Mensstyle folder (EXCLUDE Timberland Extreme)
       const mensstyleProducts = getMensstyleImageProducts();
       const timberlandFromMensstyle = mensstyleProducts.filter(p => {
         if (!p || !p.image) return false;
         const nameLower = (p.name || '').toLowerCase();
-        return nameLower.includes('timberland') || nameLower.includes('timba');
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba');
+        const isExtreme = nameLower.includes('extreme') || descLower.includes('extreme') || imageLower.includes('extreme');
+        return isTimberland && !isExtreme;
+      });
+      
+      // Get sandals from mens-style category (both database and filesystem)
+      const mensStyleDbProducts = await getDbProducts('mens-style');
+      const mensStyleDbImageProducts = await getDbImageProducts('mens-style');
+      const mensstyleFsProducts = getMensstyleImageProducts();
+      
+      // Filter sandals from mens-style database products
+      const sandalsFromDb = [...mensStyleDbProducts, ...mensStyleDbImageProducts].filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal');
+      });
+      
+      // Filter sandals from mens-style filesystem products
+      const sandalsFromFs = mensstyleFsProducts.filter(p => {
+        if (!p || !p.image) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal');
       });
       
       // Get Puma products from sneakers category
@@ -595,13 +582,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         return nameLower.includes('puma');
       });
       
-      // Combine all products - database products take priority
+      // Combine all products - database products take priority, including sandals
       const allCasuals = mergeProductsWithDbPriority(
-        [...casualsDbProducts, ...casualsDbImageProducts],
-        [...casualsFsProducts, ...timberlandProducts, ...timberlandFromMensstyle, ...pumaProducts]
+        [...casualsDbProducts, ...casualsDbImageProducts, ...sandalsFromDb],
+        [...casualsFsProducts, ...timberlandProducts, ...timberlandFromMensstyle, ...pumaProducts, ...sandalsFromFs]
       );
       
-      // Filter to include only: Lacoste, Timberland, Boss, casuals, and Puma
+      // Filter to include only: Lacoste, Timberland, Boss, casuals, Puma, and Sandals
+      // Also set price to 3200 for Timberland, Lacoste, Puma, and Boss products
       const seen = new Set<string>();
       products = allCasuals.filter(p => {
         if (!p || !p.image) return false;
@@ -609,15 +597,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         seen.add(p.image);
         
         const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
         const categoryLower = (p.category || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        
+        // Include Sandals products
+        if (nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal')) {
+          return true;
+        }
         
         // Include Lacoste products
         if (nameLower.includes('lacoste')) {
           return true;
         }
         
-        // Include Timberland products
-        if (nameLower.includes('timberland') || nameLower.includes('timba') || categoryLower === 'timberland') {
+        // Include Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
+        if ((nameLower.includes('timberland') || nameLower.includes('timba') || categoryLower === 'timberland') &&
+            !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme')) {
           return true;
         }
         
@@ -637,7 +633,35 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         }
         
         return false;
+      })
+      .map(p => {
+        if (!p) return p;
+        
+        // Set price to 3200 for Timberland, Lacoste, Puma, and Boss products
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
+                           descLower.includes('timberland') || descLower.includes('timba');
+        const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste');
+        const isPuma = nameLower.includes('puma') || descLower.includes('puma');
+        const isBoss = nameLower.includes('boss') || descLower.includes('boss');
+        
+        if (isTimberland || isLacoste || isPuma || isBoss) {
+          return {
+            ...p,
+            price: 3200
+          };
+        }
+        
+        return p;
       });
+      
+      // Move the last 20 products from mens-casuals to mens-style
+      // Remove them from mens-casuals (they will be added to mens-style in that section)
+      if (products.length > 20) {
+        products = products.slice(0, -20);
+      }
       
       if (products.length === 0) {
         products = getProductsByCategory('casuals');
@@ -726,6 +750,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                imageLower.includes('/images/Sneakers/');
       });
     } else if (categorySlug === 'sports') {
+      // Get database products first (priority - keep uploaded names/descriptions/prices)
+      const sportsDbProducts = await getDbProducts('sports');
+      const sportsDbImageProducts = await getDbImageProducts('sports');
+      
       // Get all products from sports folder
       const sportsFsProducts = getSportsImageProducts().filter(p => 
         p.image && (p.image.startsWith('/images/sports/') || p.image.startsWith('/images/Sports/'))
@@ -742,8 +770,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const allSneakersFs = [...sneakersFsProducts];
       const mergedSneakers = mergeProductsWithDbPriority(allSneakersDb, allSneakersFs);
       
+      // Combine sports database products with filesystem products (database priority)
+      const mergedSports = mergeProductsWithDbPriority(
+        [...sportsDbProducts, ...sportsDbImageProducts],
+        sportsFsProducts
+      );
+      
       // Combine with allProductsList (which already has database priority)
-      const allProducts = [...allProductsList, ...mergedSneakers];
+      const allProducts = [...allProductsList, ...mergedSneakers, ...mergedSports];
       
       // Filter for football boots, trainers, and Nike Zoom
       const fs = await import('fs');
@@ -925,10 +959,173 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const dbProducts = await getDbProducts('mens-style');
       const dbImageProducts = await getDbImageProducts('mens-style');
       
-      // Get products from mensstyle folder
-      const mensstyleProducts = getMensstyleImageProducts().filter(p => 
-        p.image && (p.image.startsWith('/images/Mensstyle/') || p.image.startsWith('/images/mensstyle/'))
+      // DEBUG: Query all bank robbers products regardless of category
+      try {
+        const { supabaseAdmin } = await import('@/lib/supabase/server');
+        const { data: allBankRobbers } = await supabaseAdmin
+          .from('products')
+          .select('*')
+          .or('name.ilike.%bank robber%,name.ilike.%bankrobber%,description.ilike.%bank robber%,description.ilike.%bankrobber%');
+        
+        if (allBankRobbers && allBankRobbers.length > 0) {
+          console.log(`[DEBUG] Found ${allBankRobbers.length} bank robbers products in ALL categories:`, 
+            allBankRobbers.map((p: any) => ({ name: p.name, category: p.category, image: p.image })));
+        }
+      } catch (err) {
+        console.error('Error querying bank robbers:', err);
+      }
+      
+      // Log bank robbers products for debugging
+      const allDbProducts = [...dbProducts, ...dbImageProducts];
+      const bankRobbersProducts = allDbProducts.filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return nameLower.includes('bank robber') || nameLower.includes('bankrobber') ||
+               descLower.includes('bank robber') || descLower.includes('bankrobber') ||
+               imageLower.includes('bank robber') || imageLower.includes('bankrobber');
+      });
+      if (bankRobbersProducts.length > 0) {
+        console.log(`[Mens-Style] Found ${bankRobbersProducts.length} bank robbers products in mens-style category:`, 
+          bankRobbersProducts.map(p => ({ name: p.name, image: p.image })));
+      } else {
+        console.log(`[Mens-Style] No bank robbers products found in mens-style category. Total products: ${allDbProducts.length}`);
+      }
+      
+      // Get Timberland Extreme products from casuals/mens-casuals (move them to mens-style)
+      const casualsDbProducts = await getDbProducts('mens-casuals');
+      const casualsDbImageProducts = await getDbImageProducts('mens-casuals');
+      const casualsFsProducts = getCasualImageProducts();
+      const timberlandProducts = getTimberlandImageProducts();
+      const allCasualsProducts = [...casualsDbProducts, ...casualsDbImageProducts, ...casualsFsProducts, ...timberlandProducts];
+      const timberlandExtremeProducts = allCasualsProducts.filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
+                           descLower.includes('timberland') || descLower.includes('timba') ||
+                           imageLower.includes('timberland') || imageLower.includes('timba');
+        const isExtreme = nameLower.includes('extreme') || descLower.includes('extreme') || imageLower.includes('extreme');
+        return isTimberland && isExtreme;
+      });
+      
+      // Get the last 20 products from mens-casuals to move to mens-style
+      // Replicate the mens-casuals filtering logic to get the same products
+      const mensCasualsDbProducts = await getDbProducts('mens-casuals');
+      const mensCasualsDbImageProducts = await getDbImageProducts('mens-casuals');
+      const mensCasualsFsProducts = getCasualImageProducts();
+      const mensCasualsTimberlandProducts = getTimberlandImageProducts().filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme');
+      });
+      const mensCasualsMensstyleProducts = getMensstyleImageProducts();
+      const mensCasualsTimberlandFromMensstyle = mensCasualsMensstyleProducts.filter(p => {
+        if (!p || !p.image) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba');
+        const isExtreme = nameLower.includes('extreme') || descLower.includes('extreme') || imageLower.includes('extreme');
+        return isTimberland && !isExtreme;
+      });
+      const mensCasualsSandalsFromDb = [...dbProducts, ...dbImageProducts].filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal');
+      });
+      const mensCasualsSandalsFromFs = mensCasualsMensstyleProducts.filter(p => {
+        if (!p || !p.image) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal');
+      });
+      const mensCasualsSneakersDbProducts = await getDbProducts('sneakers');
+      const mensCasualsSneakersDbImageProducts = await getDbImageProducts('sneakers');
+      const mensCasualsSneakersFsProducts = getSneakersImageProducts();
+      const allMensCasualsSneakers = [...mensCasualsSneakersDbProducts, ...mensCasualsSneakersDbImageProducts, ...mensCasualsSneakersFsProducts];
+      const mensCasualsPumaProducts = allMensCasualsSneakers.filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        return nameLower.includes('puma');
+      });
+      const allMensCasualsProducts = mergeProductsWithDbPriority(
+        [...mensCasualsDbProducts, ...mensCasualsDbImageProducts, ...mensCasualsSandalsFromDb],
+        [...mensCasualsFsProducts, ...mensCasualsTimberlandProducts, ...mensCasualsTimberlandFromMensstyle, ...mensCasualsPumaProducts, ...mensCasualsSandalsFromFs]
       );
+      const mensCasualsSeen = new Set<string>();
+      const filteredMensCasualsProducts = allMensCasualsProducts.filter(p => {
+        if (!p || !p.image) return false;
+        if (mensCasualsSeen.has(p.image)) return false;
+        mensCasualsSeen.add(p.image);
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const categoryLower = (p.category || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        if (nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal')) return true;
+        if (nameLower.includes('lacoste')) return true;
+        if ((nameLower.includes('timberland') || nameLower.includes('timba') || categoryLower === 'timberland') &&
+            !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme')) return true;
+        if (nameLower.includes('boss')) return true;
+        if (nameLower.includes('puma')) return true;
+        if (categoryLower === 'casuals' || categoryLower === 'casual') return true;
+        return false;
+      }).map(p => {
+        if (!p) return p;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
+                           descLower.includes('timberland') || descLower.includes('timba');
+        const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste');
+        const isPuma = nameLower.includes('puma') || descLower.includes('puma');
+        const isBoss = nameLower.includes('boss') || descLower.includes('boss');
+        if (isTimberland || isLacoste || isPuma || isBoss) {
+          return { ...p, price: 3200 };
+        }
+        return p;
+      });
+      // Get the last 20 products from mens-casuals to add to mens-style
+      const productsFromMensCasuals = filteredMensCasualsProducts.length > 20 
+        ? filteredMensCasualsProducts.slice(-20) 
+        : [];
+      
+      // Get products from mensstyle folder, excluding sandals
+      const mensstyleProducts = getMensstyleImageProducts().filter(p => {
+        if (!p || !p.image) return false;
+        if (!p.image.startsWith('/images/Mensstyle/') && !p.image.startsWith('/images/mensstyle/')) return false;
+        // Exclude sandals
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return !nameLower.includes('sandal') && !descLower.includes('sandal') && !imageLower.includes('sandal');
+      });
+      
+      // Get Timberland Extreme from mensstyle folder
+      const timberlandExtremeFromMensstyle = mensstyleProducts.filter(p => {
+        if (!p || !p.image) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba');
+        const isExtreme = nameLower.includes('extreme') || descLower.includes('extreme') || imageLower.includes('extreme');
+        return isTimberland && isExtreme;
+      });
+      
+      // Filter out sandals from database products
+      const mensStyleDbProducts = [...dbProducts, ...dbImageProducts].filter(p => {
+        if (!p) return false;
+        const nameLower = (p.name || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return !nameLower.includes('sandal') && !descLower.includes('sandal') && !imageLower.includes('sandal');
+      });
       
       // Get Dior products from Nike folder
       const nikeProducts = getNikeImageProducts();
@@ -939,15 +1136,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         return nameLower.includes('dior') || imageLower.includes('dior');
       });
       
-      // Combine all - database products take priority
+      // Combine all - database products take priority (sandals excluded)
+      // Include Timberland Extreme products (moved from mens-casuals)
+      // Include the last 20 products from mens-casuals (moved to mens-style)
       products = mergeProductsWithDbPriority(
-        [...dbProducts, ...dbImageProducts],
-        [...mensstyleProducts, ...diorProducts]
+        mensStyleDbProducts,
+        [...mensstyleProducts, ...diorProducts, ...timberlandExtremeProducts, ...timberlandExtremeFromMensstyle, ...productsFromMensCasuals]
       );
     } else if (categorySlug === 'mens-loafers') {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
-      const dbProducts = await getDbProducts('loafers');
-      const dbImageProducts = await getDbImageProducts('loafers');
+      const dbProducts = await getDbProducts('mens-loafers');
+      const dbImageProducts = await getDbImageProducts('mens-loafers');
       
       // Get products directly from loafers folder
       const fsProducts = getLoafersImageProducts().filter(p => 

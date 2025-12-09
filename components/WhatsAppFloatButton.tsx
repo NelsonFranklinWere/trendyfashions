@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 
@@ -29,10 +30,6 @@ const WhatsAppFloatButton = () => {
     };
   }, [isHovered, mounted]);
 
-  if (!mounted) {
-    return null;
-  }
-
   const handleMouseEnter = () => {
     setIsHovered(true);
     setShowPopup(true);
@@ -49,10 +46,20 @@ const WhatsAppFloatButton = () => {
     }, 300);
   };
 
-  return (
+  const buttonContent = (
     <div
       className="fixed bottom-6 right-6 z-[9999] pointer-events-auto"
-      style={{ zIndex: 9999 }}
+      style={{ 
+        position: 'fixed',
+        bottom: '24px',
+        right: '24px',
+        zIndex: 9999,
+        willChange: 'transform',
+        transform: 'translateZ(0)', // Force GPU acceleration
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        isolation: 'isolate' // Create new stacking context
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -111,6 +118,13 @@ const WhatsAppFloatButton = () => {
       </Link>
     </div>
   );
+
+  if (!mounted || typeof window === 'undefined') {
+    return null;
+  }
+
+  // Use portal to render directly to body, bypassing any parent container issues
+  return createPortal(buttonContent, document.body);
 };
 
 export default WhatsAppFloatButton;

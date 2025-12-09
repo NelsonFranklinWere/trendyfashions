@@ -31,7 +31,7 @@ export const categories: Category[] = [
     name: "Men's Officials",
     slug: 'mens-officials',
     description: 'Professional office and formal shoes for men',
-    image: '/images/officials/ClarksOfficials1.jpg',
+    image: '/images/officials/ClarksOfficials101.jpg',
     featured: true,
   },
   {
@@ -71,7 +71,23 @@ export const categories: Category[] = [
     name: 'Sneakers',
     slug: 'sneakers',
     description: 'Classic and modern sneakers for every style',
-    image: '/images/sneakers/NikeSTN.3.jpg',
+    image: '/images/Sneakers/NewBalance.2.jpg',
+    featured: true,
+  },
+  {
+    id: 'mens-loafers',
+    name: "Men's Loafers",
+    slug: 'mens-loafers',
+    description: 'Premium loafers for sophisticated style',
+    image: '/images/loafers/1TimberOfficialLoafers.jpg',
+    featured: true,
+  },
+  {
+    id: 'mens-casuals',
+    name: "Men's Casuals",
+    slug: 'mens-casuals',
+    description: 'Casual shoes for everyday comfort and style',
+    image: '/images/casual/LacosteCassual1.jpg',
     featured: true,
   },
 ];

@@ -28,10 +28,25 @@ const isClarks = (fileName: string): boolean => {
          !lower.includes('clarksformal');
 };
 
+const isDrMartens = (fileName: string): boolean => {
+  const lower = fileName.toLowerCase();
+  return lower.includes('dr.martens') || 
+         lower.includes('drmartens') || 
+         lower.includes('dr martens') ||
+         lower.includes('drmartens') ||
+         lower.includes('martens') ||
+         lower.includes('dr martin');
+};
+
 const formatName = (fileName: string): string => {
   // Boots are always named "Official Boots"
   if (isBoot(fileName)) {
     return 'Official Boots';
+  }
+  
+  // Dr. Martens products are always named "Dr. Martens"
+  if (isDrMartens(fileName)) {
+    return 'Dr. Martens';
   }
   
   // Empire products are always named "Empire Leather"
@@ -225,6 +240,8 @@ const BOOT_PRICE = 4700;
 const CASUAL_PRICE = 3500;
 const MULE_PRICE = 2500;
 const CLARKS_PRICE = 4500;
+const DR_MARTENS_PRICE = 4200;
+const EMPIRE_PRICE = 3000;
 
 // Legacy filesystem-based function (kept for fallback)
 const getOfficialImageProductsFromFS = (): Product[] => {
@@ -241,7 +258,12 @@ const getOfficialImageProductsFromFS = (): Product[] => {
         // Only exclude clearly invalid files
         return !lower.includes('bankrobber') && 
                !lower.includes('clarksformal') &&
-               !lower.includes('contact'); // Exclude contact/info images like ClarksContact.jpg
+               !lower.includes('contact') && // Exclude contact/info images like ClarksContact.jpg
+               !lower.includes('martens') && // Exclude Dr. Martens - will be uploaded via admin
+               !lower.includes('marrtens') && // Exclude Dr. Martens (misspelled variation)
+               !lower.includes('dr.martens') &&
+               !lower.includes('drmartens') &&
+               !lower.includes('drmarrtens');
       })
       .filter((file) => {
         // Verify file actually exists before including it
@@ -250,23 +272,30 @@ const getOfficialImageProductsFromFS = (): Product[] => {
       })
       .sort((a, b) => a.localeCompare(b));
 
-    return files.map((file, index) => {
+    // Remove first two products permanently
+    const filteredFiles = files.slice(2);
+
+    return filteredFiles.map((file, index) => {
       const name = formatName(file);
       const isBootProduct = isBoot(file);
       const isCasualProduct = isCasual(file);
       const isMuleProduct = isMule(file);
       const isClarksProduct = isClarks(file);
       const isEmpireProduct = isEmpire(file);
-      // Boots are 4700, clarks are 4500, casuals are 3500, mules are 2500, empire and others are 2800
+      const isDrMartensProduct = isDrMartens(file);
+      // Boots are 4700, clarks are 4500, dr martens are 4200, casuals are 3500, empire are 3000, mules are 2500, others are 2800
       const price = isBootProduct ? BOOT_PRICE : 
                     (isClarksProduct ? CLARKS_PRICE :
+                    (isDrMartensProduct ? DR_MARTENS_PRICE :
                     (isCasualProduct ? CASUAL_PRICE : 
-                    (isMuleProduct ? MULE_PRICE : DEFAULT_PRICE)));
+                    (isEmpireProduct ? EMPIRE_PRICE :
+                    (isMuleProduct ? MULE_PRICE : DEFAULT_PRICE)))));
       
       // Determine subcategory for tags
-      // Priority: Boots > Empire > Casuals > Mules > Clarks > Other
+      // Priority: Boots > Dr Martens > Empire > Casuals > Mules > Clarks > Other
       let subcategory: string | undefined;
       if (isBootProduct) subcategory = 'Boots';
+      else if (isDrMartensProduct) subcategory = 'Dr Martens';
       else if (isEmpireProduct) subcategory = 'Empire';
       else if (isCasualProduct) subcategory = 'Casuals';
       else if (isMuleProduct) subcategory = 'Mules';

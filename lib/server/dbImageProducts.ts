@@ -31,6 +31,7 @@ const categoryMapping: Record<string, string> = {
   'mens-style': 'mens-style',
   'vans': 'vans',
   'sneakers': 'sneakers',
+  'mens-loafers': 'mens-loafers',
   // Legacy mappings for backward compatibility (old products)
   officials: 'mens-officials',
   formal: 'mens-officials',
@@ -43,8 +44,7 @@ const categoryMapping: Record<string, string> = {
   jordan: 'sneakers',
   custom: 'mens-style',
   customized: 'mens-style',
-  'mens-loafers': 'mens-officials',
-  loafers: 'mens-officials',
+  loafers: 'mens-loafers',
 };
 
 // Helper to format product name from filename and subcategory
@@ -70,6 +70,15 @@ const formatProductName = (filename: string, subcategory: string, category: stri
 
   // For officials category, use subcategory-specific naming (fallback)
   if (category === 'officials') {
+    // Check filename for Dr. Martens first
+    if (lowerFilename.includes('dr.martens') || lowerFilename.includes('drmartens') || lowerFilename.includes('dr martens') ||
+        lowerFilename.includes('martens') || lowerFilename.includes('dr martin')) {
+      return 'Dr. Martens';
+    }
+    // Check subcategory for Dr. Martens
+    if (lowerSubcategory === 'dr martens' || lowerSubcategory.includes('martens')) {
+      return 'Dr. Martens';
+    }
     if (lowerSubcategory === 'empire') {
       return 'Empire Leather';
     } else if (lowerSubcategory === 'boots') {
@@ -199,13 +208,24 @@ const generateDescription = (name: string, subcategory: string, category: string
 };
 
 // Helper to determine price based on category and subcategory
-const getPrice = (category: string, subcategory: string): number => {
-  if (category === 'officials') {
+const getPrice = (category: string, subcategory: string, name?: string): number => {
+  // Check for officials category (both 'officials' and 'mens-officials')
+  if (category === 'officials' || category === 'mens-officials') {
+    const nameLower = (name || '').toLowerCase();
+    const subcategoryLower = (subcategory || '').toLowerCase();
+    // Check for Dr. Martens first (by name or subcategory)
+    if (nameLower.includes('dr.martens') || nameLower.includes('drmartens') || nameLower.includes('dr martens') ||
+        nameLower.includes('martens') || nameLower.includes('dr martin') ||
+        subcategoryLower.includes('dr.martens') || subcategoryLower.includes('drmartens') || subcategoryLower.includes('dr martens') ||
+        subcategoryLower.includes('martens')) {
+      return 4200;
+    }
     if (subcategory === 'Boots') return 4700;
     if (subcategory === 'Clarks') return 4500;
     if (subcategory === 'Casuals') return 3500;
+    if (subcategory === 'Empire') return 3000;
     if (subcategory === 'Mules') return 2500;
-    // Empire and others
+    // Others
     return 2800;
   }
   
@@ -221,9 +241,19 @@ const getPrice = (category: string, subcategory: string): number => {
   if (category === 'airforce') return 3200;
   if (category === 'casuals' || category === 'sneakers') return 3000;
   
-  // Check for Converse products - price 1900
-  const nameLower = (subcategory || '').toLowerCase();
+  // Check for Timberland, Lacoste, Puma, Boss in mens-casuals - price 3200
+  const nameLower = (subcategory || name || '').toLowerCase();
   const categoryLower = (category || '').toLowerCase();
+  if (categoryLower === 'mens-casuals' || categoryLower === 'casuals' || categoryLower === 'mens-casual') {
+    if (nameLower.includes('timberland') || nameLower.includes('timba') ||
+        nameLower.includes('lacoste') ||
+        nameLower.includes('puma') ||
+        nameLower.includes('boss')) {
+      return 3200;
+    }
+  }
+  
+  // Check for Converse products - price 1900
   if (nameLower.includes('converse') || categoryLower.includes('converse')) {
     return 1900;
   }
@@ -278,57 +308,36 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     name = formatProductName(dbImage.filename, dbImage.subcategory, category);
   }
   
-  // PRIORITY: Use price from database if available (the price user uploaded)
+  // PRIORITY: Use price from database if available (the exact price user uploaded)
   // Otherwise, calculate based on category/subcategory
   let price: number;
-  const productName = dbImage.name || formatProductName(dbImage.filename, dbImage.subcategory, category);
-  const nameLower = productName.toLowerCase();
   
   if (dbImage.price !== undefined && dbImage.price !== null && dbImage.price > 0) {
-    // Use the price field from database, but override for specific products
+    // Use the exact price field from database (no overrides)
     price = Number(dbImage.price);
-    const descLower = (dbImage.description || '').toLowerCase();
-    // Converse = 1900
-    if (nameLower.includes('converse') || descLower.includes('converse')) {
-      price = 1900;
-    }
-    // New Balance 1000 = 4000
-    else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
-             (nameLower.includes('1000') || descLower.includes('1000'))) {
-      price = 4000;
-    }
-    // Other New Balance = 3800
-    else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
-      price = 3800;
-    }
-    // Jordan 11 = 3500
-    else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
-             (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
-      price = 3500;
-    }
   } else {
-    // Fallback to calculated price
+    // Fallback to calculated price only if no price was uploaded
+    price = getPrice(category, dbImage.subcategory, name);
+  }
+  
+  // Override price for specific brands in mens-casuals category: Timberland, Lacoste, Puma, Boss = 3200
+  if (category === 'mens-casuals' || category === 'casuals' || category === 'mens-casual') {
+    const nameLower = name.toLowerCase();
     const descLower = (dbImage.description || '').toLowerCase();
-    // Converse = 1900
-    if (nameLower.includes('converse') || descLower.includes('converse')) {
-      price = 1900;
-    }
-    // New Balance 1000 = 4000
-    else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
-             (nameLower.includes('1000') || descLower.includes('1000'))) {
-      price = 4000;
-    }
-    // Other New Balance = 3800
-    else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
-      price = 3800;
-    }
-    // Jordan 11 = 3500
-    else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
-             (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
-      price = 3500;
-    }
-    else {
-      price = getPrice(category, dbImage.subcategory);
+    const subcategoryLower = (dbImage.subcategory || '').toLowerCase();
+    
+    const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
+                        descLower.includes('timberland') || descLower.includes('timba') ||
+                        subcategoryLower.includes('timberland') || subcategoryLower.includes('timba');
+    const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste') || 
+                     subcategoryLower.includes('lacoste');
+    const isPuma = nameLower.includes('puma') || descLower.includes('puma') || 
+                   subcategoryLower.includes('puma');
+    const isBoss = nameLower.includes('boss') || descLower.includes('boss') || 
+                   subcategoryLower.includes('boss');
+    
+    if (isTimberland || isLacoste || isPuma || isBoss) {
+      price = 3200;
     }
   }
   
@@ -349,10 +358,21 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     imageUrl = imageUrl.trim();
   }
   
+  // PRIORITY: Use description from database if available (the exact description user uploaded)
+  // Otherwise, generate from name/subcategory
+  let description: string;
+  if (dbImage.description && dbImage.description.trim() && dbImage.description.length > 0) {
+    // Use the exact description field from database
+    description = dbImage.description.trim();
+  } else {
+    // Fallback to generated description
+    description = generateDescription(name, dbImage.subcategory, category);
+  }
+  
   return {
     id: `db-${dbImage.id}`,
     name,
-    description: generateDescription(name, dbImage.subcategory, category),
+    description,
     price,
     image: imageUrl, // Use thumbnail for faster loading, full URL for high-res
     // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
@@ -384,11 +404,19 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     }
     
     // FALLBACK: Try images table (legacy)
-    const { data, error } = await supabaseAdmin
+    let imagesQuery = supabaseAdmin
       .from('images')
       .select('*')
-      .eq('category', dbCategory)
       .order('uploaded_at', { ascending: false });
+    
+    // For mens-style, also include legacy categories that map to mens-style
+    if (category === 'mens-style') {
+      imagesQuery = imagesQuery.in('category', ['mens-style', 'custom', 'customized']);
+    } else {
+      imagesQuery = imagesQuery.eq('category', dbCategory);
+    }
+    
+    const { data, error } = await imagesQuery;
 
     if (error) {
       console.error(`Error fetching ${category} products from database:`, error);
@@ -405,10 +433,12 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     
     for (const img of data) {
       try {
-        // Filter out Jordan 11 products
         const nameLower = ((img as DbImage).name || '').toLowerCase();
         const descLower = ((img as DbImage).description || '').toLowerCase();
         const filenameLower = ((img as DbImage).filename || '').toLowerCase();
+        const subcategoryLower = ((img as DbImage).subcategory || '').toLowerCase();
+        
+        // Filter out Jordan 11 products
         const isJordan11 = nameLower.includes('jordan 11') || 
                           nameLower.includes('jordan11') || 
                           nameLower.includes('j11') ||
@@ -418,8 +448,28 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
                           filenameLower.includes('jordan 11') || 
                           filenameLower.includes('jordan11') || 
                           filenameLower.includes('j11');
-        if (isJordan11) {
-          continue; // Skip Jordan 11 products
+        
+        // Filter out Dr. Martens products (will be uploaded fresh via admin)
+        const isDrMartens = nameLower.includes('dr.martens') || 
+                           nameLower.includes('drmartens') || 
+                           nameLower.includes('dr martens') ||
+                           nameLower.includes('martens') ||
+                           nameLower.includes('dr martin') ||
+                           descLower.includes('dr.martens') || 
+                           descLower.includes('drmartens') || 
+                           descLower.includes('dr martens') ||
+                           descLower.includes('martens') ||
+                           filenameLower.includes('dr.martens') || 
+                           filenameLower.includes('drmartens') || 
+                           filenameLower.includes('dr martens') ||
+                           filenameLower.includes('martens') ||
+                           subcategoryLower.includes('dr.martens') || 
+                           subcategoryLower.includes('drmartens') || 
+                           subcategoryLower.includes('dr martens') ||
+                           subcategoryLower.includes('martens');
+        
+        if (isJordan11 || isDrMartens) {
+          continue; // Skip Jordan 11 and Dr. Martens products
         }
         
         const product = dbImageToProduct(img as DbImage, 0);
@@ -502,7 +552,12 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
 
     if (category) {
       const dbCategory = categoryMapping[category] || category;
-      query = query.eq('category', dbCategory);
+      // For mens-style, also include legacy categories that map to mens-style
+      if (category === 'mens-style') {
+        query = query.in('category', ['mens-style', 'custom', 'customized']);
+      } else {
+        query = query.eq('category', dbCategory);
+      }
     }
 
     const { data, error } = await query;
@@ -516,13 +571,14 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
       return [];
     }
 
-    // Convert database products to Product format and filter out Jordan 11 and invalid products
+    // Convert database products to Product format and filter out Jordan 11, Dr. Martens, and invalid products
     const mappedProducts = data
       .filter((product: any) => {
-        // Filter out Jordan 11 products
         const nameLower = (product.name || '').toLowerCase();
         const descLower = (product.description || '').toLowerCase();
         const imageLower = (product.image || '').toLowerCase();
+        
+        // Filter out Jordan 11 products
         const isJordan11 = nameLower.includes('jordan 11') || 
                           nameLower.includes('jordan11') || 
                           nameLower.includes('j11') ||
@@ -532,32 +588,36 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
                           imageLower.includes('jordan 11') || 
                           imageLower.includes('jordan11') || 
                           imageLower.includes('j11');
-        return !isJordan11;
+        
+        // Filter out Dr. Martens products (will be uploaded fresh via admin)
+        const isDrMartens = nameLower.includes('dr.martens') || 
+                           nameLower.includes('drmartens') || 
+                           nameLower.includes('dr martens') ||
+                           nameLower.includes('martens') ||
+                           nameLower.includes('dr martin') ||
+                           descLower.includes('dr.martens') || 
+                           descLower.includes('drmartens') || 
+                           descLower.includes('dr martens') ||
+                           descLower.includes('martens') ||
+                           imageLower.includes('dr.martens') || 
+                           imageLower.includes('drmartens') || 
+                           imageLower.includes('dr martens') ||
+                           imageLower.includes('martens');
+        
+        // Log bank robbers products for debugging
+        if (nameLower.includes('bank robber') || nameLower.includes('bankrobber') || 
+            descLower.includes('bank robber') || descLower.includes('bankrobber') ||
+            imageLower.includes('bank robber') || imageLower.includes('bankrobber')) {
+          console.log(`[Bank Robbers] Found product: "${product.name}" in category: "${product.category}"`);
+        }
+        
+        return !isJordan11 && !isDrMartens;
       })
       .map((product: any) => {
-        // Set price based on product type, overriding database price if needed
-        let price = Number(product.price);
-        const nameLower = (product.name || '').toLowerCase();
-        const descLower = (product.description || '').toLowerCase();
-        
-        // Converse = 1900
-        if (nameLower.includes('converse') || descLower.includes('converse')) {
-          price = 1900;
-        }
-        // New Balance 1000 = 4000
-        else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
-                 (nameLower.includes('1000') || descLower.includes('1000'))) {
-          price = 4000;
-        }
-        // Other New Balance = 3800
-        else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
-          price = 3800;
-        }
-        // Jordan 11 = 3500
-        else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
-                 (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
-          price = 3500;
-        }
+        // Use the exact price from database (no overrides)
+        const price = product.price !== undefined && product.price !== null && product.price > 0 
+          ? Number(product.price) 
+          : getPrice(product.category, product.subcategory, product.name);
         
         return {
           id: `product-${product.id}`,

@@ -39,6 +39,8 @@ const CATEGORIES = [
   { value: 'mens-style', label: "Men's Style" },
   { value: 'vans', label: 'Vans' },
   { value: 'sneakers', label: 'Sneakers' },
+  { value: 'mens-loafers', label: "Men's Loafers" },
+  { value: 'mens-casuals', label: "Men's Casuals" },
 ];
 
 export default function AddProduct() {
