@@ -24,7 +24,7 @@ interface OptimizedImageProps {
  * Optimized Image Component with:
  * - Automatic format optimization (WebP/AVIF)
  * - Responsive sizing
- * - Lazy loading (except priority images)
+ * - Eager loading for faster display
  * - Blur placeholder support
  * - Error handling
  */
@@ -82,7 +82,7 @@ export default function OptimizedImage({
     className: string;
     quality?: number;
     priority?: boolean;
-    loading?: 'lazy' | 'eager';
+    loading?: 'eager'; // Lazy loading removed - using eager loading only
     sizes?: string;
     placeholder?: 'blur';
     blurDataURL?: string;
@@ -98,7 +98,7 @@ export default function OptimizedImage({
     className: `${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`,
     quality,
     priority,
-    loading: priority ? undefined : 'lazy',
+    loading: 'eager', // Eager loading for faster image display (lazy loading removed)
     sizes,
     placeholder: placeholder === 'blur' ? 'blur' : undefined,
     blurDataURL: placeholder === 'blur' ? blurPlaceholder : undefined,

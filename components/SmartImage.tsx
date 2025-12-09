@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 75, // Reduced from 80 for faster loading
+  quality = 70, // Optimized for faster loading (balance between quality and file size)
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
@@ -56,16 +56,20 @@ const SmartImage = ({
     return `data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`;
   }, [placeholder, blurDataURL, shimmerWidth, shimmerHeight]);
 
-  // Optimize sizes for responsive loading
+  // Optimize sizes for responsive loading - more specific for better performance
   const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
   // Determine if this is a Supabase Storage URL
   const isSupabaseUrl = typeof props.src === 'string' && 
     (props.src.includes('supabase.co') || props.src.includes('supabase.in'));
 
-  // Use lower quality for Supabase URLs to leverage their CDN optimization
-  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 75;
-  const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 75) : qualityNum;
+  // Use optimized quality: lower for thumbnails, higher for hero images
+  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 70;
+  // Supabase URLs can use slightly lower quality since they're already optimized
+  const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 70) : qualityNum;
+  
+  // Determine if this should be priority loaded (above the fold)
+  const shouldPriority = props.priority || false;
 
   // Handle missing images gracefully
   if (hasError) {
@@ -88,9 +92,13 @@ const SmartImage = ({
       quality={optimizedQuality}
       placeholder={placeholder}
       blurDataURL={fallbackBlur}
-      loading={props.loading || (props.priority ? 'eager' : 'lazy')}
+      loading={props.loading || 'eager'}
+      // Removed lazy loading - using eager loading for faster image display
       sizes={optimizedSizes}
+      priority={shouldPriority}
       // Enable automatic format optimization (WebP/AVIF)
+      // Add fetchpriority for better browser hints
+      fetchPriority={shouldPriority ? 'high' : 'auto'}
       className={cn(
         'duration-300 ease-out will-change-transform',
         isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]',

@@ -66,7 +66,7 @@ const CircularProductCard = memo(({ product, className, delay = 0 }: CircularPro
           sizes="(max-width: 640px) 128px, (max-width: 1024px) 144px, 160px"
           shimmerWidth={400}
           shimmerHeight={400}
-          quality={75}
+          quality={65}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
       </Link>

@@ -143,15 +143,14 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             src={product.image}
             alt={product.name}
             fill
-            loading="lazy"
             className={cn(
               "group-hover:scale-105 transition-transform duration-300 ease-out",
               isSpecialCategory ? "object-contain" : "object-cover"
             )}
-            sizes="(max-width: 640px) 160px, (max-width: 768px) 192px, (max-width: 1024px) 224px, 256px"
+            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
-            quality={70}
+            quality={65}
             {...((product as any).fullImageUrl && { fullImageUrl: (product as any).fullImageUrl })}
           />
           {product.tags?.includes('New Arrivals') && (
