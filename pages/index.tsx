@@ -6,6 +6,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
+import CircularProductCard from '@/components/CircularProductCard';
+import CircularCategoryCard from '@/components/CircularCategoryCard';
 import { categories, Product } from '@/data/products';
 import { getOfficialImageProducts } from '@/lib/server/officialImageProducts';
 import { getSneakersImageProducts } from '@/lib/server/sneakersImageProducts';
@@ -13,9 +15,14 @@ import { getAirmaxImageProducts } from '@/lib/server/airmaxImageProducts';
 import { getCasualImageProducts } from '@/lib/server/casualImageProducts';
 import { getAirforceImageProducts } from '@/lib/server/airforceImageProducts';
 import { getJordanImageProducts } from '@/lib/server/jordanImageProducts';
+import { getLoafersImageProducts } from '@/lib/server/loafersImageProducts';
+import { getSportsImageProducts } from '@/lib/server/sportsImageProducts';
+import { getNikeImageProducts } from '@/lib/server/nikeImageProducts';
+import { getVansImageProducts } from '@/lib/server/vansImageProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
 import { filterAirmaxProducts } from '@/lib/filters/airmax';
 import { filterCasualProducts } from '@/lib/filters/casuals';
+import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
 
 interface HomeProps {
   featuredOfficials: Product[];
@@ -25,6 +32,10 @@ interface HomeProps {
   featuredCasuals: Product[];
   featuredAirforce: Product[];
   featuredJordan: Product[];
+  featuredLoafers: Product[];
+  featuredSports: Product[];
+  featuredNike: Product[];
+  featuredVans: Product[];
   heroAirmax97: Product[];
   heroClarks: Product[];
   heroTimberland: Product[];
@@ -39,6 +50,10 @@ const Home = ({
   featuredCasuals,
   featuredAirforce,
   featuredJordan,
+  featuredLoafers,
+  featuredSports,
+  featuredNike,
+  featuredVans,
   heroAirmax97,
   heroClarks,
   heroTimberland,
@@ -48,36 +63,44 @@ const Home = ({
     <>
       <NextSeo
         title="Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Shop best sellers and quality original shoes in Nairobi. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. 5+ years trusted. Free delivery. Located Moi Avenue."
-        canonical="https://trendyfashionzone.co.ke"
+        description="Shop best sellers and quality original shoes in Nairobi. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue. 5+ years trusted. Free delivery available. Best prices in Nairobi."
+        canonical={siteConfig.url}
         openGraph={{
-          url: 'https://trendyfashionzone.co.ke',
+          url: siteConfig.url,
           title: 'Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone',
-          description: 'Shop best sellers and quality original shoes in Nairobi. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. 5+ years trusted.',
+          description: 'Shop best sellers and quality original shoes in Nairobi. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue.',
           images: [
             {
-              url: 'https://trendyfashionzone.co.ke/images/featured-banner.jpg',
+              url: `${siteConfig.url}/images/featured-banner.jpg`,
               width: 1200,
               height: 630,
-              alt: 'Best Sellers - Quality Original Shoes Nairobi',
+              alt: 'Best Sellers - Quality Original Shoes Nairobi - Trendy Fashion Zone',
             },
           ],
-          siteName: 'Trendy Fashion Zone',
+          siteName: siteConfig.name,
           type: 'website',
+          locale: 'en_KE',
         }}
         twitter={{
           cardType: 'summary_large_image',
-          site: '@TrendyFashionZone',
+          site: siteConfig.social.twitter,
         }}
         additionalMetaTags={[
           {
             name: 'keywords',
-            content:
-              'best sellers shoes Nairobi, quality original shoes Kenya, authentic sneakers Nairobi, best shoes Nairobi, original Nike Airforce, original Airmax Kenya, Clarks officials Nairobi, Jordan shoes Kenya, casual shoes Nairobi, trending footwear Kenya, premium shoes Nairobi, Moi Avenue shoe shop, trusted shoe store Nairobi',
+            content: [
+              ...nairobiKeywords.brands.slice(0, 8),
+              ...nairobiKeywords.categories.slice(0, 6),
+              ...nairobiKeywords.quality.slice(0, 4),
+              ...nairobiKeywords.location.slice(0, 4),
+              'best sellers shoes Nairobi',
+              'affordable shoes Nairobi',
+              'shoe shop near me Nairobi',
+            ].join(', '),
           },
           {
             name: 'author',
-            content: 'Trendy Fashion Zone',
+            content: siteConfig.name,
           },
           {
             name: 'robots',
@@ -87,6 +110,22 @@ const Home = ({
             name: 'googlebot',
             content: 'index, follow',
           },
+          {
+            name: 'geo.region',
+            content: 'KE-110',
+          },
+          {
+            name: 'geo.placename',
+            content: 'Nairobi',
+          },
+          {
+            name: 'geo.position',
+            content: '-1.2921;36.8219',
+          },
+          {
+            name: 'ICBM',
+            content: '-1.2921, 36.8219',
+          },
         ]}
       />
       <script
@@ -94,26 +133,89 @@ const Home = ({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
-            '@type': 'Store',
-            name: 'Trendy Fashion Zone',
-            url: 'https://trendyfashionzone.co.ke',
-            logo: 'https://trendyfashionzone.co.ke/images/logos/Logo.jpg',
-            description: 'Nairobi\'s premier destination for best sellers and quality original shoes. Authentic sneakers, officials, casuals, Airforce, Airmax, and Jordans.',
+            '@type': 'ShoeStore',
+            '@id': `${siteConfig.url}#store`,
+            name: siteConfig.name,
+            url: siteConfig.url,
+            logo: `${siteConfig.url}/images/logos/Logo.jpg`,
+            image: `${siteConfig.url}/images/logos/Logo.jpg`,
+            description: 'Nairobi\'s premier destination for best sellers and quality original shoes. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue.',
             address: {
               '@type': 'PostalAddress',
-              streetAddress: 'Moi Avenue',
-              addressLocality: 'Nairobi',
+              streetAddress: siteConfig.location.area,
+              addressLocality: siteConfig.location.city,
+              addressRegion: 'Nairobi County',
               addressCountry: 'KE',
             },
-            contactPoint: {
-              '@type': 'ContactPoint',
-              telephone: '+254743869564',
-              contactType: 'Customer Service',
+            geo: {
+              '@type': 'GeoCoordinates',
+              latitude: -1.2921,
+              longitude: 36.8219,
             },
+            contactPoint: [
+              {
+                '@type': 'ContactPoint',
+                telephone: siteConfig.contact.phone,
+                contactType: 'Customer Service',
+                areaServed: 'KE',
+                availableLanguage: ['en', 'sw'],
+              },
+              {
+                '@type': 'ContactPoint',
+                telephone: `+${siteConfig.contact.whatsapp}`,
+                contactType: 'Customer Service',
+                areaServed: 'KE',
+                availableLanguage: ['en', 'sw'],
+              },
+            ],
+            openingHoursSpecification: {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+              opens: '09:00',
+              closes: '18:00',
+            },
+            priceRange: 'KES 1,900 - KES 5,500',
+            paymentAccepted: 'Cash, M-Pesa, Credit Card',
+            currenciesAccepted: 'KES',
             aggregateRating: {
               '@type': 'AggregateRating',
               ratingValue: '4.8',
               reviewCount: '150',
+              bestRating: '5',
+              worstRating: '1',
+            },
+            sameAs: [
+              `https://wa.me/${siteConfig.contact.whatsapp}`,
+            ],
+            areaServed: {
+              '@type': 'City',
+              name: 'Nairobi',
+            },
+            hasOfferCatalog: {
+              '@type': 'OfferCatalog',
+              name: 'Shoes',
+              itemListElement: [
+                {
+                  '@type': 'OfferCatalog',
+                  name: 'Sneakers',
+                  url: `${siteConfig.url}/collections/sneakers`,
+                },
+                {
+                  '@type': 'OfferCatalog',
+                  name: 'Official Shoes',
+                  url: `${siteConfig.url}/collections/mens-officials`,
+                },
+                {
+                  '@type': 'OfferCatalog',
+                  name: 'Casual Shoes',
+                  url: `${siteConfig.url}/collections/mens-casuals`,
+                },
+                {
+                  '@type': 'OfferCatalog',
+                  name: 'Sports Shoes',
+                  url: `${siteConfig.url}/collections/sports`,
+                },
+              ],
             },
           }),
         }}
@@ -151,13 +253,13 @@ const Home = ({
             className="text-center mb-8 md:mb-12"
           >
             <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6">
-              Best Sellers & Quality Original Shoes in Nairobi
+              Your Perfect Pair Awaits — Original Quality That Matches Your Style
               <br />
               <span className="text-secondary">Trendy Fashion Zone</span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-white font-body max-w-3xl mx-auto mb-6 md:mb-8 font-medium">
-              Authentic sneakers, trending footwear, and premium quality original shoes. Best sellers from Nike, Jordan, Clarks, and more. 
-              <span className="block mt-2 text-base md:text-lg">📍 Located in Nairobi CBD | 🚚 Free delivery in Nairobi</span>
+              Discover authentic Nike, Jordan, Airmax, Clarks, and Vans. Join thousands of Nairobi shoppers who found exactly what they were looking for — original quality that lasts. 
+              <span className="block mt-2 text-base md:text-lg">📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!</span>
             </p>
             
             <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
@@ -188,34 +290,35 @@ const Home = ({
       {featuredOfficials.length > 0 && (
         <section className="py-12 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-              Professional Office Shoes
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+              Elevate Your Office Style
             </h2>
-            <p className="text-text font-body">
-              Premium formal footwear for the modern professional
+            <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+              Premium professional shoes that command respect. Quality trusted by thousands of Nairobi professionals.
             </p>
               </motion.div>
               <Link
                 href="/collections/officials"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredOfficials.slice(0, 8).map((product) => (
+                {featuredOfficials.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -230,34 +333,35 @@ const Home = ({
       {featuredSneakers.length > 0 && (
         <section className="py-12 md:py-16 bg-light/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-              Best Sellers: Popular Sneakers
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+              Hot Sellers: Authentic Sneakers
             </h2>
-            <p className="text-text font-body">
-              Quality original sneakers - Nike, Adidas, New Balance, and trending styles
+            <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+              Original Nike, Jordan, Airmax, and New Balance. Authentic quality that thousands of Nairobi sneaker lovers trust.
             </p>
               </motion.div>
               <Link
                 href="/collections/sneakers"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredSneakers.slice(0, 8).map((product) => (
+                {featuredSneakers.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -272,34 +376,35 @@ const Home = ({
       {featuredAirmax.length > 0 && (
         <section className="py-12 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
                   Nike Air Max Collection
                 </h2>
-                <p className="text-text font-body">
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
                   Iconic running and lifestyle shoes
                 </p>
               </motion.div>
               <Link
                 href="/collections/airmax"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredAirmax.slice(0, 5).map((product) => (
+                {featuredAirmax.slice(0, 5).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -314,34 +419,35 @@ const Home = ({
       {featuredClarks.length > 0 && (
         <section className="py-12 md:py-16 bg-light/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Best Sellers: Clarks Official Shoes
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  Clarks Officials — Most Trusted Professional Shoes
                 </h2>
-                <p className="text-text font-body">
-                  Quality original Clarks professional footwear - trusted brand
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Join 6,500+ professionals who chose Clarks. Timeless style and original quality for your professional journey.
                 </p>
               </motion.div>
               <Link
                 href="/collections/officials?filter=Clarks"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredClarks.slice(0, 8).map((product) => (
+                {featuredClarks.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -356,34 +462,35 @@ const Home = ({
       {featuredCasuals.length > 0 && (
         <section className="py-12 md:py-16 bg-light/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Best Sellers: Stylish Casual Shoes
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  Premium Casual Shoes — Make a Statement
                 </h2>
-                <p className="text-text font-body">
-                  Quality original casuals - Lacoste, Timberland, Tommy Hilfiger, and more
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Exclusive Lacoste, Timberland, and Tommy Hilfiger. Original quality that reflects your unique style.
                 </p>
               </motion.div>
               <Link
                 href="/collections/casuals"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredCasuals.slice(0, 5).map((product) => (
+                {featuredCasuals.slice(0, 5).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -398,34 +505,35 @@ const Home = ({
       {featuredAirforce.length > 0 && (
         <section className="py-12 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Best Sellers: Nike Air Force 1
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  Nike Air Force 1 — The Icon
                 </h2>
-                <p className="text-text font-body">
-                  Quality original Air Force 1 - classic and customized designs
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  The icon that never goes out of style. Original Air Force 1s in classic and custom designs.
                 </p>
               </motion.div>
               <Link
                 href="/collections/airforce"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredAirforce.slice(0, 8).map((product) => (
+                {featuredAirforce.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -440,34 +548,35 @@ const Home = ({
       {featuredJordan.length > 0 && (
         <section className="py-12 md:py-16 bg-light/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: '-50px' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
               >
-                <h2 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold text-primary mb-2">
-                  Air Jordan Collection
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  🏀 Air Jordan — The Legendary Sneakers
                 </h2>
-                <p className="text-text font-body">
-                  Iconic basketball sneakers
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  The legend that started it all. Original Air Jordans where style meets heritage.
                 </p>
               </motion.div>
               <Link
                 href="/collections/jordan"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-2"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </div>
             <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
               <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredJordan.slice(0, 8).map((product) => (
+                {featuredJordan.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
                   <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
                     <ProductCard product={product} />
                   </div>
@@ -478,7 +587,211 @@ const Home = ({
         </section>
       )}
 
-      {/* All Collections Section */}
+      {/* Featured Loafers Section */}
+      {featuredLoafers.length > 0 && (
+        <section className="py-12 md:py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
+              >
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  👞 Premium Loafers — Effortless Style
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Classic & modern designs. Original quality loafers that elevate any outfit.
+                </p>
+              </motion.div>
+              <Link
+                href="/collections/mens-loafers"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              >
+                View all
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredLoafers.slice(0, 10).filter(p => {
+                  if (!p || !p.id || !p.name || !p.image || !p.price) return false;
+                  // Ensure only loafers products (exclude officials)
+                  const imageLower = (p.image || '').toLowerCase();
+                  return imageLower.includes('/images/loafers/') || 
+                         (p.category && p.category.toLowerCase().includes('loafers'));
+                }).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Sports Section */}
+      {featuredSports.length > 0 && (
+        <section className="py-12 md:py-16 bg-light/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
+              >
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  ⚽ Sports Footwear — Dominate the Game
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Original football boots & trainers. Performance meets style, trusted by athletes across Nairobi.
+                </p>
+              </motion.div>
+              <Link
+                href="/collections/sports"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              >
+                View all
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredSports.slice(0, 10).filter(p => {
+                  if (!p || !p.id || !p.name || !p.image || !p.price) return false;
+                  // Ensure only sports products
+                  const imageLower = (p.image || '').toLowerCase();
+                  const categoryLower = (p.category || '').toLowerCase();
+                  return imageLower.includes('/images/sports/') || 
+                         imageLower.includes('/images/Sports/') ||
+                         categoryLower === 'sports';
+                }).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Nike Section */}
+      {featuredNike.length > 0 && (
+        <section className="py-12 md:py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
+              >
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  Men&apos;s Nike Collection — Ultimate Style
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Original SB, Shox, Ultra, and Air Force. Authentic quality that Nairobi&apos;s style-conscious choose.
+                </p>
+              </motion.div>
+              <Link
+                href="/collections/mens-nike"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              >
+                View all
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredNike.slice(0, 10).filter(p => {
+                  if (!p || !p.id || !p.name || !p.image || !p.price) return false;
+                  // Ensure only Nike products (exclude sports and casuals)
+                  const imageLower = (p.image || '').toLowerCase();
+                  const nameLower = (p.name || '').toLowerCase();
+                  const categoryLower = (p.category || '').toLowerCase();
+                  // Exclude sports and casuals
+                  if (categoryLower === 'sports' || categoryLower === 'casuals' || categoryLower === 'casual') {
+                    return false;
+                  }
+                  if (imageLower.includes('/images/sports/') || imageLower.includes('/images/casual/')) {
+                    return false;
+                  }
+                  // Include Nike products
+                  return nameLower.includes('nike') || imageLower.includes('nike') || 
+                         imageLower.includes('/images/nike/') ||
+                         categoryLower === 'airforce' || categoryLower === 'airmax' ||
+                         imageLower.includes('/images/airforce/') || imageLower.includes('/images/airmax/');
+                }).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Featured Vans Section */}
+      {featuredVans.length > 0 && (
+        <section className="py-12 md:py-16 bg-light/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-6 sm:mb-8">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex-1 pr-4"
+              >
+                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
+                  Vans Collection — Express Your Style
+                </h2>
+                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
+                  Original Vans in classic & custom designs. Styles that stand out and reflect your unique personality.
+                </p>
+              </motion.div>
+              <Link
+                href="/collections/vans"
+                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              >
+                View all
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
+                {featuredVans.slice(0, 10).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
+                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Main Categories Section - Circular Cards */}
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
@@ -497,17 +810,49 @@ const Home = ({
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+          {/* Main Category Groups - Circular Cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8 mb-12">
             {categories
               .filter((cat) => cat.featured)
-              .slice(0, 8)
               .map((category, index) => (
-                <CategoryCard
+                <CircularCategoryCard
                   key={category.id}
                   category={category}
                   delay={index * 0.1}
                 />
               ))}
+          </div>
+
+          {/* Featured Products - Circular Cards */}
+          <div className="mt-12">
+            <motion.h3
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              className="text-2xl md:text-3xl font-heading font-bold text-primary mb-6 text-center"
+            >
+              Featured Products
+            </motion.h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8">
+              {[
+                ...featuredOfficials.slice(0, 2),
+                ...featuredSneakers.slice(0, 2),
+                ...featuredAirmax.slice(0, 1),
+                ...featuredCasuals.slice(0, 1),
+                ...featuredAirforce.slice(0, 1),
+                ...featuredJordan.slice(0, 1),
+              ]
+                .filter(p => p && p.id && p.name && p.image && p.price)
+                .slice(0, 8)
+                .map((product, index) => (
+                  <CircularProductCard
+                    key={product.id}
+                    product={product}
+                    delay={index * 0.1}
+                  />
+                ))}
+            </div>
           </div>
         </div>
       </section>
@@ -517,28 +862,182 @@ const Home = ({
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
+    const fs = await import('fs');
+    const path = await import('path');
+    
+    // Helper to filter out invalid products and verify images exist
+    const filterValidProducts = (products: Product[]): Product[] => {
+      return products.filter(p => {
+        // Filter out null/undefined products
+        if (!p || p === null || p === undefined) return false;
+        
+        // Filter out products with null/undefined required fields
+        if (!p.id || p.id === null || p.id === undefined) return false;
+        if (!p.name || p.name === null || p.name === undefined || p.name === 'null' || p.name.trim() === '') return false;
+        if (!p.image || p.image === null || p.image === undefined || p.image === 'null' || p.image.trim() === '') return false;
+        if (p.price === null || p.price === undefined || isNaN(p.price) || p.price <= 0) return false;
+        
+        // Verify image exists (for local images only, skip Supabase/external URLs)
+        if (p.image.startsWith('/images/')) {
+          try {
+            const imagePath = path.join(process.cwd(), 'public', p.image);
+            if (!fs.existsSync(imagePath)) {
+              return false;
+            }
+          } catch (err) {
+            // If path check fails, exclude the product
+            return false;
+          }
+        } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
+          // Allow external URLs (Supabase, etc.) - assume they're valid
+          return true;
+        }
+        
+        return true;
+      });
+    };
+    
+    // Get database products first (priority - keep uploaded names/descriptions/prices)
+    const { getDbProducts, getDbImageProducts } = await import('@/lib/server/dbImageProducts');
+    
+    // Helper to merge products with database priority
+    const mergeWithDbPriority = async (category: string, fsProducts: Product[]): Promise<Product[]> => {
+      try {
+        const dbProducts = await getDbProducts(category);
+        const dbImageProducts = await getDbImageProducts(category);
+        const productMap = new Map<string, Product>();
+        
+        // Add database products first (priority)
+        [...dbProducts, ...dbImageProducts].forEach(p => {
+          if (p && p.image) {
+            productMap.set(p.image, p);
+          }
+        });
+        
+        // Add filesystem products only if image doesn't exist in database
+        fsProducts.forEach(p => {
+          if (p && p.image && !productMap.has(p.image)) {
+            productMap.set(p.image, p);
+          }
+        });
+        
+        return Array.from(productMap.values());
+      } catch {
+        return fsProducts;
+      }
+    };
+    
     // Get products from each category (database first, fallback to filesystem)
-    const officials = await getOfficialImageProducts();
-    const sneakers = getSneakersImageProducts();
-    const airmax = getAirmaxImageProducts();
-    const casuals = getCasualImageProducts();
-    const airforce = getAirforceImageProducts();
-    const jordan = getJordanImageProducts();
+    const officials = filterValidProducts(await getOfficialImageProducts());
+    const sneakers = filterValidProducts(await mergeWithDbPriority('sneakers', getSneakersImageProducts()));
+    const airmax = filterValidProducts(await mergeWithDbPriority('airmax', getAirmaxImageProducts()));
+    const casuals = filterValidProducts(await mergeWithDbPriority('casuals', getCasualImageProducts()));
+    const airforce = filterValidProducts(await mergeWithDbPriority('airforce', getAirforceImageProducts()));
+    const jordan = filterValidProducts(await mergeWithDbPriority('jordan', getJordanImageProducts()));
+    // Loafers - only from loafers folder/category, exclude officials
+    const allLoafers = await mergeWithDbPriority('loafers', getLoafersImageProducts());
+    const loafers = filterValidProducts(allLoafers.filter(p => {
+      if (!p || !p.image) return false;
+      const imageLower = (p.image || '').toLowerCase();
+      const nameLower = (p.name || '').toLowerCase();
+      // Only include products from loafers folder
+      return imageLower.includes('/images/loafers/') || 
+             imageLower.includes('/images/loafers/') ||
+             (p.category && p.category.toLowerCase().includes('loafers'));
+    }));
+    
+    // Sports - only from sports folder/category, exclude other categories
+    const allSports = await mergeWithDbPriority('sports', getSportsImageProducts());
+    const sports = filterValidProducts(allSports.filter(p => {
+      if (!p || !p.image) return false;
+      const imageLower = (p.image || '').toLowerCase();
+      const nameLower = (p.name || '').toLowerCase();
+      const categoryLower = (p.category || '').toLowerCase();
+      // Only include products from sports folder or sports category
+      return imageLower.includes('/images/sports/') || 
+             imageLower.includes('/images/Sports/') ||
+             categoryLower === 'sports';
+    }));
+    
+    // Nike products - only Nike products, exclude sports and casuals
+    const nikeDbProducts = [
+      ...(await getDbProducts('sneakers')),
+      ...(await getDbImageProducts('sneakers')),
+      ...(await getDbProducts('airforce')),
+      ...(await getDbImageProducts('airforce')),
+      ...(await getDbProducts('airmax')),
+      ...(await getDbImageProducts('airmax')),
+    ];
+    const nikeFsProducts = [
+      ...getNikeImageProducts(),
+      ...getAirforceImageProducts(),
+      ...getAirmaxImageProducts(),
+      ...getSneakersImageProducts(),
+    ];
+    // Filter for Nike products only (exclude sports and casuals)
+    const nikeDbFiltered = nikeDbProducts.filter(p => {
+      if (!p || !p.image) return false;
+      const nameLower = (p.name || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      const categoryLower = (p.category || '').toLowerCase();
+      // Exclude sports and casuals
+      if (categoryLower === 'sports' || categoryLower === 'casuals' || categoryLower === 'casual') {
+        return false;
+      }
+      if (imageLower.includes('/images/sports/') || imageLower.includes('/images/casual/')) {
+        return false;
+      }
+      // Include Nike products
+      return nameLower.includes('nike') || imageLower.includes('nike') || 
+             imageLower.includes('/images/nike/') ||
+             p.category === 'airforce' || p.category === 'airmax' ||
+             imageLower.includes('/images/airforce/') || imageLower.includes('/images/airmax/');
+    });
+    const nikeFsFiltered = nikeFsProducts.filter(p => {
+      if (!p || !p.image) return false;
+      const nameLower = (p.name || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      const categoryLower = (p.category || '').toLowerCase();
+      // Exclude sports and casuals
+      if (categoryLower === 'sports' || categoryLower === 'casuals' || categoryLower === 'casual') {
+        return false;
+      }
+      if (imageLower.includes('/images/sports/') || imageLower.includes('/images/casual/')) {
+        return false;
+      }
+      // Include Nike products
+      return nameLower.includes('nike') || imageLower.includes('nike') || 
+             imageLower.includes('/images/nike/') ||
+             p.category === 'airforce' || p.category === 'airmax' ||
+             imageLower.includes('/images/airforce/') || imageLower.includes('/images/airmax/');
+    });
+    const productMap = new Map<string, Product>();
+    nikeDbFiltered.forEach(p => {
+      if (p && p.image) productMap.set(p.image, p);
+    });
+    nikeFsFiltered.forEach(p => {
+      if (p && p.image && !productMap.has(p.image)) {
+        productMap.set(p.image, p);
+      }
+    });
+    const nike = filterValidProducts(Array.from(productMap.values()));
+    
+    const vans = filterValidProducts(await mergeWithDbPriority('vans', getVansImageProducts()));
 
     // Filter Clarks products from officials (manually since 'Clarks' is not in official filters)
-    const clarks = officials.filter(p => {
+    const clarks = filterValidProducts(officials.filter(p => {
       if (p.tags && p.tags.length > 0) {
         return p.tags.some(tag => tag.toLowerCase() === 'clarks');
       }
       const source = `${p.name} ${p.description} ${p.image}`.toLowerCase();
       return source.includes('clark') || source.includes('clarks official');
-    });
+    }));
     
     // Filter Airmax 97 products
-    const airmax97 = filterAirmaxProducts(airmax, 'Airmax 97');
+    const airmax97 = filterValidProducts(filterAirmaxProducts(airmax, 'Airmax 97'));
     
     // Filter Timberland casual products
-    const timberland = filterCasualProducts(casuals, 'Timberland');
+    const timberland = filterValidProducts(filterCasualProducts(casuals, 'Timberland'));
 
     // Shuffle and select featured products (first 5-8 from each category)
     const shuffle = <T,>(array: T[]): T[] => {
@@ -559,6 +1058,10 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredCasuals: shuffle(casuals).slice(0, 8),
         featuredAirforce: shuffle(airforce).slice(0, 8),
         featuredJordan: shuffle(jordan).slice(0, 8),
+        featuredLoafers: shuffle(loafers).slice(0, 10),
+        featuredSports: shuffle(sports).slice(0, 10),
+        featuredNike: shuffle(nike).slice(0, 10),
+        featuredVans: shuffle(vans).slice(0, 10),
         heroAirmax97: airmax97,
         heroClarks: clarks,
         heroTimberland: timberland,
@@ -575,6 +1078,10 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredCasuals: [],
         featuredAirforce: [],
         featuredJordan: [],
+        featuredLoafers: [],
+        featuredSports: [],
+        featuredNike: [],
+        featuredVans: [],
         heroAirmax97: [],
         heroClarks: [],
         heroTimberland: [],

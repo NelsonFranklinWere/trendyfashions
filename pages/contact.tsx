@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ContactChannelCard from "@/components/contact/ContactChannelCard";
 import ContactStat from "@/components/contact/ContactStat";
 import SmartImage from "@/components/SmartImage";
+import { siteConfig, nairobiKeywords } from "@/lib/seo/config";
 
 const contactFormSchema = z.object({
   name: z
@@ -159,14 +160,44 @@ const Contact = () => {
   return (
     <>
       <NextSeo
-        title="Contact Us - Best Sellers & Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Contact Trendy Fashion Zone for best sellers and quality original shoes. WhatsApp, call, or visit Moi Avenue Nairobi. Fast response, expert styling advice, free delivery."
-        canonical="https://trendyfashionzone.co.ke/contact"
+        title="Contact Us | Quality Original Shoes Nairobi | Trendy Fashion Zone"
+        description="Contact Trendy Fashion Zone for best sellers and quality original shoes in Nairobi. WhatsApp +254743869564, call, or visit Moi Avenue. Fast response, expert styling advice, free delivery. Nike Airforce, Jordan, Airmax, Clarks, Vans."
+        canonical={`${siteConfig.url}/contact`}
         openGraph={{
-          url: "https://trendyfashionzone.co.ke/contact",
-          title: "Nairobi Men's Footwear Concierge | Trendy Fashion Zone",
-          description: "Premium men’s sneakers and officials in Nairobi CBD. Chat, call, or book a fitting.",
+          url: `${siteConfig.url}/contact`,
+          title: "Contact Us | Quality Original Shoes Nairobi | Trendy Fashion Zone",
+          description: "Contact Trendy Fashion Zone for best sellers and quality original shoes. WhatsApp, call, or visit Moi Avenue Nairobi. Fast response, expert styling advice, free delivery.",
+          type: "website",
+          locale: "en_KE",
         }}
+        twitter={{
+          cardType: "summary_large_image",
+          site: siteConfig.social.twitter,
+        }}
+        additionalMetaTags={[
+          {
+            name: "keywords",
+            content: [
+              "contact Trendy Fashion Zone",
+              "shoe shop Moi Avenue",
+              "WhatsApp shoe shop Nairobi",
+              ...nairobiKeywords.location.slice(0, 3),
+              "shoe store contact Nairobi",
+            ].join(", "),
+          },
+          {
+            name: "robots",
+            content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+          },
+          {
+            name: "geo.region",
+            content: "KE-110",
+          },
+          {
+            name: "geo.placename",
+            content: "Nairobi",
+          },
+        ]}
       />
 
       <div className="relative overflow-hidden bg-gradient-to-b from-[#05070f] via-[#0b1120] to-[#0f172a]">

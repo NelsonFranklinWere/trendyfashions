@@ -3,7 +3,10 @@ import path from 'path';
 
 import type { Product } from '@/data/products';
 
-const SNEAKERS_DIR = path.join(process.cwd(), 'public', 'images', 'sneakers');
+// Try both lowercase and capitalized folder names for case sensitivity
+const SNEAKERS_DIR_LOWER = path.join(process.cwd(), 'public', 'images', 'sneakers');
+const SNEAKERS_DIR_UPPER = path.join(process.cwd(), 'public', 'images', 'Sneakers');
+const SNEAKERS_DIR = fs.existsSync(SNEAKERS_DIR_UPPER) ? SNEAKERS_DIR_UPPER : SNEAKERS_DIR_LOWER;
 
 const formatName = (fileName: string): string => {
   const base = fileName.replace(/\.(jpg|jpeg|png|webp)$/i, '');
@@ -70,6 +73,14 @@ const formatName = (fileName: string): string => {
   // Handle New Balance (exclude Nike Shox)
   if ((lowerBase.includes('new balance') || lowerBase.includes('newbalance') || lowerBase.includes('nb') || lowerBase.startsWith('nb')) &&
       !lowerBase.includes('shox')) {
+    // Handle New Balance 1000 specifically
+    if (lowerBase.includes('1000')) {
+      return 'New Balance 1000';
+    }
+    // Handle New Balance 530 specifically
+    if (lowerBase.includes('530')) {
+      return 'New Balance 530';
+    }
     return 'New Balance';
   }
   
@@ -148,6 +159,8 @@ const NIKE_TN_PRICE = 3500;
 const NIKE_SHOX_PRICE = 4200;
 const NIKE_ZOOM_PRICE = 3200;
 const ADDIDAS_SAMBA_PRICE = 3000;
+const NEW_BALANCE_1000_PRICE = 4000;
+const NEW_BALANCE_DEFAULT_PRICE = 3800;
 
 const getPrice = (fileName: string, productName: string): number => {
   // Addidas Samba products - all priced at 3000
@@ -185,6 +198,14 @@ const getPrice = (fileName: string, productName: string): number => {
   // Valentino products = 3200
   if (productName === 'Valentino') {
     return VALENTINO_PRICE;
+  }
+  // New Balance 1000 products = 4000
+  if (productName === 'New Balance 1000') {
+    return NEW_BALANCE_1000_PRICE;
+  }
+  // Other New Balance products = 3800
+  if (productName === 'New Balance' || productName === 'New Balance 530') {
+    return NEW_BALANCE_DEFAULT_PRICE;
   }
   return DEFAULT_PRICE;
 };

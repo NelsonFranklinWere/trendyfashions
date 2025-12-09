@@ -3,22 +3,10 @@ import path from 'path';
 
 import type { Product } from '@/data/products';
 
-const NEWBALANCE_DIR = path.join(process.cwd(), 'public', 'images', 'newbalance');
+const MENSTYLE_DIR = path.join(process.cwd(), 'public', 'images', 'Mensstyle');
 
 const formatName = (fileName: string): string => {
   const base = fileName.replace(/\.(jpg|jpeg|png|webp)$/i, '');
-  const lowerBase = base.toLowerCase();
-  
-  // Handle New Balance 1000 specifically
-  if (lowerBase.includes('1000')) {
-    return 'New Balance 1000';
-  }
-  
-  // Handle New Balance 530 specifically
-  if (lowerBase.includes('530')) {
-    return 'New Balance 530';
-  }
-  
   const spaced = base
     .replace(/[-_@]+/g, ' ')
     .replace(/\s+/g, ' ')
@@ -30,7 +18,7 @@ const formatName = (fileName: string): string => {
     .trim();
 
   if (!cleaned) {
-    return 'New Balance';
+    return 'Men\'s Style';
   }
 
   return cleaned
@@ -41,45 +29,43 @@ const formatName = (fileName: string): string => {
 
 const buildId = (fileName: string): string => {
   const stem = fileName.replace(/\.(jpg|jpeg|png|webp)$/i, '').toLowerCase();
-  return `newbalance-auto-${stem.replace(/[^a-z0-9]+/g, '-')}`;
+  return `mensstyle-auto-${stem.replace(/[^a-z0-9]+/g, '-')}`;
 };
 
 const sanitizeDescription = (name: string): string => {
-  return `${name} — Classic and modern New Balance sneakers from Trendy Fashion Zone`;
+  return `${name} — Quality stylish men's footwear from Trendy Fashion Zone`;
 };
 
-const NEW_BALANCE_1000_PRICE = 4000;
-const DEFAULT_NEW_BALANCE_PRICE = 3800;
+const DEFAULT_PRICE = 4200;
 
-const getPrice = (productName: string): number => {
-  if (productName === 'New Balance 1000') {
-    return NEW_BALANCE_1000_PRICE;
-  }
-  return DEFAULT_NEW_BALANCE_PRICE;
-};
-
-export const getNewBalanceImageProducts = (): Product[] => {
-  if (!fs.existsSync(NEWBALANCE_DIR)) {
+export const getMensstyleImageProducts = (): Product[] => {
+  if (!fs.existsSync(MENSTYLE_DIR)) {
     return [];
   }
 
   const files = fs
-    .readdirSync(NEWBALANCE_DIR)
+    .readdirSync(MENSTYLE_DIR)
     .filter((file) => file.match(/\.(jpg|jpeg|png|webp)$/i))
     .sort((a, b) => a.localeCompare(b));
 
   return files.map((file) => {
     const name = formatName(file);
-    const price = getPrice(name);
+    const nameLower = name.toLowerCase();
+    
+    // Determine category based on name
+    let category = 'casuals';
+    if (nameLower.includes('timberland') || nameLower.includes('timba')) {
+      category = 'casuals';
+    }
+    
     return {
       id: buildId(file),
       name,
       description: sanitizeDescription(name),
-      price,
-      image: `/images/newbalance/${file}`,
-      category: 'casual',
-      gender: 'Unisex',
+      price: DEFAULT_PRICE,
+      image: `/images/Mensstyle/${file}`,
+      category,
+      gender: 'Men',
     } satisfies Product;
   });
 };
-

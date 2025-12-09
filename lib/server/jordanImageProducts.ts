@@ -103,7 +103,7 @@ const JORDAN_1_PRICE = 3300;
 const JORDAN_3_PRICE = 3500;
 const JORDAN_4_PRICE = 3000;
 const JORDAN_9_PRICE = 3300;
-const JORDAN_11_PRICE = 3300;
+const JORDAN_11_PRICE = 3500;
 const JORDAN_14_PRICE = 3500;
 const DEFAULT_PRICE = 3500;
 
@@ -140,7 +140,28 @@ export const getJordanImageProducts = (): Product[] => {
       .filter((file) => file.match(/\.(jpg|jpeg|png|webp)$/i))
       .sort((a, b) => a.localeCompare(b));
 
-    return files.map((file, index) => {
+    // Find the last Jordan 11 file index
+    let lastJordan11Index = -1;
+    for (let i = files.length - 1; i >= 0; i--) {
+      const lowerFile = files[i].toLowerCase();
+      if (lowerFile.includes('jordan11') || lowerFile.includes('jordan 11') || lowerFile.includes('j11')) {
+        lastJordan11Index = i;
+        break;
+      }
+    }
+
+    // If Jordan 11 found, exclude it and everything after it
+    const filteredFiles = lastJordan11Index >= 0 
+      ? files.slice(0, lastJordan11Index)
+      : files.filter(file => {
+          const lowerFile = file.toLowerCase();
+          // Also filter out any Jordan 11 files that might be scattered
+          return !lowerFile.includes('jordan11') && 
+                 !lowerFile.includes('jordan 11') && 
+                 !lowerFile.includes('j11');
+        });
+
+    return filteredFiles.map((file, index) => {
       const name = formatName(file);
       const price = getPrice(name);
       return {

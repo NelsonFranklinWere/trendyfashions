@@ -25,7 +25,6 @@ const productSchema = z.object({
     { message: 'Valid image URL is required' }
   ),
   category: z.string().min(1, 'Category is required'),
-  subcategory: z.string().min(1, 'Subcategory is required'),
   gender: z.enum(['Men', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
@@ -34,14 +33,12 @@ const productSchema = z.object({
 type ProductFormData = z.infer<typeof productSchema>;
 
 const CATEGORIES = [
-  { value: 'officials', label: 'Officials', subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
-  { value: 'sneakers', label: 'Sneakers', subcategories: ['Addidas Campus', 'Addidas Samba', 'Valentino', 'Nike S', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance'] },
-  { value: 'vans', label: 'Vans', subcategories: ['Custom', 'Codra', 'Skater', 'Off the Wall'] },
-  { value: 'jordan', label: 'Jordan', subcategories: ['Jordan 1', 'Jordan 3', 'Jordan 4', 'Jordan 9', 'Jordan 11', 'Jordan 14'] },
-  { value: 'airmax', label: 'Airmax', subcategories: ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'] },
-  { value: 'airforce', label: 'Airforce', subcategories: ['Airforce'] },
-  { value: 'casuals', label: 'Casuals', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiggr', 'Boss', 'Other'] },
-  { value: 'custom', label: 'Custom', subcategories: ['Custom'] },
+  { value: 'mens-officials', label: "Men's Officials" },
+  { value: 'mens-nike', label: "Men's Nike" },
+  { value: 'sports', label: 'Sports' },
+  { value: 'mens-style', label: "Men's Style" },
+  { value: 'vans', label: 'Vans' },
+  { value: 'sneakers', label: 'Sneakers' },
 ];
 
 export default function AddProduct() {
@@ -69,20 +66,17 @@ export default function AddProduct() {
   });
 
   const selectedCategory = watch('category');
-  const selectedSubcategory = watch('subcategory');
   const selectedImage = watch('image');
 
-  const selectedCategoryData = CATEGORIES.find((c) => c.value === selectedCategory);
-
-  // Fetch available images when category/subcategory changes
+  // Fetch available images when category changes
   const fetchAvailableImages = useCallback(async () => {
-    if (!selectedCategory || !selectedSubcategory) {
+    if (!selectedCategory) {
       setAvailableImages([]);
       return;
     }
 
     try {
-      const response = await fetch(`/api/images?category=${selectedCategory}&subcategory=${selectedSubcategory}`);
+      const response = await fetch(`/api/images?category=${selectedCategory}`);
       if (response.ok) {
         const data = await response.json();
         setAvailableImages(data.images || []);
@@ -90,7 +84,7 @@ export default function AddProduct() {
     } catch (error) {
       console.error('Failed to fetch images:', error);
     }
-  }, [selectedCategory, selectedSubcategory]);
+  }, [selectedCategory]);
 
   // Update image preview when image URL changes
   const handleImageUrlChange = useCallback((url: string) => {
@@ -108,12 +102,12 @@ export default function AddProduct() {
     return () => subscription.unsubscribe();
   }, [watch]);
 
-  // Load images when category/subcategory changes
+  // Load images when category changes
   useEffect(() => {
-    if (selectedCategory && selectedSubcategory) {
+    if (selectedCategory) {
       fetchAvailableImages();
     }
-  }, [selectedCategory, selectedSubcategory, fetchAvailableImages]);
+  }, [selectedCategory, fetchAvailableImages]);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -138,19 +132,18 @@ export default function AddProduct() {
 
   // Handle file upload from device
   const handleFileUpload = async (file: File, index?: number) => {
-    if (!selectedCategory || !selectedSubcategory) {
-      alert('Please select category and subcategory first');
+    if (!selectedCategory) {
+      alert('Please select category first');
       return;
     }
 
     setUploadingImage(true);
-    setUploadProgress(`Uploading image ${index !== undefined ? `${index + 1}/4` : ''}...`);
+    setUploadProgress(`Uploading image ${index !== undefined ? `${index + 1}/10` : ''}...`);
 
     try {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('category', selectedCategory);
-      formData.append('subcategory', selectedSubcategory);
 
       const response = await fetch('/api/admin/images/upload', {
         method: 'POST',
@@ -194,7 +187,7 @@ export default function AddProduct() {
             setValue('image', imageUrl, { shouldValidate: true });
             setImagePreview(imageUrl);
           }
-          setUploadProgress(`Image ${index !== undefined ? `${index + 1}/4` : ''} uploaded successfully!`);
+          setUploadProgress(`Image ${index !== undefined ? `${index + 1}/10` : ''} uploaded successfully!`);
         } catch (urlError) {
           throw new Error(`Invalid image URL format: ${imageUrl}`);
         }
@@ -213,20 +206,20 @@ export default function AddProduct() {
   };
 
   const handleMultipleFileUpload = async (files: FileList) => {
-    if (!selectedCategory || !selectedSubcategory) {
-      alert('Please select category and subcategory first');
+    if (!selectedCategory) {
+      alert('Please select category first');
       return;
     }
 
-    const fileArray = Array.from(files).slice(0, 4); // Limit to 4 images
+    const fileArray = Array.from(files).slice(0, 10); // Limit to 10 images
     
     if (fileArray.length === 0) {
       alert('Please select at least one image');
       return;
     }
 
-    if (fileArray.length > 4) {
-      alert('Maximum 4 images allowed');
+    if (fileArray.length > 10) {
+      alert('Maximum 10 images allowed');
       return;
     }
 
@@ -441,35 +434,14 @@ export default function AddProduct() {
             {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
           </div>
 
-          {/* Subcategory */}
-          {selectedCategoryData && (
-            <div>
-              <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700 mb-2">
-                Subcategory *
-              </label>
-              <select
-                id="subcategory"
-                {...register('subcategory')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-              >
-                <option value="">Select a subcategory</option>
-                {selectedCategoryData.subcategories.map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
-              {errors.subcategory && <p className="mt-1 text-sm text-red-600">{errors.subcategory.message}</p>}
-            </div>
-          )}
 
           {/* Image Upload */}
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-              Product Images * (Upload 1-4 images)
+              Product Images * (Upload 1-10 images)
             </label>
             <p className="text-xs text-gray-500 mb-2">
-              Upload up to 4 images. All images will create separate products with the same name, description, and price.
+              Upload up to 10 images. All images will create separate products with the same name, description, and price.
             </p>
             <div className="mb-4">
               <input
@@ -478,13 +450,13 @@ export default function AddProduct() {
                 accept="image/*"
                 multiple
                 onChange={handleFileInputChange}
-                disabled={uploadingImage || !selectedCategory || !selectedSubcategory}
+                disabled={uploadingImage || !selectedCategory}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              {!selectedCategory || !selectedSubcategory ? (
-                <p className="mt-1 text-xs text-gray-500">Please select category and subcategory first</p>
+              {!selectedCategory ? (
+                <p className="mt-1 text-xs text-gray-500">Please select category first</p>
               ) : (
-                <p className="mt-1 text-xs text-gray-500">You can select 1-4 images at once</p>
+                <p className="mt-1 text-xs text-gray-500">You can select 1-10 images at once</p>
               )}
               {uploadProgress && (
                 <p className={`mt-1 text-sm ${uploadProgress.includes('successfully') ? 'text-green-600' : 'text-blue-600'}`}>
@@ -499,7 +471,7 @@ export default function AddProduct() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Image Previews ({uploadedImages.length > 0 ? uploadedImages.length : 1} image{uploadedImages.length > 1 ? 's' : ''})
                 </label>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {uploadedImages.length > 0 ? (
                     uploadedImages.map((imgUrl, index) => (
                       imgUrl && (

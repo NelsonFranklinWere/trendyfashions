@@ -7,10 +7,11 @@ import { getCustomizedImageProducts } from './customizedImageProducts';
 import { getVansImageProducts } from './vansImageProducts';
 import { getJordanImageProducts } from './jordanImageProducts';
 import { getSneakersImageProducts } from './sneakersImageProducts';
+import { filterValidProducts } from './validateProduct';
 
 /**
  * Get all products from all categories
- * @returns Array of all products from all categories
+ * @returns Array of all products from all categories with valid images
  */
 export async function getAllProducts(): Promise<Product[]> {
   const allProducts: Product[] = [];
@@ -64,9 +65,12 @@ export async function getAllProducts(): Promise<Product[]> {
     console.warn('Failed to load jordan products:', e);
   }
 
+  // Filter out products with invalid or missing images
+  const validProducts = filterValidProducts(allProducts);
+
   // Remove duplicates based on image path
   const uniqueProducts = Array.from(
-    new Map(allProducts.map((p) => [p.image, p])).values()
+    new Map(validProducts.map((p) => [p.image, p])).values()
   );
 
   return uniqueProducts;

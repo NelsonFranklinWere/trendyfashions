@@ -25,7 +25,6 @@ const productSchema = z.object({
     { message: 'Valid image URL is required' }
   ),
   category: z.string().min(1, 'Category is required'),
-  subcategory: z.string().min(1, 'Subcategory is required'),
   gender: z.enum(['Men', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
@@ -34,14 +33,12 @@ const productSchema = z.object({
 type ProductFormData = z.infer<typeof productSchema>;
 
 const CATEGORIES = [
-  { value: 'officials', label: 'Officials', subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
-  { value: 'sneakers', label: 'Sneakers', subcategories: ['Addidas Campus', 'Addidas Samba', 'Valentino', 'Nike S', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance'] },
-  { value: 'vans', label: 'Vans', subcategories: ['Custom', 'Codra', 'Skater', 'Off the Wall'] },
-  { value: 'jordan', label: 'Jordan', subcategories: ['Jordan 1', 'Jordan 3', 'Jordan 4', 'Jordan 9', 'Jordan 11', 'Jordan 14'] },
-  { value: 'airmax', label: 'Airmax', subcategories: ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'] },
-  { value: 'airforce', label: 'Airforce', subcategories: ['Airforce'] },
-  { value: 'casuals', label: 'Casuals', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiggr', 'Boss', 'Other'] },
-  { value: 'custom', label: 'Custom', subcategories: ['Custom'] },
+  { value: 'mens-officials', label: "Men's Officials" },
+  { value: 'mens-nike', label: "Men's Nike" },
+  { value: 'sports', label: 'Sports' },
+  { value: 'mens-style', label: "Men's Style" },
+  { value: 'vans', label: 'Vans' },
+  { value: 'sneakers', label: 'Sneakers' },
 ];
 
 export default function EditProduct() {
@@ -51,7 +48,7 @@ export default function EditProduct() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>('');
-  const [availableImages, setAvailableImages] = useState<Array<{ id: string; url: string; category: string; subcategory: string }>>([]);
+  const [availableImages, setAvailableImages] = useState<Array<{ id: string; url: string; category: string }>>([]);
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
@@ -73,10 +70,7 @@ export default function EditProduct() {
   }, [user, authLoading, router]);
 
   const selectedCategory = watch('category');
-  const selectedSubcategory = watch('subcategory');
   const selectedImage = watch('image');
-
-  const selectedCategoryData = CATEGORIES.find((c) => c.value === selectedCategory);
 
   useEffect(() => {
     if (id && typeof id === 'string') {
@@ -100,7 +94,6 @@ export default function EditProduct() {
       setValue('price', product.price);
       setValue('image', product.image);
       setValue('category', product.category);
-      setValue('subcategory', product.subcategory || '');
       setValue('gender', product.gender || undefined);
       setValue('tags', product.tags?.join(', ') || '');
       setValue('featured', product.featured || false);
@@ -115,13 +108,13 @@ export default function EditProduct() {
   };
 
   const fetchAvailableImages = useCallback(async () => {
-    if (!selectedCategory || !selectedSubcategory) {
+    if (!selectedCategory) {
       setAvailableImages([]);
       return;
     }
 
     try {
-      const response = await fetch(`/api/images?category=${selectedCategory}&subcategory=${selectedSubcategory}`);
+      const response = await fetch(`/api/images?category=${selectedCategory}`);
       if (response.ok) {
         const data = await response.json();
         setAvailableImages(data.images || []);
@@ -129,7 +122,7 @@ export default function EditProduct() {
     } catch (error) {
       console.error('Failed to fetch images:', error);
     }
-  }, [selectedCategory, selectedSubcategory]);
+  }, [selectedCategory]);
 
   const handleImageUrlChange = useCallback((url: string) => {
     setImagePreview(url);
@@ -148,8 +141,8 @@ export default function EditProduct() {
 
   // Handle file upload from device
   const handleFileUpload = async (file: File) => {
-    if (!selectedCategory || !selectedSubcategory) {
-      alert('Please select category and subcategory first');
+    if (!selectedCategory) {
+      alert('Please select category first');
       return;
     }
 
@@ -160,7 +153,6 @@ export default function EditProduct() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('category', selectedCategory);
-      formData.append('subcategory', selectedSubcategory);
 
       const response = await fetch('/api/admin/images/upload', {
         method: 'POST',
@@ -338,26 +330,6 @@ export default function EditProduct() {
             {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
           </div>
 
-          {selectedCategoryData && (
-            <div>
-              <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700 mb-2">
-                Subcategory *
-              </label>
-              <select
-                id="subcategory"
-                {...register('subcategory')}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-              >
-                <option value="">Select a subcategory</option>
-                {selectedCategoryData.subcategories.map((sub) => (
-                  <option key={sub} value={sub}>
-                    {sub}
-                  </option>
-                ))}
-              </select>
-              {errors.subcategory && <p className="mt-1 text-sm text-red-600">{errors.subcategory.message}</p>}
-            </div>
-          )}
 
           {/* Image Upload */}
           <div>
@@ -378,11 +350,11 @@ export default function EditProduct() {
                     type="file"
                     accept="image/*"
                     onChange={handleFileInputChange}
-                    disabled={uploadingImage || !selectedCategory || !selectedSubcategory}
+                    disabled={uploadingImage || !selectedCategory}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary file:text-white hover:file:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                  {!selectedCategory || !selectedSubcategory ? (
-                    <p className="mt-1 text-xs text-gray-500">Please select category and subcategory first</p>
+                  {!selectedCategory ? (
+                    <p className="mt-1 text-xs text-gray-500">Please select category first</p>
                   ) : null}
                   {uploadProgress && (
                     <p className={`mt-1 text-sm ${uploadProgress.includes('successfully') ? 'text-green-600' : 'text-blue-600'}`}>

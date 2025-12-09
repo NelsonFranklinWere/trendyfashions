@@ -11,15 +11,12 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
 
   if (req.method === 'GET') {
     try {
-      const { category, subcategory } = req.query;
+      const { category } = req.query;
 
       let query = supabaseAdmin.from('products').select('*').order('created_at', { ascending: false });
 
       if (category) {
         query = query.eq('category', category as string);
-      }
-      if (subcategory) {
-        query = query.eq('subcategory', subcategory as string);
       }
 
       const { data, error } = await query;
@@ -37,9 +34,9 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
 
   if (req.method === 'POST') {
     try {
-      const { name, description, price, image, category, subcategory, gender, tags, featured } = req.body;
+      const { name, description, price, image, category, gender, tags, featured } = req.body;
 
-      if (!name || !description || !price || !image || !category || !subcategory) {
+      if (!name || !description || !price || !image || !category) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
@@ -52,7 +49,6 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
             price: parseFloat(price),
             image,
             category,
-            subcategory,
             gender: gender || null,
             tags: tags || [],
             featured: featured || false,

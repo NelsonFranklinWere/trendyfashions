@@ -51,9 +51,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     const optimize = Array.isArray(fields.optimize) ? fields.optimize[0] : fields.optimize;
 
-    if (!category || !subcategory || !file) {
+    if (!category || !file) {
       return res.status(400).json({ 
-        error: 'Missing required fields: category, subcategory, and file are required' 
+        error: 'Missing required fields: category and file are required' 
       });
     }
 
@@ -85,10 +85,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Generate thumbnail for faster loading
     const thumbnail = await createThumbnail(originalBuffer, 300);
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const thumbnailPath = `${category}/${subcategory}/${thumbnailFileName}`;
+    const thumbnailPath = subcategory ? `${category}/${subcategory}/${thumbnailFileName}` : `${category}/${thumbnailFileName}`;
 
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const storagePath = `${category}/${subcategory}/${fileName}`;
+    const storagePath = subcategory ? `${category}/${subcategory}/${fileName}` : `${category}/${fileName}`;
 
     // Check if bucket exists, if not provide helpful error
     const { data: buckets, error: bucketsError } = await supabaseAdmin.storage.listBuckets();
@@ -172,7 +172,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .from('images')
       .insert({
         category,
-        subcategory,
+        subcategory: subcategory || null,
         filename: uploadedFile.originalFilename,
         url: urlData.publicUrl,
         thumbnail_url: thumbnailUrlData.publicUrl,

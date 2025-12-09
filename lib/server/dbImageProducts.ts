@@ -1,5 +1,6 @@
 import { supabaseAdmin } from '@/lib/supabase/server';
 import type { Product } from '@/data/products';
+import { filterValidProducts } from './validateProduct';
 
 interface DbImage {
   id: string;
@@ -18,21 +19,32 @@ interface DbImage {
   // Optional fields that may exist if database schema was updated
   name?: string;
   price?: number;
+  description?: string;
 }
 
 // Map category slugs to database category values
 const categoryMapping: Record<string, string> = {
-  officials: 'officials',
-  formal: 'officials',
-  sneakers: 'sneakers',
-  casuals: 'casuals',
-  casual: 'casuals',
-  airmax: 'airmax',
-  airforce: 'airforce',
-  jordan: 'jordan',
-  vans: 'vans',
-  custom: 'custom',
-  customized: 'custom',
+  // New simplified categories - these are the only ones used now
+  'mens-officials': 'mens-officials',
+  'mens-nike': 'mens-nike',
+  'sports': 'sports',
+  'mens-style': 'mens-style',
+  'vans': 'vans',
+  'sneakers': 'sneakers',
+  // Legacy mappings for backward compatibility (old products)
+  officials: 'mens-officials',
+  formal: 'mens-officials',
+  casuals: 'mens-casuals',
+  'mens-casuals': 'mens-casuals',
+  casual: 'mens-casuals',
+  nike: 'mens-nike',
+  airmax: 'sneakers',
+  airforce: 'sneakers',
+  jordan: 'sneakers',
+  custom: 'mens-style',
+  customized: 'mens-style',
+  'mens-loafers': 'mens-officials',
+  loafers: 'mens-officials',
 };
 
 // Helper to format product name from filename and subcategory
@@ -198,9 +210,33 @@ const getPrice = (category: string, subcategory: string): number => {
   }
   
   if (category === 'airmax') return 3700;
-  if (category === 'jordan') return 3300;
+  if (category === 'jordan') {
+    // Check for Jordan 11 specifically
+    const nameLower = (subcategory || '').toLowerCase();
+    if (nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) {
+      return 3500;
+    }
+    return 3300;
+  }
   if (category === 'airforce') return 3200;
   if (category === 'casuals' || category === 'sneakers') return 3000;
+  
+  // Check for Converse products - price 1900
+  const nameLower = (subcategory || '').toLowerCase();
+  const categoryLower = (category || '').toLowerCase();
+  if (nameLower.includes('converse') || categoryLower.includes('converse')) {
+    return 1900;
+  }
+  
+  // Check for New Balance products
+  if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
+    // New Balance 1000 = 4000
+    if (nameLower.includes('1000')) {
+      return 4000;
+    }
+    // Other New Balance = 3800
+    return 3800;
+  }
   
   return 2800; // default
 };
@@ -245,12 +281,55 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
   // PRIORITY: Use price from database if available (the price user uploaded)
   // Otherwise, calculate based on category/subcategory
   let price: number;
+  const productName = dbImage.name || formatProductName(dbImage.filename, dbImage.subcategory, category);
+  const nameLower = productName.toLowerCase();
+  
   if (dbImage.price !== undefined && dbImage.price !== null && dbImage.price > 0) {
-    // Use the price field from database (exact price user uploaded)
+    // Use the price field from database, but override for specific products
     price = Number(dbImage.price);
+    const descLower = (dbImage.description || '').toLowerCase();
+    // Converse = 1900
+    if (nameLower.includes('converse') || descLower.includes('converse')) {
+      price = 1900;
+    }
+    // New Balance 1000 = 4000
+    else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
+             (nameLower.includes('1000') || descLower.includes('1000'))) {
+      price = 4000;
+    }
+    // Other New Balance = 3800
+    else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
+      price = 3800;
+    }
+    // Jordan 11 = 3500
+    else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
+             (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
+      price = 3500;
+    }
   } else {
     // Fallback to calculated price
-    price = getPrice(category, dbImage.subcategory);
+    const descLower = (dbImage.description || '').toLowerCase();
+    // Converse = 1900
+    if (nameLower.includes('converse') || descLower.includes('converse')) {
+      price = 1900;
+    }
+    // New Balance 1000 = 4000
+    else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
+             (nameLower.includes('1000') || descLower.includes('1000'))) {
+      price = 4000;
+    }
+    // Other New Balance = 3800
+    else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
+      price = 3800;
+    }
+    // Jordan 11 = 3500
+    else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
+             (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
+      price = 3500;
+    }
+    else {
+      price = getPrice(category, dbImage.subcategory);
+    }
   }
   
   // Use thumbnail URL if available for faster initial load, fallback to full URL
@@ -326,6 +405,23 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     
     for (const img of data) {
       try {
+        // Filter out Jordan 11 products
+        const nameLower = ((img as DbImage).name || '').toLowerCase();
+        const descLower = ((img as DbImage).description || '').toLowerCase();
+        const filenameLower = ((img as DbImage).filename || '').toLowerCase();
+        const isJordan11 = nameLower.includes('jordan 11') || 
+                          nameLower.includes('jordan11') || 
+                          nameLower.includes('j11') ||
+                          descLower.includes('jordan 11') || 
+                          descLower.includes('jordan11') || 
+                          descLower.includes('j11') ||
+                          filenameLower.includes('jordan 11') || 
+                          filenameLower.includes('jordan11') || 
+                          filenameLower.includes('j11');
+        if (isJordan11) {
+          continue; // Skip Jordan 11 products
+        }
+        
         const product = dbImageToProduct(img as DbImage, 0);
         products.push(product);
       } catch (error) {
@@ -334,9 +430,12 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
       }
     }
     
+    // Filter out products with invalid images
+    const validProducts = filterValidProducts(products);
+    
     // Log first product for debugging
-    if (products.length > 0) {
-      const sample = products[0];
+    if (validProducts.length > 0) {
+      const sample = validProducts[0];
       console.log(`Sample database product: "${sample.name}" (KES ${sample.price}), image: ${sample.image}`);
       // Log if using database name/price vs calculated
       const firstDbImage = data[0] as DbImage;
@@ -350,7 +449,7 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
       console.warn(`All ${data.length} database products were filtered out due to invalid image URLs`);
     }
     
-    return products;
+    return validProducts;
   } catch (error) {
     console.error(`Error loading ${category} products from database:`, error);
     return [];
@@ -417,18 +516,64 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
       return [];
     }
 
-    // Convert database products to Product format
-    return data.map((product: any) => ({
-      id: `product-${product.id}`,
-      name: product.name,
-      description: product.description || `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
-      price: Number(product.price),
-      image: product.image,
-      category: mapToProductCategory(product.category) || product.category,
-      gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
-      tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
-      featured: product.featured || false,
-    } satisfies Product));
+    // Convert database products to Product format and filter out Jordan 11 and invalid products
+    const mappedProducts = data
+      .filter((product: any) => {
+        // Filter out Jordan 11 products
+        const nameLower = (product.name || '').toLowerCase();
+        const descLower = (product.description || '').toLowerCase();
+        const imageLower = (product.image || '').toLowerCase();
+        const isJordan11 = nameLower.includes('jordan 11') || 
+                          nameLower.includes('jordan11') || 
+                          nameLower.includes('j11') ||
+                          descLower.includes('jordan 11') || 
+                          descLower.includes('jordan11') || 
+                          descLower.includes('j11') ||
+                          imageLower.includes('jordan 11') || 
+                          imageLower.includes('jordan11') || 
+                          imageLower.includes('j11');
+        return !isJordan11;
+      })
+      .map((product: any) => {
+        // Set price based on product type, overriding database price if needed
+        let price = Number(product.price);
+        const nameLower = (product.name || '').toLowerCase();
+        const descLower = (product.description || '').toLowerCase();
+        
+        // Converse = 1900
+        if (nameLower.includes('converse') || descLower.includes('converse')) {
+          price = 1900;
+        }
+        // New Balance 1000 = 4000
+        else if ((nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) && 
+                 (nameLower.includes('1000') || descLower.includes('1000'))) {
+          price = 4000;
+        }
+        // Other New Balance = 3800
+        else if (nameLower.includes('new balance') || nameLower.includes('newbalance') || nameLower.includes('nb')) {
+          price = 3800;
+        }
+        // Jordan 11 = 3500
+        else if ((nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) ||
+                 (descLower.includes('jordan 11') || descLower.includes('jordan11') || descLower.includes('j11'))) {
+          price = 3500;
+        }
+        
+        return {
+          id: `product-${product.id}`,
+          name: product.name,
+          description: product.description || `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
+          price,
+          image: product.image,
+          category: mapToProductCategory(product.category) || product.category,
+          gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
+          tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
+          featured: product.featured || false,
+        } satisfies Product;
+      });
+    
+    // Filter out products with invalid images
+    return filterValidProducts(mappedProducts);
   } catch (error) {
     console.error('Error loading products from database:', error);
     return [];

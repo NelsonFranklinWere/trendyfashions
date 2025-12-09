@@ -7,6 +7,7 @@ import { useState, useMemo } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import { categories, Product } from '@/data/products';
 import { getAllProducts } from '@/lib/server/getAllProducts';
+import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
 
 interface CollectionsProps {
   allProducts: Product[];
@@ -48,19 +49,42 @@ const Collections = ({ allProducts }: CollectionsProps) => {
   return (
     <>
       <NextSeo
-        title="Best Sellers & Quality Original Shoes Collections | Trendy Fashion Zone"
-        description="Browse best sellers and quality original shoes collections. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans. Premium quality, trusted brands, trending footwear in Nairobi."
-        canonical="https://trendyfashionzone.co.ke/collections"
+        title="Shoe Collections | Quality Original Shoes Nairobi | Trendy Fashion Zone"
+        description="Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Quality original shoes, authentic brands. Located on Moi Avenue. Free delivery."
+        canonical={`${siteConfig.url}/collections`}
         openGraph={{
-          url: 'https://trendyfashionzone.co.ke/collections',
-          title: 'Best Sellers & Quality Original Shoes Collections | Trendy Fashion Zone',
-          description: 'Browse best sellers and quality original shoes collections. Authentic brands, premium quality, trending footwear.',
+          url: `${siteConfig.url}/collections`,
+          title: 'Shoe Collections | Quality Original Shoes Nairobi | Trendy Fashion Zone',
+          description: 'Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Located on Moi Avenue.',
           type: 'website',
+          locale: 'en_KE',
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: siteConfig.social.twitter,
         }}
         additionalMetaTags={[
           {
             name: 'keywords',
-            content: 'best sellers shoes collections Nairobi, quality original shoes Kenya, shoe collections Nairobi, best shoe collections, trending footwear collections, premium shoe collections',
+            content: [
+              ...nairobiKeywords.brands.slice(0, 6),
+              ...nairobiKeywords.categories,
+              ...nairobiKeywords.quality.slice(0, 3),
+              'shoe collections Nairobi',
+              'all shoe categories Nairobi',
+            ].join(', '),
+          },
+          {
+            name: 'robots',
+            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+          },
+          {
+            name: 'geo.region',
+            content: 'KE-110',
+          },
+          {
+            name: 'geo.placename',
+            content: 'Nairobi',
           },
         ]}
       />
@@ -70,15 +94,37 @@ const Collections = ({ allProducts }: CollectionsProps) => {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
-            name: 'Best Sellers & Quality Original Shoes Collections',
-            description: 'Browse best sellers and quality original shoes collections. Authentic sneakers, officials, casuals, Airforce, Airmax, Jordans.',
-            url: 'https://trendyfashionzone.co.ke/collections',
+            '@id': `${siteConfig.url}/collections#webpage`,
+            name: 'Shoe Collections - Quality Original Shoes Nairobi',
+            description: 'Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Quality original shoes, authentic brands.',
+            url: `${siteConfig.url}/collections`,
+            inLanguage: 'en-KE',
+            isPartOf: {
+              '@type': 'WebSite',
+              name: siteConfig.name,
+              url: siteConfig.url,
+            },
             breadcrumb: {
               '@type': 'BreadcrumbList',
               itemListElement: [
-                { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://trendyfashionzone.co.ke' },
-                { '@type': 'ListItem', position: 2, name: 'Collections', item: 'https://trendyfashionzone.co.ke/collections' },
+                { '@type': 'ListItem', position: 1, name: 'Home', item: siteConfig.url },
+                { '@type': 'ListItem', position: 2, name: 'Collections', item: `${siteConfig.url}/collections` },
               ],
+            },
+            mainEntity: {
+              '@type': 'ItemList',
+              name: 'Shoe Categories',
+              numberOfItems: categories.length,
+              itemListElement: categories.map((category, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                item: {
+                  '@type': 'CollectionPage',
+                  name: category.name,
+                  url: `${siteConfig.url}/collections/${category.slug}`,
+                  description: category.description,
+                },
+              })),
             },
           }),
         }}

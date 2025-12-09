@@ -7,6 +7,7 @@ import CartBadge from '@/components/CartBadge';
 import CartDrawer from '@/components/CartDrawer';
 import useCart from '@/hooks/useCart';
 import SmartImage from '@/components/SmartImage';
+import { mainCategories } from '@/data/categories-structure';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,13 +31,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { href: '/collections/officials', label: 'Officials' },
-    { href: '/collections/casuals', label: 'Casuals' },
-    { href: '/collections/airmax', label: 'Airmax' },
-    { href: '/collections', label: 'Collections' },
-    { href: '/contact', label: 'Contact' },
-  ];
+  const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
@@ -77,17 +72,58 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+            <div className="hidden md:flex items-center space-x-6 relative">
+              {mainCategories.map((category) => (
+                <div
+                  key={category.id}
+                  className="relative"
+                  onMouseEnter={() => category.hasSubcategories && setHoveredCategory(category.id)}
+                  onMouseLeave={() => setHoveredCategory(null)}
                 >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-                </Link>
+                  <Link
+                    href={category.href}
+                    className="text-text font-body font-medium hover:text-secondary transition-colors relative group flex items-center gap-1"
+                  >
+                    {category.name}
+                    {category.hasSubcategories && (
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    )}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
+                  </Link>
+                  
+                  {/* Dropdown Menu */}
+                  {category.hasSubcategories && hoveredCategory === category.id && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-2xl border border-light z-50 py-2"
+                    >
+                      <div className="max-h-96 overflow-y-auto">
+                        {category.subcategories?.map((subcat) => (
+                          <Link
+                            key={subcat.id}
+                            href={subcat.href}
+                            className="block px-4 py-2 text-sm text-text hover:bg-light hover:text-secondary transition-colors"
+                          >
+                            {subcat.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               ))}
+              
+              <Link
+                href="/contact"
+                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+              >
+                Contact
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
+              </Link>
               
               <CartBadge count={itemsCount} onClick={openCart} />
             </div>
@@ -131,16 +167,38 @@ const Navbar = () => {
               className="md:hidden bg-white border-t border-light"
             >
               <div className="px-4 py-4 space-y-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
-                  >
-                    {link.label}
-                  </Link>
+                {mainCategories.map((category) => (
+                  <div key={category.id}>
+                    <Link
+                      href={category.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                    >
+                      {category.name}
+                    </Link>
+                    {category.hasSubcategories && category.subcategories && (
+                      <div className="pl-4 space-y-1 border-l-2 border-light">
+                        {category.subcategories.slice(0, 6).map((subcat) => (
+                          <Link
+                            key={subcat.id}
+                            href={subcat.href}
+                            onClick={() => setIsOpen(false)}
+                            className="block text-sm text-text/70 hover:text-secondary transition-colors py-1"
+                          >
+                            {subcat.name}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 ))}
+                <Link
+                  href="/contact"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                >
+                  Contact
+                </Link>
               </div>
             </motion.div>
           )}

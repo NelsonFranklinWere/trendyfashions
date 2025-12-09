@@ -1,24 +1,49 @@
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
 
 const About = () => {
   return (
     <>
       <NextSeo
-        title="About Us - Best Sellers & Quality Original Shoes | Trendy Fashion Zone"
-        description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Best sellers and quality original shoes - trusted by thousands. Learn about our mission, vision, and commitment to authentic brands."
-        canonical="https://trendyfashionzone.co.ke/about"
+        title="About Us | Quality Original Shoes Nairobi | Trendy Fashion Zone"
+        description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Best sellers and quality original shoes - Nike Airforce, Jordan, Airmax, Clarks, Vans. Located on Moi Avenue. Trusted by thousands."
+        canonical={`${siteConfig.url}/about`}
         openGraph={{
-          url: 'https://trendyfashionzone.co.ke/about',
-          title: 'About Us - Best Sellers & Quality Original Shoes | Trendy Fashion Zone',
-          description: 'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years. Best sellers and quality original shoes.',
+          url: `${siteConfig.url}/about`,
+          title: 'About Us | Quality Original Shoes Nairobi | Trendy Fashion Zone',
+          description: 'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years. Best sellers and quality original shoes. Located on Moi Avenue.',
           type: 'website',
+          locale: 'en_KE',
+        }}
+        twitter={{
+          cardType: 'summary_large_image',
+          site: siteConfig.social.twitter,
         }}
         additionalMetaTags={[
           {
             name: 'keywords',
-            content: 'about Trendy Fashion Zone, best sellers shoe store Nairobi, quality original shoes Kenya, trusted shoe retailer Nairobi, Moi Avenue shoe shop',
+            content: [
+              'about Trendy Fashion Zone',
+              'shoe store Nairobi',
+              'Moi Avenue shoe shop',
+              ...nairobiKeywords.location.slice(0, 3),
+              'trusted shoe retailer Nairobi',
+              'quality original shoes Kenya',
+            ].join(', '),
+          },
+          {
+            name: 'robots',
+            content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+          },
+          {
+            name: 'geo.region',
+            content: 'KE-110',
+          },
+          {
+            name: 'geo.placename',
+            content: 'Nairobi',
           },
         ]}
       />
