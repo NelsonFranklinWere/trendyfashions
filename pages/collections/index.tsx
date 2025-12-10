@@ -264,6 +264,8 @@ export const getStaticProps: GetStaticProps<CollectionsProps> = async () => {
       props: {
         allProducts,
       },
+      // Enable ISR: regenerate page every 30 seconds to show new uploads automatically
+      revalidate: 30,
     };
   } catch (error) {
     console.error('Error loading products:', error);
@@ -271,6 +273,8 @@ export const getStaticProps: GetStaticProps<CollectionsProps> = async () => {
       props: {
         allProducts: [],
       },
+      // Enable ISR even on error to allow recovery
+      revalidate: 30,
     };
   }
 };

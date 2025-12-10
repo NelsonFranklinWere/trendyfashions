@@ -1335,6 +1335,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         randomProducts,
         allProducts,
       },
+      // Enable ISR: regenerate page every 30 seconds to show new uploads automatically
+      revalidate: 30,
     };
   } catch (error) {
     console.error('Error in getStaticProps:', error);
