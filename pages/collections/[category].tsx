@@ -504,9 +504,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     if (categorySlug === 'mens-officials') {
       // Get ALL officials products from database (Boots, Empire, Mules, Casuals, Clarks, etc.)
       // No subcategory filtering - all official shoes display together
-      const dbProducts = await getDbProducts('officials');
-      const dbImageProducts = await getDbImageProducts('officials');
+      // Try both 'officials' and 'mens-officials' to catch all uploaded products
+      const dbProductsOfficials = await getDbProducts('officials');
+      const dbImageProductsOfficials = await getDbImageProducts('officials');
+      const dbProductsMensOfficials = await getDbProducts('mens-officials');
+      const dbImageProductsMensOfficials = await getDbImageProducts('mens-officials');
       const autoProducts = await getOfficialImageProducts();
+      
+      // Combine all database sources
+      const dbProducts = [...dbProductsOfficials, ...dbProductsMensOfficials];
+      const dbImageProducts = [...dbImageProductsOfficials, ...dbImageProductsMensOfficials];
+      
+      // Log for debugging
+      console.log(`[Officials Category] Found ${dbProducts.length} products from products table`);
+      console.log(`[Officials Category] Found ${dbImageProducts.length} products from images table`);
+      if (dbProducts.length > 0) {
+        console.log(`[Officials Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
+      }
       
       // Combine all sources - database products take priority (keep uploaded names/descriptions/prices)
       const allProducts = mergeProductsWithDbPriority(
@@ -526,6 +540,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       // Use 'casual' for database queries (admin uploads use 'casual')
       const casualsDbProducts = await getDbProducts('casual');
       const casualsDbImageProducts = await getDbImageProducts('casual');
+      
+      // Log for debugging
+      console.log(`[Casual Category] Found ${casualsDbProducts.length} products from products table`);
+      console.log(`[Casual Category] Found ${casualsDbImageProducts.length} products from images table`);
+      if (casualsDbProducts.length > 0) {
+        console.log(`[Casual Category] Sample product: "${casualsDbProducts[0].name}" (category: ${casualsDbProducts[0].category})`);
+      }
       const casualsFsProducts = getCasualImageProducts();
       
       // Get Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
@@ -974,6 +995,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const dbProducts = await getDbProducts('mens-style');
       const dbImageProducts = await getDbImageProducts('mens-style');
       
+      // Log for debugging
+      console.log(`[Mens-Style Category] Found ${dbProducts.length} products from products table`);
+      console.log(`[Mens-Style Category] Found ${dbImageProducts.length} products from images table`);
+      if (dbProducts.length > 0) {
+        console.log(`[Mens-Style Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
+      }
+      
       // DEBUG: Query all bank robbers products regardless of category
       try {
         const { supabaseAdmin } = await import('@/lib/supabase/server');
@@ -1163,6 +1191,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       // Use 'loafers' for database queries (admin uploads use 'loafers')
       const dbProducts = await getDbProducts('loafers');
       const dbImageProducts = await getDbImageProducts('loafers');
+      
+      // Log for debugging
+      console.log(`[Loafers Category] Found ${dbProducts.length} products from products table`);
+      console.log(`[Loafers Category] Found ${dbImageProducts.length} products from images table`);
+      if (dbProducts.length > 0) {
+        console.log(`[Loafers Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
+      }
       
       // Get products directly from loafers folder
       const fsProducts = getLoafersImageProducts().filter(p => 
