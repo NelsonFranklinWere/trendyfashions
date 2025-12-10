@@ -949,58 +949,110 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     };
     
     // Get products from each category (database first, fallback to filesystem)
-    const officials = filterValidProducts(await getOfficialImageProducts());
-    const sneakers = filterValidProducts(await mergeWithDbPriority('sneakers', getSneakersImageProducts()));
-    const airmax = filterValidProducts(await mergeWithDbPriority('airmax', getAirmaxImageProducts()));
-    const casuals = filterValidProducts(await mergeWithDbPriority('casuals', getCasualImageProducts()));
-    const airforce = filterValidProducts(await mergeWithDbPriority('airforce', getAirforceImageProducts()));
-    const jordan = filterValidProducts(await mergeWithDbPriority('jordan', getJordanImageProducts()));
-    // Loafers - only from loafers folder/category, exclude officials
+    // STRICT FILTERING: Only include products that match the exact category
+    const allOfficials = await mergeWithDbPriority('mens-officials', getOfficialImageProducts());
+    const officials = filterValidProducts(allOfficials.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include mens-officials or officials category products
+      return categoryLower === 'mens-officials' || categoryLower === 'officials' ||
+             imageLower.includes('/images/officials/') || imageLower.includes('/images/Officials/');
+    }));
+    
+    const allSneakers = await mergeWithDbPriority('sneakers', getSneakersImageProducts());
+    const sneakers = filterValidProducts(allSneakers.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include sneakers category products
+      return categoryLower === 'sneakers' ||
+             imageLower.includes('/images/sneakers/') || imageLower.includes('/images/Sneakers/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/sneakers/'));
+    }));
+    
+    const allAirmax = await mergeWithDbPriority('airmax', getAirmaxImageProducts());
+    const airmax = filterValidProducts(allAirmax.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include airmax category products
+      return categoryLower === 'airmax' ||
+             imageLower.includes('/images/airmax/') || imageLower.includes('/images/Airmax/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/airmax/'));
+    }));
+    
+    const allCasuals = await mergeWithDbPriority('casual', getCasualImageProducts());
+    const casuals = filterValidProducts(allCasuals.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include casual category products
+      return categoryLower === 'casual' || categoryLower === 'casuals' ||
+             imageLower.includes('/images/casual/') || imageLower.includes('/images/Casual/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/casual/'));
+    }));
+    
+    const allAirforce = await mergeWithDbPriority('airforce', getAirforceImageProducts());
+    const airforce = filterValidProducts(allAirforce.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include airforce category products
+      return categoryLower === 'airforce' ||
+             imageLower.includes('/images/airforce/') || imageLower.includes('/images/Airforce/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/airforce/'));
+    }));
+    
+    const allJordan = await mergeWithDbPriority('jordan', getJordanImageProducts());
+    const jordan = filterValidProducts(allJordan.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include jordan category products
+      return categoryLower === 'jordan' ||
+             imageLower.includes('/images/jordan/') || imageLower.includes('/images/Jordan/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/jordan/'));
+    }));
+    // Loafers - STRICT: only from loafers category/folder
     const allLoafers = await mergeWithDbPriority('loafers', getLoafersImageProducts());
     const loafers = filterValidProducts(allLoafers.filter(p => {
       if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
       const imageLower = (p.image || '').toLowerCase();
-      const nameLower = (p.name || '').toLowerCase();
-      // Only include products from loafers folder
-      return imageLower.includes('/images/loafers/') || 
-             imageLower.includes('/images/loafers/') ||
-             (p.category && p.category.toLowerCase().includes('loafers'));
+      // Only include loafers category products - STRICT
+      return categoryLower === 'loafers' ||
+             imageLower.includes('/images/loafers/') || imageLower.includes('/images/Loafers/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/loafers/'));
     }));
     
-    // Sports - only from sports folder/category, exclude other categories
+    // Sports - STRICT: only from sports category/folder
     const allSports = await mergeWithDbPriority('sports', getSportsImageProducts());
     const sports = filterValidProducts(allSports.filter(p => {
       if (!p || !p.image) return false;
-      const imageLower = (p.image || '').toLowerCase();
-      const nameLower = (p.name || '').toLowerCase();
       const categoryLower = (p.category || '').toLowerCase();
-      // Only include products from sports folder or sports category
-      return imageLower.includes('/images/sports/') || 
-             imageLower.includes('/images/Sports/') ||
-             categoryLower === 'sports';
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include sports category products - STRICT
+      return categoryLower === 'sports' ||
+             imageLower.includes('/images/sports/') || imageLower.includes('/images/Sports/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/sports/'));
     }));
     
-    // Nike products - only Nike products, exclude sports and casuals
-    const nikeDbProducts = [
-      ...(await getDbProducts('sneakers')),
-      ...(await getDbImageProducts('sneakers')),
-      ...(await getDbProducts('airforce')),
-      ...(await getDbImageProducts('airforce')),
-      ...(await getDbProducts('airmax')),
-      ...(await getDbImageProducts('airmax')),
-    ];
-    const nikeFsProducts = [
-      ...getNikeImageProducts(),
-      ...getAirforceImageProducts(),
-      ...getAirmaxImageProducts(),
-      ...getSneakersImageProducts(),
-    ];
-    // Filter for Nike products only (exclude sports and casuals)
-    const nikeDbFiltered = nikeDbProducts.filter(p => {
+    // Nike products - STRICT: only from nike category
+    const allNike = await mergeWithDbPriority('nike', getNikeImageProducts());
+    const nike = filterValidProducts(allNike.filter(p => {
       if (!p || !p.image) return false;
-      const nameLower = (p.name || '').toLowerCase();
-      const imageLower = (p.image || '').toLowerCase();
       const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      const nameLower = (p.name || '').toLowerCase();
+      // STRICT: Only include nike category products
+      // Must be from nike category OR nike folder OR have nike in name/image
+      const isNikeCategory = categoryLower === 'nike' || 
+                            imageLower.includes('/images/nike/') || imageLower.includes('/images/Nike/') ||
+                            (imageLower.includes('supabase.co') && imageLower.includes('/nike/'));
+      // Also allow airforce/airmax if they're Nike products (legacy support)
+      const isNikeRelated = (categoryLower === 'airforce' || categoryLower === 'airmax') &&
+                           (nameLower.includes('nike') || imageLower.includes('nike'));
       // Exclude sports and casuals
       if (categoryLower === 'sports' || categoryLower === 'casuals' || categoryLower === 'casual') {
         return false;
@@ -1008,42 +1060,20 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       if (imageLower.includes('/images/sports/') || imageLower.includes('/images/casual/')) {
         return false;
       }
-      // Include Nike products
-      return nameLower.includes('nike') || imageLower.includes('nike') || 
-             imageLower.includes('/images/nike/') ||
-             p.category === 'airforce' || p.category === 'airmax' ||
-             imageLower.includes('/images/airforce/') || imageLower.includes('/images/airmax/');
-    });
-    const nikeFsFiltered = nikeFsProducts.filter(p => {
-      if (!p || !p.image) return false;
-      const nameLower = (p.name || '').toLowerCase();
-      const imageLower = (p.image || '').toLowerCase();
-      const categoryLower = (p.category || '').toLowerCase();
-      // Exclude sports and casuals
-      if (categoryLower === 'sports' || categoryLower === 'casuals' || categoryLower === 'casual') {
-        return false;
-      }
-      if (imageLower.includes('/images/sports/') || imageLower.includes('/images/casual/')) {
-        return false;
-      }
-      // Include Nike products
-      return nameLower.includes('nike') || imageLower.includes('nike') || 
-             imageLower.includes('/images/nike/') ||
-             p.category === 'airforce' || p.category === 'airmax' ||
-             imageLower.includes('/images/airforce/') || imageLower.includes('/images/airmax/');
-    });
-    const productMap = new Map<string, Product>();
-    nikeDbFiltered.forEach(p => {
-      if (p && p.image) productMap.set(p.image, p);
-    });
-    nikeFsFiltered.forEach(p => {
-      if (p && p.image && !productMap.has(p.image)) {
-        productMap.set(p.image, p);
-      }
-    });
-    const nike = filterValidProducts(Array.from(productMap.values()));
+      return isNikeCategory || isNikeRelated;
+    }));
     
-    const vans = filterValidProducts(await mergeWithDbPriority('vans', getVansImageProducts()));
+    // Vans - STRICT: only from vans category
+    const allVans = await mergeWithDbPriority('vans', getVansImageProducts());
+    const vans = filterValidProducts(allVans.filter(p => {
+      if (!p || !p.image) return false;
+      const categoryLower = (p.category || '').toLowerCase();
+      const imageLower = (p.image || '').toLowerCase();
+      // Only include vans category products - STRICT
+      return categoryLower === 'vans' ||
+             imageLower.includes('/images/vans/') || imageLower.includes('/images/Vans/') ||
+             (imageLower.includes('supabase.co') && imageLower.includes('/vans/'));
+    }));
 
     // Filter Clarks products from officials (manually since 'Clarks' is not in official filters)
     const clarks = filterValidProducts(officials.filter(p => {
@@ -1087,6 +1117,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         heroClarks: clarks,
         heroTimberland: timberland,
       },
+      // Enable ISR: regenerate page every 30 seconds to show new uploads automatically
+      revalidate: 30,
     };
   } catch (error) {
     console.error('Error loading products:', error);
