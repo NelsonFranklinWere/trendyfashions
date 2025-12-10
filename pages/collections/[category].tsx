@@ -792,36 +792,30 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const sportsDbProducts = await getDbProducts('sports');
       const sportsDbImageProducts = await getDbImageProducts('sports');
       
+      // Log for debugging
+      console.log(`[Sports Category] Found ${sportsDbProducts.length} products from products table`);
+      console.log(`[Sports Category] Found ${sportsDbImageProducts.length} products from images table`);
+      if (sportsDbProducts.length > 0) {
+        console.log(`[Sports Category] Sample product: "${sportsDbProducts[0].name}" (category: ${sportsDbProducts[0].category})`);
+      }
+      
       // Get all products from sports folder
       const sportsFsProducts = getSportsImageProducts().filter(p => 
         p.image && (p.image.startsWith('/images/sports/') || p.image.startsWith('/images/Sports/'))
       );
       
-      // Get all products from other sources to filter for football boots, trainers, and Nike Zoom
-      const allProductsList = await getAllProducts();
-      const sneakersDbProducts = await getDbProducts('sneakers');
-      const sneakersDbImageProducts = await getDbImageProducts('sneakers');
-      const sneakersFsProducts = getSneakersImageProducts();
-      
-      // Combine all products - database products take priority
-      const allSneakersDb = [...sneakersDbProducts, ...sneakersDbImageProducts];
-      const allSneakersFs = [...sneakersFsProducts];
-      const mergedSneakers = mergeProductsWithDbPriority(allSneakersDb, allSneakersFs);
-      
+      // STRICT: Only include products from sports category
       // Combine sports database products with filesystem products (database priority)
       const mergedSports = mergeProductsWithDbPriority(
         [...sportsDbProducts, ...sportsDbImageProducts],
         sportsFsProducts
       );
       
-      // Combine with allProductsList (which already has database priority)
-      const allProducts = [...allProductsList, ...mergedSneakers, ...mergedSports];
-      
-      // Filter for football boots, trainers, and Nike Zoom
+      // Filter to ensure all products are from sports category
       const fs = await import('fs');
       const path = await import('path');
       const seen = new Set<string>();
-      const filteredProducts = allProducts.filter(p => {
+      products = mergedSports.filter(p => {
         if (!p || !p.image || !p.id || !p.name || !p.price) return false;
         if (p.image === 'null' || p.image.trim() === '') return false;
         if (seen.has(p.image)) return false;
@@ -848,68 +842,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           return false;
         }
         
-        const nameLower = (p.name || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
+        const categoryLower = (p.category || '').toLowerCase();
         const imageLower = (p.image || '').toLowerCase();
         
-        // Include football boots
-        if (nameLower.includes('football') || nameLower.includes('football boot') ||
-            descLower.includes('football') || descLower.includes('football boot') ||
-            imageLower.includes('football') || imageLower.includes('boot')) {
-          return true;
-        }
-        
-        // Include trainers
-        if (nameLower.includes('trainer') || nameLower.includes('training') ||
-            descLower.includes('trainer') || descLower.includes('training') ||
-            imageLower.includes('trainer')) {
-          return true;
-        }
-        
-        // Include Nike Zoom
-        if (nameLower.includes('nike zoom') || nameLower.includes('zoom') ||
-            descLower.includes('nike zoom') || descLower.includes('zoom') ||
-            imageLower.includes('zoom')) {
-          return true;
-        }
-        
-        return false;
-      });
-      
-      // Combine sports folder products with filtered products, removing duplicates
-      const allSportsProducts = [...sportsFsProducts, ...filteredProducts];
-      const finalSeen = new Set<string>();
-      products = allSportsProducts.filter(p => {
-        if (!p || !p.image) return false;
-        if (finalSeen.has(p.image)) return false;
-        finalSeen.add(p.image);
-        
-        // Exclude official boots
-        const nameLower = (p.name || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
-        if (nameLower.includes('official boot') || descLower.includes('official boot')) {
-          return false;
-        }
-        
-        return true;
-      });
-      
-      // Update prices for football boots and trainers
-      products = products.map(p => {
-        const nameLower = (p.name || '').toLowerCase();
-        const isFootballBoot = nameLower.includes('football') || nameLower.includes('boot') || 
-                              (p.image || '').toLowerCase().includes('football') ||
-                              (p.image || '').toLowerCase().includes('boot');
-        const isTrainer = nameLower.includes('trainer') || nameLower.includes('tainer') ||
-                         (p.image || '').toLowerCase().includes('trainer');
-        
-        if (isFootballBoot && !nameLower.includes('f50')) {
-          return { ...p, price: 5500 };
-        }
-        if (isTrainer) {
-          return { ...p, price: 2500 };
-        }
-        return p;
+        // STRICT: Only include sports category products
+        return categoryLower === 'sports' ||
+               imageLower.includes('/images/sports/') || 
+               imageLower.includes('/images/Sports/') ||
+               (imageLower.includes('supabase.co') && imageLower.includes('/sports/'));
       });
     } else if (categorySlug === 'nike' || categorySlug === 'mens-nike') {
       // Get all products and filter by name containing "nike"

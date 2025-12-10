@@ -78,14 +78,27 @@ export default function AdminImagesPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Upload failed');
+        // Provide detailed error message
+        const errorMessage = result.error || result.details || 'Upload failed';
+        const helpText = result.help ? `\n\n${result.help}` : '';
+        throw new Error(`${errorMessage}${helpText}`);
       }
 
-      setUploadStatus({ type: 'success', message: 'Image uploaded successfully!' });
+      setUploadStatus({ 
+        type: 'success', 
+        message: 'Image uploaded successfully!',
+        optimization: result.optimization
+      });
       reset();
       setPreview(null);
     } catch (error: any) {
-      setUploadStatus({ type: 'error', message: error.message || 'Failed to upload image' });
+      // Show detailed error message to help user fix the issue
+      const errorMessage = error.message || 'Failed to upload image';
+      setUploadStatus({ 
+        type: 'error', 
+        message: errorMessage 
+      });
+      console.error('Upload error:', error);
     } finally {
       setUploading(false);
     }

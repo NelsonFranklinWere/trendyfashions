@@ -53,14 +53,18 @@ export default function ManageProducts() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      setError(null); // Clear previous errors
       const response = await fetch('/api/admin/products');
       if (!response.ok) {
-        throw new Error('Failed to fetch products');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to fetch products');
       }
       const data = await response.json();
       setProducts(data.products || []);
     } catch (err: any) {
-      setError(err.message || 'Failed to load products');
+      // Only show error if it's a critical failure
+      setError(err.message || 'Failed to load products. Please refresh the page.');
+      console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }

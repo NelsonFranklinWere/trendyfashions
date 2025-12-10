@@ -42,15 +42,24 @@ export default async function handler(
     const { data, error } = await query;
 
     if (error) {
-      console.error('Supabase error:', error);
+      // Log error for debugging but don't fail the request
+      console.error(`[API /images] Supabase error for category "${category}":`, error.message);
       // Return empty array instead of error to prevent frontend issues
+      // This is expected if no images exist for a category yet
       return res.status(200).json({ images: [] });
+    }
+
+    // Log success for debugging
+    if (dbCategory) {
+      console.log(`[API /images] Successfully fetched ${data?.length || 0} images for category: ${dbCategory}`);
     }
 
     return res.status(200).json({ images: data || [] });
   } catch (error: any) {
-    console.error('API error:', error);
+    // Log error for debugging but don't fail the request
+    console.error(`[API /images] Unexpected error for category "${req.query.category}":`, error.message);
     // Return empty array instead of error to prevent frontend issues
+    // This ensures smooth user experience even if API has issues
     return res.status(200).json({ images: [] });
   }
 }

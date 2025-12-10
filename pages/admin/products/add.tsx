@@ -84,11 +84,13 @@ export default function AddProduct() {
         setAvailableImages(data.images || []);
       } else {
         // Silently handle errors - this is not critical for product creation
+        // Don't show error to user - they can still upload images and create products
         setAvailableImages([]);
       }
     } catch (error) {
       // Silently handle network errors - this is not critical for product creation
       // The user can still upload images and create products
+      // Don't log or show error - it's expected if no images exist yet
       setAvailableImages([]);
     }
   }, [selectedCategory]);

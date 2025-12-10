@@ -84,7 +84,8 @@ export default function EditProduct() {
       setLoading(true);
       const response = await fetch(`/api/admin/products/${productId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch product');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to fetch product');
       }
       const data = await response.json();
       const product = data.product;
@@ -118,9 +119,16 @@ export default function EditProduct() {
       if (response.ok) {
         const data = await response.json();
         setAvailableImages(data.images || []);
+      } else {
+        // Silently handle errors - this is not critical for product editing
+        // Don't show error to user - they can still upload images and update products
+        setAvailableImages([]);
       }
     } catch (error) {
-      console.error('Failed to fetch images:', error);
+      // Silently handle network errors - this is not critical for product editing
+      // The user can still upload images and update products
+      // Don't log or show error - it's expected if no images exist yet
+      setAvailableImages([]);
     }
   }, [selectedCategory]);
 
