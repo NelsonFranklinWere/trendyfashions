@@ -13,16 +13,14 @@ const uploadSchema = z.object({
 type UploadFormData = z.infer<typeof uploadSchema>;
 
 const CATEGORIES = [
-  // Officials: includes Official Boots and other formal subcategories
-  { value: 'officials', label: 'Officials', subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
-  { value: 'sneakers', label: 'Sneakers', subcategories: ['Addidas Campus', 'Addidas Samba', 'Valentino', 'Nike S', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance'] },
-  { value: 'vans', label: 'Vans', subcategories: ['Custom', 'Codra', 'Skater', 'Off the Wall'] },
-  { value: 'jordan', label: 'Jordan', subcategories: ['Jordan 1', 'Jordan 3', 'Jordan 4', 'Jordan 9', 'Jordan 11', 'Jordan 14'] },
-  { value: 'airmax', label: 'Airmax', subcategories: ['AirMax 1', 'Airmax 97', 'Airmax 95', 'Airmax 90', 'Airmax Portal', 'Airmax'] },
-  { value: 'airforce', label: 'Airforce', subcategories: ['Airforce'] },
-  // Casuals: restore brand-based subcategories for sorting/filtering on frontend
-  { value: 'casuals', label: 'Casuals', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiggr', 'Boss', 'Other'] },
-  { value: 'custom', label: 'Custom', subcategories: ['Custom'] },
+  { value: 'mens-officials', label: "Men's Officials", subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
+  { value: 'casual', label: 'Casual', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiger', 'Boss', 'Other'] },
+  { value: 'loafers', label: 'Loafers', subcategories: ['Classic', 'Premium', 'Designer'] },
+  { value: 'nike', label: 'Nike', subcategories: ['Air Max', 'Air Force', 'Dunk', 'Other'] },
+  { value: 'sports', label: 'Sports', subcategories: ['Football Boots', 'Running', 'Training', 'Other'] },
+  { value: 'vans', label: 'Vans', subcategories: ['Classic', 'Skater', 'Custom', 'Other'] },
+  { value: 'mens-style', label: 'Mens Style', subcategories: ['Custom', 'Designer', 'Streetwear', 'Other'] },
+  { value: 'sneakers', label: 'Sneakers', subcategories: ['Adidas Campus', 'Adidas Samba', 'Valentino', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance', 'Other'] },
 ];
 
 export default function AdminImagesPage() {

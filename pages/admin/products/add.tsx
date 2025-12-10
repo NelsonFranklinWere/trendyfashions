@@ -34,13 +34,13 @@ type ProductFormData = z.infer<typeof productSchema>;
 
 const CATEGORIES = [
   { value: 'mens-officials', label: "Men's Officials" },
-  { value: 'mens-nike', label: "Men's Nike" },
+  { value: 'casual', label: 'Casual' },
+  { value: 'loafers', label: 'Loafers' },
+  { value: 'nike', label: 'Nike' },
   { value: 'sports', label: 'Sports' },
-  { value: 'mens-style', label: "Men's Style" },
   { value: 'vans', label: 'Vans' },
+  { value: 'mens-style', label: 'Mens Style' },
   { value: 'sneakers', label: 'Sneakers' },
-  { value: 'mens-loafers', label: "Men's Loafers" },
-  { value: 'mens-casuals', label: "Men's Casuals" },
 ];
 
 export default function AddProduct() {

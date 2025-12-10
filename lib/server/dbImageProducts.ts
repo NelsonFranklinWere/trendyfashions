@@ -23,28 +23,30 @@ interface DbImage {
 }
 
 // Map category slugs to database category values
+// Only 8 categories: mens-officials, casual, loafers, nike, sports, vans, mens-style, sneakers
 const categoryMapping: Record<string, string> = {
-  // New simplified categories - these are the only ones used now
+  // Primary categories (8 only)
   'mens-officials': 'mens-officials',
-  'mens-nike': 'mens-nike',
+  'casual': 'casual',
+  'loafers': 'loafers',
+  'nike': 'nike',
   'sports': 'sports',
-  'mens-style': 'mens-style',
   'vans': 'vans',
+  'mens-style': 'mens-style',
   'sneakers': 'sneakers',
-  'mens-loafers': 'mens-loafers',
   // Legacy mappings for backward compatibility (old products)
   officials: 'mens-officials',
+  'mens-official': 'mens-officials',
   formal: 'mens-officials',
-  casuals: 'mens-casuals',
-  'mens-casuals': 'mens-casuals',
-  casual: 'mens-casuals',
-  nike: 'mens-nike',
+  casuals: 'casual',
+  'mens-casuals': 'casual',
+  'mens-loafers': 'loafers',
+  'mens-nike': 'nike',
   airmax: 'sneakers',
   airforce: 'sneakers',
   jordan: 'sneakers',
   custom: 'mens-style',
   customized: 'mens-style',
-  loafers: 'mens-loafers',
 };
 
 // Helper to format product name from filename and subcategory
@@ -604,6 +606,7 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
                            imageLower.includes('dr martens') ||
                            imageLower.includes('martens');
         
+        // Filter out screenshot images
         // Log bank robbers products for debugging
         if (nameLower.includes('bank robber') || nameLower.includes('bankrobber') || 
             descLower.includes('bank robber') || descLower.includes('bankrobber') ||

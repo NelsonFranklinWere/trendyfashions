@@ -57,6 +57,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
+    // Validate category length (schema: VARCHAR(50))
+    if (category.length > 50) {
+      return res.status(400).json({ 
+        error: 'Category name too long (max 50 characters)' 
+      });
+    }
+
+    // Validate subcategory length (schema: VARCHAR(100))
+    if (subcategory && subcategory.length > 100) {
+      return res.status(400).json({ 
+        error: 'Subcategory name too long (max 100 characters)' 
+      });
+    }
+
     const uploadedFile = file as UploadedFile;
     const originalBuffer = fs.readFileSync(uploadedFile.filepath);
     const originalSize = originalBuffer.length;
@@ -68,8 +82,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     let height: number | undefined;
     let compressionRatio = 0;
 
-    if (optimize !== 'false' && shouldOptimize(originalBuffer)) {
-      // Optimize for web (balanced quality)
+    // Always optimize images for maximum speed (unless explicitly disabled)
+    if (optimize !== 'false') {
+      // Optimize for web (aggressive compression for fast loading)
       const optimized = await optimizeForWeb(originalBuffer);
       optimizedBuffer = optimized.buffer;
       optimizedFormat = optimized.format;
@@ -77,13 +92,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       height = optimized.height;
       compressionRatio = optimized.compressionRatio;
     } else {
-      // Use original if optimization disabled or file is already small
+      // Use original only if optimization explicitly disabled
       optimizedBuffer = originalBuffer;
       optimizedFormat = uploadedFile.mimetype;
     }
 
-    // Generate thumbnail for faster loading
-    const thumbnail = await createThumbnail(originalBuffer, 300);
+    // Generate ultra-small thumbnail for instant loading
+    const thumbnail = await createThumbnail(originalBuffer, 200);
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
     const thumbnailPath = subcategory ? `${category}/${subcategory}/${thumbnailFileName}` : `${category}/${thumbnailFileName}`;
 
@@ -168,19 +183,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .getPublicUrl(thumbnailPath);
 
     // Save metadata to database (including thumbnail URL)
+    // Use empty string for subcategory if not provided (schema requires NOT NULL)
     const { data: dbData, error: dbError } = await supabaseAdmin
       .from('images')
       .insert({
         category,
-        subcategory: subcategory || null,
+        subcategory: subcategory || '',
         filename: uploadedFile.originalFilename,
         url: urlData.publicUrl,
         thumbnail_url: thumbnailUrlData.publicUrl,
         storage_path: storagePath,
         file_size: optimizedBuffer.length,
         mime_type: optimizedFormat,
-        width: width || undefined,
-        height: height || undefined,
+        width: width || null,
+        height: height || null,
         uploaded_by: 'admin', // TODO: Get from auth token
       })
       .select()
@@ -188,9 +204,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (dbError) {
       console.error('Database error:', dbError);
+      console.error('Database error details:', JSON.stringify(dbError, null, 2));
       // Try to delete uploaded files if DB insert fails
-      await supabaseAdmin.storage.from('images').remove([storagePath, thumbnailPath]);
-      return res.status(500).json({ error: 'Failed to save image metadata', details: dbError.message });
+      try {
+        await supabaseAdmin.storage.from('images').remove([storagePath, thumbnailPath]);
+      } catch (cleanupError) {
+        console.error('Failed to cleanup uploaded files:', cleanupError);
+      }
+      return res.status(500).json({ 
+        error: 'Failed to save image metadata', 
+        details: dbError.message,
+        code: dbError.code,
+        hint: dbError.hint
+      });
     }
 
     // Clean up temp file

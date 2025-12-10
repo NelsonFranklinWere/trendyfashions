@@ -150,7 +150,7 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
-            quality={65}
+            quality={50}
             {...((product as any).fullImageUrl && { fullImageUrl: (product as any).fullImageUrl })}
           />
           {product.tags?.includes('New Arrivals') && (

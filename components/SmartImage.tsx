@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 70, // Optimized for faster loading (balance between quality and file size)
+  quality = 50, // Ultra-reduced for instant loading
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
@@ -64,9 +64,9 @@ const SmartImage = ({
     (props.src.includes('supabase.co') || props.src.includes('supabase.in'));
 
   // Use optimized quality: lower for thumbnails, higher for hero images
-  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 70;
-  // Supabase URLs can use slightly lower quality since they're already optimized
-  const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 70) : qualityNum;
+  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 50;
+  // Supabase URLs can use even lower quality since they're already optimized
+  const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 50) : qualityNum;
   
   // Determine if this should be priority loaded (above the fold)
   const shouldPriority = props.priority || false;
@@ -92,8 +92,8 @@ const SmartImage = ({
       quality={optimizedQuality}
       placeholder={placeholder}
       blurDataURL={fallbackBlur}
-      loading={props.loading || 'eager'}
-      // Removed lazy loading - using eager loading for faster image display
+      loading={props.loading || (shouldPriority ? 'eager' : 'lazy')}
+      // Lazy load non-priority images for faster initial page load
       sizes={optimizedSizes}
       priority={shouldPriority}
       // Enable automatic format optimization (WebP/AVIF)

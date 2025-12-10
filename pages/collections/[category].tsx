@@ -521,10 +521,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       if (products.length === 0) {
         products = getProductsByCategory('officials');
       }
-    } else if (categorySlug === 'mens-casuals') {
+    } else if (categorySlug === 'casual' || categorySlug === 'mens-casuals') {
       // Get all casuals products: Lacoste, Timberland, Boss, casuals images, Puma shoes, and Sandals
-      const casualsDbProducts = await getDbProducts('mens-casuals');
-      const casualsDbImageProducts = await getDbImageProducts('mens-casuals');
+      // Use 'casual' for database queries (admin uploads use 'casual')
+      const casualsDbProducts = await getDbProducts('casual');
+      const casualsDbImageProducts = await getDbImageProducts('casual');
       const casualsFsProducts = getCasualImageProducts();
       
       // Get Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
@@ -873,10 +874,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         }
         return p;
       });
-    } else if (categorySlug === 'mens-nike') {
+    } else if (categorySlug === 'nike' || categorySlug === 'mens-nike') {
       // Get all products and filter by name containing "nike"
       const allProductsList = await getAllProducts();
-      // Also get from sneakers, airforce, airmax categories
+      // Also get from nike category (admin uploads use 'nike')
+      const nikeDbProducts = await getDbProducts('nike');
+      const nikeDbImageProducts = await getDbImageProducts('nike');
+      // Also get from sneakers, airforce, airmax categories (legacy)
       const sneakersDbProducts = await getDbProducts('sneakers');
       const sneakersDbImageProducts = await getDbImageProducts('sneakers');
       const sneakersFsProducts = getSneakersImageProducts();
@@ -887,7 +891,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const nikeFsProducts = getNikeImageProducts();
       
       // Combine all Nike-related products - database products take priority
+      // Prioritize nike category products first
       const allNikeDb = [
+        ...nikeDbProducts,
+        ...nikeDbImageProducts,
         ...sneakersDbProducts,
         ...sneakersDbImageProducts,
         ...airforceDbProducts,
@@ -1143,10 +1150,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         mensStyleDbProducts,
         [...mensstyleProducts, ...diorProducts, ...timberlandExtremeProducts, ...timberlandExtremeFromMensstyle, ...productsFromMensCasuals]
       );
-    } else if (categorySlug === 'mens-loafers') {
+    } else if (categorySlug === 'loafers' || categorySlug === 'mens-loafers') {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
-      const dbProducts = await getDbProducts('mens-loafers');
-      const dbImageProducts = await getDbImageProducts('mens-loafers');
+      // Use 'loafers' for database queries (admin uploads use 'loafers')
+      const dbProducts = await getDbProducts('loafers');
+      const dbImageProducts = await getDbImageProducts('loafers');
       
       // Get products directly from loafers folder
       const fsProducts = getLoafersImageProducts().filter(p => 

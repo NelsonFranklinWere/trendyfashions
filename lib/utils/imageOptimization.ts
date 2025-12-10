@@ -66,8 +66,10 @@ export async function optimizeImage(
       optimizedBuffer = await image
         .webp({
           quality,
-          effort: 6, // Balance between speed and compression
-          smartSubsample: true,
+          effort: 2, // Minimal effort for fastest encoding
+          smartSubsample: false, // Disable for faster processing
+          nearLossless: false, // Disable for better compression
+          method: 2, // Fastest encoding method
         })
         .toBuffer();
       break;
@@ -144,50 +146,52 @@ export async function generateResponsiveSizes(
 }
 
 /**
- * Optimize image for mobile (smaller file size, faster loading)
+ * Optimize image for mobile (ultra-compressed for slow connections)
  */
 export async function optimizeForMobile(inputBuffer: Buffer): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
-    maxWidth: 800,
-    maxHeight: 800,
-    quality: 80,
+    maxWidth: 500, // Ultra-small for mobile to load instantly
+    maxHeight: 500, // Ultra-small for mobile to load instantly
+    quality: 45, // Very low quality for smallest files
     format: 'webp',
   });
 }
 
 /**
- * Optimize image for web (balanced quality and size)
+ * Optimize image for web (ultra-aggressive compression for instant loading)
+ * Maximum speed optimization
  */
 export async function optimizeForWeb(inputBuffer: Buffer): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
-    maxWidth: 1920,
-    maxHeight: 1920,
-    quality: 85,
+    maxWidth: 600, // Ultra-reduced for instant loading
+    maxHeight: 600, // Ultra-reduced for instant loading
+    quality: 50, // Very low quality for smallest file sizes
     format: 'webp',
   });
 }
 
 /**
- * Create thumbnail (small preview image)
+ * Create thumbnail (ultra-small preview for instant loading)
  */
 export async function createThumbnail(
   inputBuffer: Buffer,
-  size: number = 300
+  size: number = 200 // Ultra-small thumbnails for instant loading
 ): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
     maxWidth: size,
     maxHeight: size,
-    quality: 75,
+    quality: 45, // Very low quality for tiny file sizes
     format: 'webp',
   });
 }
 
 /**
  * Detect if image should be optimized (check if already optimized)
+ * Ultra-low threshold to optimize ALL images for maximum speed
  */
 export function shouldOptimize(
   buffer: Buffer,
-  maxSize: number = 500 * 1024 // 500KB
+  maxSize: number = 50 * 1024 // 50KB - optimize all images above this size
 ): boolean {
   return buffer.length > maxSize;
 }
