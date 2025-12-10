@@ -47,7 +47,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const [fields, files] = await form.parse(req);
     
     const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
-    const subcategory = Array.isArray(fields.subcategory) ? fields.subcategory[0] : fields.subcategory;
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     const optimize = Array.isArray(fields.optimize) ? fields.optimize[0] : fields.optimize;
 
@@ -61,13 +60,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (category.length > 50) {
       return res.status(400).json({ 
         error: 'Category name too long (max 50 characters)' 
-      });
-    }
-
-    // Validate subcategory length (schema: VARCHAR(100))
-    if (subcategory && subcategory.length > 100) {
-      return res.status(400).json({ 
-        error: 'Subcategory name too long (max 100 characters)' 
       });
     }
 
@@ -100,10 +92,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Generate ultra-small thumbnail for instant loading
     const thumbnail = await createThumbnail(originalBuffer, 200);
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const thumbnailPath = subcategory ? `${category}/${subcategory}/${thumbnailFileName}` : `${category}/${thumbnailFileName}`;
+    const thumbnailPath = `${category}/${thumbnailFileName}`;
 
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const storagePath = subcategory ? `${category}/${subcategory}/${fileName}` : `${category}/${fileName}`;
+    const storagePath = `${category}/${fileName}`;
 
     // Check if bucket exists, if not provide helpful error
     const { data: buckets, error: bucketsError } = await supabaseAdmin.storage.listBuckets();
@@ -183,12 +175,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       .getPublicUrl(thumbnailPath);
 
     // Save metadata to database (including thumbnail URL)
-    // Use empty string for subcategory if not provided (schema requires NOT NULL)
+    // Use empty string for subcategory (schema requires NOT NULL, but we don't use subcategories)
     const { data: dbData, error: dbError } = await supabaseAdmin
       .from('images')
       .insert({
         category,
-        subcategory: subcategory || '',
+        subcategory: '', // Always empty - we don't use subcategories
         filename: uploadedFile.originalFilename,
         url: urlData.publicUrl,
         thumbnail_url: thumbnailUrlData.publicUrl,

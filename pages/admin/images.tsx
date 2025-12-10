@@ -6,21 +6,20 @@ import Image from 'next/image';
 
 const uploadSchema = z.object({
   category: z.string().min(1, 'Category is required'),
-  subcategory: z.string().min(1, 'Subcategory is required'),
   file: z.any().refine((files) => files && files.length > 0, 'File is required'),
 });
 
 type UploadFormData = z.infer<typeof uploadSchema>;
 
 const CATEGORIES = [
-  { value: 'mens-officials', label: "Men's Officials", subcategories: ['Boots', 'Empire', 'Casuals', 'Mules', 'Clarks'] },
-  { value: 'casual', label: 'Casual', subcategories: ['Lacoste', 'Timberland', 'Tommy Hilfiger', 'Boss', 'Other'] },
-  { value: 'loafers', label: 'Loafers', subcategories: ['Classic', 'Premium', 'Designer'] },
-  { value: 'nike', label: 'Nike', subcategories: ['Air Max', 'Air Force', 'Dunk', 'Other'] },
-  { value: 'sports', label: 'Sports', subcategories: ['Football Boots', 'Running', 'Training', 'Other'] },
-  { value: 'vans', label: 'Vans', subcategories: ['Classic', 'Skater', 'Custom', 'Other'] },
-  { value: 'mens-style', label: 'Mens Style', subcategories: ['Custom', 'Designer', 'Streetwear', 'Other'] },
-  { value: 'sneakers', label: 'Sneakers', subcategories: ['Adidas Campus', 'Adidas Samba', 'Valentino', 'Nike SB', 'Nike Cortex', 'Nike TN', 'Nike Shox', 'Nike Zoom', 'New Balance', 'Other'] },
+  { value: 'mens-officials', label: "Men's Officials" },
+  { value: 'casual', label: 'Casual' },
+  { value: 'loafers', label: 'Loafers' },
+  { value: 'nike', label: 'Nike' },
+  { value: 'sports', label: 'Sports' },
+  { value: 'vans', label: 'Vans' },
+  { value: 'mens-style', label: 'Mens Style' },
+  { value: 'sneakers', label: 'Sneakers' },
 ];
 
 export default function AdminImagesPage() {
@@ -48,7 +47,6 @@ export default function AdminImagesPage() {
   });
 
   const selectedCategory = watch('category');
-  const selectedCategoryData = CATEGORIES.find((c) => c.value === selectedCategory);
 
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,7 +68,6 @@ export default function AdminImagesPage() {
     try {
       const formData = new FormData();
       formData.append('category', data.category);
-      formData.append('subcategory', data.subcategory);
       formData.append('file', data.file[0]);
 
       const response = await fetch('/api/admin/images/upload', {
@@ -144,28 +141,6 @@ export default function AdminImagesPage() {
               )}
             </div>
 
-            {selectedCategoryData && (
-              <div>
-                <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subcategory
-                </label>
-                <select
-                  id="subcategory"
-                  {...register('subcategory')}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
-                >
-                  <option value="">Select a subcategory</option>
-                  {selectedCategoryData.subcategories.map((sub) => (
-                    <option key={sub} value={sub}>
-                      {sub}
-                    </option>
-                  ))}
-                </select>
-                {errors.subcategory && (
-                  <p className="mt-1 text-sm text-red-600">{errors.subcategory.message}</p>
-                )}
-              </div>
-            )}
 
             <div>
               <label htmlFor="file" className="block text-sm font-medium text-gray-700 mb-2">

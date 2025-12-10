@@ -49,7 +49,7 @@ export default function AddProduct() {
   const [submitting, setSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>('');
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-  const [availableImages, setAvailableImages] = useState<Array<{ id: string; url: string; category: string; subcategory: string }>>([]);
+  const [availableImages, setAvailableImages] = useState<Array<{ id: string; url: string; category: string }>>([]);
   const [showImageSelector, setShowImageSelector] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
@@ -82,9 +82,14 @@ export default function AddProduct() {
       if (response.ok) {
         const data = await response.json();
         setAvailableImages(data.images || []);
+      } else {
+        // Silently handle errors - this is not critical for product creation
+        setAvailableImages([]);
       }
     } catch (error) {
-      console.error('Failed to fetch images:', error);
+      // Silently handle network errors - this is not critical for product creation
+      // The user can still upload images and create products
+      setAvailableImages([]);
     }
   }, [selectedCategory]);
 
@@ -200,7 +205,7 @@ export default function AddProduct() {
       setUploadProgress('');
       const errorMessage = error.message || 'Failed to upload image';
       console.error('Upload error:', error);
-      alert(`Upload failed: ${errorMessage}\n\nPlease check:\n1. Supabase environment variables are set\n2. Category and subcategory are selected\n3. File is a valid image (max 10MB)`);
+      alert(`Upload failed: ${errorMessage}\n\nPlease check:\n1. Supabase environment variables are set\n2. Category is selected\n3. File is a valid image (max 10MB)`);
     } finally {
       setUploadingImage(false);
       setTimeout(() => setUploadProgress(''), 3000);

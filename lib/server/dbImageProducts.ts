@@ -49,61 +49,30 @@ const categoryMapping: Record<string, string> = {
   customized: 'mens-style',
 };
 
-// Helper to format product name from filename and subcategory
-const formatProductName = (filename: string, subcategory: string, category: string): string => {
+// Helper to format product name from filename (no subcategory)
+const formatProductName = (filename: string, category: string): string => {
   const lowerFilename = filename.toLowerCase();
-  const lowerSubcategory = subcategory.toLowerCase();
 
-  // Generic category/subcategory names to ignore (use filename instead)
-  const genericNames = [
-    'custom', 'customized', 'jordan', 'sports', 'casual', 'casuals', 
-    'sneakers', 'airmax', 'airforce', 'vans', 'officials', 'formal',
-    'running', 'boots', 'mules', 'empire', 'clarks'
-  ];
-
-  // PRIORITY 1: Use subcategory if it's meaningful (not generic)
-  // This is the name the user uploaded the product with
-  if (subcategory && subcategory.trim() && 
-      subcategory.length > 2 &&
-      !genericNames.includes(lowerSubcategory) &&
-      !/^\d+$/.test(subcategory.trim())) { // Not just a number
-    return subcategory.trim();
-  }
-
-  // For officials category, use subcategory-specific naming (fallback)
-  if (category === 'officials') {
+  // For officials category, check filename for specific brands
+  if (category === 'officials' || category === 'mens-officials') {
     // Check filename for Dr. Martens first
     if (lowerFilename.includes('dr.martens') || lowerFilename.includes('drmartens') || lowerFilename.includes('dr martens') ||
         lowerFilename.includes('martens') || lowerFilename.includes('dr martin')) {
       return 'Dr. Martens';
     }
-    // Check subcategory for Dr. Martens
-    if (lowerSubcategory === 'dr martens' || lowerSubcategory.includes('martens')) {
-      return 'Dr. Martens';
-    }
-    if (lowerSubcategory === 'empire') {
+    if (lowerFilename.includes('empire')) {
       return 'Empire Leather';
-    } else if (lowerSubcategory === 'boots') {
+    } else if (lowerFilename.includes('boots')) {
       return 'Official Boots';
-    } else if (lowerSubcategory === 'clarks') {
+    } else if (lowerFilename.includes('clarks')) {
       return 'Clarks Official';
-    } else if (lowerSubcategory === 'mules') {
+    } else if (lowerFilename.includes('mules')) {
       return 'Mules';
-    } else if (lowerSubcategory === 'casuals') {
-      return 'Casual';
     }
   }
 
   // For Jordan category, preserve Jordan model numbers (especially Jordan 11)
-  if (category === 'jordan') {
-    // If subcategory contains meaningful content, use it (might be the actual product name)
-    if (subcategory && subcategory.trim() && 
-        subcategory.toLowerCase() !== 'jordan' && 
-        subcategory.toLowerCase() !== 'sports' &&
-        subcategory.length > 2) {
-      return subcategory.trim();
-    }
-    
+  if (category === 'jordan' || category === 'sneakers') {
     const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
     const lowerBase = base.toLowerCase();
     
@@ -143,26 +112,14 @@ const formatProductName = (filename: string, subcategory: string, category: stri
       .join(' ');
   }
 
-  // For custom category, preserve the filename better (don't strip too much)
-  if (category === 'custom' || category === 'customized') {
-    // If subcategory has meaningful content (not just "Custom" or a number), use it as the name
-    if (subcategory && subcategory.trim() && 
-        subcategory.toLowerCase() !== 'custom' && 
-        subcategory.toLowerCase() !== 'customized' &&
-        !/^\d+$/.test(subcategory.trim()) && // Not just a number
-        subcategory.length > 2) {
-      return subcategory.trim();
-    }
-    
+  // For custom/mens-style category, preserve the filename better
+  if (category === 'custom' || category === 'customized' || category === 'mens-style') {
     const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
     // Remove common prefixes like "thumb-", timestamps, and IDs
     let cleaned = base.replace(/^thumb-|\d{13}-|\d{10}-/gi, '').trim();
     
-    // If after cleaning it's just a number or empty, try to use subcategory or a default
+    // If after cleaning it's just a number or empty, use default
     if (!cleaned || /^\d+$/.test(cleaned)) {
-      if (subcategory && subcategory.trim() && subcategory.length > 2) {
-        return subcategory.trim();
-      }
       return 'Custom Product';
     }
     
@@ -182,7 +139,7 @@ const formatProductName = (filename: string, subcategory: string, category: stri
   const cleaned = spaced.replace(/\s+\d+$/, '').trim();
   
   if (!cleaned) {
-    return category === 'officials' ? 'Official Shoe' : 'Product';
+    return category === 'officials' || category === 'mens-officials' ? 'Official Shoe' : 'Product';
   }
 
   return cleaned
@@ -191,62 +148,56 @@ const formatProductName = (filename: string, subcategory: string, category: stri
     .join(' ');
 };
 
-// Helper to generate product description
-const generateDescription = (name: string, subcategory: string, category: string): string => {
-  if (category === 'officials') {
-    if (subcategory === 'Empire') {
+// Helper to generate product description (no subcategory)
+const generateDescription = (name: string, category: string): string => {
+  if (category === 'officials' || category === 'mens-officials') {
+    const nameLower = name.toLowerCase();
+    if (nameLower.includes('empire')) {
       return 'Premium Empire leather shoes for the sophisticated professional. Classic elegance meets modern comfort.';
-    } else if (subcategory === 'Boots') {
+    } else if (nameLower.includes('boots')) {
       return 'Premium quality official boots for the professional workplace. Durable construction meets sophisticated style.';
-    } else if (subcategory === 'Clarks') {
+    } else if (nameLower.includes('clarks')) {
       return 'Premium Clarks Official shoes for the distinguished professional. Timeless British craftsmanship meets modern style.';
-    } else if (subcategory === 'Mules') {
+    } else if (nameLower.includes('mules')) {
       return 'Comfortable mules perfect for the modern professional. Easy slip-on design meets elegant style.';
-    } else if (subcategory === 'Casuals') {
-      return 'Stylish casual shoes perfect for the modern professional. Comfort meets elegance in every step.';
     }
   }
   return `${name} — Quality ${category} shoes from Trendy Fashion Zone`;
 };
 
-// Helper to determine price based on category and subcategory
-const getPrice = (category: string, subcategory: string, name?: string): number => {
+// Helper to determine price based on category and name (no subcategory)
+const getPrice = (category: string, name?: string): number => {
+  const nameLower = (name || '').toLowerCase();
+  const categoryLower = (category || '').toLowerCase();
+  
   // Check for officials category (both 'officials' and 'mens-officials')
   if (category === 'officials' || category === 'mens-officials') {
-    const nameLower = (name || '').toLowerCase();
-    const subcategoryLower = (subcategory || '').toLowerCase();
-    // Check for Dr. Martens first (by name or subcategory)
+    // Check for Dr. Martens first (by name)
     if (nameLower.includes('dr.martens') || nameLower.includes('drmartens') || nameLower.includes('dr martens') ||
-        nameLower.includes('martens') || nameLower.includes('dr martin') ||
-        subcategoryLower.includes('dr.martens') || subcategoryLower.includes('drmartens') || subcategoryLower.includes('dr martens') ||
-        subcategoryLower.includes('martens')) {
+        nameLower.includes('martens') || nameLower.includes('dr martin')) {
       return 4200;
     }
-    if (subcategory === 'Boots') return 4700;
-    if (subcategory === 'Clarks') return 4500;
-    if (subcategory === 'Casuals') return 3500;
-    if (subcategory === 'Empire') return 3000;
-    if (subcategory === 'Mules') return 2500;
+    if (nameLower.includes('boots')) return 4700;
+    if (nameLower.includes('clarks')) return 4500;
+    if (nameLower.includes('empire')) return 3000;
+    if (nameLower.includes('mules')) return 2500;
     // Others
     return 2800;
   }
   
   if (category === 'airmax') return 3700;
-  if (category === 'jordan') {
+  if (category === 'jordan' || category === 'sneakers') {
     // Check for Jordan 11 specifically
-    const nameLower = (subcategory || '').toLowerCase();
     if (nameLower.includes('jordan 11') || nameLower.includes('jordan11') || nameLower.includes('j11')) {
       return 3500;
     }
     return 3300;
   }
   if (category === 'airforce') return 3200;
-  if (category === 'casuals' || category === 'sneakers') return 3000;
+  if (category === 'casual' || category === 'casuals' || category === 'sneakers') return 3000;
   
-  // Check for Timberland, Lacoste, Puma, Boss in mens-casuals - price 3200
-  const nameLower = (subcategory || name || '').toLowerCase();
-  const categoryLower = (category || '').toLowerCase();
-  if (categoryLower === 'mens-casuals' || categoryLower === 'casuals' || categoryLower === 'mens-casual') {
+  // Check for Timberland, Lacoste, Puma, Boss in casual category - price 3200
+  if (categoryLower === 'casual' || categoryLower === 'casuals' || categoryLower === 'mens-casual') {
     if (nameLower.includes('timberland') || nameLower.includes('timba') ||
         nameLower.includes('lacoste') ||
         nameLower.includes('puma') ||
@@ -310,18 +261,18 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
   const productCategory = mapToProductCategory(category);
   
   // PRIORITY: Use name from database if available (the name user uploaded)
-  // Otherwise, use subcategory if meaningful, or format from filename
+  // Otherwise, format from filename
   let name: string;
   if (dbImage.name && dbImage.name.trim() && dbImage.name.length > 0) {
     // Use the name field from database (exact name user uploaded)
     name = dbImage.name.trim();
   } else {
-    // Fallback to formatting from subcategory/filename
-    name = formatProductName(dbImage.filename, dbImage.subcategory, category);
+    // Fallback to formatting from filename
+    name = formatProductName(dbImage.filename, category);
   }
   
   // PRIORITY: Use price from database if available (the exact price user uploaded)
-  // Otherwise, calculate based on category/subcategory
+  // Otherwise, calculate based on category and name
   let price: number;
   
   if (dbImage.price !== undefined && dbImage.price !== null && dbImage.price > 0) {
@@ -329,24 +280,19 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     price = Number(dbImage.price);
   } else {
     // Fallback to calculated price only if no price was uploaded
-    price = getPrice(category, dbImage.subcategory, name);
+    price = getPrice(category, name);
   }
   
-  // Override price for specific brands in mens-casuals category: Timberland, Lacoste, Puma, Boss = 3200
-  if (category === 'mens-casuals' || category === 'casuals' || category === 'mens-casual') {
+  // Override price for specific brands in casual category: Timberland, Lacoste, Puma, Boss = 3200
+  if (category === 'casual' || category === 'casuals' || category === 'mens-casual') {
     const nameLower = name.toLowerCase();
     const descLower = (dbImage.description || '').toLowerCase();
-    const subcategoryLower = (dbImage.subcategory || '').toLowerCase();
     
     const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
-                        descLower.includes('timberland') || descLower.includes('timba') ||
-                        subcategoryLower.includes('timberland') || subcategoryLower.includes('timba');
-    const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste') || 
-                     subcategoryLower.includes('lacoste');
-    const isPuma = nameLower.includes('puma') || descLower.includes('puma') || 
-                   subcategoryLower.includes('puma');
-    const isBoss = nameLower.includes('boss') || descLower.includes('boss') || 
-                   subcategoryLower.includes('boss');
+                        descLower.includes('timberland') || descLower.includes('timba');
+    const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste');
+    const isPuma = nameLower.includes('puma') || descLower.includes('puma');
+    const isBoss = nameLower.includes('boss') || descLower.includes('boss');
     
     if (isTimberland || isLacoste || isPuma || isBoss) {
       price = 3200;
@@ -371,14 +317,14 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
   }
   
   // PRIORITY: Use description from database if available (the exact description user uploaded)
-  // Otherwise, generate from name/subcategory
+  // Otherwise, generate from name and category
   let description: string;
   if (dbImage.description && dbImage.description.trim() && dbImage.description.length > 0) {
     // Use the exact description field from database
     description = dbImage.description.trim();
   } else {
     // Fallback to generated description
-    description = generateDescription(name, dbImage.subcategory, category);
+    description = generateDescription(name, category);
   }
   
   return {
@@ -390,8 +336,7 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
     category: category === 'officials' ? 'officials' : productCategory,
     gender: getGender(category),
-    // Store subcategory in tags for filtering (tags is an optional array in Product interface)
-    tags: [dbImage.subcategory],
+    // No tags - we don't use subcategories anymore
     // Store full URL separately for high-res display when needed
     ...(dbImage.thumbnail_url && { fullImageUrl: dbImage.url }),
   } as Product & { fullImageUrl?: string };
@@ -630,7 +575,7 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
         // Use the exact price from database (no overrides)
         const price = product.price !== undefined && product.price !== null && product.price > 0 
           ? Number(product.price) 
-          : getPrice(product.category, product.subcategory, product.name);
+          : getPrice(product.category, product.name);
         
         return {
           id: `product-${product.id}`,

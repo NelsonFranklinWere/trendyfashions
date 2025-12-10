@@ -699,6 +699,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const airmaxDbProducts = await getDbProducts('airmax');
       const airmaxDbImageProducts = await getDbImageProducts('airmax');
       
+      // Log for debugging
+      console.log(`[Sneakers Category] Found ${sneakersDbProducts.length} products from products table`);
+      console.log(`[Sneakers Category] Found ${sneakersDbImageProducts.length} products from images table`);
+      if (sneakersDbProducts.length > 0) {
+        console.log(`[Sneakers Category] Sample product: "${sneakersDbProducts[0].name}" (category: ${sneakersDbProducts[0].category})`);
+      }
+      
       // Get filesystem products (fallback - auto-generated names/prices)
       const airforceFsProducts = getAirforceImageProducts();
       const jordanFsProducts = getJordanImageProducts();
@@ -757,19 +764,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         
         const nameLower = (p.name || '').toLowerCase();
         const imageLower = (p.image || '').toLowerCase();
+        const categoryLower = (p.category || '').toLowerCase();
+        
+        // PRIORITY: Include products with category='sneakers' (directly uploaded via admin)
+        if (categoryLower === 'sneakers') {
+          return true;
+        }
         
         // Include Converse products
         if (nameLower.includes('converse') || imageLower.includes('converse')) {
           return true;
         }
         
-        // Include all airforce, jordan, airmax, newbalance products
+        // Include all airforce, jordan, airmax, newbalance products (legacy filesystem)
+        // Also check Supabase URLs for sneakers category
         return imageLower.includes('/images/airforce/') ||
                imageLower.includes('/images/jordan/') ||
                imageLower.includes('/images/airmax/') ||
                imageLower.includes('/images/newbalance/') ||
                imageLower.includes('/images/sneakers/') ||
-               imageLower.includes('/images/Sneakers/');
+               imageLower.includes('/images/Sneakers/') ||
+               (imageLower.includes('supabase.co') && imageLower.includes('sneakers')) ||
+               (imageLower.includes('supabase.in') && imageLower.includes('sneakers'));
       });
     } else if (categorySlug === 'sports') {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
