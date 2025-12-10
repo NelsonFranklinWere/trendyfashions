@@ -69,7 +69,6 @@ export async function optimizeImage(
           effort: 2, // Minimal effort for fastest encoding
           smartSubsample: false, // Disable for faster processing
           nearLossless: false, // Disable for better compression
-          method: 2, // Fastest encoding method
         })
         .toBuffer();
       break;
