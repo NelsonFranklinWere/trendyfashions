@@ -950,7 +950,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     
     // Get products from each category (database first, fallback to filesystem)
     // STRICT FILTERING: Only include products that match the exact category
-    const allOfficials = await mergeWithDbPriority('mens-officials', filterValidProducts(getOfficialImageProducts()));
+    const allOfficials = await mergeWithDbPriority('mens-officials', await getOfficialImageProducts());
     const officials = filterValidProducts(allOfficials.filter(p => {
       if (!p || !p.image) return false;
       const categoryLower = (p.category || '').toLowerCase();
