@@ -281,15 +281,25 @@ const getGender = (category: string): 'Men' | 'Unisex' => {
 
 // Helper to map category to product category format
 const mapToProductCategory = (category: string): string => {
+  // Preserve the 8 new categories as-is
+  const newCategories = ['mens-officials', 'casual', 'loafers', 'nike', 'sports', 'vans', 'mens-style', 'sneakers'];
+  if (newCategories.includes(category)) {
+    return category;
+  }
+  
+  // Legacy mapping for old categories
   const mapping: Record<string, string> = {
-    officials: 'officials',
-    sneakers: 'casual',
+    officials: 'mens-officials',
+    formal: 'mens-officials',
     casuals: 'casual',
-    airmax: 'running',
-    airforce: 'customized',
-    jordan: 'sports',
-    vans: 'casual',
-    custom: 'customized',
+    'mens-casuals': 'casual',
+    'mens-loafers': 'loafers',
+    'mens-nike': 'nike',
+    airmax: 'sneakers',
+    airforce: 'sneakers',
+    jordan: 'sneakers',
+    custom: 'mens-style',
+    customized: 'mens-style',
   };
   return mapping[category] || category;
 };

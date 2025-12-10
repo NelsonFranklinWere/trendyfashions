@@ -880,6 +880,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       // Also get from nike category (admin uploads use 'nike')
       const nikeDbProducts = await getDbProducts('nike');
       const nikeDbImageProducts = await getDbImageProducts('nike');
+      
+      // Log for debugging
+      console.log(`[Nike Category] Found ${nikeDbProducts.length} products from products table`);
+      console.log(`[Nike Category] Found ${nikeDbImageProducts.length} products from images table`);
+      if (nikeDbProducts.length > 0) {
+        console.log(`[Nike Category] Sample product: "${nikeDbProducts[0].name}" (category: ${nikeDbProducts[0].category})`);
+      }
       // Also get from sneakers, airforce, airmax categories (legacy)
       const sneakersDbProducts = await getDbProducts('sneakers');
       const sneakersDbImageProducts = await getDbImageProducts('sneakers');
@@ -933,6 +940,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         // Include all Nike products
         const isNike = nameLower.includes('nike') || 
                        descLower.includes('nike') ||
+                       p.category === 'nike' ||
                        p.category === 'airforce' || 
                        p.category === 'airmax' ||
                        p.category === 'sneakers' ||
@@ -1170,6 +1178,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
       const dbProducts = await getDbProducts('vans');
       const dbImageProducts = await getDbImageProducts('vans');
+      
+      // Log for debugging
+      console.log(`[Vans Category] Found ${dbProducts.length} products from products table`);
+      console.log(`[Vans Category] Found ${dbImageProducts.length} products from images table`);
+      if (dbProducts.length > 0) {
+        console.log(`[Vans Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
+      }
       
       // Get products directly from vans folder
       const fsProducts = getVansImageProducts().filter(p => 
