@@ -63,7 +63,7 @@ export default function ManageProducts() {
       setProducts(data.products || []);
     } catch (err: any) {
       // Only show error if it's a critical failure
-      setError(err.message || 'Failed to load products. Please refresh the page.');
+      setError(err.message || 'Failed to load products.');
       console.error('Error fetching products:', err);
     } finally {
       setLoading(false);

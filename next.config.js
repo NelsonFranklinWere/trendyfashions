@@ -1,6 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false,
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      // Remove React Refresh plugin
+      config.plugins = config.plugins.filter(
+        (plugin) => plugin.constructor.name !== 'ReactRefreshPlugin'
+      );
+    }
+    return config;
+  },
   images: {
     // Enable Next.js Image Optimization with Supabase
     unoptimized: false,

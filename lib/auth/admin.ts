@@ -1,5 +1,13 @@
-import { supabaseAdmin } from '@/lib/supabase/server';
-import crypto from 'crypto';
+import {
+  getAdminUserByEmail,
+  getAdminUserById,
+  createAdminSession as createAdminSessionDb,
+  getSessionByToken,
+  deleteSession as deleteSessionDb,
+  deleteExpiredSessions,
+  updateLastLogin,
+  type AdminUser as DbAdminUser,
+} from '@/lib/db/admin';
 import bcrypt from 'bcryptjs';
 
 export interface AdminUser {
@@ -17,11 +25,6 @@ export interface SessionData {
   role: string;
 }
 
-// Generate a secure random token
-export function generateSessionToken(): string {
-  return crypto.randomBytes(32).toString('hex');
-}
-
 // Verify password using bcrypt
 export async function verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {
   return await bcrypt.compare(plainPassword, hashedPassword);
@@ -34,48 +37,18 @@ export async function hashPassword(password: string): Promise<string> {
 
 // Create admin session
 export async function createAdminSession(userId: string): Promise<string> {
-  const token = generateSessionToken();
-  const expiresAt = new Date();
-  expiresAt.setDate(expiresAt.getDate() + 7); // 7 days
-
-  const { error } = await supabaseAdmin
-    .from('admin_sessions')
-    .insert({
-      user_id: userId,
-      token,
-      expires_at: expiresAt.toISOString(),
-    });
-
-  if (error) {
-    throw new Error('Failed to create session');
-  }
-
-  return token;
+  return await createAdminSessionDb(userId);
 }
 
 // Verify session token
 export async function verifySession(token: string): Promise<SessionData | null> {
-  const { data: session, error } = await supabaseAdmin
-    .from('admin_sessions')
-    .select(`
-      *,
-      admin_users:user_id (
-        id,
-        email,
-        name,
-        role,
-        is_active
-      )
-    `)
-    .eq('token', token)
-    .gt('expires_at', new Date().toISOString())
-    .single();
+  const session = await getSessionByToken(token);
 
-  if (error || !session) {
+  if (!session) {
     return null;
   }
 
-  const user = (session as any).admin_users;
+  const user = await getAdminUserById(session.user_id);
   if (!user || !user.is_active) {
     return null;
   }
@@ -90,30 +63,19 @@ export async function verifySession(token: string): Promise<SessionData | null> 
 
 // Delete session (logout)
 export async function deleteSession(token: string): Promise<void> {
-  await supabaseAdmin
-    .from('admin_sessions')
-    .delete()
-    .eq('token', token);
+  await deleteSessionDb(token);
 }
 
 // Clean up expired sessions
 export async function cleanupExpiredSessions(): Promise<void> {
-  await supabaseAdmin
-    .from('admin_sessions')
-    .delete()
-    .lt('expires_at', new Date().toISOString());
+  await deleteExpiredSessions();
 }
 
 // Authenticate admin user
 export async function authenticateAdmin(email: string, password: string): Promise<{ user: AdminUser; token: string } | null> {
-  const { data: user, error } = await supabaseAdmin
-    .from('admin_users')
-    .select('*')
-    .eq('email', email.toLowerCase())
-    .eq('is_active', true)
-    .single();
+  const user = await getAdminUserByEmail(email.toLowerCase());
 
-  if (error || !user) {
+  if (!user || !user.is_active) {
     return null;
   }
 
@@ -123,10 +85,7 @@ export async function authenticateAdmin(email: string, password: string): Promis
   }
 
   // Update last login
-  await supabaseAdmin
-    .from('admin_users')
-    .update({ last_login: new Date().toISOString() })
-    .eq('id', user.id);
+  await updateLastLogin(user.id);
 
   const token = await createAdminSession(user.id);
 

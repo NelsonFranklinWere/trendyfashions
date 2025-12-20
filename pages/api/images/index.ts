@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { getImages } from '@/lib/db/images';
 
 // Category mapping to match database categories
 const categoryMapping: Record<string, string> = {
@@ -33,28 +33,18 @@ export default async function handler(
     // Map category to database category
     const dbCategory = category ? (categoryMapping[category as string] || category as string) : undefined;
 
-    let query = supabaseAdmin.from('images').select('*').order('uploaded_at', { ascending: false });
-
-    if (dbCategory) {
-      query = query.eq('category', dbCategory);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      // Log error for debugging but don't fail the request
-      console.error(`[API /images] Supabase error for category "${category}":`, error.message);
-      // Return empty array instead of error to prevent frontend issues
-      // This is expected if no images exist for a category yet
-      return res.status(200).json({ images: [] });
-    }
+    const images = await getImages({
+      category: dbCategory,
+      orderBy: 'uploaded_at',
+      order: 'desc',
+    });
 
     // Log success for debugging
     if (dbCategory) {
-      console.log(`[API /images] Successfully fetched ${data?.length || 0} images for category: ${dbCategory}`);
+      console.log(`[API /images] Successfully fetched ${images.length} images for category: ${dbCategory}`);
     }
 
-    return res.status(200).json({ images: data || [] });
+    return res.status(200).json({ images });
   } catch (error: any) {
     // Log error for debugging but don't fail the request
     console.error(`[API /images] Unexpected error for category "${req.query.category}":`, error.message);

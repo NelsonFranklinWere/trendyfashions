@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { getProducts, createProduct } from '@/lib/db/products';
 import { requireAuth, AuthenticatedRequest } from '@/lib/auth/middleware';
 
 export default async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
@@ -13,19 +13,13 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
     try {
       const { category } = req.query;
 
-      let query = supabaseAdmin.from('products').select('*').order('created_at', { ascending: false });
+      const products = await getProducts({
+        category: category as string | undefined,
+        orderBy: 'created_at',
+        order: 'desc',
+      });
 
-      if (category) {
-        query = query.eq('category', category as string);
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        throw error;
-      }
-
-      return res.status(200).json({ products: data || [] });
+      return res.status(200).json({ products });
     } catch (error: any) {
       console.error('Error fetching products:', error);
       return res.status(500).json({ error: error.message || 'Failed to fetch products' });
@@ -40,28 +34,18 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
-      const { data, error } = await supabaseAdmin
-        .from('products')
-        .insert([
-          {
-            name,
-            description,
-            price: parseFloat(price),
-            image,
-            category,
-            gender: gender || null,
-            tags: tags || [],
-            featured: featured || false,
-          },
-        ])
-        .select()
-        .single();
+      const product = await createProduct({
+        name,
+        description,
+        price: parseFloat(price),
+        image,
+        category,
+        gender: gender || null,
+        tags: tags || [],
+        featured: featured || false,
+      });
 
-      if (error) {
-        throw error;
-      }
-
-      return res.status(201).json({ product: data });
+      return res.status(201).json({ product });
     } catch (error: any) {
       console.error('Error creating product:', error);
       return res.status(500).json({ error: error.message || 'Failed to create product' });

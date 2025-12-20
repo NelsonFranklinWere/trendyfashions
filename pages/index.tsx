@@ -1117,8 +1117,6 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         heroClarks: clarks,
         heroTimberland: timberland,
       },
-      // Enable ISR: regenerate page every 30 seconds to show new uploads automatically
-      revalidate: 30,
     };
   } catch (error) {
     console.error('Error loading products:', error);

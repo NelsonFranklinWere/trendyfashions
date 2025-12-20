@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import Head from 'next/head';
 import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
@@ -8,6 +8,26 @@ import { CartProvider } from '@/context/CartContext';
 import WhatsAppFloatButton from '@/components/WhatsAppFloatButton';
 
 export default function App({ Component, pageProps }: AppProps): ReactElement {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // Unregister service workers
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          registrations.forEach((registration) => {
+            registration.unregister();
+          });
+        });
+      }
+      // Clear any refresh-related localStorage data
+      try {
+        localStorage.removeItem('trendy_fashion_zone_session');
+        sessionStorage.clear();
+      } catch (e) {
+        // Ignore errors
+      }
+    }
+  }, []);
+
   return (
     <>
       <Head>

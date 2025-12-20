@@ -5,6 +5,7 @@ export interface ImageRecord {
   filename: string;
   url: string;
   storage_path: string;
+  thumbnail_url?: string;
   uploaded_at: string;
   uploaded_by?: string;
   file_size?: number;

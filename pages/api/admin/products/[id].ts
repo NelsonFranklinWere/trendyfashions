@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { getProductById, updateProduct, deleteProduct } from '@/lib/db/products';
 import { requireAuth, AuthenticatedRequest } from '@/lib/auth/middleware';
 
 export default async function handler(req: AuthenticatedRequest, res: NextApiResponse) {
@@ -17,21 +17,13 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
 
   if (req.method === 'GET') {
     try {
-      const { data, error } = await supabaseAdmin
-        .from('products')
-        .select('*')
-        .eq('id', id)
-        .single();
+      const product = await getProductById(id);
 
-      if (error) {
-        throw error;
-      }
-
-      if (!data) {
+      if (!product) {
         return res.status(404).json({ error: 'Product not found' });
       }
 
-      return res.status(200).json({ product: data });
+      return res.status(200).json({ product });
     } catch (error: any) {
       console.error('Error fetching product:', error);
       return res.status(500).json({ error: error.message || 'Failed to fetch product' });
@@ -52,18 +44,13 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
       if (tags !== undefined) updateData.tags = tags || [];
       if (featured !== undefined) updateData.featured = featured || false;
 
-      const { data, error } = await supabaseAdmin
-        .from('products')
-        .update(updateData)
-        .eq('id', id)
-        .select()
-        .single();
+      const product = await updateProduct(id, updateData);
 
-      if (error) {
-        throw error;
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
       }
 
-      return res.status(200).json({ product: data });
+      return res.status(200).json({ product });
     } catch (error: any) {
       console.error('Error updating product:', error);
       return res.status(500).json({ error: error.message || 'Failed to update product' });
@@ -72,10 +59,10 @@ export default async function handler(req: AuthenticatedRequest, res: NextApiRes
 
   if (req.method === 'DELETE') {
     try {
-      const { error } = await supabaseAdmin.from('products').delete().eq('id', id);
+      const deleted = await deleteProduct(id);
 
-      if (error) {
-        throw error;
+      if (!deleted) {
+        return res.status(404).json({ error: 'Product not found' });
       }
 
       return res.status(200).json({ success: true });
