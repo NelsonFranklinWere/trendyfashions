@@ -9,7 +9,7 @@
  */
 
 import { createClient } from '@supabase/supabase-js';
-import { query, transaction, getPool } from '../lib/db/postgres';
+import { Pool } from 'pg';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
@@ -270,10 +270,12 @@ async function migrateDatabase() {
 migrateDatabase()
   .then(() => {
     console.log('\n✨ Database migration complete!');
+    pool.end();
     process.exit(0);
   })
   .catch((error) => {
     console.error('\n❌ Migration failed:', error);
+    pool.end();
     process.exit(1);
   });
 
