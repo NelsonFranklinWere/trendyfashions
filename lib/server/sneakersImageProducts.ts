@@ -234,7 +234,7 @@ export const getSneakersImageProducts = (): Product[] => {
         name,
         description: getSneakerDescription(index),
         price,
-        image: `/images/sneakers/${file}`,
+        image: fs.existsSync(SNEAKERS_DIR_UPPER) ? `/images/Sneakers/${file}` : `/images/sneakers/${file}`,
         category: 'casual',
         gender: 'Unisex',
       } satisfies Product;

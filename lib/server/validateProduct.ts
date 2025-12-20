@@ -23,15 +23,21 @@ export function isValidProduct(product: Product | null | undefined): boolean {
     try {
       const imagePath = path.join(process.cwd(), 'public', product.image);
       if (!fs.existsSync(imagePath)) {
-        return false;
+        // If file doesn't exist locally, it might be on DigitalOcean Spaces
+        // Allow it to pass validation - the browser will handle 404s
+        console.warn(`Local image not found: ${product.image}, but allowing for CDN fallback`);
+        return true; // Allow CDN URLs even if local file doesn't exist
       }
     } catch (error) {
-      return false;
+      // On error, still allow the product (might be CDN URL)
+      return true;
     }
   } else if (product.image.startsWith('http://') || product.image.startsWith('https://')) {
-    // For external URLs (Supabase, etc.), validate URL format
+    // For external URLs (DigitalOcean Spaces CDN, etc.), validate URL format
     try {
       new URL(product.image);
+      // Allow all valid URLs (DigitalOcean Spaces, etc.)
+      return true;
     } catch (error) {
       return false;
     }

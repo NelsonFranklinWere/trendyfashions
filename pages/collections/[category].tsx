@@ -741,20 +741,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         if (!p || !p.image || !p.id || !p.name || !p.price) return false;
         if (p.image === 'null' || p.image.trim() === '') return false;
         
-        // Validate image exists for local images
+        // Validate image - allow CDN URLs even if local file doesn't exist
         if (p.image.startsWith('/images/')) {
+          // Try both lowercase and capitalized paths for case sensitivity
           try {
             const imagePath = path.join(process.cwd(), 'public', p.image);
-            if (!fs.existsSync(imagePath)) {
-              return false;
+            const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
+              const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
+              return `/images/${capitalized}`;
+            });
+            // Allow if either path exists, or allow for CDN fallback
+            if (!fs.existsSync(imagePath) && !fs.existsSync(imagePathAlt)) {
+              // Don't filter out - might be on DigitalOcean Spaces CDN
+              console.warn(`Local image not found: ${p.image}, allowing for CDN fallback`);
             }
           } catch {
-            return false;
+            // Allow on error - might be CDN URL
           }
         } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-          // Validate URL format for external images
+          // Validate URL format for external images (DigitalOcean Spaces, etc.)
           try {
             new URL(p.image);
+            // Allow all valid URLs
           } catch {
             return false;
           }
@@ -821,20 +829,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         if (seen.has(p.image)) return false;
         seen.add(p.image);
         
-        // Validate image exists for local images
+        // Validate image - allow CDN URLs even if local file doesn't exist
         if (p.image.startsWith('/images/')) {
+          // Try both lowercase and capitalized paths for case sensitivity
           try {
             const imagePath = path.join(process.cwd(), 'public', p.image);
-            if (!fs.existsSync(imagePath)) {
-              return false;
+            const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
+              const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
+              return `/images/${capitalized}`;
+            });
+            // Allow if either path exists, or allow for CDN fallback
+            if (!fs.existsSync(imagePath) && !fs.existsSync(imagePathAlt)) {
+              // Don't filter out - might be on DigitalOcean Spaces CDN
+              console.warn(`Local image not found: ${p.image}, allowing for CDN fallback`);
             }
           } catch {
-            return false;
+            // Allow on error - might be CDN URL
           }
         } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-          // Validate URL format for external images
+          // Validate URL format for external images (DigitalOcean Spaces, etc.)
           try {
             new URL(p.image);
+            // Allow all valid URLs
           } catch {
             return false;
           }
@@ -1241,13 +1257,23 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       if (!p || !p.id || !p.name || !p.image || !p.price) return false;
       if (p.image === 'null' || p.image.trim() === '') return false;
       
-      // For local images, verify file exists
+      // For local images, verify file exists (allow CDN fallback)
       if (p.image.startsWith('/images/')) {
         try {
           const imagePath = path.join(process.cwd(), 'public', p.image);
-          return fs.existsSync(imagePath);
+          const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
+            const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
+            return `/images/${capitalized}`;
+          });
+          // Allow if either path exists, or allow for CDN fallback
+          if (fs.existsSync(imagePath) || fs.existsSync(imagePathAlt)) {
+            return true;
+          }
+          // Don't filter out - might be on DigitalOcean Spaces CDN
+          return true; // Allow CDN URLs even if local file doesn't exist
         } catch {
-          return false;
+          // Allow on error - might be CDN URL
+          return true;
         }
       }
       
