@@ -1,5 +1,6 @@
 import { hashPassword } from '../lib/auth/admin';
-import { createAdminUser } from '../lib/db/admin';
+import { createAdminUser as createAdminUserDb, getAdminUserByEmail, updateAdminUser } from '../lib/db/admin';
+import 'dotenv/config';
 
 async function createAdminUser() {
   const email = process.argv[2] || 'admin@trendyfashionzone.co.ke';
@@ -8,41 +9,33 @@ async function createAdminUser() {
 
   console.log(`Creating admin user: ${email}`);
 
-  const passwordHash = await hashPassword(password);
+  try {
+    // Check if user already exists
+    const existingUser = await getAdminUserByEmail(email);
 
-  const { data, error } = await supabaseAdmin
-    .from('admin_users')
-    .insert({
-      email,
-      password_hash: passwordHash,
-      name,
-      role: 'admin',
-      is_active: true,
-    })
-    .select()
-    .single();
-
-  if (error) {
-    if (error.code === '23505') {
+    if (existingUser) {
       console.log('User already exists. Updating password...');
-      const { error: updateError } = await supabaseAdmin
-        .from('admin_users')
-        .update({ password_hash: passwordHash })
-        .eq('email', email);
-
-      if (updateError) {
-        console.error('Error updating user:', updateError);
-        process.exit(1);
-      }
+      const passwordHash = await hashPassword(password);
+      await updateAdminUser(existingUser.id, { password_hash: passwordHash });
       console.log('Password updated successfully!');
+      console.log('Email:', email);
+      console.log('Password:', password);
     } else {
-      console.error('Error creating user:', error);
-      process.exit(1);
+      const passwordHash = await hashPassword(password);
+      const user = await createAdminUserDb({
+        email,
+        password_hash: passwordHash,
+        name,
+        role: 'admin',
+      });
+      console.log('Admin user created successfully!');
+      console.log('Email:', email);
+      console.log('Password:', password);
+      console.log('User ID:', user.id);
     }
-  } else {
-    console.log('Admin user created successfully!');
-    console.log('Email:', email);
-    console.log('Password:', password);
+  } catch (error: any) {
+    console.error('Error creating/updating user:', error.message);
+    process.exit(1);
   }
 }
 
