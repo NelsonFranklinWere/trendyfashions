@@ -1,4 +1,5 @@
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { getImages } from '@/lib/db/images';
+import { getProducts } from '@/lib/db/products';
 import type { Product } from '@/data/products';
 import { filterValidProducts } from './validateProduct';
 
@@ -361,31 +362,28 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     }
     
     // FALLBACK: Try images table (legacy)
-    let imagesQuery = supabaseAdmin
-      .from('images')
-      .select('*')
-      .order('uploaded_at', { ascending: false });
-    
-    // For mens-style, also include legacy categories that map to mens-style
+    let categories = [dbCategory];
     if (category === 'mens-style') {
-      imagesQuery = imagesQuery.in('category', ['mens-style', 'custom', 'customized']);
-    } else {
-      imagesQuery = imagesQuery.eq('category', dbCategory);
+      categories = ['mens-style', 'custom', 'customized'];
     }
     
-    const { data, error } = await imagesQuery;
+    const data = await getImages({
+      category: categories.length === 1 ? categories[0] : undefined,
+      orderBy: 'uploaded_at',
+      order: 'desc',
+    });
 
-    if (error) {
-      console.error(`Error fetching ${category} products from database:`, error);
-      return [];
-    }
+    // Filter by category if multiple categories
+    const filteredData = category === 'mens-style' 
+      ? data.filter(img => ['mens-style', 'custom', 'customized'].includes(img.category))
+      : data.filter(img => img.category === dbCategory);
 
-    if (!data || data.length === 0) {
+    if (!filteredData || filteredData.length === 0) {
       console.log(`No database products found for category: ${category} (mapped to: ${dbCategory})`);
       return [];
     }
 
-    console.log(`Found ${data.length} database images for category: ${category} (fallback to images table)`);
+    console.log(`Found ${filteredData.length} database images for category: ${category} (fallback to images table)`);
     const products: Product[] = [];
     
     for (const img of data) {
@@ -473,17 +471,12 @@ export async function getDbImageProductsBySubcategory(
   try {
     const dbCategory = categoryMapping[category] || category;
     
-    const { data, error } = await supabaseAdmin
-      .from('images')
-      .select('*')
-      .eq('category', dbCategory)
-      .eq('subcategory', subcategory)
-      .order('uploaded_at', { ascending: false });
-
-    if (error) {
-      console.error(`Error fetching ${category}/${subcategory} products from database:`, error);
-      return [];
-    }
+    const data = await getImages({
+      category: dbCategory,
+      subcategory: subcategory,
+      orderBy: 'uploaded_at',
+      order: 'desc',
+    });
 
     if (!data || data.length === 0) {
       return [];
@@ -502,26 +495,24 @@ export async function getDbImageProductsBySubcategory(
  */
 export async function getDbProducts(category?: string): Promise<Product[]> {
   try {
-    let query = supabaseAdmin
-      .from('products')
-      .select('*')
-      .order('created_at', { ascending: false });
-
+    let dbCategory: string | undefined;
     if (category) {
-      const dbCategory = categoryMapping[category] || category;
-      // For mens-style, also include legacy categories that map to mens-style
-      if (category === 'mens-style') {
-        query = query.in('category', ['mens-style', 'custom', 'customized']);
-      } else {
-        query = query.eq('category', dbCategory);
-      }
+      dbCategory = categoryMapping[category] || category;
     }
 
-    const { data, error } = await query;
+    let data = await getProducts({
+      category: dbCategory,
+      orderBy: 'created_at',
+      order: 'desc',
+    });
 
-    if (error) {
-      console.error('Error fetching products from database:', error);
-      return [];
+    // For mens-style, also include legacy categories that map to mens-style
+    if (category === 'mens-style') {
+      const allData = await getProducts({
+        orderBy: 'created_at',
+        order: 'desc',
+      });
+      data = allData.filter(p => ['mens-style', 'custom', 'customized'].includes(p.category));
     }
 
     if (!data || data.length === 0) {
@@ -603,15 +594,10 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
  */
 export async function getAllDbImageProducts(): Promise<Product[]> {
   try {
-    const { data, error } = await supabaseAdmin
-      .from('images')
-      .select('*')
-      .order('uploaded_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching all products from database:', error);
-      return [];
-    }
+    const data = await getImages({
+      orderBy: 'uploaded_at',
+      order: 'desc',
+    });
 
     if (!data || data.length === 0) {
       return [];

@@ -960,11 +960,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       
       // DEBUG: Query all bank robbers products regardless of category
       try {
-        const { supabaseAdmin } = await import('@/lib/supabase/server');
-        const { data: allBankRobbers } = await supabaseAdmin
-          .from('products')
-          .select('*')
-          .or('name.ilike.%bank robber%,name.ilike.%bankrobber%,description.ilike.%bank robber%,description.ilike.%bankrobber%');
+        const { getProducts } = await import('@/lib/db/products');
+        const allProducts = await getProducts();
+        const allBankRobbers = allProducts.filter(p => 
+          (p.name && (p.name.toLowerCase().includes('bank robber') || p.name.toLowerCase().includes('bankrobber'))) ||
+          (p.description && (p.description.toLowerCase().includes('bank robber') || p.description.toLowerCase().includes('bankrobber')))
+        );
         
         if (allBankRobbers && allBankRobbers.length > 0) {
           console.log(`[DEBUG] Found ${allBankRobbers.length} bank robbers products in ALL categories:`, 
