@@ -137,7 +137,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/collections/officials"
+                  href="/collections/mens-officials"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
@@ -155,7 +155,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/collections/casuals"
+                  href="/collections/casual"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />

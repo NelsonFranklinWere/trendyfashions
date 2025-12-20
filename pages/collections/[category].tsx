@@ -487,6 +487,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const categorySlug = params?.category as string;
+    
     const category = getCategoryBySlug(categorySlug);
 
     if (!category) {
@@ -1231,17 +1232,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         products = mergeProductsWithDbPriority(
           [...dbProducts, ...dbImageProducts],
           fsProducts
-        );
-        if (products.length === 0) {
-          products = getProductsByCategory(categorySlug);
-        }
-      } else if (categorySlug === 'officials') {
-        const dbProducts = await getDbProducts('officials');
-        const dbImageProducts = await getDbImageProducts('officials');
-        const autoProducts = await getOfficialImageProducts();
-        products = mergeProductsWithDbPriority(
-          [...dbProducts, ...dbImageProducts],
-          autoProducts
         );
         if (products.length === 0) {
           products = getProductsByCategory(categorySlug);

@@ -23,7 +23,7 @@ export const mainCategories: MainCategory[] = [
     id: 'mens-shoes',
     name: "Men's Shoes",
     slug: 'mens-shoes',
-    href: '/collections',
+    href: '/collections/mens-officials',
     hasSubcategories: true,
     subcategories: [
       // A. Official Shoes
@@ -272,13 +272,6 @@ export const mainCategories: MainCategory[] = [
     name: 'Best Sellers',
     slug: 'best-sellers',
     href: '/collections?filter=Best Sellers',
-    hasSubcategories: false,
-  },
-  {
-    id: 'offers-discounts',
-    name: 'Offers & Discounts',
-    slug: 'offers-discounts',
-    href: '/collections?filter=Offers',
     hasSubcategories: false,
   },
 ];

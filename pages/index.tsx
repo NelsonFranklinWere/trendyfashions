@@ -208,7 +208,7 @@ const Home = ({
                 {
                   '@type': 'OfferCatalog',
                   name: 'Casual Shoes',
-                  url: `${siteConfig.url}/collections/mens-casuals`,
+                  url: `${siteConfig.url}/collections/casual`,
                 },
                 {
                   '@type': 'OfferCatalog',
@@ -307,7 +307,7 @@ const Home = ({
             </p>
               </motion.div>
               <Link
-                href="/collections/officials"
+                href="/collections/mens-officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
@@ -436,7 +436,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/officials?filter=Clarks"
+                href="/collections/mens-officials?filter=Clarks"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
@@ -479,7 +479,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/casuals"
+                href="/collections/casual"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
@@ -708,7 +708,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-nike"
+                href="/collections/nike"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
