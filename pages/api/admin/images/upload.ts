@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { supabaseAdmin } from '@/lib/supabase/server';
+import { createImage } from '@/lib/db/images';
+import { uploadToSpaces } from '@/lib/storage/spaces';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
-import { optimizeForWeb, optimizeForMobile, createThumbnail, shouldOptimize } from '@/lib/utils/imageOptimization';
+import { optimizeForWeb, createThumbnail } from '@/lib/utils/imageOptimization';
 
 export const config = {
   api: {
@@ -21,14 +22,6 @@ interface UploadedFile {
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // Check if Supabase is configured
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return res.status(500).json({ 
-      error: 'Supabase configuration missing',
-      details: 'Please set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in your .env.local file'
-    });
   }
 
   // Require authentication
@@ -67,16 +60,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const originalBuffer = fs.readFileSync(uploadedFile.filepath);
     const originalSize = originalBuffer.length;
 
-    // Optimize images before upload
+    // Optimize images for maximum speed
     let optimizedBuffer: Buffer;
     let optimizedFormat = 'image/webp';
     let width: number | undefined;
     let height: number | undefined;
     let compressionRatio = 0;
 
-    // Always optimize images for maximum speed (unless explicitly disabled)
+    // Always optimize images for fast loading (unless explicitly disabled)
     if (optimize !== 'false') {
-      // Optimize for web (aggressive compression for fast loading)
       const optimized = await optimizeForWeb(originalBuffer);
       optimizedBuffer = optimized.buffer;
       optimizedFormat = optimized.format;
@@ -84,7 +76,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       height = optimized.height;
       compressionRatio = optimized.compressionRatio;
     } else {
-      // Use original only if optimization explicitly disabled
       optimizedBuffer = originalBuffer;
       optimizedFormat = uploadedFile.mimetype;
     }
@@ -92,139 +83,73 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // Generate ultra-small thumbnail for instant loading
     const thumbnail = await createThumbnail(originalBuffer, 200);
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const thumbnailPath = `${category}/${thumbnailFileName}`;
-
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const storagePath = `${category}/${fileName}`;
-
-    // Check if bucket exists, if not provide helpful error
-    const { data: buckets, error: bucketsError } = await supabaseAdmin.storage.listBuckets();
     
-    if (bucketsError) {
-      console.error('Error listing buckets:', bucketsError);
-      return res.status(500).json({ 
-        error: 'Failed to access storage', 
-        details: bucketsError.message,
-        help: 'Please ensure Supabase Storage is enabled and the service role key has storage access'
-      });
-    }
+    // Upload to DigitalOcean Spaces for fast CDN delivery
+    const imageKey = `images/${category}/${fileName}`;
+    const thumbnailKey = `images/${category}/${thumbnailFileName}`;
 
-    const imagesBucket = buckets?.find(b => b.name === 'images');
-    if (!imagesBucket) {
-      return res.status(500).json({ 
-        error: 'Storage bucket not found', 
-        details: 'The "images" bucket does not exist in Supabase Storage',
-        help: 'Please create a bucket named "images" in your Supabase project: Storage > New bucket > Name: "images" > Public: Yes'
-      });
-    }
+    let imageUrl: string;
+    let thumbnailUrl: string;
 
-    // Upload optimized image to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
-      .from('images')
-      .upload(storagePath, optimizedBuffer, {
-        contentType: optimizedFormat,
-        upsert: false,
-        cacheControl: '3600',
+    try {
+      // Upload optimized image to Spaces
+      imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
+        cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
+        metadata: {
+          category,
+          originalFilename: uploadedFile.originalFilename,
+        },
       });
 
-    if (uploadError) {
-      console.error('Supabase upload error:', uploadError);
-      
-      // Provide more specific error messages
-      let errorMessage = uploadError.message;
-      let helpText = '';
-      
-      if (uploadError.message?.includes('Bucket not found')) {
-        errorMessage = 'Storage bucket "images" not found';
-        helpText = 'Please create a bucket named "images" in Supabase: Storage > New bucket > Name: "images" > Public: Yes';
-      } else if (uploadError.message?.includes('new row violates row-level security')) {
-        errorMessage = 'Storage bucket permissions issue';
-        helpText = 'Please check bucket policies in Supabase: Storage > images > Policies > Ensure service role can upload';
-      } else if (uploadError.message?.includes('duplicate')) {
-        errorMessage = 'File already exists';
-        helpText = 'A file with this name already exists. Try uploading with a different name.';
+      // Upload thumbnail to Spaces
+      try {
+        thumbnailUrl = await uploadToSpaces(thumbnailKey, thumbnail.buffer, 'image/webp', {
+          cacheControl: 'public, max-age=31536000, immutable',
+        });
+      } catch (thumbnailError) {
+        console.warn('Thumbnail upload error (non-critical):', thumbnailError);
+        thumbnailUrl = imageUrl; // Fallback to main image
       }
-      
-      return res.status(500).json({ 
-        error: 'Failed to upload image to storage', 
-        details: errorMessage,
-        help: helpText || 'Please check Supabase Storage configuration and bucket permissions'
-      });
-    }
 
-    // Upload thumbnail
-    const { error: thumbnailError } = await supabaseAdmin.storage
-      .from('images')
-      .upload(thumbnailPath, thumbnail.buffer, {
-        contentType: 'image/webp',
-        upsert: false,
-      });
-
-    if (thumbnailError) {
-      console.warn('Thumbnail upload error (non-critical):', thumbnailError);
-    }
-
-    // Get public URLs
-    const { data: urlData } = supabaseAdmin.storage
-      .from('images')
-      .getPublicUrl(storagePath);
-
-    // Get thumbnail public URL
-    const { data: thumbnailUrlData } = supabaseAdmin.storage
-      .from('images')
-      .getPublicUrl(thumbnailPath);
-
-    // Save metadata to database (including thumbnail URL)
-    // Use empty string for subcategory (schema requires NOT NULL, but we don't use subcategories)
-    const { data: dbData, error: dbError } = await supabaseAdmin
-      .from('images')
-      .insert({
+      // Save metadata to PostgreSQL database
+      const dbData = await createImage({
         category,
         subcategory: '', // Always empty - we don't use subcategories
         filename: uploadedFile.originalFilename,
-        url: urlData.publicUrl,
-        thumbnail_url: thumbnailUrlData.publicUrl,
-        storage_path: storagePath,
+        url: imageUrl,
+        thumbnail_url: thumbnailUrl,
+        storage_path: imageKey,
         file_size: optimizedBuffer.length,
         mime_type: optimizedFormat,
-        width: width || null,
-        height: height || null,
-        uploaded_by: 'admin', // TODO: Get from auth token
-      })
-      .select()
-      .single();
+        width: width || undefined,
+        height: height || undefined,
+        uploaded_by: 'admin',
+      });
 
-    if (dbError) {
-      console.error('Database error:', dbError);
-      console.error('Database error details:', JSON.stringify(dbError, null, 2));
-      // Try to delete uploaded files if DB insert fails
-      try {
-        await supabaseAdmin.storage.from('images').remove([storagePath, thumbnailPath]);
-      } catch (cleanupError) {
-        console.error('Failed to cleanup uploaded files:', cleanupError);
-      }
+      // Clean up temp file
+      fs.unlinkSync(uploadedFile.filepath);
+
+      return res.status(200).json({
+        success: true,
+        image: dbData,
+        optimization: {
+          originalSize,
+          optimizedSize: optimizedBuffer.length,
+          compressionRatio: compressionRatio > 0 ? `${compressionRatio}%` : '0%',
+          format: optimizedFormat,
+          thumbnailUrl: thumbnailUrl,
+          cdnUrl: imageUrl,
+        },
+      });
+    } catch (uploadError: any) {
+      console.error('Spaces upload error:', uploadError);
       return res.status(500).json({ 
-        error: 'Failed to save image metadata', 
-        details: dbError.message,
-        code: dbError.code,
-        hint: dbError.hint
+        error: 'Failed to upload image to DigitalOcean Spaces', 
+        details: uploadError.message,
+        help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
       });
     }
-
-    // Clean up temp file
-    fs.unlinkSync(uploadedFile.filepath);
-
-    return res.status(200).json({
-      success: true,
-      image: dbData,
-      optimization: {
-        originalSize,
-        optimizedSize: optimizedBuffer.length,
-        compressionRatio: compressionRatio > 0 ? `${compressionRatio}%` : '0%',
-        format: optimizedFormat,
-        thumbnailUrl: thumbnailUrlData.publicUrl,
-      },
-    });
   } catch (error: any) {
     console.error('Upload error:', error);
     return res.status(500).json({ error: 'Internal server error', details: error.message });

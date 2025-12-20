@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ImageRecord } from '@/types/supabase';
+import { ImageRecord } from '@/types/database';
 
 interface UseImagesOptions {
   category?: string;

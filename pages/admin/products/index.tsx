@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ProductRecord } from '@/types/supabase';
+import { ProductRecord } from '@/types/database';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useRouter } from 'next/router';
 

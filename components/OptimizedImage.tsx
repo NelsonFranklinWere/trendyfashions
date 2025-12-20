@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useState } from 'react';
-import { ImageRecord } from '@/types/supabase';
+import { ImageRecord } from '@/types/database';
 
 interface OptimizedImageProps {
   src: string;
@@ -82,7 +82,6 @@ export default function OptimizedImage({
     className: string;
     quality?: number;
     priority?: boolean;
-    loading?: 'eager'; // Lazy loading removed - using eager loading only
     sizes?: string;
     placeholder?: 'blur';
     blurDataURL?: string;
@@ -96,9 +95,8 @@ export default function OptimizedImage({
     src,
     alt,
     className: `${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`,
-    quality,
-    priority,
-    loading: 'eager', // Eager loading for faster image display (lazy loading removed)
+    quality: priority ? 90 : 75, // Higher quality for priority images, optimized for CDN
+    priority, // Priority images load immediately, others lazy load automatically
     sizes,
     placeholder: placeholder === 'blur' ? 'blur' : undefined,
     blurDataURL: placeholder === 'blur' ? blurPlaceholder : undefined,

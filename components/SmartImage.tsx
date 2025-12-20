@@ -59,14 +59,14 @@ const SmartImage = ({
   // Optimize sizes for responsive loading - more specific for better performance
   const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
-  // Determine if this is a Supabase Storage URL
-  const isSupabaseUrl = typeof props.src === 'string' && 
-    (props.src.includes('supabase.co') || props.src.includes('supabase.in'));
+  // Determine if this is a DigitalOcean Spaces CDN URL (already optimized)
+  const isCdnUrl = typeof props.src === 'string' && 
+    (props.src.includes('digitaloceanspaces.com') || props.src.includes('cdn.digitaloceanspaces.com'));
 
   // Use optimized quality: lower for thumbnails, higher for hero images
   const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 50;
-  // Supabase URLs can use even lower quality since they're already optimized
-  const optimizedQuality = isSupabaseUrl ? Math.min(qualityNum, 50) : qualityNum;
+  // CDN URLs are already optimized, can use lower quality for faster loading
+  const optimizedQuality = isCdnUrl ? Math.min(qualityNum, 75) : qualityNum;
   
   // Determine if this should be priority loaded (above the fold)
   const shouldPriority = props.priority || false;

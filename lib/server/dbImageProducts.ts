@@ -309,13 +309,9 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     throw new Error(`Invalid image URL for product ${dbImage.id}`);
   }
   
-  // Ensure Supabase URLs are public (remove any signed token if present, use public URL)
-  // Supabase Storage public URLs should work directly with Next.js Image
-  if (imageUrl.includes('supabase.co') || imageUrl.includes('supabase.in')) {
-    // If URL contains a signed token, we might need to use the public URL
-    // For now, use the URL as-is since it should be public
-    imageUrl = imageUrl.trim();
-  }
+  // DigitalOcean Spaces CDN URLs are already optimized and public
+  // No special handling needed - they work directly with Next.js Image
+  imageUrl = imageUrl.trim();
   
   // PRIORITY: Use description from database if available (the exact description user uploaded)
   // Otherwise, generate from name and category
@@ -386,7 +382,7 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     console.log(`Found ${filteredData.length} database images for category: ${category} (fallback to images table)`);
     const products: Product[] = [];
     
-    for (const img of data) {
+    for (const img of filteredData) {
       try {
         const nameLower = ((img as DbImage).name || '').toLowerCase();
         const descLower = ((img as DbImage).description || '').toLowerCase();

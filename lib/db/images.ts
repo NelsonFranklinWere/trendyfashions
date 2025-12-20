@@ -4,7 +4,7 @@
  */
 
 import { query } from './postgres';
-import type { ImageRecord } from '@/types/supabase';
+import type { ImageRecord } from '@/types/database';
 
 export async function getImages(filters?: {
   category?: string;

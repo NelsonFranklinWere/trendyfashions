@@ -1,5 +1,5 @@
 import { hashPassword } from '../lib/auth/admin';
-import { supabaseAdmin } from '../lib/supabase/server';
+import { createAdminUser } from '../lib/db/admin';
 
 async function createAdminUser() {
   const email = process.argv[2] || 'admin@trendyfashionzone.co.ke';

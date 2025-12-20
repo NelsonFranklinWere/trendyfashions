@@ -4,7 +4,7 @@
  */
 
 import { query } from './postgres';
-import type { ProductRecord } from '@/types/supabase';
+import type { ProductRecord } from '@/types/database';
 
 export async function getProducts(filters?: {
   category?: string;

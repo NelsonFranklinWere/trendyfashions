@@ -12,17 +12,18 @@
     "compress-images": "node scripts/compress-images.js",
     "reduce-images": "ts-node --esm scripts/reduce-images-to-6-per-subcategory.ts",
     "optimize-images": "ts-node --esm scripts/optimize-existing-images.ts",
-    "migrate:images": "ts-node --esm scripts/migrate-images-from-supabase.ts",
-    "migrate:database": "ts-node --esm scripts/migrate-database-from-supabase.ts",
-    "migrate:all": "npm run migrate:images && npm run migrate:database"
+    "migrate:spaces": "ts-node --esm scripts/migrate-local-images-to-spaces.ts",
+    "test:spaces": "ts-node --esm scripts/test-spaces-connection.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.956.0",
+    "@aws-sdk/lib-storage": "^3.956.0",
     "@sendgrid/mail": "^8.1.6",
-    "@supabase/supabase-js": "^2.86.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/formidable": "^3.4.6",
     "@types/pg": "^8.16.0",
+    "aws-cli": "^0.0.2",
     "bcryptjs": "^3.0.3",
     "clsx": "^2.0.0",
     "cookie": "^1.1.1",
