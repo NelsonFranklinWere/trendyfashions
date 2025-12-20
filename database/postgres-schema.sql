@@ -17,6 +17,9 @@ CREATE TABLE IF NOT EXISTS images (
   url TEXT NOT NULL,
   thumbnail_url TEXT,
   storage_path TEXT NOT NULL,
+  name VARCHAR(255),
+  price DECIMAL(10, 2),
+  description TEXT,
   uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   uploaded_by VARCHAR(255),
   file_size BIGINT,
@@ -27,12 +30,24 @@ CREATE TABLE IF NOT EXISTS images (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- Add thumbnail_url column if it doesn't exist (for existing tables)
+-- Add optional columns if they don't exist (for existing tables)
 DO $$ 
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
                  WHERE table_name='images' AND column_name='thumbnail_url') THEN
     ALTER TABLE images ADD COLUMN thumbnail_url TEXT;
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                 WHERE table_name='images' AND column_name='name') THEN
+    ALTER TABLE images ADD COLUMN name VARCHAR(255);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                 WHERE table_name='images' AND column_name='price') THEN
+    ALTER TABLE images ADD COLUMN price DECIMAL(10, 2);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                 WHERE table_name='images' AND column_name='description') THEN
+    ALTER TABLE images ADD COLUMN description TEXT;
   END IF;
 END $$;
 

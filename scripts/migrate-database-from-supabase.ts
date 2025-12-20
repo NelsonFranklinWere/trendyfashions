@@ -13,12 +13,17 @@ import { query, transaction, getPool } from '../lib/db/postgres';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
+import { config } from 'dotenv';
+
+// Load environment variables from .env.local
+config({ path: '.env.local' });
 
 const readFile = promisify(fs.readFile);
 
 // Load environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const databaseUrl = process.env.DATABASE_URL;
 
 if (!supabaseUrl || !supabaseServiceKey) {
   console.error('❌ Missing Supabase environment variables');
@@ -26,7 +31,23 @@ if (!supabaseUrl || !supabaseServiceKey) {
   process.exit(1);
 }
 
+if (!databaseUrl) {
+  console.error('❌ Missing DATABASE_URL environment variable');
+  console.error('Please set DATABASE_URL in .env.local');
+  process.exit(1);
+}
+
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
+// PostgreSQL connection
+const pool = new Pool({
+  connectionString: databaseUrl,
+});
+
+async function query(text: string, params?: any[]) {
+  const result = await pool.query(text, params);
+  return { rows: result.rows, rowCount: result.rowCount || 0 };
+}
 
 interface MigrationStats {
   images: { total: number; imported: number; failed: number };
@@ -105,10 +126,13 @@ async function migrateTable<T>(
       try {
         let rowToInsert = transformFn ? transformFn(row as T) : row;
 
-        // Build INSERT query
-        const columns = Object.keys(rowToInsert);
+        // Build INSERT query - handle NULL values properly
+        const columns = Object.keys(rowToInsert).filter(col => rowToInsert[col as keyof typeof rowToInsert] !== undefined);
         const values = columns.map((_, i) => `$${i + 1}`);
-        const valuesArray = columns.map(col => rowToInsert[col as keyof typeof rowToInsert]);
+        const valuesArray = columns.map(col => {
+          const val = rowToInsert[col as keyof typeof rowToInsert];
+          return val === null ? null : val;
+        });
 
         const insertQuery = `
           INSERT INTO ${tableName} (${columns.join(', ')})

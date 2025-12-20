@@ -12,6 +12,10 @@ import { createClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
+import { config } from 'dotenv';
+
+// Load environment variables from .env.local
+config({ path: '.env.local' });
 
 const writeFile = promisify(fs.writeFile);
 const mkdir = promisify(fs.mkdir);
