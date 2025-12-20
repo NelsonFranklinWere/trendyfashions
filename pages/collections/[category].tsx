@@ -918,49 +918,67 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         if (seen.has(p.image)) return false;
         seen.add(p.image);
         
-        // Exclude Dior products (migrate to mens-style)
         const nameLower = (p.name || '').toLowerCase();
         const imageLower = (p.image || '').toLowerCase();
+        const descLower = (p.description || '').toLowerCase();
+        
+        // STRICT: Exclude non-Nike products
+        // Exclude New Balance
+        if (nameLower.includes('new balance') || nameLower.includes('newbalance') || 
+            nameLower.includes('nb ') || nameLower.includes(' nb') ||
+            descLower.includes('new balance') || descLower.includes('newbalance') ||
+            imageLower.includes('newbalance') || imageLower.includes('new-balance')) {
+          return false;
+        }
+        
+        // Exclude Adidas/Addidas
+        if (nameLower.includes('adidas') || nameLower.includes('addidas') ||
+            descLower.includes('adidas') || descLower.includes('addidas') ||
+            imageLower.includes('adidas') || imageLower.includes('addidas')) {
+          return false;
+        }
+        
+        // Exclude Converse
+        if (nameLower.includes('converse') || descLower.includes('converse') || imageLower.includes('converse')) {
+          return false;
+        }
+        
+        // Exclude Puma
+        if (nameLower.includes('puma') || descLower.includes('puma') || imageLower.includes('puma')) {
+          return false;
+        }
+        
+        // Exclude Valentino
+        if (nameLower.includes('valentino') || descLower.includes('valentino') || imageLower.includes('valentino')) {
+          return false;
+        }
+        
+        // Exclude Dior products (migrate to mens-style)
         if (nameLower.includes('dior') || imageLower.includes('dior')) {
           return false;
         }
         
-        const descLower = (p.description || '').toLowerCase();
+        // STRICT: Only include products with "nike" in name, description, or from Nike folder
+        // Check if image is from Nike folder (capitalized or lowercase)
+        const isFromNikeFolder = imageLower.includes('/images/nike/') || imageLower.includes('/images/nike/');
         
-        // Check if image is from Nike folder
-        const isFromNikeFolder = imageLower.includes('/images/nike/');
+        // Must have "nike" in name OR description OR be from Nike folder OR category is 'nike'
+        const hasNikeInName = nameLower.includes('nike');
+        const hasNikeInDesc = descLower.includes('nike');
+        const isNikeCategory = p.category === 'nike';
+        const isFromNikeFolderStrict = isFromNikeFolder;
         
-        // Include all Nike products
-        const isNike = nameLower.includes('nike') || 
-                       descLower.includes('nike') ||
-                       p.category === 'nike' ||
-                       p.category === 'airforce' || 
-                       p.category === 'airmax' ||
-                       p.category === 'sneakers' ||
-                       isFromNikeFolder;
+        // Allow airforce/airmax categories ONLY if they explicitly have "nike" in name
+        const isAirforceAirmax = (p.category === 'airforce' || p.category === 'airmax') && hasNikeInName;
         
-        // Specifically include Nike SB, Nike S, Nike Shox, and Nike Ultra products
-        const isNikeSB = nameLower.includes('nike sb') || 
-                        nameLower.includes('nikesb') ||
-                        nameLower.includes('sb dunk') ||
-                        (nameLower.includes('sb') && nameLower.includes('nike')) ||
-                        (nameLower.includes('dunk') && !nameLower.includes('shox')) ||
-                        (imageLower.includes('sb') && imageLower.includes('nike'));
+        // DO NOT include general 'sneakers' category products - they might be New Balance, Adidas, etc.
+        // Only include if explicitly from Nike folder or has Nike in name
+        if (p.category === 'sneakers' && !hasNikeInName && !isFromNikeFolderStrict) {
+          return false;
+        }
         
-        const isNikeS = (nameLower.includes('nike s') && !nameLower.includes('sb') && !nameLower.includes('shox') && !nameLower.includes('zoom') && !nameLower.includes('tn') && !nameLower.includes('cortex') && !nameLower.includes('ultra')) ||
-                        nameLower.includes('nike--s') ||
-                        (nameLower.includes('nike') && nameLower.includes('s.')) ||
-                        (imageLower.includes('nike') && imageLower.includes('s.'));
-        
-        const isNikeShox = nameLower.includes('nike shox') || 
-                          nameLower.includes('shox') ||
-                          imageLower.includes('shox');
-        
-        const isNikeUltra = nameLower.includes('nike ultra') || 
-                           (nameLower.includes('ultra') && nameLower.includes('nike')) ||
-                           (imageLower.includes('ultra') && imageLower.includes('nike'));
-        
-        return isNike || isNikeSB || isNikeS || isNikeShox || isNikeUltra;
+        // Final check: Must have Nike in name/desc OR be from Nike folder OR be Nike category OR be airforce/airmax with Nike
+        return hasNikeInName || hasNikeInDesc || isNikeCategory || isFromNikeFolderStrict || isAirforceAirmax;
       });
     } else if (categorySlug === 'mens-style') {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
