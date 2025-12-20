@@ -13,7 +13,8 @@
     "reduce-images": "ts-node --esm scripts/reduce-images-to-6-per-subcategory.ts",
     "optimize-images": "ts-node --esm scripts/optimize-existing-images.ts",
     "migrate:spaces": "ts-node --esm scripts/migrate-local-images-to-spaces.ts",
-    "test:spaces": "ts-node --esm scripts/test-spaces-connection.ts"
+    "test:spaces": "ts-node --esm scripts/test-spaces-connection.ts",
+    "create-admin": "ts-node --esm scripts/create-admin-user.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.956.0",
