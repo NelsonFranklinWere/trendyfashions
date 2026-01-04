@@ -162,14 +162,6 @@ export const categoryKeywords: Record<string, string[]> = {
     'Nike Airforce Nairobi',
     'best Nike shoes Nairobi',
   ],
-  'mens-style': [
-    'stylish shoes Nairobi',
-    'mens style shoes Nairobi',
-    'fashion shoes Nairobi',
-    'trendy shoes Nairobi',
-    'Dior shoes Nairobi',
-    'premium shoes Nairobi',
-  ],
   'mens-loafers': [
     'loafers Nairobi',
     'loafers Kenya',

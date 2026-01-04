@@ -21,13 +21,8 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
   const whatsappLink = getWhatsAppLink(product.name);
   const { addItem } = useCart();
   
-  // Check if product is in airmax, sneakers, or jordan category
-  const isSpecialCategory = ['airmax', 'sneakers', 'jordan'].includes(
-    product.category?.toLowerCase() || ''
-  ) || 
-  product.image?.includes('/airmax/') || 
-  product.image?.includes('/sneakers/') || 
-  product.image?.includes('/jordan/');
+  // No special categories currently
+  const isSpecialCategory = false;
 
   useEffect(() => {
     return () => {

@@ -24,21 +24,18 @@ interface DbImage {
 }
 
 // Map category slugs to database category values
-// Only 8 categories: mens-officials, casual, loafers, nike, sports, vans, mens-style, sneakers
+// Only working categories: officials, casual, loafers, sports, vans
 const categoryMapping: Record<string, string> = {
-  // Primary categories (8 only)
-  'mens-officials': 'mens-officials',
+  // Working categories
+  'officials': 'officials',
   'casual': 'casual',
   'loafers': 'loafers',
-  'nike': 'nike',
   'sports': 'sports',
   'vans': 'vans',
-  'mens-style': 'mens-style',
-  'sneakers': 'sneakers',
-  // Legacy mappings for backward compatibility (old products)
-  officials: 'mens-officials',
-  'mens-official': 'mens-officials',
-  formal: 'mens-officials',
+  // Legacy mappings for backward compatibility
+  'mens-officials': 'officials',
+  'mens-official': 'officials',
+  formal: 'officials',
   casuals: 'casual',
   'mens-casuals': 'casual',
   'mens-loafers': 'loafers',
@@ -46,8 +43,6 @@ const categoryMapping: Record<string, string> = {
   airmax: 'sneakers',
   airforce: 'sneakers',
   jordan: 'sneakers',
-  custom: 'mens-style',
-  customized: 'mens-style',
 };
 
 // Helper to format product name from filename (no subcategory)
@@ -55,7 +50,7 @@ const formatProductName = (filename: string, category: string): string => {
   const lowerFilename = filename.toLowerCase();
 
   // For officials category, check filename for specific brands
-  if (category === 'officials' || category === 'mens-officials') {
+  if (category === 'officials') {
     // Check filename for Dr. Martens first
     if (lowerFilename.includes('dr.martens') || lowerFilename.includes('drmartens') || lowerFilename.includes('dr martens') ||
         lowerFilename.includes('martens') || lowerFilename.includes('dr martin')) {
@@ -113,8 +108,8 @@ const formatProductName = (filename: string, category: string): string => {
       .join(' ');
   }
 
-  // For custom/mens-style category, preserve the filename better
-  if (category === 'custom' || category === 'customized' || category === 'mens-style') {
+  // For custom/customized category, preserve the filename better
+  if (category === 'custom' || category === 'customized') {
     const base = filename.replace(/\.(jpg|jpeg|png|webp)$/i, '');
     // Remove common prefixes like "thumb-", timestamps, and IDs
     let cleaned = base.replace(/^thumb-|\d{13}-|\d{10}-/gi, '').trim();
@@ -140,7 +135,7 @@ const formatProductName = (filename: string, category: string): string => {
   const cleaned = spaced.replace(/\s+\d+$/, '').trim();
   
   if (!cleaned) {
-    return category === 'officials' || category === 'mens-officials' ? 'Official Shoe' : 'Product';
+    return category === 'officials' ? 'Official Shoe' : 'Product';
   }
 
   return cleaned
@@ -151,7 +146,7 @@ const formatProductName = (filename: string, category: string): string => {
 
 // Helper to generate product description (no subcategory)
 const generateDescription = (name: string, category: string): string => {
-  if (category === 'officials' || category === 'mens-officials') {
+  if (category === 'officials') {
     const nameLower = name.toLowerCase();
     if (nameLower.includes('empire')) {
       return 'Premium Empire leather shoes for the sophisticated professional. Classic elegance meets modern comfort.';
@@ -172,7 +167,7 @@ const getPrice = (category: string, name?: string): number => {
   const categoryLower = (category || '').toLowerCase();
   
   // Check for officials category (both 'officials' and 'mens-officials')
-  if (category === 'officials' || category === 'mens-officials') {
+  if (category === 'officials') {
     // Check for Dr. Martens first (by name)
     if (nameLower.includes('dr.martens') || nameLower.includes('drmartens') || nameLower.includes('dr martens') ||
         nameLower.includes('martens') || nameLower.includes('dr martin')) {
@@ -234,15 +229,15 @@ const getGender = (category: string): 'Men' | 'Unisex' => {
 // Helper to map category to product category format
 const mapToProductCategory = (category: string): string => {
   // Preserve the 8 new categories as-is
-  const newCategories = ['mens-officials', 'casual', 'loafers', 'nike', 'sports', 'vans', 'mens-style', 'sneakers'];
+  const newCategories = ['officials', 'casual', 'loafers', 'sports', 'vans'];
   if (newCategories.includes(category)) {
     return category;
   }
   
   // Legacy mapping for old categories
   const mapping: Record<string, string> = {
-    officials: 'mens-officials',
-    formal: 'mens-officials',
+    officials: 'officials',
+    formal: 'officials',
     casuals: 'casual',
     'mens-casuals': 'casual',
     'mens-loafers': 'loafers',
@@ -250,8 +245,6 @@ const mapToProductCategory = (category: string): string => {
     airmax: 'sneakers',
     airforce: 'sneakers',
     jordan: 'sneakers',
-    custom: 'mens-style',
-    customized: 'mens-style',
   };
   return mapping[category] || category;
 };
@@ -359,20 +352,14 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     
     // FALLBACK: Try images table (legacy)
     let categories = [dbCategory];
-    if (category === 'mens-style') {
-      categories = ['mens-style', 'custom', 'customized'];
-    }
-    
     const data = await getImages({
-      category: categories.length === 1 ? categories[0] : undefined,
+      category: dbCategory,
       orderBy: 'uploaded_at',
       order: 'desc',
     });
 
-    // Filter by category if multiple categories
-    const filteredData = category === 'mens-style' 
-      ? data.filter(img => ['mens-style', 'custom', 'customized'].includes(img.category))
-      : data.filter(img => img.category === dbCategory);
+    // Filter by category
+    const filteredData = data.filter(img => img.category === dbCategory);
 
     if (!filteredData || filteredData.length === 0) {
       console.log(`No database products found for category: ${category} (mapped to: ${dbCategory})`);
@@ -502,14 +489,6 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
       order: 'desc',
     });
 
-    // For mens-style, also include legacy categories that map to mens-style
-    if (category === 'mens-style') {
-      const allData = await getProducts({
-        orderBy: 'created_at',
-        order: 'desc',
-      });
-      data = allData.filter(p => ['mens-style', 'custom', 'customized'].includes(p.category));
-    }
 
     if (!data || data.length === 0) {
       return [];

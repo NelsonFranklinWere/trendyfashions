@@ -5,10 +5,10 @@
 module.exports = {
   apps: [
     {
-      name: 'trendyfashionzone',
+      name: 'trendyfashions',
       script: 'npm',
       args: 'start',
-      cwd: '/home/trendyfashion/trendyfashionzone', // UPDATE THIS PATH to match your server setup
+      cwd: '/home/trendy/trendyfashions', // Updated for new server
       instances: 1,
       exec_mode: 'fork',
       env: {

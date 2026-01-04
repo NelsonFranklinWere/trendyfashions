@@ -17,10 +17,8 @@ interface CategoryCardProps {
 const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  // Check if category is airmax, sneakers, or jordan
-  const isSpecialCategory = ['airmax', 'sneakers', 'jordan'].includes(
-    category.slug?.toLowerCase() || category.id?.toLowerCase() || ''
-  );
+  // No special categories currently
+  const isSpecialCategory = false;
 
   return (
     <>

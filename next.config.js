@@ -36,7 +36,7 @@ const nextConfig = {
     // Enable image optimization with quality settings
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Remote patterns for DigitalOcean Spaces CDN
+    // Remote patterns for DigitalOcean Spaces CDN and Supabase Storage
     remotePatterns: [
       {
         protocol: 'https',
@@ -49,6 +49,14 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '**.online',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+      },
+      {
+        protocol: 'https',
+        hostname: 'zdeupdkbsueczuoercmm.supabase.co',
       },
     ],
   },
