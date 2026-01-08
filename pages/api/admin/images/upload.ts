@@ -167,11 +167,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
     } catch (uploadError: any) {
-      console.error('Spaces upload error:', uploadError);
-      return res.status(500).json({ 
-        error: 'Failed to upload image to DigitalOcean Spaces', 
+      console.error('Upload error:', uploadError);
+      const errorMessage = hasCdnCredentials
+        ? 'Failed to upload image to DigitalOcean Spaces'
+        : 'Failed to save image locally';
+
+      const helpMessage = hasCdnCredentials
+        ? 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
+        : 'Please check file permissions and disk space';
+
+      return res.status(500).json({
+        error: errorMessage,
         details: uploadError.message,
-        help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
+        help: helpMessage
       });
     }
   } catch (error: any) {
