@@ -1,44 +1,21 @@
 #!/bin/bash
-# Complete Deployment Script for New DigitalOcean Droplet
-# Server: 64.225.112.70 (SFO2)
-# User: trendy
-# Password: Trendy@254Fashions
+# Server-Side Deployment Script
+# Run this directly on the server after SSH'ing in
+# Usage: bash deploy-on-server.sh
 
 set -e
 
-DROPLET_IP="64.225.112.70"
 DROPLET_USER="trendy"
 APP_NAME="trendyfashions"
 APP_PORT=3000
 APP_DIR="/home/${DROPLET_USER}/${APP_NAME}"
+GIT_REPO="https://github.com/NelsonFranklinWere/trendyfashions.git"
 
-echo "🚀 Starting deployment to new DigitalOcean server..."
-echo "   IP: ${DROPLET_IP}"
+echo "🚀 Starting deployment on server..."
 echo "   User: ${DROPLET_USER}"
 echo "   App: ${APP_NAME}"
+echo "   Directory: ${APP_DIR}"
 echo ""
-
-# Check if running locally or on server
-if [ "$(hostname -I | grep -o ${DROPLET_IP})" = "${DROPLET_IP}" ]; then
-    echo "✅ Running on target server"
-    ON_SERVER=true
-else
-    echo "📡 Connecting to remote server..."
-    ON_SERVER=false
-fi
-
-if [ "$ON_SERVER" = false ]; then
-    echo ""
-    echo "This script will SSH into the server and run the deployment."
-    echo "You will be prompted for the SSH password: Trendy@254Fashions"
-    echo ""
-    read -p "Press Enter to continue..."
-    
-    ssh ${DROPLET_USER}@${DROPLET_IP} 'bash -s' << ENDSSH
-$(cat "$0")
-ENDSSH
-    exit 0
-fi
 
 # ============================================
 # SERVER-SIDE DEPLOYMENT SCRIPT
@@ -89,16 +66,11 @@ echo ""
 echo "📁 Step 4: Setting up application directory..."
 cd ~
 if [ ! -d "${APP_NAME}" ]; then
-    if [ -d ".git" ] || [ -f "package.json" ]; then
-        echo "   Current directory appears to be the app, creating symlink..."
-        ln -s $(pwd) ${APP_NAME} || true
-    else
-        echo "   Cloning from GitHub..."
-        git clone https://github.com/NelsonFranklinWere/trendyfashions.git || {
-            echo "⚠️  Git clone failed - you may need to clone manually"
-            mkdir -p ${APP_NAME}
-        }
-    fi
+    echo "   Cloning from GitHub..."
+    git clone ${GIT_REPO} || {
+        echo "⚠️  Git clone failed - you may need to clone manually"
+        mkdir -p ${APP_NAME}
+    }
 else
     echo "✅ App directory exists"
     cd ${APP_NAME}
@@ -141,12 +113,16 @@ else
 fi
 
 echo ""
-echo "🗄️  Step 7: Running database migrations..."
-# Check if there's a migration script
-if [ -f "scripts/migrate-db.ts" ] || [ -f "scripts/migrate-db.js" ]; then
-    npm run migrate || npm run db:migrate || echo "⚠️  No migration script found"
+echo "🗄️  Step 7: Setting up database schema..."
+if [ -f "database/postgres-schema.sql" ]; then
+    echo "   Running database schema..."
+    PGPASSWORD='Trendy@254Fashions' psql -U trendy -d trendyfashions -f database/postgres-schema.sql || {
+        echo "⚠️  Schema setup failed, trying alternative method..."
+        sudo -u postgres psql trendyfashions < database/postgres-schema.sql || echo "⚠️  Schema setup skipped"
+    }
+    echo "✅ Database schema setup complete"
 else
-    echo "⚠️  No migration script found - you may need to run migrations manually"
+    echo "⚠️  Schema file not found - you may need to run migrations manually"
 fi
 
 echo ""
@@ -271,8 +247,8 @@ echo ""
 echo "📋 Next Steps:"
 echo ""
 echo "1. Add your domain in DigitalOcean Networking:"
-echo "   - Add A record for @ pointing to ${DROPLET_IP}"
-echo "   - Add A record for www pointing to ${DROPLET_IP}"
+echo "   - Add A record for @ pointing to 64.225.112.70"
+echo "   - Add A record for www pointing to 64.225.112.70"
 echo ""
 echo "2. Update NGINX config with your domain:"
 echo "   sudo nano /etc/nginx/sites-available/default"
@@ -294,6 +270,6 @@ echo "   pm2 status"
 echo "   pm2 logs ${APP_NAME}"
 echo ""
 echo "7. Access your app:"
-echo "   http://${DROPLET_IP} (until domain is configured)"
+echo "   http://64.225.112.70 (until domain is configured)"
 echo ""
 
