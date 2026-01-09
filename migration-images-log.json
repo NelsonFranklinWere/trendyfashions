@@ -1,0 +1,1642 @@
+[
+  {
+    "id": "2522368d-a6c3-4dd7-8e14-e29f55ee1e45",
+    "filename": "1000348718.jpg",
+    "category": "casual",
+    "status": "success",
+    "localPath": "/images/migrated/casual/1000348718.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345949091-1000348718.webp"
+  },
+  {
+    "id": "9521b211-434c-4d3e-8de6-f71f452a88db",
+    "filename": "1000348717.jpg",
+    "category": "casual",
+    "status": "success",
+    "localPath": "/images/migrated/casual/1000348717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345949581-1000348717.webp"
+  },
+  {
+    "id": "05d9e122-842f-47e0-b2b5-683ec194071a",
+    "filename": "1000348716.jpg",
+    "category": "casual",
+    "status": "success",
+    "localPath": "/images/migrated/casual/1000348716.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345949992-1000348716.webp"
+  },
+  {
+    "id": "c0696f78-fd2e-4d5c-9324-79d66f1c8239",
+    "filename": "1000348715.jpg",
+    "category": "casual",
+    "status": "success",
+    "localPath": "/images/migrated/casual/1000348715.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345950139-1000348715.webp"
+  },
+  {
+    "id": "589cfaf8-f32b-4219-ad56-42d0756a16d2",
+    "filename": "1000348718.jpg",
+    "category": "casual",
+    "status": "skipped",
+    "localPath": "/images/migrated/casual/1000348718.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345950266-1000348718.webp"
+  },
+  {
+    "id": "154a6d77-a9f9-46d0-aad4-09e01ec4a527",
+    "filename": "1000348714.jpg",
+    "category": "casual",
+    "status": "success",
+    "localPath": "/images/migrated/casual/1000348714.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345950275-1000348714.webp"
+  },
+  {
+    "id": "a0f3090b-f22c-41e0-9acb-ee1a9c929225",
+    "filename": "1000348717.jpg",
+    "category": "casual",
+    "status": "skipped",
+    "localPath": "/images/migrated/casual/1000348717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/casual/1765345957962-1000348717.webp"
+  },
+  {
+    "id": "14f3804c-4fd2-45fa-bddd-787a150a06de",
+    "filename": "1000337610.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000337610.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765021078410-1000337610.webp"
+  },
+  {
+    "id": "a0be6288-59a2-451e-add2-028dbd440782",
+    "filename": "1000333402.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000333402.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765021078974-1000333402.webp"
+  },
+  {
+    "id": "a43999f8-4c84-421a-9add-a2815a479297",
+    "filename": "1000337610.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000337610.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765021079556-1000337610.webp"
+  },
+  {
+    "id": "4a29b6b5-82cf-41b2-9202-768c427fbaae",
+    "filename": "1000333402.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000333402.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765021081887-1000333402.webp"
+  },
+  {
+    "id": "fb67f547-2a7c-4071-93c9-86c9f13cd281",
+    "filename": "1000342688.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342688.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056251077-1000342688.webp"
+  },
+  {
+    "id": "5436df8e-ae8d-45b7-97c7-778fe535a0e5",
+    "filename": "1000342685.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342685.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056251393-1000342685.webp"
+  },
+  {
+    "id": "c4ad6449-2bce-4ff5-be0c-bf809a2eb44c",
+    "filename": "1000342687.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342687.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056251405-1000342687.webp"
+  },
+  {
+    "id": "f2f1fce2-a3c5-46c5-8e55-5a11b0c41350",
+    "filename": "1000342686.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342686.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056251474-1000342686.webp"
+  },
+  {
+    "id": "9781c0fb-e958-415f-a6b6-f6fb22dfcfa9",
+    "filename": "1000342687.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342687.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056252064-1000342687.webp"
+  },
+  {
+    "id": "a704aea1-4898-4e5e-b20a-d07172046c61",
+    "filename": "1000342688.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342688.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056252791-1000342688.webp"
+  },
+  {
+    "id": "60541cb3-e78f-4cb6-97a5-96702fcf0e5b",
+    "filename": "1000342685.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342685.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056263755-1000342685.webp"
+  },
+  {
+    "id": "27901df1-2a94-4ba4-9250-9e640faf0869",
+    "filename": "1000342686.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342686.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056267451-1000342686.webp"
+  },
+  {
+    "id": "2a4a030a-6e71-4128-8c2f-60c954af1edb",
+    "filename": "1000342692.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342692.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056347104-1000342692.webp"
+  },
+  {
+    "id": "784c8cf1-b96b-4332-b9fa-43c1fd7a8764",
+    "filename": "1000342690.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342690.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056347556-1000342690.webp"
+  },
+  {
+    "id": "d71f5e40-f5ee-46c0-8156-c26d37a8fc30",
+    "filename": "1000342689.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342689.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056347575-1000342689.webp"
+  },
+  {
+    "id": "33418906-ed11-4a30-b706-722420679752",
+    "filename": "1000342691.jpg",
+    "category": "custom",
+    "status": "success",
+    "localPath": "/images/migrated/custom/1000342691.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056347580-1000342691.webp"
+  },
+  {
+    "id": "3adaaf18-3107-49ef-b939-7e5e842bc726",
+    "filename": "1000342689.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342689.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056348903-1000342689.webp"
+  },
+  {
+    "id": "ce653265-07dd-44eb-9527-ae94b25c73ba",
+    "filename": "1000342692.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342692.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056349114-1000342692.webp"
+  },
+  {
+    "id": "ecb324b1-d021-4b71-9abe-5311633229b6",
+    "filename": "1000342691.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342691.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056356082-1000342691.webp"
+  },
+  {
+    "id": "194218a4-27a3-4689-9c8d-92ce110ca6a6",
+    "filename": "1000342690.jpg",
+    "category": "custom",
+    "status": "skipped",
+    "localPath": "/images/migrated/custom/1000342690.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/custom/Custom/1765056358001-1000342690.webp"
+  },
+  {
+    "id": "10701780-324a-46fd-89fa-1216b3fe9aff",
+    "filename": "1000342770.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342770.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056884619-1000342770.webp"
+  },
+  {
+    "id": "ffa2ef9b-7151-48be-ae04-3d99f3cb5a53",
+    "filename": "1000342769.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342769.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056885863-1000342769.webp"
+  },
+  {
+    "id": "5fdc1e68-255a-416a-adb4-c00305ae00af",
+    "filename": "1000342768.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342768.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056885862-1000342768.webp"
+  },
+  {
+    "id": "832e4f0f-b641-46cc-91a4-462503039f1d",
+    "filename": "1000342767.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342767.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056886006-1000342767.webp"
+  },
+  {
+    "id": "c5d51409-c735-4ae4-bd3e-71651e8a616c",
+    "filename": "1000342769.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342769.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056889599-1000342769.webp"
+  },
+  {
+    "id": "21a93d70-00e7-41d0-88b5-cb1a136e59c8",
+    "filename": "1000342768.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342768.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056892248-1000342768.webp"
+  },
+  {
+    "id": "3af6bad5-1faa-4c22-abb7-63b666bfc8c5",
+    "filename": "1000342767.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342767.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056895480-1000342767.webp"
+  },
+  {
+    "id": "729a9837-95a4-4607-8e7a-9b1dff65f9b1",
+    "filename": "1000342770.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342770.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056885761-1000342770.webp"
+  },
+  {
+    "id": "6b9167ed-d1af-4939-965d-7f6e4a76efae",
+    "filename": "1000342765.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342765.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056944642-1000342765.webp"
+  },
+  {
+    "id": "fa5ec93a-fac7-4299-b211-83295881a8d3",
+    "filename": "1000342766.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342766.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056944871-1000342766.webp"
+  },
+  {
+    "id": "58979171-2e39-4678-ae8f-46aa35bab6e8",
+    "filename": "1000342766.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342766.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056945091-1000342766.webp"
+  },
+  {
+    "id": "99e32188-6c39-4714-b86b-35df839d2367",
+    "filename": "1000342764.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342764.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056945115-1000342764.webp"
+  },
+  {
+    "id": "de6af70e-2d97-4fcc-bed8-04a7a5e0738d",
+    "filename": "1000342763.jpg",
+    "category": "jordan",
+    "status": "success",
+    "localPath": "/images/migrated/jordan/1000342763.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056945332-1000342763.webp"
+  },
+  {
+    "id": "645ecdd7-1492-431f-b219-b82dee8b3ae7",
+    "filename": "1000342765.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342765.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056949167-1000342765.webp"
+  },
+  {
+    "id": "e46b7990-5b1a-47d6-bae7-be3b040c1cb2",
+    "filename": "1000342764.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342764.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056957459-1000342764.webp"
+  },
+  {
+    "id": "a39d4e22-fb3e-470b-84a5-5e41ebc56fed",
+    "filename": "1000342763.jpg",
+    "category": "jordan",
+    "status": "skipped",
+    "localPath": "/images/migrated/jordan/1000342763.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/jordan/Jordan%2011/1765056960019-1000342763.webp"
+  },
+  {
+    "id": "d3a7dfa7-b9a9-4134-b29a-e378af27201e",
+    "filename": "1000342702.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342702.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342771227-1000342702.webp"
+  },
+  {
+    "id": "ebdc68fa-7016-428e-94f9-a46d7389d43d",
+    "filename": "1000342699.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342699.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342771613-1000342699.webp"
+  },
+  {
+    "id": "a565f23b-60e4-449b-9855-09ecd42308da",
+    "filename": "1000342701.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342701.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342771765-1000342701.webp"
+  },
+  {
+    "id": "7b2a1309-7b92-4df7-9061-37f5fdd79e13",
+    "filename": "1000342695.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342695.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342772034-1000342695.webp"
+  },
+  {
+    "id": "04d03838-1f23-4451-8929-8577512bd2a7",
+    "filename": "1000342698.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342698.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342772051-1000342698.webp"
+  },
+  {
+    "id": "7f2136a9-7ed2-4e25-8d89-ccf12642469b",
+    "filename": "1000342700.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342700.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342772081-1000342700.webp"
+  },
+  {
+    "id": "e3456e0f-39af-4eff-a1b0-9be25cfa37f5",
+    "filename": "1000342696.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342696.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342772309-1000342696.webp"
+  },
+  {
+    "id": "bb58a3a4-7eb7-4a45-9fa9-6f29e25f76f3",
+    "filename": "1000342694.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342694.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342772685-1000342694.webp"
+  },
+  {
+    "id": "98370a1e-c49b-45f2-9aad-614d9c2df62d",
+    "filename": "1000342697.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000342697.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342776536-1000342697.webp"
+  },
+  {
+    "id": "7a8002e4-b131-4ebc-a9ea-1c5ba7c04aae",
+    "filename": "1000342702.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342702.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342776530-1000342702.webp"
+  },
+  {
+    "id": "54c9484a-282f-475e-8149-77487ac972bc",
+    "filename": "1000342701.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342701.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342782079-1000342701.webp"
+  },
+  {
+    "id": "c6f9a916-782a-44ba-8680-52059be33695",
+    "filename": "1000342700.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342700.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342784580-1000342700.webp"
+  },
+  {
+    "id": "fc210452-c246-4e4e-b1b2-33f2fbc08dfd",
+    "filename": "1000342699.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342699.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342785374-1000342699.webp"
+  },
+  {
+    "id": "4353aa34-f543-4fea-99a1-c64da56b01a7",
+    "filename": "1000342698.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342698.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342787411-1000342698.webp"
+  },
+  {
+    "id": "6832f343-229f-4d26-94cb-654302fd0721",
+    "filename": "1000342695.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342695.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342788917-1000342695.webp"
+  },
+  {
+    "id": "81df6066-d4bf-423a-92b0-866a54550e62",
+    "filename": "1000342696.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342696.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342790783-1000342696.webp"
+  },
+  {
+    "id": "6088dd5e-2cc4-48ce-a955-828d9393fb09",
+    "filename": "1000342697.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342697.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342794082-1000342697.webp"
+  },
+  {
+    "id": "08877174-98ec-4aaa-b5fd-2b3dfc6d487c",
+    "filename": "1000342694.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000342694.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765342796033-1000342694.webp"
+  },
+  {
+    "id": "d57411e8-990c-48cc-a0ad-71a0b4280b1f",
+    "filename": "1000348710.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348710.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345819064-1000348710.webp"
+  },
+  {
+    "id": "ebd7821f-16f2-4716-8f36-d6b958f5ba5e",
+    "filename": "1000348707.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348707.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345819640-1000348707.webp"
+  },
+  {
+    "id": "ed76f189-bacb-4b79-bc30-1b9765bc7236",
+    "filename": "1000348709.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348709.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345819760-1000348709.webp"
+  },
+  {
+    "id": "c4c9bf8a-34b4-4063-af14-29ce5eb2f187",
+    "filename": "1000348708.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348708.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345819825-1000348708.webp"
+  },
+  {
+    "id": "0acc5180-431a-43f3-bdbe-3c0e2ece6a11",
+    "filename": "1000348706.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348706.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345820259-1000348706.webp"
+  },
+  {
+    "id": "1c1e8843-94de-4325-b882-19de1c516065",
+    "filename": "1000348710.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348710.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345820302-1000348710.webp"
+  },
+  {
+    "id": "579afe92-1901-4782-824f-2a77eb4775ce",
+    "filename": "1000348709.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348709.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345826642-1000348709.webp"
+  },
+  {
+    "id": "f8df5042-67db-4f2d-be43-6969b0a385d0",
+    "filename": "1000348706.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348706.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345831187-1000348706.webp"
+  },
+  {
+    "id": "f5ce5145-4d11-4049-85c0-1d06f4d0de0c",
+    "filename": "1000348708.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348708.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345828133-1000348708.webp"
+  },
+  {
+    "id": "c71faad9-50e2-4b0b-93cd-1055201fee4f",
+    "filename": "1000348707.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348707.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765345832886-1000348707.webp"
+  },
+  {
+    "id": "fdadaf1e-7026-4e8f-ab17-394abf077609",
+    "filename": "1000348727.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348727.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346088687-1000348727.webp"
+  },
+  {
+    "id": "47ceb9d8-848d-40b1-b73c-fe31d1ef7320",
+    "filename": "1000348727.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348727.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346089433-1000348727.webp"
+  },
+  {
+    "id": "a330b46b-44e3-4fb6-8dc1-a1141c8b2a37",
+    "filename": "1000348726.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348726.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346089482-1000348726.webp"
+  },
+  {
+    "id": "1599a346-6e1c-4a49-a07c-b8d696b9d69d",
+    "filename": "1000348725.jpg",
+    "category": "nike",
+    "status": "success",
+    "localPath": "/images/migrated/nike/1000348725.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346089681-1000348725.webp"
+  },
+  {
+    "id": "efbb18b1-7384-4c78-9365-8da9653b3d0a",
+    "filename": "1000348726.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348726.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346092249-1000348726.webp"
+  },
+  {
+    "id": "0227235d-f3b7-4ed9-be43-c85da927c8df",
+    "filename": "1000348725.jpg",
+    "category": "nike",
+    "status": "skipped",
+    "localPath": "/images/migrated/nike/1000348725.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/nike/1765346094339-1000348725.webp"
+  },
+  {
+    "id": "02ce3ec7-fd13-466f-95c8-702e887e2e70",
+    "filename": "Empire-at-Officials12.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/Empire-at-Officials12.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1764999606360-Empire-at-Officials12.webp"
+  },
+  {
+    "id": "a0714dcf-4edb-49d3-86d1-a34e3da65a1e",
+    "filename": "1000327415.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327415.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765020981190-1000327415.webp"
+  },
+  {
+    "id": "08f713b1-99ff-4709-9370-8f10c61b79c5",
+    "filename": "1000327493.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327493.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021218111-1000327493.webp"
+  },
+  {
+    "id": "561f086f-4a9d-4856-ac29-46435668ee20",
+    "filename": "1000328304.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000328304.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021219158-1000328304.webp"
+  },
+  {
+    "id": "9323711c-9af0-4586-9a6d-9677e0bc7524",
+    "filename": "1000327622.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327622.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021219303-1000327622.webp"
+  },
+  {
+    "id": "3b829e93-12a6-43fe-ac3a-a4ac4fef3a4b",
+    "filename": "1000327493.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327493.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021219718-1000327493.webp"
+  },
+  {
+    "id": "6a29d9fe-9feb-4228-ad93-11edf1c2a377",
+    "filename": "1000327343.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327343.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021219716-1000327343.webp"
+  },
+  {
+    "id": "588dc018-5e54-4f69-acf0-ea4e5e818e1a",
+    "filename": "1000327622.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327622.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021229555-1000327622.webp"
+  },
+  {
+    "id": "5df2780e-24f5-41c0-a4bb-02158ff318d6",
+    "filename": "1000328304.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000328304.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021231882-1000328304.webp"
+  },
+  {
+    "id": "97ed54f9-96c9-4c09-8b3f-b553c70ba9e7",
+    "filename": "1000327343.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327343.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1765021233586-1000327343.webp"
+  },
+  {
+    "id": "a47e47c9-9b83-4af1-a8ca-90f83f375f80",
+    "filename": "1000327717.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021509408-1000327717.webp"
+  },
+  {
+    "id": "115d5f60-f355-4acd-8901-bf582403ac18",
+    "filename": "1000327554.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327554.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021509610-1000327554.webp"
+  },
+  {
+    "id": "8fbe2afd-98a5-4c43-9db2-06d6b1417e83",
+    "filename": "1000327647.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327647.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021509944-1000327647.webp"
+  },
+  {
+    "id": "81780c2b-6d30-4065-ae9f-314584248439",
+    "filename": "1000327500.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000327500.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021510011-1000327500.webp"
+  },
+  {
+    "id": "7bd657d8-1bbb-4796-9467-78a20fb89b27",
+    "filename": "1000327500.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327500.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021510018-1000327500.webp"
+  },
+  {
+    "id": "0a56eb75-222b-4758-a82b-ec393869dc0d",
+    "filename": "1000327717.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021514779-1000327717.webp"
+  },
+  {
+    "id": "2859ed36-959d-49b3-bd04-500830dc0777",
+    "filename": "1000327554.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327554.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021516249-1000327554.webp"
+  },
+  {
+    "id": "6faf88f0-e7a7-4466-866f-e95a2c3cdec8",
+    "filename": "1000327647.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000327647.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765021517667-1000327647.webp"
+  },
+  {
+    "id": "262dce68-d2a6-4203-bc42-6a597032e275",
+    "filename": "1000269319.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000269319.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055201755-1000269319.webp"
+  },
+  {
+    "id": "2b1f4287-56bb-43e3-b66c-e5e330397950",
+    "filename": "1000269316.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000269316.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055201825-1000269316.webp"
+  },
+  {
+    "id": "0034d861-d714-4b30-8649-3514e0756fd3",
+    "filename": "1000269314.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000269314.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055201794-1000269314.webp"
+  },
+  {
+    "id": "aea6fb04-7e04-4abc-b5b8-7e1e9e3a858c",
+    "filename": "1000269313.jpg",
+    "category": "officials",
+    "status": "success",
+    "localPath": "/images/migrated/officials/1000269313.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055201241-1000269313.webp"
+  },
+  {
+    "id": "57a08fb7-3a05-44de-af43-89b664a1bcb1",
+    "filename": "1000269313.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000269313.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055202299-1000269313.webp"
+  },
+  {
+    "id": "e3c4d728-0182-4da4-8ce8-ccda0b2fcd6d",
+    "filename": "1000269314.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000269314.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055211509-1000269314.webp"
+  },
+  {
+    "id": "e70b9708-ae23-4770-9eb6-bb0f1d49c466",
+    "filename": "1000269316.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000269316.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055213462-1000269316.webp"
+  },
+  {
+    "id": "a49953dc-65e2-4be5-a7ea-b82903c78e70",
+    "filename": "1000269319.jpg",
+    "category": "officials",
+    "status": "skipped",
+    "localPath": "/images/migrated/officials/1000269319.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Boots/1765055215356-1000269319.webp"
+  },
+  {
+    "id": "e0743d32-fcb7-4eda-9eaf-8b3e1bd6a8bd",
+    "filename": "1000342722.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342722.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057558148-1000342722.webp"
+  },
+  {
+    "id": "d4cdd758-d697-4b4c-920c-838e8cd923c8",
+    "filename": "1000342721.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342721.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057558358-1000342721.webp"
+  },
+  {
+    "id": "c4c217d6-0469-4b26-887d-c71d60336eb1",
+    "filename": "1000342720.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342720.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057558948-1000342720.webp"
+  },
+  {
+    "id": "6b264120-2830-49ad-9ea1-423d39b0c4f1",
+    "filename": "1000342719.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342719.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057559686-1000342719.webp"
+  },
+  {
+    "id": "8c01004f-3881-4fca-a41b-ffff63648afd",
+    "filename": "1000342722.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342722.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057561195-1000342722.webp"
+  },
+  {
+    "id": "dadeb253-0c70-4d48-9c66-ceb822c37673",
+    "filename": "1000342721.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342721.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057563797-1000342721.webp"
+  },
+  {
+    "id": "5fe9df88-a71d-4862-b2d5-f2c594b3e8bf",
+    "filename": "1000342720.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342720.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057565231-1000342720.webp"
+  },
+  {
+    "id": "a39a1272-a5d5-4678-a5a7-d58378d43104",
+    "filename": "1000342719.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342719.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057567483-1000342719.webp"
+  },
+  {
+    "id": "ff1b4b23-9b26-41f9-8a5e-1ef6f4320573",
+    "filename": "1000342718.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342718.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057629072-1000342718.webp"
+  },
+  {
+    "id": "cf97a3e3-ef8e-49c1-ac75-38c18e75640b",
+    "filename": "1000342715.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342715.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057629052-1000342715.webp"
+  },
+  {
+    "id": "47aaef3b-b32e-4d42-8219-6094fbbdfdaf",
+    "filename": "1000342717.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057629381-1000342717.webp"
+  },
+  {
+    "id": "621dd8e3-e61c-4723-bb54-580eb0ed0781",
+    "filename": "1000342718.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342718.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057629421-1000342718.webp"
+  },
+  {
+    "id": "45745a17-034e-4840-a413-6997a4d64355",
+    "filename": "1000342716.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342716.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057629877-1000342716.webp"
+  },
+  {
+    "id": "0d7aacb8-6b65-4d13-a915-90a173c8d684",
+    "filename": "1000342717.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342717.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057630866-1000342717.webp"
+  },
+  {
+    "id": "a9829ca5-71fe-4162-804a-671cfd48e6de",
+    "filename": "1000342716.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342716.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057633634-1000342716.webp"
+  },
+  {
+    "id": "4d9321f1-dc4f-4086-b7f1-49fdcb395cfc",
+    "filename": "1000342715.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342715.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057634922-1000342715.webp"
+  },
+  {
+    "id": "1dfce97b-f635-4f04-9e14-49c98f537e64",
+    "filename": "1000342710.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342710.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057710775-1000342710.webp"
+  },
+  {
+    "id": "41a0f508-30d2-4da1-8be3-91f7ae2aef15",
+    "filename": "1000342713.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342713.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057710808-1000342713.webp"
+  },
+  {
+    "id": "3eb5a7d8-60c8-4486-8566-b25a35321259",
+    "filename": "1000342711.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342711.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057710854-1000342711.webp"
+  },
+  {
+    "id": "91303881-58cf-4277-bdb8-19c5b0a2d37c",
+    "filename": "1000342714.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342714.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057711423-1000342714.webp"
+  },
+  {
+    "id": "dd0d303f-53ad-4a37-b0a0-6e61dd10f309",
+    "filename": "1000342714.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342714.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057712055-1000342714.webp"
+  },
+  {
+    "id": "781e91bb-933a-4e74-81f3-fc4335aa82cc",
+    "filename": "1000342711.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342711.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057719216-1000342711.webp"
+  },
+  {
+    "id": "cce130d4-c274-46b6-adca-407349bc25d2",
+    "filename": "1000342710.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342710.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057721469-1000342710.webp"
+  },
+  {
+    "id": "6f0d2fab-65e3-45e0-8ed9-90f19780704d",
+    "filename": "1000342713.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342713.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/New%20Balance/1765057723858-1000342713.webp"
+  },
+  {
+    "id": "19c5ecae-f9a8-4eee-aabe-f8098700d781",
+    "filename": "1000342416.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342416.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765342665063-1000342416.webp"
+  },
+  {
+    "id": "8f44393b-8272-4986-a4c8-3781fce6e40b",
+    "filename": "1000342415.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342415.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765342665458-1000342415.webp"
+  },
+  {
+    "id": "9812b64d-4a5f-483b-818f-03b3dc765660",
+    "filename": "1000342415.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342415.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765342665398-1000342415.webp"
+  },
+  {
+    "id": "21b81e9a-3f72-483b-abc9-c77fb28301ca",
+    "filename": "1000342416.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342416.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765342667651-1000342416.webp"
+  },
+  {
+    "id": "6dbbefe9-00a7-4321-87b9-8121c61865ff",
+    "filename": "1000348625.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348625.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882575-1000348625.webp"
+  },
+  {
+    "id": "b9415680-e9cd-4aa3-92d6-c3722c77335c",
+    "filename": "1000348622.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348622.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882581-1000348622.webp"
+  },
+  {
+    "id": "93e81ac6-c3f4-4dac-9ef6-1619339dc3c3",
+    "filename": "1000348619.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348619.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882508-1000348619.webp"
+  },
+  {
+    "id": "e702fc08-a71a-4eb5-a130-3821dc00499d",
+    "filename": "1000348621.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348621.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882473-1000348621.webp"
+  },
+  {
+    "id": "322149b1-d1ce-488a-8c5b-b3c5a7bfea5e",
+    "filename": "1000348623.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348623.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882585-1000348623.webp"
+  },
+  {
+    "id": "1be1488a-5cd5-46e7-a20e-68b7e6cefef8",
+    "filename": "1000348624.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348624.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344882572-1000348624.webp"
+  },
+  {
+    "id": "67bc757e-17b3-4b4d-935f-5431702d5e60",
+    "filename": "1000348625.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348625.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344887695-1000348625.webp"
+  },
+  {
+    "id": "0f22d43d-fd5f-4c63-b7bc-22f1aeb4455f",
+    "filename": "1000348624.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348624.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344890356-1000348624.webp"
+  },
+  {
+    "id": "44bce2a2-cbe1-4dff-8103-e94aed4602e3",
+    "filename": "1000348623.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348623.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344891823-1000348623.webp"
+  },
+  {
+    "id": "49b30bb6-2a0f-4842-83b0-5c0d91ec6cf8",
+    "filename": "1000348622.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348622.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344893046-1000348622.webp"
+  },
+  {
+    "id": "20215049-9367-4d94-b296-b84cfd52c8c7",
+    "filename": "1000348621.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348621.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765344894383-1000348621.webp"
+  },
+  {
+    "id": "7130a1f3-3798-4eba-8d34-f9dfa22eaab4",
+    "filename": "1000348657.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348657.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345134411-1000348657.webp"
+  },
+  {
+    "id": "c46330cd-fcdd-4aa4-9ad8-edf136bb2231",
+    "filename": "1000348655.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348655.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345134849-1000348655.webp"
+  },
+  {
+    "id": "5c703b3c-2bcd-4ecc-ada1-9a7fc7e7b7a9",
+    "filename": "1000348656.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348656.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345135193-1000348656.webp"
+  },
+  {
+    "id": "a4266bbd-80d7-40f3-ae7a-34ab15f1361d",
+    "filename": "1000348653.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348653.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345135210-1000348653.webp"
+  },
+  {
+    "id": "3dcf5fbe-5aff-41d5-8d5c-aab9d117b312",
+    "filename": "1000348654.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348654.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345135264-1000348654.webp"
+  },
+  {
+    "id": "4d781ae3-395a-4ba8-847c-12223f343a88",
+    "filename": "1000348652.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348652.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345135323-1000348652.webp"
+  },
+  {
+    "id": "c6e7b540-37e1-49d0-b069-7114ccefa9df",
+    "filename": "1000348651.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348651.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345135343-1000348651.webp"
+  },
+  {
+    "id": "84194f6f-b4b0-46b8-ac6e-07f6ae31c4f0",
+    "filename": "1000348657.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348657.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345136135-1000348657.webp"
+  },
+  {
+    "id": "391f8997-13c2-4526-a687-18c76323fab1",
+    "filename": "1000348656.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348656.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345145839-1000348656.webp"
+  },
+  {
+    "id": "e5713b68-b073-49f8-86a0-5f591d4059fa",
+    "filename": "1000348655.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348655.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345147379-1000348655.webp"
+  },
+  {
+    "id": "ff2f9d3d-c4c6-48e5-bfc3-918ab59a05e0",
+    "filename": "1000348654.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348654.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345148711-1000348654.webp"
+  },
+  {
+    "id": "006eafd9-9622-458e-8004-9ac3e3a34208",
+    "filename": "1000348653.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348653.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345149954-1000348653.webp"
+  },
+  {
+    "id": "70bb4e1a-d7b1-4e3e-b24f-4587f26fe8ba",
+    "filename": "1000348678.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348678.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345445145-1000348678.webp"
+  },
+  {
+    "id": "69ac9cee-5b30-45b3-8c3c-93c77b1cc498",
+    "filename": "1000348674.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348674.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345445653-1000348674.webp"
+  },
+  {
+    "id": "d7b49ca6-7859-44ab-bc54-a228daeb7136",
+    "filename": "1000348677.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348677.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345445729-1000348677.webp"
+  },
+  {
+    "id": "51959778-a1fe-48ca-845a-36ea769bcf22",
+    "filename": "1000348672.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348672.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446080-1000348672.webp"
+  },
+  {
+    "id": "74805248-0d57-46c2-8f5c-ef7370476235",
+    "filename": "1000348673.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348673.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446169-1000348673.webp"
+  },
+  {
+    "id": "22a58a85-905c-4897-aa2d-7414bfaf4947",
+    "filename": "1000348671.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348671.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446196-1000348671.webp"
+  },
+  {
+    "id": "ad357c39-b589-40ac-b7b5-40f7a3f23a52",
+    "filename": "1000348670.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348670.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446556-1000348670.webp"
+  },
+  {
+    "id": "fa3dcf67-e341-41c4-8f0a-21657e491d92",
+    "filename": "1000348668.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348668.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446825-1000348668.webp"
+  },
+  {
+    "id": "56a58172-c0a8-4349-bb38-815ad183b326",
+    "filename": "1000348669.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348669.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446901-1000348669.webp"
+  },
+  {
+    "id": "5c514ecf-87f4-4522-b072-f851a21a2d34",
+    "filename": "1000348667.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348667.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345446961-1000348667.webp"
+  },
+  {
+    "id": "6740caa7-9379-4772-91b8-3e8c66e74c4d",
+    "filename": "1000348678.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348678.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345447259-1000348678.webp"
+  },
+  {
+    "id": "d98eb94c-048b-4413-93f3-0bf1a5ab4ea7",
+    "filename": "1000348677.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348677.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345459057-1000348677.webp"
+  },
+  {
+    "id": "8d97924b-7bbf-49ba-a6fa-2b5b576a2b70",
+    "filename": "1000348674.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348674.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345461114-1000348674.webp"
+  },
+  {
+    "id": "2d846293-188e-4cbf-b34e-197598c0d01d",
+    "filename": "1000348673.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348673.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345463131-1000348673.webp"
+  },
+  {
+    "id": "0b6340cc-0f9a-47e6-97cb-18df4e3e25b2",
+    "filename": "1000348672.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348672.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345464621-1000348672.webp"
+  },
+  {
+    "id": "82b3750e-8c24-4e51-9f60-0f3f4fdc7f6e",
+    "filename": "1000348671.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348671.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345466023-1000348671.webp"
+  },
+  {
+    "id": "b63ab288-1c07-4609-a015-e3e2f2b110c5",
+    "filename": "1000348670.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348670.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345467547-1000348670.webp"
+  },
+  {
+    "id": "ac45b954-f5c2-43cf-bc26-3da3f9043dae",
+    "filename": "1000348669.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348669.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345469157-1000348669.webp"
+  },
+  {
+    "id": "fa36b375-b569-45d8-910b-4c10a52674fd",
+    "filename": "1000348668.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348668.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345470314-1000348668.webp"
+  },
+  {
+    "id": "555b7a2c-d66f-4afb-91ba-91c64f2ff58c",
+    "filename": "1000348667.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348667.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345471774-1000348667.webp"
+  },
+  {
+    "id": "02e44b4f-5a3b-4a24-ab1b-f31f0d6cb672",
+    "filename": "1000348691.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348691.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345665504-1000348691.webp"
+  },
+  {
+    "id": "43a65952-44ca-43f4-b77f-b5b7383064e8",
+    "filename": "1000348690.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348690.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666036-1000348690.webp"
+  },
+  {
+    "id": "5a3a3719-d28c-46b7-90eb-0f014e2088d8",
+    "filename": "1000348689.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348689.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666257-1000348689.webp"
+  },
+  {
+    "id": "06f24fc4-192c-40d3-aca4-0a516edff713",
+    "filename": "1000348688.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000348688.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666290-1000348688.webp"
+  },
+  {
+    "id": "60bef137-a299-4cc3-8b5f-c72ee7eec2e4",
+    "filename": "1000342705.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342705.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666490-1000342705.webp"
+  },
+  {
+    "id": "affdd174-128c-4d8d-bab2-7fbfd9056d28",
+    "filename": "1000342703.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342703.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666571-1000342703.webp"
+  },
+  {
+    "id": "5856f71a-2915-46f2-aa44-ba7eab40468b",
+    "filename": "1000342704.jpg",
+    "category": "sneakers",
+    "status": "success",
+    "localPath": "/images/migrated/sneakers/1000342704.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666477-1000342704.webp"
+  },
+  {
+    "id": "061f0be4-d3f0-4d6d-bf05-1cf5ad85702d",
+    "filename": "1000348691.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348691.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345666921-1000348691.webp"
+  },
+  {
+    "id": "1cd483eb-0361-4151-9830-769951e4bdef",
+    "filename": "1000348690.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348690.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345674943-1000348690.webp"
+  },
+  {
+    "id": "26ce4495-74f5-4df0-a3fa-f567011475de",
+    "filename": "1000348689.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348689.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345676239-1000348689.webp"
+  },
+  {
+    "id": "2b853e33-94fe-49c6-87bc-1a921146bb83",
+    "filename": "1000348688.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000348688.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345677789-1000348688.webp"
+  },
+  {
+    "id": "9ec5fe8e-de39-4756-aa99-74eafa23b686",
+    "filename": "1000342704.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342704.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345679359-1000342704.webp"
+  },
+  {
+    "id": "3a961abc-3a7f-489a-9896-0f8229c40f40",
+    "filename": "1000342705.jpg",
+    "category": "sneakers",
+    "status": "skipped",
+    "localPath": "/images/migrated/sneakers/1000342705.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sneakers/1765345680892-1000342705.webp"
+  },
+  {
+    "id": "858b78f1-519d-4c30-be62-3fa4704dd408",
+    "filename": "1000342683.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342683.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348474586-1000342683.webp"
+  },
+  {
+    "id": "5015669b-e3c3-437b-a8b0-5a69943de420",
+    "filename": "1000342681.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342681.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348474787-1000342681.webp"
+  },
+  {
+    "id": "cdbaaf03-7b18-4079-afe8-53743dd0857d",
+    "filename": "1000342684.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342684.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348474573-1000342684.webp"
+  },
+  {
+    "id": "f22ad0ae-6beb-4a43-b9f6-1a86c1d4f604",
+    "filename": "1000342680.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342680.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348474966-1000342680.webp"
+  },
+  {
+    "id": "79f82712-4958-4187-b06d-e7114cbe879d",
+    "filename": "1000342679.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342679.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348474989-1000342679.webp"
+  },
+  {
+    "id": "5ed39bdf-3a36-494e-8d36-86eedfcda748",
+    "filename": "1000342682.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342682.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348475881-1000342682.webp"
+  },
+  {
+    "id": "e84b9e72-86df-4d1d-b70a-b57b7e70422f",
+    "filename": "1000342677.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342677.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348475882-1000342677.webp"
+  },
+  {
+    "id": "e9f58ee5-75a7-4c2e-b4ea-a3d3facb71e1",
+    "filename": "1000342684.jpg",
+    "category": "sports",
+    "status": "skipped",
+    "localPath": "/images/migrated/sports/1000342684.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348476150-1000342684.webp"
+  },
+  {
+    "id": "86e6bb23-ec77-42ff-bd27-ad1eb6982f7b",
+    "filename": "1000342676.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342676.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348505958-1000342676.webp"
+  },
+  {
+    "id": "b396fdd9-8a05-4bc3-b500-c535109c426e",
+    "filename": "1000342676.jpg",
+    "category": "sports",
+    "status": "skipped",
+    "localPath": "/images/migrated/sports/1000342676.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348476337-1000342676.webp"
+  },
+  {
+    "id": "c21c257c-b11c-4fd2-b145-77f1278b2189",
+    "filename": "1000342675.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342675.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348476359-1000342675.webp"
+  },
+  {
+    "id": "d9b565ee-21a5-43ad-ac6f-895d94c36b75",
+    "filename": "1000342678.jpg",
+    "category": "sports",
+    "status": "success",
+    "localPath": "/images/migrated/sports/1000342678.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/sports/1765348476322-1000342678.webp"
+  },
+  {
+    "id": "e20581cd-d1bc-4287-944d-81755a253b4e",
+    "filename": "1000342740.jpg",
+    "category": "vans",
+    "status": "success",
+    "localPath": "/images/migrated/vans/1000342740.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342515330-1000342740.webp"
+  },
+  {
+    "id": "a5a5779d-a359-46b8-afe1-e00855e55bc5",
+    "filename": "1000342743.jpg",
+    "category": "vans",
+    "status": "success",
+    "localPath": "/images/migrated/vans/1000342743.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342514597-1000342743.webp"
+  },
+  {
+    "id": "9e85cc2b-acb2-442d-9de4-c9d32c897f8f",
+    "filename": "1000342742.jpg",
+    "category": "vans",
+    "status": "success",
+    "localPath": "/images/migrated/vans/1000342742.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342515192-1000342742.webp"
+  },
+  {
+    "id": "bbf3fe05-06bf-4770-b489-4079f4b80fc0",
+    "filename": "1000342743.jpg",
+    "category": "vans",
+    "status": "skipped",
+    "localPath": "/images/migrated/vans/1000342743.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342515340-1000342743.webp"
+  },
+  {
+    "id": "f271774d-c747-4445-9b01-d6c85084aef4",
+    "filename": "1000342740.jpg",
+    "category": "vans",
+    "status": "skipped",
+    "localPath": "/images/migrated/vans/1000342740.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342520375-1000342740.webp"
+  },
+  {
+    "id": "c66ff527-a128-4d41-93df-6b388ef929fd",
+    "filename": "1000342739.jpg",
+    "category": "vans",
+    "status": "success",
+    "localPath": "/images/migrated/vans/1000342739.jpg",
+    "originalUrl": "https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/vans/1765342515389-1000342739.webp"
+  }
+]

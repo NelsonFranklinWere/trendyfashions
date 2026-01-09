@@ -1,0 +1,41 @@
+# robots.txt for Trendy Fashion Zone
+# https://trendyfashionzone.co.ke
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /checkout
+Disallow: /_next/
+
+# Allow important pages
+Allow: /collections
+Allow: /about
+Allow: /contact
+
+# Sitemap location
+Sitemap: https://trendyfashionzone.co.ke/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Googlebot specific
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 0
+
+# Bingbot specific
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 1
+
+# Gemini / Google AI
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+

@@ -1,0 +1,126 @@
+#!/bin/bash
+# Exact Node.js Deployment Process
+# Run this on the server: ssh trendy@64.225.112.70
+
+set -e
+
+echo "🚀 Starting Node.js Deployment Process"
+echo ""
+
+# Step 3: Install Node/NPM
+echo "📦 Step 3: Installing Node.js 18.x..."
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs
+node --version
+npm --version
+
+# Step 4: Clone project (already done, but verify)
+echo ""
+echo "📁 Step 4: Verifying project..."
+cd ~/trendyfashions || (cd ~ && git clone https://github.com/NelsonFranklinWere/trendyfashions.git && cd trendyfashions)
+pwd
+
+# Step 5: Install dependencies
+echo ""
+echo "📦 Step 5: Installing dependencies..."
+npm install
+
+# Create .env.local if needed
+if [ ! -f .env.local ]; then
+    cat > .env.local << 'EOF'
+DATABASE_URL=postgresql://trendy:Trendy@254Fashions@localhost:5432/trendyfashions
+DO_SPACES_ENDPOINT=https://lon1.digitaloceanspaces.com
+DO_SPACES_KEY=YOUR_NEW_KEY_HERE
+DO_SPACES_SECRET=YOUR_NEW_SECRET_HERE
+DO_SPACES_BUCKET=trendyfashions
+DO_SPACES_CDN_URL=https://trendyfashions.lon1.cdn.digitaloceanspaces.com
+NODE_ENV=production
+PORT=3000
+EOF
+fi
+
+# Setup PostgreSQL
+echo ""
+echo "🗄️  Setting up PostgreSQL..."
+sudo apt-get update
+sudo apt-get install -y postgresql postgresql-contrib
+sudo -u postgres psql << 'PGSQL'
+CREATE DATABASE trendyfashions;
+CREATE USER trendy WITH PASSWORD 'Trendy@254Fashions';
+GRANT ALL PRIVILEGES ON DATABASE trendyfashions TO trendy;
+ALTER DATABASE trendyfashions OWNER TO trendy;
+\q
+PGSQL
+
+# Run schema
+if [ -f database/postgres-schema.sql ]; then
+    PGPASSWORD='Trendy@254Fashions' psql -U trendy -d trendyfashions -f database/postgres-schema.sql
+fi
+
+# Build
+echo ""
+echo "🔨 Building application..."
+npm run build
+
+# Step 6: Setup PM2
+echo ""
+echo "📦 Step 6: Setting up PM2..."
+sudo npm i pm2 -g
+pm2 start npm --name trendyfashions -- start
+pm2 save
+pm2 startup ubuntu
+# Run the command PM2 outputs
+
+# Step 7: Setup firewall
+echo ""
+echo "🔥 Step 7: Setting up firewall..."
+sudo ufw enable
+sudo ufw allow ssh
+sudo ufw allow http
+sudo ufw allow https
+sudo ufw status
+
+# Step 8: Install and configure NGINX
+echo ""
+echo "🌐 Step 8: Installing and configuring NGINX..."
+sudo apt install -y nginx
+sudo tee /etc/nginx/sites-available/default > /dev/null << 'NGINXEOF'
+server {
+    listen 80;
+    listen [::]:80;
+    server_name _;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+NGINXEOF
+sudo nginx -t
+sudo service nginx restart
+
+# Step 10: Install Certbot
+echo ""
+echo "🔒 Step 10: Installing Certbot..."
+sudo add-apt-repository -y ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install -y python-certbot-nginx
+
+echo ""
+echo "✅ Deployment complete!"
+echo ""
+echo "Next steps:"
+echo "1. Add domain in DigitalOcean (A records for @ and www)"
+echo "2. Update NGINX: sudo nano /etc/nginx/sites-available/default"
+echo "   Change server_name _; to server_name yourdomain.com www.yourdomain.com;"
+echo "3. Get SSL: sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com"
+echo "4. Test renewal: sudo certbot renew --dry-run"
+echo ""
+echo "Check app: pm2 status"
+echo "View logs: pm2 logs trendyfashions"
+
+
+
