@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { mainCategories } from '@/data/categories-structure';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
@@ -25,6 +26,7 @@ const productSchema = z.object({
     { message: 'Valid image URL is required' }
   ),
   category: z.string().min(1, 'Category is required'),
+  subcategory: z.string().optional(),
   gender: z.enum(['Men', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
@@ -32,16 +34,20 @@ const productSchema = z.object({
 
 type ProductFormData = z.infer<typeof productSchema>;
 
-const CATEGORIES = [
-  { value: 'mens-officials', label: "Men's Officials" },
-  { value: 'casual', label: 'Casual' },
-  { value: 'loafers', label: 'Loafers' },
-  { value: 'nike', label: 'Nike' },
-  { value: 'sports', label: 'Sports' },
-  { value: 'vans', label: 'Vans' },
-  { value: 'mens-style', label: 'Mens Style' },
-  { value: 'sneakers', label: 'Sneakers' },
-];
+// Generate categories and subcategories from single source of truth
+const CATEGORIES = mainCategories
+  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
+  .map(cat => ({ value: cat.id, label: cat.name }));
+
+const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> = {};
+mainCategories.forEach(cat => {
+  if (cat.hasSubcategories && cat.subcategories) {
+    SUBCATEGORIES[cat.id] = cat.subcategories.map(sub => ({
+      value: sub.slug,
+      label: sub.name
+    }));
+  }
+});
 
 export default function AddProduct() {
   const router = useRouter();
@@ -68,6 +74,7 @@ export default function AddProduct() {
   });
 
   const selectedCategory = watch('category');
+  const selectedSubcategory = watch('subcategory');
   const selectedImage = watch('image');
 
   // Fetch available images when category changes
@@ -442,6 +449,27 @@ export default function AddProduct() {
             </select>
             {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
           </div>
+
+          {/* Subcategory */}
+          {selectedCategory && SUBCATEGORIES[selectedCategory] && (
+            <div>
+              <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700 mb-2">
+                Subcategory
+              </label>
+              <select
+                id="subcategory"
+                {...register('subcategory')}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+              >
+                <option value="">Select a subcategory (optional)</option>
+                {SUBCATEGORIES[selectedCategory].map((subcat) => (
+                  <option key={subcat.value} value={subcat.value}>
+                    {subcat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
 
 
           {/* Image Upload */}

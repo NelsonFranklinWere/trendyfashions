@@ -17,48 +17,48 @@ export interface SubCategory {
   parentCategory: string;
 }
 
-// Main Categories (Top-Level Menu) - Only including working categories
+// Main Categories (Top-Level Menu) - Updated structure
 export const mainCategories: MainCategory[] = [
   {
-    id: 'mens-officials',
-    name: "Men's Officials",
-    slug: 'mens-officials',
-    href: '/collections/mens-officials',
+    id: 'officials',
+    name: 'Officials',
+    slug: 'officials',
+    href: '/collections/officials',
     hasSubcategories: true,
     subcategories: [
       {
         id: 'clarks-official',
         name: 'Clarks Officials',
         slug: 'clarks-official',
-        href: '/collections/mens-officials?filter=Clarks',
-        parentCategory: 'mens-officials',
+        href: '/collections/officials?filter=Clarks',
+        parentCategory: 'officials',
       },
       {
         id: 'empire-official',
         name: 'Empire Officials',
         slug: 'empire-official',
-        href: '/collections/mens-officials?filter=Empire',
-        parentCategory: 'mens-officials',
+        href: '/collections/officials?filter=Empire',
+        parentCategory: 'officials',
       },
       {
         id: 'official-boots',
         name: 'Official Boots',
         slug: 'official-boots',
-        href: '/collections/mens-officials?filter=Boots',
-        parentCategory: 'mens-officials',
+        href: '/collections/officials?filter=Boots',
+        parentCategory: 'officials',
       },
       {
         id: 'corporate-casuals',
         name: 'Corporate Casuals',
         slug: 'corporate-casuals',
-        href: '/collections/mens-officials?filter=Casuals',
-        parentCategory: 'mens-officials',
+        href: '/collections/officials?filter=Casuals',
+        parentCategory: 'officials',
       },
     ],
   },
   {
     id: 'casual',
-    name: 'Casual Shoes',
+    name: 'Casual',
     slug: 'casual',
     href: '/collections/casual',
     hasSubcategories: true,
@@ -90,6 +90,43 @@ export const mainCategories: MainCategory[] = [
         slug: 'general-casual',
         href: '/collections/casual',
         parentCategory: 'casual',
+      },
+    ],
+  },
+  {
+    id: 'sneakers',
+    name: 'Sneakers',
+    slug: 'sneakers',
+    href: '/collections/sneakers',
+    hasSubcategories: true,
+    subcategories: [
+      {
+        id: 'nike-sneakers',
+        name: 'Nike Sneakers',
+        slug: 'nike-sneakers',
+        href: '/collections/sneakers?filter=Nike',
+        parentCategory: 'sneakers',
+      },
+      {
+        id: 'adidas-sneakers',
+        name: 'Adidas Sneakers',
+        slug: 'adidas-sneakers',
+        href: '/collections/sneakers?filter=Adidas',
+        parentCategory: 'sneakers',
+      },
+      {
+        id: 'puma-sneakers',
+        name: 'Puma Sneakers',
+        slug: 'puma-sneakers',
+        href: '/collections/sneakers?filter=Puma',
+        parentCategory: 'sneakers',
+      },
+      {
+        id: 'general-sneakers',
+        name: 'General Sneakers',
+        slug: 'general-sneakers',
+        href: '/collections/sneakers',
+        parentCategory: 'sneakers',
       },
     ],
   },
@@ -131,13 +168,6 @@ export const mainCategories: MainCategory[] = [
     ],
   },
   {
-    id: 'vans',
-    name: 'Vans',
-    slug: 'vans',
-    href: '/collections/vans',
-    hasSubcategories: false,
-  },
-  {
     id: 'new-arrivals',
     name: 'New Arrivals',
     slug: 'new-arrivals',
@@ -153,26 +183,26 @@ export const mainCategories: MainCategory[] = [
   },
 ];
 
-// Category groups for homepage display - Updated to match working categories
+// Category groups for homepage display - Updated structure
 export const categoryGroups = {
   officials: {
-    name: 'Official Shoes',
-    slug: 'mens-officials',
+    name: 'Officials',
+    slug: 'officials',
     subcategories: ['Clarks Officials', 'Empire Officials', 'Official Boots', 'Corporate Casuals'],
   },
   casual: {
-    name: 'Casual Shoes',
+    name: 'Casual',
     slug: 'casual',
     subcategories: ['Lacoste Casuals', 'Timberland Casuals', 'Official Casuals', 'General Casuals'],
+  },
+  sneakers: {
+    name: 'Sneakers',
+    slug: 'sneakers',
+    subcategories: ['Nike Sneakers', 'Adidas Sneakers', 'Puma Sneakers', 'General Sneakers'],
   },
   sports: {
     name: 'Sports & Running',
     slug: 'sports',
     subcategories: ['Running Shoes', 'Training / Gym Shoes', 'Football Boots', 'Outdoor Trail Sneakers'],
-  },
-  vans: {
-    name: 'Vans',
-    slug: 'vans',
-    subcategories: [],
   },
 };

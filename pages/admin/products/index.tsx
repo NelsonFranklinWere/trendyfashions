@@ -5,15 +5,12 @@ import { motion } from 'framer-motion';
 import { ProductRecord } from '@/types/database';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useRouter } from 'next/router';
+import { mainCategories } from '@/data/categories-structure';
 
-const CATEGORIES = [
-  { value: 'mens-officials', label: "Men's Officials" },
-  { value: 'mens-nike', label: "Men's Nike" },
-  { value: 'sports', label: 'Sports' },
-  { value: 'mens-style', label: "Men's Style" },
-  { value: 'vans', label: 'Vans' },
-  { value: 'sneakers', label: 'Sneakers' },
-];
+// Generate categories from single source of truth
+const CATEGORIES = mainCategories
+  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
+  .map(cat => ({ value: cat.id, label: cat.name }));
 
 export default function ManageProducts() {
   const { user, loading: authLoading } = useAdminAuth();

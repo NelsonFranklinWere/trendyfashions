@@ -1,0 +1,51 @@
+==========================================
+DEPLOYMENT READY - EXECUTE ON SERVER
+==========================================
+
+All scripts and configuration files are prepared and ready.
+
+TO DEPLOY, SSH INTO SERVER AND RUN:
+
+ssh trendy@64.225.112.70
+Password: Trendy@254Fashions
+
+Then run:
+cd ~
+git clone https://github.com/NelsonFranklinWere/trendyfashions.git
+cd trendyfashions
+chmod +x scripts/deploy-on-server.sh
+bash scripts/deploy-on-server.sh
+
+OR single command:
+cd ~ && git clone https://github.com/NelsonFranklinWere/trendyfashions.git && cd trendyfashions && chmod +x scripts/deploy-on-server.sh && bash scripts/deploy-on-server.sh
+
+==========================================
+WHAT THE SCRIPT WILL DO:
+==========================================
+✅ Install Node.js 18.x LTS
+✅ Install PostgreSQL
+✅ Create database 'trendyfashions' and user 'trendy'
+✅ Clone repository
+✅ Install dependencies
+✅ Create .env.local with database config
+✅ Setup database schema (tables, indexes, triggers)
+✅ Build Next.js application
+✅ Install and configure PM2
+✅ Start application with PM2
+✅ Setup UFW firewall
+✅ Install and configure NGINX
+✅ Install Certbot for SSL
+
+==========================================
+AFTER DEPLOYMENT:
+==========================================
+1. Add domain DNS records in DigitalOcean
+2. Update NGINX with domain name
+3. Get SSL certificate: sudo certbot --nginx -d yourdomain.com
+4. Update DigitalOcean Spaces credentials in .env.local
+5. Verify app is running: pm2 status
+
+==========================================
+
+
+

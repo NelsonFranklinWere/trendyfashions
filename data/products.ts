@@ -23,42 +23,39 @@ export interface Category {
   featured: boolean;
 }
 
-// Featured categories - new collection structure
-// These categories match exactly with admin product upload categories
-export const categories: Category[] = [
-  {
-    id: 'mens-officials',
-    name: "Men's Officials",
-    slug: 'mens-officials',
-    description: 'Professional office and formal shoes for men',
-    image: '/images/officials/ClarksOfficials101.jpg',
+import { mainCategories } from '@/data/categories-structure';
+
+// Generate categories from single source of truth
+export const categories: Category[] = mainCategories
+  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
+  .map(cat => ({
+    id: cat.id,
+    name: cat.name,
+    slug: cat.slug,
+    description: getDefaultDescription(cat.id),
+    image: getDefaultImage(cat.id),
     featured: true,
-  },
-  {
-    id: 'casual',
-    name: 'Casual',
-    slug: 'casual',
-    description: 'Casual shoes for everyday comfort and style',
-    image: '/images/casual/LacosteCassual1.jpg',
-    featured: true,
-  },
-  {
-    id: 'sports',
-    name: 'Sports',
-    slug: 'sports',
-    description: 'Sports and athletic footwear for active lifestyle',
-    image: '/images/casual/official-casuals/CasualsOfficial11.jpg',
-    featured: true,
-  },
-  {
-    id: 'vans',
-    name: 'Vans',
-    slug: 'vans',
-    description: 'Classic Vans sneakers and customized designs',
-    image: '/images/officials/empire-officials/Empire-at-Officials1.jpg',
-    featured: true,
-  },
-];
+  }));
+
+function getDefaultDescription(id: string): string {
+  const descriptions: Record<string, string> = {
+    officials: 'Professional office and formal shoes for men',
+    casual: 'Casual shoes for everyday comfort and style',
+    sneakers: 'Modern sneakers for style and comfort',
+    sports: 'Sports and athletic footwear for active lifestyle',
+  };
+  return descriptions[id] || 'Quality shoes from Trendy Fashion Zone';
+}
+
+function getDefaultImage(id: string): string {
+  const images: Record<string, string> = {
+    officials: '/images/officials/ClarksOfficials101.jpg',
+    casual: '/images/casual/LacosteCassual1.jpg',
+    sneakers: '/images/sneakers/Addidas-samba.jpg',
+    sports: '/images/casual/official-casuals/CasualsOfficial11.jpg',
+  };
+  return images[id] || '/images/default.jpg';
+}
 export const products: Product[] = [
   {
     id: 'casual-1',

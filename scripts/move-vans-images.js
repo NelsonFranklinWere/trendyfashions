@@ -27,6 +27,7 @@ folders.forEach(folder => {
       const lower = file.toLowerCase();
       return lower.includes('vans');
     });
+    
 
   files.forEach(file => {
     const sourcePath = path.join(folderPath, file);

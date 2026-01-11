@@ -92,8 +92,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     let imageUrl: string;
     let thumbnailUrl: string;
 
-    try {
-      // Upload optimized image to Spaces
+    // Check if CDN credentials are available
+    const hasCdnCredentials = process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET;
+
+    if (hasCdnCredentials) {
+      // Upload to DigitalOcean Spaces
       imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
         cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
         metadata: {
@@ -111,6 +114,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         console.warn('Thumbnail upload error (non-critical):', thumbnailError);
         thumbnailUrl = imageUrl; // Fallback to main image
       }
+    } else {
+      // Fallback to local storage
+      const fs = require('fs').promises;
+      const path = require('path');
+
+      // Create uploads directory if it doesn't exist
+      const uploadsDir = path.join(process.cwd(), 'public', 'uploads', category);
+      await fs.mkdir(uploadsDir, { recursive: true });
+
+      // Save optimized image
+      const localImagePath = path.join(uploadsDir, `${key}.webp`);
+      await fs.writeFile(localImagePath, optimizedBuffer);
+      imageUrl = `/uploads/${category}/${key}.webp`;
+
+      // Save thumbnail
+      const thumbnailDir = path.join(process.cwd(), 'public', 'uploads', 'thumbnails');
+      await fs.mkdir(thumbnailDir, { recursive: true });
+      const localThumbnailPath = path.join(thumbnailDir, `${key}.webp`);
+      await fs.writeFile(localThumbnailPath, thumbnail.buffer);
+      thumbnailUrl = `/uploads/thumbnails/${key}.webp`;
+    }
 
       // Save metadata to PostgreSQL database
       const dbData = await createImage({
@@ -143,11 +167,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
     } catch (uploadError: any) {
-      console.error('Spaces upload error:', uploadError);
-      return res.status(500).json({ 
-        error: 'Failed to upload image to DigitalOcean Spaces', 
+      console.error('Upload error:', uploadError);
+      const errorMessage = hasCdnCredentials
+        ? 'Failed to upload image to DigitalOcean Spaces'
+        : 'Failed to save image locally';
+
+      const helpMessage = hasCdnCredentials
+        ? 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
+        : 'Please check file permissions and disk space';
+
+      return res.status(500).json({
+        error: errorMessage,
         details: uploadError.message,
-        help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
+        help: helpMessage
       });
     }
   } catch (error: any) {
