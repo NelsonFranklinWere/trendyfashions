@@ -167,20 +167,6 @@ export const mainCategories: MainCategory[] = [
       },
     ],
   },
-  {
-    id: 'new-arrivals',
-    name: 'New Arrivals',
-    slug: 'new-arrivals',
-    href: '/collections?filter=New Arrivals',
-    hasSubcategories: false,
-  },
-  {
-    id: 'best-sellers',
-    name: 'Best Sellers',
-    slug: 'best-sellers',
-    href: '/collections?filter=Best Sellers',
-    hasSubcategories: false,
-  },
 ];
 
 // Category groups for homepage display - Updated structure
