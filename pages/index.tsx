@@ -1100,16 +1100,18 @@ const Home = ({
           </motion.div>
 
           {/* Main Category Groups - Circular Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-6 md:gap-8 mb-12">
-            {categories
-              .filter((cat) => cat.featured)
-              .map((category, index) => (
-                <CircularCategoryCard
-                  key={category.id}
-                  category={category}
-                  delay={index * 0.1}
-                />
-              ))}
+          <div className="flex justify-center items-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 lg:gap-16">
+              {categories
+                .filter((cat) => cat.featured)
+                .map((category, index) => (
+                  <CircularCategoryCard
+                    key={category.id}
+                    category={category}
+                    delay={index * 0.1}
+                  />
+                ))}
+            </div>
           </div>
 
         </div>

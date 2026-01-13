@@ -49,12 +49,12 @@ function getDefaultDescription(id: string): string {
 
 function getDefaultImage(id: string): string {
   const images: Record<string, string> = {
-    officials: '/images/officials/ClarksOfficials101.jpg',
-    casual: '/images/casual/LacosteCassual1.jpg',
-    sneakers: '/images/sneakers/Addidas-samba.jpg',
-    sports: '/images/casual/official-casuals/CasualsOfficial11.jpg',
+    officials: '/images/officials/clarks-officials/ClarksOfficials1.jpg',
+    casual: '/images/casual/lacoste-casuals/LacosteCassual1.jpg',
+    sneakers: '/images/casual/lacoste-casuals/LacosteCassual2.jpg',
+    sports: '/images/casual/timberland-casuals/TimbaCasual1.jpg',
   };
-  return images[id] || '/images/default.jpg';
+  return images[id] || '/images/logos/Logo.jpg';
 }
 export const products: Product[] = [
   {
