@@ -158,7 +158,8 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
       const nameMatch = product.name?.toLowerCase().includes(filterValue) || false;
       const descMatch = product.description?.toLowerCase().includes(filterValue) || false;
       const imageMatch = product.image?.toLowerCase().includes(filterValue.replace(/\s+/g, '-')) || false;
-      return nameMatch || descMatch || imageMatch;
+      const subcategoryMatch = product.subcategory?.toLowerCase().includes(filterValue) || false;
+      return nameMatch || descMatch || imageMatch || subcategoryMatch;
     });
   }, [filter, safeProducts]);
 
@@ -518,7 +519,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     const { getDbImageProducts, getDbProducts } = await import('@/lib/server/dbImageProducts');
     
     // New collection structure - fetch from database with uploaded names/descriptions
-    if (categorySlug === 'mens-officials') {
+    if (categorySlug === 'officials' || categorySlug === 'mens-officials') {
       // Get ALL officials products from database (Boots, Empire, Mules, Casuals, Clarks, etc.)
       // No subcategory filtering - all official shoes display together
       // Try both 'officials' and 'mens-officials' to catch all uploaded products

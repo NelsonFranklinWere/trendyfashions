@@ -6,8 +6,7 @@ export function middleware(request: NextRequest) {
 
   // Redirect legacy/non-existent pages
   const redirects: Record<string, string> = {
-    '/collections/mens-shoes': '/collections/mens-officials',
-    '/collections/officials': '/collections/mens-officials',
+    '/collections/mens-shoes': '/collections/officials',
     '/collections/casuals': '/collections/casual',
     '/collections/mens-casuals': '/collections/casual',
     '/collections/mens-nike': '/collections/nike',
@@ -29,7 +28,6 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/collections/mens-shoes',
-    '/collections/officials',
     '/collections/casuals',
     '/collections/mens-casuals',
     '/collections/mens-nike',

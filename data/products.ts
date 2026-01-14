@@ -8,7 +8,8 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  category: string; // Maps to: casual, customized, formal, running, sports
+  category: string; // Maps to: casual, customized, officials, running, sports
+  subcategory?: string; // Maps to subcategories like clarks-official, empire-official, etc.
   gender?: 'Men' | 'Unisex';
   tags?: string[];
   featured?: boolean;
@@ -4446,7 +4447,7 @@ export const products: Product[] = [
     description: 'Iconic Clarks loafer crafted in premium leather for modern minimalists',
     price:  3500,
     image: '/images/officials/Clarks.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4455,7 +4456,7 @@ export const products: Product[] = [
     description: 'Streamlined Clarks loafer with lightweight flex sole for daily wear',
     price:  3500,
     image: '/images/officials/ClarksFl1-1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4464,7 +4465,7 @@ export const products: Product[] = [
     description: 'Streamlined Clarks loafer with lightweight flex sole for daily wear',
     price:  3500,
     image: '/images/officials/ClarksFl1-2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4473,7 +4474,7 @@ export const products: Product[] = [
     description: 'Streamlined Clarks loafer with lightweight flex sole for daily wear',
     price:  3500,
     image: '/images/officials/ClarksFl1-3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4482,7 +4483,7 @@ export const products: Product[] = [
     description: 'Relaxed Clarks loafer with low-profile sole and soft footbed',
     price:  3500,
     image: '/images/officials/ClarksLowsole-1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4491,7 +4492,7 @@ export const products: Product[] = [
     description: 'Relaxed Clarks loafer with low-profile sole and soft footbed',
     price:  3500,
     image: '/images/officials/ClarksLowsole-2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4500,7 +4501,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4509,7 +4510,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4518,7 +4519,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4527,7 +4528,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4536,7 +4537,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4545,7 +4546,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4554,7 +4555,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4563,7 +4564,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/clarksofficialls8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4572,7 +4573,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4581,7 +4582,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4590,7 +4591,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials11.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4599,7 +4600,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials12.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4608,7 +4609,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials13.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4617,7 +4618,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials14.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4626,7 +4627,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials15.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4635,7 +4636,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials16.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4644,7 +4645,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials17.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4653,7 +4654,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials18.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4662,7 +4663,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials19.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4671,7 +4672,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4680,7 +4681,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials20.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4689,7 +4690,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials21.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4698,7 +4699,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials22.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4707,7 +4708,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials23.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4716,7 +4717,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials24.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4725,7 +4726,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials25.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4734,7 +4735,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials26.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4743,7 +4744,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials27.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4752,7 +4753,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials28.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4761,7 +4762,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials29.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4770,7 +4771,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4779,7 +4780,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials30.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4788,7 +4789,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials31.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4797,7 +4798,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials32.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4806,7 +4807,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials33.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4815,7 +4816,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials34.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4824,7 +4825,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials35.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4833,7 +4834,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials36.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4842,7 +4843,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials37.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4851,7 +4852,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials38.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4860,7 +4861,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials39.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4869,7 +4870,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4878,7 +4879,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials40.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4887,7 +4888,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials41.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4896,7 +4897,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials42.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4905,7 +4906,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials43.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4914,7 +4915,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials44.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4923,7 +4924,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials45.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4932,7 +4933,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4941,7 +4942,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4950,7 +4951,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4959,7 +4960,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -4968,7 +4969,7 @@ export const products: Product[] = [
     description: 'Heritage Clarks loafer with pillow-soft insole for city-to-lounge comfort.',
     price: 3500,
     image: '/images/officials/ClarksOfficials9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
 
@@ -5014,7 +5015,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
      {
@@ -5023,7 +5024,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5032,7 +5033,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5041,7 +5042,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5050,7 +5051,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5059,7 +5060,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5068,7 +5069,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5077,7 +5078,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5086,7 +5087,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5095,7 +5096,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5104,7 +5105,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss11.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5113,7 +5114,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss12.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5122,7 +5123,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss13.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5131,7 +5132,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss14.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5140,7 +5141,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss15.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5149,7 +5150,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss16.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5158,7 +5159,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss17.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5167,7 +5168,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss18.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5176,7 +5177,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss19.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5185,7 +5186,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss20.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5194,7 +5195,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss21.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5203,7 +5204,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss22.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5212,7 +5213,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss23.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5221,7 +5222,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss24.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5230,7 +5231,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss25.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5239,7 +5240,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss26.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5248,7 +5249,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss27.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5257,7 +5258,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss28.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5266,7 +5267,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss29.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5275,7 +5276,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss30.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5284,7 +5285,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss31.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5293,7 +5294,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss32.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5302,7 +5303,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss33.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5311,7 +5312,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss34.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5320,7 +5321,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss35.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5329,7 +5330,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss36.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5338,7 +5339,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss37.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5347,7 +5348,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss38.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5356,7 +5357,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss39.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5365,7 +5366,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss40.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5374,7 +5375,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss41.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5383,7 +5384,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss42.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5392,7 +5393,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss43.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5401,7 +5402,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss44.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5410,7 +5411,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss45.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5419,7 +5420,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss46.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5428,7 +5429,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss47.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5437,7 +5438,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss48.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5446,7 +5447,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss49.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5455,7 +5456,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss50.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5464,7 +5465,7 @@ export const products: Product[] = [
     description: 'Polished lace-up built for Nairobi boardrooms and after-hours lounges.',
     price: 2800,
     image: '/images/officials/EmpireOfficialss51.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5473,7 +5474,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials01.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5482,7 +5483,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials02.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5491,7 +5492,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials03.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5500,7 +5501,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials04.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5509,7 +5510,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials05.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5518,7 +5519,7 @@ export const products: Product[] = [
     description: 'Signature Lacoste loafer with cushioned heel and sporty elegance.',
     price: 2800,
     image: '/images/officials/LacosteOfficials06.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5527,7 +5528,7 @@ export const products: Product[] = [
     description: 'Supple suede slip-on with breathable lining for relaxed Fridays.',
     price: 4500,
     image: '/images/officials/OfficialCasuals1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5536,7 +5537,7 @@ export const products: Product[] = [
     description: 'Supple suede slip-on with breathable lining for relaxed Fridays.',
     price: 4500,
     image: '/images/officials/OfficialCasuals2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5545,7 +5546,7 @@ export const products: Product[] = [
     description: 'Supple suede slip-on with breathable lining for relaxed Fridays.',
     price: 4500,
     image: '/images/officials/OfficialCasuals3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5554,7 +5555,7 @@ export const products: Product[] = [
     description: 'Gloss-finished loafer with plush lining for elevated smart-casual looks.',
     price: 4500,
     image: '/images/officials/OfficialCasualsShiny1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5563,7 +5564,7 @@ export const products: Product[] = [
     description: 'Gloss-finished loafer with plush lining for elevated smart-casual looks.',
     price: 4500,
     image: '/images/officials/OfficialCasualsShiny2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5572,7 +5573,7 @@ export const products: Product[] = [
     description: 'Gloss-finished loafer with plush lining for elevated smart-casual looks.',
     price: 4500,
     image: '/images/officials/OfficialCasualsShiny3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5581,7 +5582,7 @@ export const products: Product[] = [
     description: 'Gloss-finished loafer with plush lining for elevated smart-casual looks.',
     price: 4500,
     image: '/images/officials/OfficialCasualsShiny4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5590,7 +5591,7 @@ export const products: Product[] = [
     description: 'Gloss-finished loafer with plush lining for elevated smart-casual looks.',
     price: 4500,
     image: '/images/officials/OfficialCasualsShiny5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5599,7 +5600,7 @@ export const products: Product[] = [
     description: 'Deep chocolate leather oxford with contrast sole for standout flair.',
     price: 2800,
     image: '/images/officials/chocolateempireofficial.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
 
@@ -5609,7 +5610,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5618,7 +5619,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5627,7 +5628,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5636,7 +5637,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5645,7 +5646,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5654,7 +5655,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5663,7 +5664,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5672,7 +5673,7 @@ export const products: Product[] = [
     description: 'Classic smooth-leather oxford with a tapered silhouette for sharp tailoring.',
     price: 2800,
     image: '/images/officials/Empire-Officials-9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5717,7 +5718,7 @@ export const products: Product[] = [
     description: 'Official01 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official01.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5726,7 +5727,7 @@ export const products: Product[] = [
     description: 'Official010 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official010.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5735,7 +5736,7 @@ export const products: Product[] = [
     description: 'Official011 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official011.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5744,7 +5745,7 @@ export const products: Product[] = [
     description: 'Official012 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official012.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5753,7 +5754,7 @@ export const products: Product[] = [
     description: 'Official013 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official013.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5762,7 +5763,7 @@ export const products: Product[] = [
     description: 'Official014 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official014.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5771,7 +5772,7 @@ export const products: Product[] = [
     description: 'Official015 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official015.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5780,7 +5781,7 @@ export const products: Product[] = [
     description: 'Official016 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official016.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5789,7 +5790,7 @@ export const products: Product[] = [
     description: 'Official017 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official017.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5798,7 +5799,7 @@ export const products: Product[] = [
     description: 'Official018 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official018.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5807,7 +5808,7 @@ export const products: Product[] = [
     description: 'Official019 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official019.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5816,7 +5817,7 @@ export const products: Product[] = [
     description: 'Official02 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official02.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5825,7 +5826,7 @@ export const products: Product[] = [
     description: 'Official020 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official020.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5834,7 +5835,7 @@ export const products: Product[] = [
     description: 'Official021 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official021.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5843,7 +5844,7 @@ export const products: Product[] = [
     description: 'Official022 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official022.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5852,7 +5853,7 @@ export const products: Product[] = [
     description: 'Official023 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official023.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5861,7 +5862,7 @@ export const products: Product[] = [
     description: 'Official024 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official024.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5870,7 +5871,7 @@ export const products: Product[] = [
     description: 'Official025 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official025.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5879,7 +5880,7 @@ export const products: Product[] = [
     description: 'Official026 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official026.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5888,7 +5889,7 @@ export const products: Product[] = [
     description: 'Official03 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official03.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5897,7 +5898,7 @@ export const products: Product[] = [
     description: 'Official04 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official04.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5906,7 +5907,7 @@ export const products: Product[] = [
     description: 'Official05 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official05.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5915,7 +5916,7 @@ export const products: Product[] = [
     description: 'Official06 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official06.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5924,7 +5925,7 @@ export const products: Product[] = [
     description: 'Official07 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official07.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5933,7 +5934,7 @@ export const products: Product[] = [
     description: 'Official08 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official08.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5942,7 +5943,7 @@ export const products: Product[] = [
     description: 'Official09 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official09.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5951,7 +5952,7 @@ export const products: Product[] = [
     description: 'Official1 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5960,7 +5961,7 @@ export const products: Product[] = [
     description: 'Official10 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5969,7 +5970,7 @@ export const products: Product[] = [
     description: 'Official11 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official11.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5978,7 +5979,7 @@ export const products: Product[] = [
     description: 'Official12 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official12.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5987,7 +5988,7 @@ export const products: Product[] = [
     description: 'Official13 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official13.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -5996,7 +5997,7 @@ export const products: Product[] = [
     description: 'Official14 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official14.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6005,7 +6006,7 @@ export const products: Product[] = [
     description: 'Official15 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official15.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6014,7 +6015,7 @@ export const products: Product[] = [
     description: 'Official16 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official16.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6023,7 +6024,7 @@ export const products: Product[] = [
     description: 'Official17 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official17.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6032,7 +6033,7 @@ export const products: Product[] = [
     description: 'Official18 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official18.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6041,7 +6042,7 @@ export const products: Product[] = [
     description: 'Official19 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official19.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6050,7 +6051,7 @@ export const products: Product[] = [
     description: 'Official2 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6059,7 +6060,7 @@ export const products: Product[] = [
     description: 'Official20 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official20.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6068,7 +6069,7 @@ export const products: Product[] = [
     description: 'Official21 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official21.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6077,7 +6078,7 @@ export const products: Product[] = [
     description: 'Official22 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official22.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6086,7 +6087,7 @@ export const products: Product[] = [
     description: 'Official23 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official23.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6095,7 +6096,7 @@ export const products: Product[] = [
     description: 'Official24 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official24.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6104,7 +6105,7 @@ export const products: Product[] = [
     description: 'Official25 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official25.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6113,7 +6114,7 @@ export const products: Product[] = [
     description: 'Official26 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official26.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6122,7 +6123,7 @@ export const products: Product[] = [
     description: 'Official27 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official27.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6131,7 +6132,7 @@ export const products: Product[] = [
     description: 'Official28 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official28.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6140,7 +6141,7 @@ export const products: Product[] = [
     description: 'Official29 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official29.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6149,7 +6150,7 @@ export const products: Product[] = [
     description: 'Official3 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6158,7 +6159,7 @@ export const products: Product[] = [
     description: 'Official30 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official30.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6167,7 +6168,7 @@ export const products: Product[] = [
     description: 'Official31 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official31.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6176,7 +6177,7 @@ export const products: Product[] = [
     description: 'Official32 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official32.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6185,7 +6186,7 @@ export const products: Product[] = [
     description: 'Official33 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official33.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6194,7 +6195,7 @@ export const products: Product[] = [
     description: 'Official34 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official34.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6203,7 +6204,7 @@ export const products: Product[] = [
     description: 'Official35 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official35.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6212,7 +6213,7 @@ export const products: Product[] = [
     description: 'Official36 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official36.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6221,7 +6222,7 @@ export const products: Product[] = [
     description: 'Official37 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official37.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6230,7 +6231,7 @@ export const products: Product[] = [
     description: 'Official38 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official38.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6239,7 +6240,7 @@ export const products: Product[] = [
     description: 'Official39 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official39.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6248,7 +6249,7 @@ export const products: Product[] = [
     description: 'Official4 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6257,7 +6258,7 @@ export const products: Product[] = [
     description: 'Official40 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official40.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6266,7 +6267,7 @@ export const products: Product[] = [
     description: 'Official41 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official41.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6275,7 +6276,7 @@ export const products: Product[] = [
     description: 'Official42 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official42.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6284,7 +6285,7 @@ export const products: Product[] = [
     description: 'Official43 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official43.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6293,7 +6294,7 @@ export const products: Product[] = [
     description: 'Official44 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official44.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6302,7 +6303,7 @@ export const products: Product[] = [
     description: 'Official45 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official45.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6311,7 +6312,7 @@ export const products: Product[] = [
     description: 'Official46 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official46.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6320,7 +6321,7 @@ export const products: Product[] = [
     description: 'Official47 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official47.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6329,7 +6330,7 @@ export const products: Product[] = [
     description: 'Official48 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official48.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6338,7 +6339,7 @@ export const products: Product[] = [
     description: 'Official49 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official49.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6347,7 +6348,7 @@ export const products: Product[] = [
     description: 'Official5 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6356,7 +6357,7 @@ export const products: Product[] = [
     description: 'Official50 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official50.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6365,7 +6366,7 @@ export const products: Product[] = [
     description: 'Official51 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official51.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6374,7 +6375,7 @@ export const products: Product[] = [
     description: 'Official52 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official52.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6383,7 +6384,7 @@ export const products: Product[] = [
     description: 'Official53 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official53.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6392,7 +6393,7 @@ export const products: Product[] = [
     description: 'Official54 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official54.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6401,7 +6402,7 @@ export const products: Product[] = [
     description: 'Official55 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official55.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6410,7 +6411,7 @@ export const products: Product[] = [
     description: 'Official56 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official56.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6419,7 +6420,7 @@ export const products: Product[] = [
     description: 'Official57 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official57.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6428,7 +6429,7 @@ export const products: Product[] = [
     description: 'Official58 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official58.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6437,7 +6438,7 @@ export const products: Product[] = [
     description: 'Official59 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official59.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6446,7 +6447,7 @@ export const products: Product[] = [
     description: 'Official6 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6455,7 +6456,7 @@ export const products: Product[] = [
     description: 'Official60 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official60.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6464,7 +6465,7 @@ export const products: Product[] = [
     description: 'Official61 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official61.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6473,7 +6474,7 @@ export const products: Product[] = [
     description: 'Official62 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official62.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6482,7 +6483,7 @@ export const products: Product[] = [
     description: 'Official63 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official63.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6491,7 +6492,7 @@ export const products: Product[] = [
     description: 'Official64 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official64.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6500,7 +6501,7 @@ export const products: Product[] = [
     description: 'Official65 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official65.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6509,7 +6510,7 @@ export const products: Product[] = [
     description: 'Official66 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official66.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6518,7 +6519,7 @@ export const products: Product[] = [
     description: 'Official67 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official67.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6527,7 +6528,7 @@ export const products: Product[] = [
     description: 'Official68 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official68.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6536,7 +6537,7 @@ export const products: Product[] = [
     description: 'Official69 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official69.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6545,7 +6546,7 @@ export const products: Product[] = [
     description: 'Official7 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6554,7 +6555,7 @@ export const products: Product[] = [
     description: 'Official70 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official70.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6563,7 +6564,7 @@ export const products: Product[] = [
     description: 'Official71 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official71.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6572,7 +6573,7 @@ export const products: Product[] = [
     description: 'Official72 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official72.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6581,7 +6582,7 @@ export const products: Product[] = [
     description: 'Official73 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official73.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6590,7 +6591,7 @@ export const products: Product[] = [
     description: 'Official74 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official74.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6599,7 +6600,7 @@ export const products: Product[] = [
     description: 'Official75 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official75.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6608,7 +6609,7 @@ export const products: Product[] = [
     description: 'Official76 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official76.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6617,7 +6618,7 @@ export const products: Product[] = [
     description: 'Official77 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official77.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6626,7 +6627,7 @@ export const products: Product[] = [
     description: 'Official78 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official78.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6635,7 +6636,7 @@ export const products: Product[] = [
     description: 'Official79 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official79.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6644,7 +6645,7 @@ export const products: Product[] = [
     description: 'Official8 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6653,7 +6654,7 @@ export const products: Product[] = [
     description: 'Official80 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official80.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6662,7 +6663,7 @@ export const products: Product[] = [
     description: 'Official81 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official81.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6671,7 +6672,7 @@ export const products: Product[] = [
     description: 'Official82 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official82.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6680,7 +6681,7 @@ export const products: Product[] = [
     description: 'Official83 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official83.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6689,7 +6690,7 @@ export const products: Product[] = [
     description: 'Official84 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official84.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6698,7 +6699,7 @@ export const products: Product[] = [
     description: 'Official9 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Official9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6707,7 +6708,7 @@ export const products: Product[] = [
     description: 'Officialcasuals 1 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/OfficialCasuals-1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6716,7 +6717,7 @@ export const products: Product[] = [
     description: 'Officialcasuals 2 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/OfficialCasuals-2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6725,7 +6726,7 @@ export const products: Product[] = [
     description: 'Officialcasuals 3 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/OfficialCasuals-3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6734,7 +6735,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6743,7 +6744,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6752,7 +6753,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-11.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6761,7 +6762,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-12.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6770,7 +6771,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-13.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6779,7 +6780,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-14.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6788,7 +6789,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-15.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6797,7 +6798,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-16.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6806,7 +6807,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-17.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6815,7 +6816,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-18.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6824,7 +6825,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-19.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6833,7 +6834,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6842,7 +6843,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-20.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6851,7 +6852,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-21.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6860,7 +6861,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-22.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6869,7 +6870,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-23.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6878,7 +6879,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-24.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6887,7 +6888,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-25.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6896,7 +6897,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-26.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6905,7 +6906,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6914,7 +6915,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6923,7 +6924,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6932,7 +6933,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6941,7 +6942,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6950,7 +6951,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6959,7 +6960,7 @@ export const products: Product[] = [
     description: 'Rugged full-grain leather boot with cushioned Nairobi outsole.',
     price: 4700,
     image: '/images/officials/OfficialTimberBoots-9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6977,7 +6978,7 @@ export const products: Product[] = [
     description: 'Oficial1 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6986,7 +6987,7 @@ export const products: Product[] = [
     description: 'Oficial10 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -6995,7 +6996,7 @@ export const products: Product[] = [
     description: 'Oficial11 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial11.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7004,7 +7005,7 @@ export const products: Product[] = [
     description: 'Oficial12 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial12.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7013,7 +7014,7 @@ export const products: Product[] = [
     description: 'Oficial13 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial13.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7022,7 +7023,7 @@ export const products: Product[] = [
     description: 'Oficial14 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial14.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7031,7 +7032,7 @@ export const products: Product[] = [
     description: 'Oficial15 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial15.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7040,7 +7041,7 @@ export const products: Product[] = [
     description: 'Oficial16 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial16.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7049,7 +7050,7 @@ export const products: Product[] = [
     description: 'Oficial17 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial17.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7058,7 +7059,7 @@ export const products: Product[] = [
     description: 'Oficial18 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial18.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7067,7 +7068,7 @@ export const products: Product[] = [
     description: 'Oficial19 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial19.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7076,7 +7077,7 @@ export const products: Product[] = [
     description: 'Oficial2 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7085,7 +7086,7 @@ export const products: Product[] = [
     description: 'Oficial20 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial20.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7094,7 +7095,7 @@ export const products: Product[] = [
     description: 'Oficial21 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial21.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7103,7 +7104,7 @@ export const products: Product[] = [
     description: 'Oficial22 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial22.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7112,7 +7113,7 @@ export const products: Product[] = [
     description: 'Oficial3 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7121,7 +7122,7 @@ export const products: Product[] = [
     description: 'Oficial4 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7130,7 +7131,7 @@ export const products: Product[] = [
     description: 'Oficial5 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7139,7 +7140,7 @@ export const products: Product[] = [
     description: 'Oficial6 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7148,7 +7149,7 @@ export const products: Product[] = [
     description: 'Oficial7 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7157,7 +7158,7 @@ export const products: Product[] = [
     description: 'Oficial8 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7166,7 +7167,7 @@ export const products: Product[] = [
     description: 'Oficial9 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficial9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7175,7 +7176,7 @@ export const products: Product[] = [
     description: 'Oficialle1 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle1.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7184,7 +7185,7 @@ export const products: Product[] = [
     description: 'Oficialle10 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle10.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7193,7 +7194,7 @@ export const products: Product[] = [
     description: 'Oficialle2 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle2.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7202,7 +7203,7 @@ export const products: Product[] = [
     description: 'Oficialle3 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle3.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7211,7 +7212,7 @@ export const products: Product[] = [
     description: 'Oficialle4 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle4.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7220,7 +7221,7 @@ export const products: Product[] = [
     description: 'Oficialle5 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle5.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7229,7 +7230,7 @@ export const products: Product[] = [
     description: 'Oficialle6 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle6.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7238,7 +7239,7 @@ export const products: Product[] = [
     description: 'Oficialle7 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle7.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7247,7 +7248,7 @@ export const products: Product[] = [
     description: 'Oficialle8 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle8.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {
@@ -7256,7 +7257,7 @@ export const products: Product[] = [
     description: 'Oficialle9 - Quality formal shoes from Trendy Fashion Zone',
     price: 2800,
     image: '/images/officials/Oficialle9.jpg',
-    category: 'formal',
+    category: 'officials',
     gender: 'Men',
   },
   {

@@ -95,26 +95,31 @@ const Navbar = () => {
                   </Link>
                   
                   {/* Dropdown Menu */}
-                  {category.hasSubcategories && hoveredCategory === category.id && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-2xl border border-light z-50 py-2"
-                    >
-                      <div className="max-h-96 overflow-y-auto">
-                        {category.subcategories?.map((subcat) => (
-                          <Link
-                            key={subcat.id}
-                            href={subcat.href}
-                            className="block px-4 py-2 text-sm text-text hover:bg-light hover:text-secondary transition-colors"
-                          >
-                            {subcat.name}
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
+                  <AnimatePresence>
+                    {category.hasSubcategories && hoveredCategory === category.id && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-2xl border border-light z-50 py-2"
+                        onMouseEnter={() => setHoveredCategory(category.id)}
+                        onMouseLeave={() => setHoveredCategory(null)}
+                      >
+                        <div className="max-h-96 overflow-y-auto">
+                          {category.subcategories?.map((subcat) => (
+                            <Link
+                              key={subcat.id}
+                              href={subcat.href}
+                              className="block px-4 py-2 text-sm text-text hover:bg-light hover:text-secondary transition-colors"
+                            >
+                              {subcat.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               ))}
               
