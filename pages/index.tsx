@@ -1125,34 +1125,14 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     const fs = await import('fs');
     const path = await import('path');
     
-    // Helper to filter out invalid products and verify images exist
+    // Helper to filter out invalid products
     const filterValidProducts = (products: Product[]): Product[] => {
       return products.filter(p => {
-        // Filter out null/undefined products
         if (!p || p === null || p === undefined) return false;
-        
-        // Filter out products with null/undefined required fields
         if (!p.id || p.id === null || p.id === undefined) return false;
         if (!p.name || p.name === null || p.name === undefined || p.name === 'null' || p.name.trim() === '') return false;
         if (!p.image || p.image === null || p.image === undefined || p.image === 'null' || p.image.trim() === '') return false;
         if (p.price === null || p.price === undefined || isNaN(p.price) || p.price <= 0) return false;
-        
-        // Verify image exists (for local images only, skip Supabase/external URLs)
-        if (p.image.startsWith('/images/')) {
-          try {
-            const imagePath = path.join(process.cwd(), 'public', p.image);
-            if (!fs.existsSync(imagePath)) {
-              return false;
-            }
-          } catch (err) {
-            // If path check fails, exclude the product
-            return false;
-          }
-        } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-          // Allow external URLs (Supabase, etc.) - assume they're valid
-          return true;
-        }
-        
         return true;
       });
     };
