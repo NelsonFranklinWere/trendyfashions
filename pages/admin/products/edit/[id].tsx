@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
+import { mainCategories } from '@/data/categories-structure';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
@@ -13,8 +14,9 @@ const productSchema = z.object({
   price: z.number().min(0.01, 'Price must be greater than 0'),
   image: z.string().min(1, 'Please upload an image').refine(
     (url) => {
-      // Allow empty string during upload, but validate URL format if provided
       if (!url || url.trim() === '') return false;
+      // Allow relative paths or full URLs
+      if (url.startsWith('/')) return true;
       try {
         new URL(url);
         return true;
@@ -22,9 +24,10 @@ const productSchema = z.object({
         return false;
       }
     },
-    { message: 'Valid image URL is required' }
+    { message: 'Valid image URL or path is required' }
   ),
   category: z.string().min(1, 'Category is required'),
+  subcategory: z.string().optional(),
   gender: z.enum(['Men', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
@@ -32,14 +35,20 @@ const productSchema = z.object({
 
 type ProductFormData = z.infer<typeof productSchema>;
 
-const CATEGORIES = [
-  { value: 'mens-officials', label: "Men's Officials" },
-  { value: 'mens-nike', label: "Men's Nike" },
-  { value: 'sports', label: 'Sports' },
-  { value: 'mens-style', label: "Men's Style" },
-  { value: 'vans', label: 'Vans' },
-  { value: 'sneakers', label: 'Sneakers' },
-];
+// Generate categories and subcategories from single source of truth
+const CATEGORIES = mainCategories
+  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
+  .map(cat => ({ value: cat.id, label: cat.name }));
+
+const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> = {};
+mainCategories.forEach(cat => {
+  if (cat.hasSubcategories && cat.subcategories) {
+    SUBCATEGORIES[cat.id] = cat.subcategories.map(sub => ({
+      value: sub.slug,
+      label: sub.name
+    }));
+  }
+});
 
 export default function EditProduct() {
   const router = useRouter();
@@ -70,6 +79,7 @@ export default function EditProduct() {
   }, [user, authLoading, router]);
 
   const selectedCategory = watch('category');
+  const selectedSubcategory = watch('subcategory');
   const selectedImage = watch('image');
 
   useEffect(() => {
@@ -95,6 +105,7 @@ export default function EditProduct() {
       setValue('price', product.price);
       setValue('image', product.image);
       setValue('category', product.category);
+      setValue('subcategory', product.subcategory || undefined);
       setValue('gender', product.gender || undefined);
       setValue('tags', product.tags?.join(', ') || '');
       setValue('featured', product.featured || false);
@@ -176,15 +187,14 @@ export default function EditProduct() {
       const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
 
       if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
-        // Ensure it's a valid URL
-        try {
-          new URL(imageUrl);
-          setValue('image', imageUrl, { shouldValidate: true });
-          setImagePreview(imageUrl);
-          setUploadProgress('Image uploaded successfully!');
-        } catch (urlError) {
-          throw new Error(`Invalid image URL format: ${imageUrl}`);
+        // Validate it's either a relative path or valid URL
+        const isValidPath = imageUrl.startsWith('/') || imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+        if (!isValidPath) {
+          throw new Error(`Invalid image path format: ${imageUrl}`);
         }
+        setValue('image', imageUrl, { shouldValidate: true });
+        setImagePreview(imageUrl);
+        setUploadProgress('Image uploaded successfully!');
       } else {
         throw new Error('No valid image URL returned from upload');
       }
@@ -338,6 +348,27 @@ export default function EditProduct() {
             {errors.category && <p className="mt-1 text-sm text-red-600">{errors.category.message}</p>}
           </div>
 
+          {/* Subcategory */}
+          {selectedCategory && SUBCATEGORIES[selectedCategory] && (
+            <div>
+              <label htmlFor="subcategory" className="block text-sm font-medium text-gray-700 mb-2">
+                Subcategory
+              </label>
+              <select
+                id="subcategory"
+                {...register('subcategory')}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary"
+              >
+                <option value="">Select a subcategory (optional)</option>
+                {SUBCATEGORIES[selectedCategory].map((subcat) => (
+                  <option key={subcat.value} value={subcat.value}>
+                    {subcat.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
 
           {/* Image Upload */}
           <div>
@@ -399,25 +430,19 @@ export default function EditProduct() {
               {...register('image', {
                 required: 'Please upload an image',
                 validate: (value) => {
-                  // If we have imagePreview, use that instead
                   if (imagePreview && imagePreview.trim() !== '') {
-                    try {
-                      new URL(imagePreview);
-                      return true;
-                    } catch {
-                      return 'Invalid image URL format';
+                    if (!imagePreview.startsWith('/') && !imagePreview.startsWith('http://') && !imagePreview.startsWith('https://')) {
+                      return 'Invalid image path format';
                     }
+                    return true;
                   }
-                  // Otherwise validate the provided value
                   if (!value || value.trim() === '') {
                     return 'Please upload an image';
                   }
-                  try {
-                    new URL(value);
-                    return true;
-                  } catch {
-                    return 'Valid image URL is required';
+                  if (!value.startsWith('/') && !value.startsWith('http://') && !value.startsWith('https://')) {
+                    return 'Valid image path is required';
                   }
+                  return true;
                 }
               })}
               value={imagePreview || selectedImage || ''}
