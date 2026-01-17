@@ -17,6 +17,7 @@ import { getVansImageProducts } from '@/lib/server/vansImageProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
 import { filterCasualProducts } from '@/lib/filters/casuals';
 import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
+import { getFAQSchema, getDefaultStoreFAQs, getAggregateReviewSchema } from '@/lib/seo/structuredData';
 
 interface HomeProps {
   featuredOfficials: Product[];
@@ -243,6 +244,20 @@ const Home = ({
               'query-input': 'required name=search_term_string',
             },
           }),
+        }}
+      />
+      {/* FAQ Schema for featured snippets */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getFAQSchema(getDefaultStoreFAQs())),
+        }}
+      />
+      {/* Review Schema for trust signals */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getAggregateReviewSchema()),
         }}
       />
 

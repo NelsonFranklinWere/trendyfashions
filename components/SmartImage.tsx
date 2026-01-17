@@ -36,7 +36,7 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 50, // Ultra-reduced for instant loading
+  quality = 65, // Balanced quality for above-fold content
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,

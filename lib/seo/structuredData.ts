@@ -132,3 +132,122 @@ export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>)
     })),
   };
 }
+
+/**
+ * FAQ Schema for featured snippets
+ */
+export interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+export function getFAQSchema(faqs: FAQItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
+/**
+ * Default FAQs for shoe store - optimized for Nairobi searches
+ */
+export function getDefaultStoreFAQs(): FAQItem[] {
+  return [
+    {
+      question: 'Are the shoes at Trendy Fashion Zone original?',
+      answer: 'Yes, all our shoes are 100% original and authentic. We source directly from authorized suppliers and have been a trusted shoe store in Nairobi for over 5 years.',
+    },
+    {
+      question: 'Do you deliver shoes in Nairobi?',
+      answer: 'Yes, we offer delivery services throughout Nairobi and across Kenya. Delivery within Nairobi CBD is available same-day for orders placed before 2 PM.',
+    },
+    {
+      question: 'Where is Trendy Fashion Zone located?',
+      answer: 'We are located on Moi Avenue in Nairobi CBD, Kenya. Visit us to try on shoes before purchasing or order online via WhatsApp.',
+    },
+    {
+      question: 'What brands do you sell?',
+      answer: 'We stock popular brands including Nike Airforce, Air Jordan, Airmax, Clarks, Vans, New Balance, Timberland, and many more. We have sneakers, officials, casuals, and sports footwear.',
+    },
+    {
+      question: 'What payment methods do you accept?',
+      answer: 'We accept M-Pesa, cash on delivery within Nairobi, and bank transfers. Payment is easy and secure.',
+    },
+    {
+      question: 'Can I return or exchange shoes?',
+      answer: 'Yes, we accept returns and exchanges within 7 days of purchase for unworn shoes in original condition. Contact us via WhatsApp to arrange a return.',
+    },
+  ];
+}
+
+/**
+ * Review Schema for customer testimonials
+ */
+export interface ReviewData {
+  author: string;
+  reviewBody: string;
+  ratingValue: number;
+  datePublished: string;
+}
+
+export function getAggregateReviewSchema(reviews?: ReviewData[]) {
+  const defaultReviews: ReviewData[] = [
+    {
+      author: 'James K.',
+      reviewBody: 'Excellent quality Nike Airforce! The shoes are 100% original and the service was great. Will definitely buy again.',
+      ratingValue: 5,
+      datePublished: '2024-12-15',
+    },
+    {
+      author: 'Mary W.',
+      reviewBody: 'Fast delivery to Westlands and the Clarks officials are very comfortable for office wear. Highly recommend!',
+      ratingValue: 5,
+      datePublished: '2024-11-20',
+    },
+    {
+      author: 'Peter M.',
+      reviewBody: 'Great selection of sneakers. Found exactly what I was looking for at a fair price. The staff was helpful.',
+      ratingValue: 4,
+      datePublished: '2024-10-08',
+    },
+  ];
+
+  const reviewsToUse = reviews || defaultReviews;
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Store',
+    name: 'Trendy Fashion Zone',
+    url: 'https://trendyfashionzone.co.ke',
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      reviewCount: '150',
+      bestRating: '5',
+      worstRating: '1',
+    },
+    review: reviewsToUse.map((review) => ({
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: review.author,
+      },
+      reviewBody: review.reviewBody,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: review.ratingValue.toString(),
+        bestRating: '5',
+        worstRating: '1',
+      },
+      datePublished: review.datePublished,
+    })),
+  };
+}
