@@ -15,8 +15,8 @@ export const siteConfig = {
     address: 'Moi Avenue, Nairobi, Kenya',
   },
   contact: {
-    phone: '+254743869564',
-    whatsapp: '254743869564',
+    phone: '+254712417489',
+    whatsapp: '254712417489',
   },
   social: {
     twitter: '@TrendyFashionZone',
