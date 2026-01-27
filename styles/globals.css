@@ -4,6 +4,24 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
+/* WhatsApp Float Button - Ensure it's always floating */
+.whatsapp-float-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999999 !important;
+  pointer-events: auto !important;
+}
+
+/* WhatsApp Float Button - Ensure it's always floating */
+.whatsapp-float-button {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 999999 !important;
+  pointer-events: auto !important;
+}
+
 @layer base {
   html {
     /* Removed smooth scroll from html - causes janky scrolling */
@@ -17,7 +35,6 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     /* Performance optimizations */
-    transform: translateZ(0); /* Force GPU acceleration */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
