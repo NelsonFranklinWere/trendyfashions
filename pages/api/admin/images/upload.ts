@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createImage } from '@/lib/db/images';
-import { uploadToSpaces } from '@/lib/storage/spaces';
 import formidable from 'formidable';
 import fs from 'fs';
 import path from 'path';
@@ -31,9 +30,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  // Check if CDN credentials are available
-  const hasCdnCredentials = process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET;
-
+  // Always use local PostgreSQL storage (no CDN)
   try {
     const form = formidable({
       maxFileSize: 10 * 1024 * 1024, // 10MB
@@ -88,52 +85,27 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
     
-    // Upload to DigitalOcean Spaces for fast CDN delivery
-    const imageKey = `images/${category}/${fileName}`;
-    const thumbnailKey = `images/${category}/${thumbnailFileName}`;
+    // Always use local PostgreSQL storage
+    const fsPromises = require('fs').promises;
 
-    let imageUrl: string;
-    let thumbnailUrl: string;
+    // Create uploads directory if it doesn't exist
+    const uploadsDir = path.join(process.cwd(), 'public', 'uploads', category);
+    await fsPromises.mkdir(uploadsDir, { recursive: true });
 
-    if (hasCdnCredentials) {
-      // Upload to DigitalOcean Spaces
-      imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
-        cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
-        metadata: {
-          category,
-          originalFilename: uploadedFile.originalFilename,
-        },
-      });
+    // Save optimized image
+    const localImagePath = path.join(uploadsDir, fileName);
+    await fsPromises.writeFile(localImagePath, optimizedBuffer);
+    const imageUrl = `/uploads/${category}/${fileName}`;
 
-      // Upload thumbnail to Spaces
-      try {
-        thumbnailUrl = await uploadToSpaces(thumbnailKey, thumbnail.buffer, 'image/webp', {
-          cacheControl: 'public, max-age=31536000, immutable',
-        });
-      } catch (thumbnailError) {
-        console.warn('Thumbnail upload error (non-critical):', thumbnailError);
-        thumbnailUrl = imageUrl; // Fallback to main image
-      }
-    } else {
-      // Fallback to local storage
-      const fsPromises = require('fs').promises;
+    // Save thumbnail
+    const thumbnailDir = path.join(process.cwd(), 'public', 'uploads', 'thumbnails');
+    await fsPromises.mkdir(thumbnailDir, { recursive: true });
+    const localThumbnailPath = path.join(thumbnailDir, thumbnailFileName);
+    await fsPromises.writeFile(localThumbnailPath, thumbnail.buffer);
+    const thumbnailUrl = `/uploads/thumbnails/${thumbnailFileName}`;
 
-      // Create uploads directory if it doesn't exist
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads', category);
-      await fsPromises.mkdir(uploadsDir, { recursive: true });
-
-      // Save optimized image
-      const localImagePath = path.join(uploadsDir, fileName);
-      await fsPromises.writeFile(localImagePath, optimizedBuffer);
-      imageUrl = `/uploads/${category}/${fileName}`;
-
-      // Save thumbnail
-      const thumbnailDir = path.join(process.cwd(), 'public', 'uploads', 'thumbnails');
-      await fsPromises.mkdir(thumbnailDir, { recursive: true });
-      const localThumbnailPath = path.join(thumbnailDir, thumbnailFileName);
-      await fsPromises.writeFile(localThumbnailPath, thumbnail.buffer);
-      thumbnailUrl = `/uploads/thumbnails/${thumbnailFileName}`;
-    }
+    // Storage path for database (local path)
+    const storagePath = `uploads/${category}/${fileName}`;
 
     // Save metadata to PostgreSQL database
     const dbData = await createImage({
@@ -142,7 +114,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       filename: uploadedFile.originalFilename,
       url: imageUrl,
       thumbnail_url: thumbnailUrl,
-      storage_path: imageKey,
+      storage_path: storagePath,
       file_size: optimizedBuffer.length,
       mime_type: optimizedFormat,
       width: width || undefined,
@@ -167,18 +139,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   } catch (uploadError: any) {
     console.error('Upload error:', uploadError);
-    const errorMessage = hasCdnCredentials
-      ? 'Failed to upload image to DigitalOcean Spaces'
-      : 'Failed to save image locally';
-
-    const helpMessage = hasCdnCredentials
-      ? 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
-      : 'Please check file permissions and disk space';
 
     return res.status(500).json({
-      error: errorMessage,
+      error: 'Failed to save image locally',
       details: uploadError.message,
-      help: helpMessage
+      help: 'Please check file permissions, disk space, and ensure the uploads directory is writable'
     });
   }
 }

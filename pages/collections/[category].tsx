@@ -81,6 +81,8 @@ function getCategorySalesHeader(categorySlug: string): string {
     'vans': 'Browse Customized Vans Collection',
     'sneakers': 'Find Your Ideal Sneakers',
     'mens-casuals': 'Select Your Casual Footwear',
+    'loafers': 'Discover Elegant Loafers Collection',
+    'sandals': 'Find Comfortable Sandals for Every Occasion',
   };
   return headers[categorySlug] || `Browse ${categorySlug.replace(/-/g, ' ')} Collection`;
 }
@@ -94,6 +96,8 @@ function getCategorySalesDescription(categorySlug: string): string {
     'vans': 'Customized Vans that express your individuality. See designs that match your style.',
     'sneakers': 'Classic and modern sneakers in various styles. Find the pair that feels right for you.',
     'mens-casuals': 'Comfortable casual shoes for everyday wear. Select what fits your daily routine.',
+    'loafers': 'Elegant loafers for professional and casual occasions. Discover timeless style and comfort.',
+    'sandals': 'Comfortable sandals perfect for warm weather. Find the ideal pair for your casual needs.',
   };
   return descriptions[categorySlug] || `Browse quality ${categorySlug.replace(/-/g, ' ')} options that suit your needs.`;
 }
@@ -984,6 +988,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         p.image && p.image.startsWith('/images/loafers/')
       );
       
+      // Combine - database products take priority
+      products = mergeProductsWithDbPriority(
+        [...dbProducts, ...dbImageProducts],
+        fsProducts
+      );
+    } else if (categorySlug === 'sandals') {
+      // Get database products first (priority - keep uploaded names/descriptions/prices)
+      const dbProducts = await getDbProducts('sandals');
+      const dbImageProducts = await getDbImageProducts('sandals');
+
+      // Log for debugging
+      console.log(`[Sandals Category] Found ${dbProducts.length} products from products table`);
+      console.log(`[Sandals Category] Found ${dbImageProducts.length} products from images table`);
+      if (dbProducts.length > 0) {
+        console.log(`[Sandals Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
+      }
+
+      // Get products directly from sandals folder (using casual images as fallback)
+      const fsProducts = getCasualImageProducts().filter(p =>
+        p.image && p.image.startsWith('/images/sandals/')
+      );
+
       // Combine - database products take priority
       products = mergeProductsWithDbPriority(
         [...dbProducts, ...dbImageProducts],

@@ -41,6 +41,27 @@ export const mainCategories: MainCategory[] = [
         parentCategory: 'officials',
       },
       {
+        id: 'john-fosters',
+        name: 'John Fosters',
+        slug: 'john-fosters',
+        href: '/collections/officials?filter=John Fosters',
+        parentCategory: 'officials',
+      },
+      {
+        id: 'louis-vuitton',
+        name: 'Louis Vuitton',
+        slug: 'louis-vuitton',
+        href: '/collections/officials?filter=Louis Vuitton',
+        parentCategory: 'officials',
+      },
+      {
+        id: 'mules',
+        name: 'Mules',
+        slug: 'mules',
+        href: '/collections/officials?filter=Mules',
+        parentCategory: 'officials',
+      },
+      {
         id: 'official-boots',
         name: 'Official Boots',
         slug: 'official-boots',
@@ -55,6 +76,20 @@ export const mainCategories: MainCategory[] = [
         parentCategory: 'officials',
       },
     ],
+  },
+  {
+    id: 'loafers',
+    name: 'Loafers',
+    slug: 'loafers',
+    href: '/collections/loafers',
+    hasSubcategories: false,
+  },
+  {
+    id: 'sandals',
+    name: 'Sandals',
+    slug: 'sandals',
+    href: '/collections/sandals',
+    hasSubcategories: false,
   },
   {
     id: 'casual',
@@ -174,7 +209,17 @@ export const categoryGroups = {
   officials: {
     name: 'Officials',
     slug: 'officials',
-    subcategories: ['Clarks Officials', 'Empire Officials', 'Official Boots', 'Corporate Casuals'],
+    subcategories: ['Clarks Officials', 'Empire Officials', 'John Fosters', 'Louis Vuitton', 'Mules', 'Official Boots', 'Corporate Casuals'],
+  },
+  loafers: {
+    name: 'Loafers',
+    slug: 'loafers',
+    subcategories: [],
+  },
+  sandals: {
+    name: 'Sandals',
+    slug: 'sandals',
+    subcategories: [],
   },
   casual: {
     name: 'Casual',

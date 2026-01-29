@@ -24,14 +24,16 @@ interface DbImage {
 }
 
 // Map category slugs to database category values
-// Only working categories: officials, casual, loafers, sports, vans
+// All working categories: officials, casual, loafers, sandals, sports, vans, sneakers
 const categoryMapping: Record<string, string> = {
   // Working categories
   'officials': 'officials',
   'casual': 'casual',
   'loafers': 'loafers',
+  'sandals': 'sandals',
   'sports': 'sports',
   'vans': 'vans',
+  'sneakers': 'sneakers',
   // Legacy mappings for backward compatibility
   'mens-officials': 'officials',
   'mens-official': 'officials',
