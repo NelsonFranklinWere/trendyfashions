@@ -23,7 +23,20 @@ export default function Document() {
         <meta name="geo.placename" content="Nairobi" />
         <meta name="geo.position" content="-1.2921;36.8219" />
         <meta name="ICBM" content="-1.2921, 36.8219" />
-        
+
+        {/* Google Tag Manager */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17914939782"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'AW-17914939782');
+            `,
+          }}
+        />
+
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
