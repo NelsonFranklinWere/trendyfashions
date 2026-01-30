@@ -251,3 +251,91 @@ export function getAggregateReviewSchema(reviews?: ReviewData[]) {
     })),
   };
 }
+
+/**
+ * Speakable Schema for voice search and AI assistants (GEO optimization)
+ * Use this to mark content that should be read aloud by voice assistants
+ */
+export function getSpeakableSchema(cssSelectors: string[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Trendy Fashion Zone - Original Shoes in Nairobi',
+    url: 'https://trendyfashionzone.co.ke',
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: cssSelectors,
+    },
+  };
+}
+
+/**
+ * Article Schema for citation by AI engines (GEO optimization)
+ * Helps AI chatbots understand and cite your content properly
+ */
+export function getArticleSchema(data: {
+  headline: string;
+  description: string;
+  url: string;
+  author?: string;
+  datePublished?: string;
+  dateModified?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: data.headline,
+    description: data.description,
+    url: data.url,
+    author: {
+      '@type': 'Organization',
+      name: data.author || 'Trendy Fashion Zone',
+      url: 'https://trendyfashionzone.co.ke',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Trendy Fashion Zone',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://trendyfashionzone.co.ke/images/logos/Logo.jpg',
+      },
+    },
+    datePublished: data.datePublished || new Date().toISOString(),
+    dateModified: data.dateModified || new Date().toISOString(),
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': data.url,
+    },
+  };
+}
+
+/**
+ * How-To Schema for step-by-step guides (great for AI citations)
+ */
+export interface HowToStep {
+  name: string;
+  text: string;
+  url?: string;
+}
+
+export function getHowToSchema(data: {
+  name: string;
+  description: string;
+  steps: HowToStep[];
+  totalTime?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name: data.name,
+    description: data.description,
+    totalTime: data.totalTime,
+    step: data.steps.map((step, index) => ({
+      '@type': 'HowToStep',
+      position: index + 1,
+      name: step.name,
+      text: step.text,
+      url: step.url,
+    })),
+  };
+}

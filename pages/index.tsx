@@ -17,7 +17,7 @@ import { getVansImageProducts } from '@/lib/server/vansImageProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
 import { filterCasualProducts } from '@/lib/filters/casuals';
 import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
-import { getFAQSchema, getDefaultStoreFAQs, getAggregateReviewSchema } from '@/lib/seo/structuredData';
+import { getFAQSchema, getDefaultStoreFAQs, getAggregateReviewSchema, getSpeakableSchema } from '@/lib/seo/structuredData';
 
 interface HomeProps {
   featuredOfficials: Product[];
@@ -258,6 +258,13 @@ const Home = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getAggregateReviewSchema()),
+        }}
+      />
+      {/* Speakable Schema for voice search & AI citations (GEO) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getSpeakableSchema(['h1', 'h2', '.hero-description'])),
         }}
       />
 

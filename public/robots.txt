@@ -33,8 +33,39 @@ Disallow: /admin/
 Disallow: /api/
 Crawl-delay: 1
 
-# Gemini / Google AI
+# AI Search Engines & Chatbots (for GEO optimization)
+# Google Gemini / Bard
 User-agent: Google-Extended
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# OpenAI ChatGPT
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# ChatGPT User Browsing
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Anthropic Claude
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Common Crawl (used by many AI models)
+User-agent: CCBot
 Allow: /
 Disallow: /admin/
 Disallow: /api/

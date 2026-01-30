@@ -2,6 +2,7 @@ import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
+import { getArticleSchema, getSpeakableSchema } from '@/lib/seo/structuredData';
 
 const About = () => {
   return (
@@ -46,6 +47,29 @@ const About = () => {
             content: 'Nairobi',
           },
         ]}
+      />
+
+      {/* Article Schema for AI citation (GEO optimization) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            getArticleSchema({
+              headline: 'About Trendy Fashion Zone - Nairobi\'s Trusted Shoe Store Since 2020',
+              description: 'Trendy Fashion Zone has been Nairobi\'s premier destination for authentic Nike, Jordan, Clarks, and Vans shoes for over 5 years. Located on Moi Avenue in Nairobi CBD, we offer quality original footwear with same-day delivery and 100% authenticity guarantee.',
+              url: `${siteConfig.url}/about`,
+              datePublished: '2020-01-01T00:00:00Z',
+              dateModified: new Date().toISOString(),
+            })
+          ),
+        }}
+      />
+      {/* Speakable Schema for voice assistants */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(getSpeakableSchema(['h1', 'h2', 'p'])),
+        }}
       />
 
       <div className="bg-gradient-to-b from-light/30 to-white py-12 md:py-20">
