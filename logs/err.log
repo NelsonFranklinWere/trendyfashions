@@ -5827,3 +5827,1151 @@
 2026-01-11 14:35:32 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
 2026-01-11 14:35:32 +00:00:   port: 5432
 2026-01-11 14:35:32 +00:00: }
+2026-01-30 10:51:14 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:14 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:14 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:14 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:14 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:14 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:14 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:14 +00:00:   errno: -98,
+2026-01-30 10:51:14 +00:00:   syscall: 'listen',
+2026-01-30 10:51:14 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:14 +00:00:   port: 3000
+2026-01-30 10:51:14 +00:00: }
+2026-01-30 10:51:15 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:15 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:15 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:15 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:15 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:15 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:15 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:15 +00:00:   errno: -98,
+2026-01-30 10:51:15 +00:00:   syscall: 'listen',
+2026-01-30 10:51:15 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:15 +00:00:   port: 3000
+2026-01-30 10:51:15 +00:00: }
+2026-01-30 10:51:15 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:15 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:15 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:15 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:15 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:15 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:15 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:15 +00:00:   errno: -98,
+2026-01-30 10:51:15 +00:00:   syscall: 'listen',
+2026-01-30 10:51:15 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:15 +00:00:   port: 3000
+2026-01-30 10:51:15 +00:00: }
+2026-01-30 10:51:16 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:16 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:16 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:16 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:16 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:16 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:16 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:16 +00:00:   errno: -98,
+2026-01-30 10:51:16 +00:00:   syscall: 'listen',
+2026-01-30 10:51:16 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:16 +00:00:   port: 3000
+2026-01-30 10:51:16 +00:00: }
+2026-01-30 10:51:16 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:16 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:16 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:16 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:16 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:16 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:16 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:16 +00:00:   errno: -98,
+2026-01-30 10:51:16 +00:00:   syscall: 'listen',
+2026-01-30 10:51:16 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:16 +00:00:   port: 3000
+2026-01-30 10:51:16 +00:00: }
+2026-01-30 10:51:17 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:17 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:17 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:17 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:17 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:17 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:17 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:17 +00:00:   errno: -98,
+2026-01-30 10:51:17 +00:00:   syscall: 'listen',
+2026-01-30 10:51:17 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:17 +00:00:   port: 3000
+2026-01-30 10:51:17 +00:00: }
+2026-01-30 10:51:18 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:18 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:18 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:18 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:18 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:18 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:18 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:18 +00:00:   errno: -98,
+2026-01-30 10:51:18 +00:00:   syscall: 'listen',
+2026-01-30 10:51:18 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:18 +00:00:   port: 3000
+2026-01-30 10:51:18 +00:00: }
+2026-01-30 10:51:18 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:18 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:18 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:18 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:18 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:18 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:18 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:18 +00:00:   errno: -98,
+2026-01-30 10:51:18 +00:00:   syscall: 'listen',
+2026-01-30 10:51:18 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:18 +00:00:   port: 3000
+2026-01-30 10:51:18 +00:00: }
+2026-01-30 10:51:19 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:19 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:19 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:19 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:19 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:19 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:19 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:19 +00:00:   errno: -98,
+2026-01-30 10:51:19 +00:00:   syscall: 'listen',
+2026-01-30 10:51:19 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:19 +00:00:   port: 3000
+2026-01-30 10:51:19 +00:00: }
+2026-01-30 10:51:19 +00:00:  ⨯ Failed to start server
+2026-01-30 10:51:19 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:51:19 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:51:19 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:51:19 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:51:19 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:51:19 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:51:19 +00:00:   errno: -98,
+2026-01-30 10:51:19 +00:00:   syscall: 'listen',
+2026-01-30 10:51:19 +00:00:   address: '0.0.0.0',
+2026-01-30 10:51:19 +00:00:   port: 3000
+2026-01-30 10:51:19 +00:00: }
+2026-01-30 10:59:58 +00:00:  ⨯ Failed to start server
+2026-01-30 10:59:58 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:59:58 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:59:58 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:59:58 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:59:58 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:59:58 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:59:58 +00:00:   errno: -98,
+2026-01-30 10:59:58 +00:00:   syscall: 'listen',
+2026-01-30 10:59:58 +00:00:   address: '0.0.0.0',
+2026-01-30 10:59:58 +00:00:   port: 3000
+2026-01-30 10:59:58 +00:00: }
+2026-01-30 10:59:58 +00:00:  ⨯ Failed to start server
+2026-01-30 10:59:58 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:59:58 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:59:58 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:59:58 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:59:58 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:59:58 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:59:58 +00:00:   errno: -98,
+2026-01-30 10:59:58 +00:00:   syscall: 'listen',
+2026-01-30 10:59:58 +00:00:   address: '0.0.0.0',
+2026-01-30 10:59:58 +00:00:   port: 3000
+2026-01-30 10:59:58 +00:00: }
+2026-01-30 10:59:59 +00:00:  ⨯ Failed to start server
+2026-01-30 10:59:59 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 10:59:59 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 10:59:59 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 10:59:59 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 10:59:59 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 10:59:59 +00:00:   code: 'EADDRINUSE',
+2026-01-30 10:59:59 +00:00:   errno: -98,
+2026-01-30 10:59:59 +00:00:   syscall: 'listen',
+2026-01-30 10:59:59 +00:00:   address: '0.0.0.0',
+2026-01-30 10:59:59 +00:00:   port: 3000
+2026-01-30 10:59:59 +00:00: }
+2026-01-30 11:00:00 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:00 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:00 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:00 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:00 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:00 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:00 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:00 +00:00:   errno: -98,
+2026-01-30 11:00:00 +00:00:   syscall: 'listen',
+2026-01-30 11:00:00 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:00 +00:00:   port: 3000
+2026-01-30 11:00:00 +00:00: }
+2026-01-30 11:00:00 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:00 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:00 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:00 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:00 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:00 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:00 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:00 +00:00:   errno: -98,
+2026-01-30 11:00:00 +00:00:   syscall: 'listen',
+2026-01-30 11:00:00 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:00 +00:00:   port: 3000
+2026-01-30 11:00:00 +00:00: }
+2026-01-30 11:00:01 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:01 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:01 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:01 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:01 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:01 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:01 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:01 +00:00:   errno: -98,
+2026-01-30 11:00:01 +00:00:   syscall: 'listen',
+2026-01-30 11:00:01 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:01 +00:00:   port: 3000
+2026-01-30 11:00:01 +00:00: }
+2026-01-30 11:00:02 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:02 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:02 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:02 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:02 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:02 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:02 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:02 +00:00:   errno: -98,
+2026-01-30 11:00:02 +00:00:   syscall: 'listen',
+2026-01-30 11:00:02 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:02 +00:00:   port: 3000
+2026-01-30 11:00:02 +00:00: }
+2026-01-30 11:00:03 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:03 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:03 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:03 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:03 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:03 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:03 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:03 +00:00:   errno: -98,
+2026-01-30 11:00:03 +00:00:   syscall: 'listen',
+2026-01-30 11:00:03 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:03 +00:00:   port: 3000
+2026-01-30 11:00:03 +00:00: }
+2026-01-30 11:00:04 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:04 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:04 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:04 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:04 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:04 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:04 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:04 +00:00:   errno: -98,
+2026-01-30 11:00:04 +00:00:   syscall: 'listen',
+2026-01-30 11:00:04 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:04 +00:00:   port: 3000
+2026-01-30 11:00:04 +00:00: }
+2026-01-30 11:00:05 +00:00:  ⨯ Failed to start server
+2026-01-30 11:00:05 +00:00: Error: listen EADDRINUSE: address already in use 0.0.0.0:3000
+2026-01-30 11:00:05 +00:00:     at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+2026-01-30 11:00:05 +00:00:     at listenInCluster (node:net:1965:12)
+2026-01-30 11:00:05 +00:00:     at doListen (node:net:2139:7)
+2026-01-30 11:00:05 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:83:21) {
+2026-01-30 11:00:05 +00:00:   code: 'EADDRINUSE',
+2026-01-30 11:00:05 +00:00:   errno: -98,
+2026-01-30 11:00:05 +00:00:   syscall: 'listen',
+2026-01-30 11:00:05 +00:00:   address: '0.0.0.0',
+2026-01-30 11:00:05 +00:00:   port: 3000
+2026-01-30 11:00:05 +00:00: }
+2026-01-30 11:04:38 +00:00: Auth check error: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:38 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:38 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:38 +00:00:     at async o (/var/www/trendyfashions/.next/server/pages/api/admin/auth/me.js:3:896)
+2026-01-30 11:04:38 +00:00:     at async d (/var/www/trendyfashions/.next/server/pages/api/admin/auth/me.js:2:79)
+2026-01-30 11:04:38 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/api/admin/auth/me.js:1:1122)
+2026-01-30 11:04:38 +00:00:     at async o (/var/www/trendyfashions/.next/server/pages/api/admin/auth/me.js:3:1268)
+2026-01-30 11:04:38 +00:00:     at async K (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:16881)
+2026-01-30 11:04:38 +00:00:     at async U.render (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages-api.runtime.prod.js:20:17520)
+2026-01-30 11:04:38 +00:00:     at async NextNodeServer.runApi (/var/www/trendyfashions/node_modules/next/dist/server/next-server.js:603:9)
+2026-01-30 11:04:38 +00:00:     at async NextNodeServer.handleCatchallRenderRequest (/var/www/trendyfashions/node_modules/next/dist/server/next-server.js:269:37) {
+2026-01-30 11:04:38 +00:00:   errno: -101,
+2026-01-30 11:04:38 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:38 +00:00:   syscall: 'connect',
+2026-01-30 11:04:38 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:38 +00:00:   port: 5432
+2026-01-30 11:04:38 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16031)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:40 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16054)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16054)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:40 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16077)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:40 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16105)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading mens-officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16105)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:40 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16133)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16133)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:40 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:04:40 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:40 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:40 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:40 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:40 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:40 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:40 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:40 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:04:40 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:04:40 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:40 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:40 +00:00:   errno: -101,
+2026-01-30 11:04:40 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:40 +00:00:   syscall: 'connect',
+2026-01-30 11:04:40 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:40 +00:00:   port: 5432
+2026-01-30 11:04:40 +00:00: }
+2026-01-30 11:04:40 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16112)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:45 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16142)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:45 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16169)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:45 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15913)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading sports products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:45 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15913)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:45 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:45 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:45 +00:00: Error loading vans products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:45 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:45 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:45 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:45 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:45 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:04:45 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:04:45 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:45 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:45 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:45 +00:00:   errno: -101,
+2026-01-30 11:04:45 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:45 +00:00:   syscall: 'connect',
+2026-01-30 11:04:45 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:45 +00:00:   port: 5432
+2026-01-30 11:04:45 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:53 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:22955)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:53 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:53 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:53 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:53 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:22976)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:53 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:53 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading loafers products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:22976)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:53 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:04:53 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:04:53 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:53 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:53 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:53 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:53 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:04:53 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:04:53 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:04:53 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:53 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:04:53 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:04:53 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:04:53 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:04:53 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:04:53 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:04:53 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:04:53 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:04:53 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:04:53 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:04:53 +00:00:   errno: -101,
+2026-01-30 11:04:53 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:04:53 +00:00:   syscall: 'connect',
+2026-01-30 11:04:53 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:04:53 +00:00:   port: 5432
+2026-01-30 11:04:53 +00:00: }
+2026-01-30 11:04:53 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16031)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:35 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16054)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16054)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:35 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16077)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:35 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16105)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading mens-officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16105)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:35 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16133)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:16133)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:35 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:8798)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24420)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:06:35 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:35 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: Error loading officials products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:35 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:35 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:35 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:35 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:35 +00:00:     at async P (/var/www/trendyfashions/.next/server/chunks/7410.js:1:29319)
+2026-01-30 11:06:35 +00:00:     at async m (/var/www/trendyfashions/.next/server/chunks/7410.js:1:15146)
+2026-01-30 11:06:35 +00:00:     at async z (/var/www/trendyfashions/.next/server/pages/collections/[category].js:1:24440)
+2026-01-30 11:06:35 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:35 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:06:35 +00:00:   errno: -101,
+2026-01-30 11:06:35 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:35 +00:00:   syscall: 'connect',
+2026-01-30 11:06:35 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:35 +00:00:   port: 5432
+2026-01-30 11:06:35 +00:00: }
+2026-01-30 11:06:35 +00:00: No products found in database, falling back to filesystem
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16112)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:50 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16142)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:50 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16169)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28)
+2026-01-30 11:06:50 +00:00:     at async /var/www/trendyfashions/node_modules/next/dist/server/response-cache/index.js:90:36 {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15913)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading sports products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:50 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16225)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15913)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1736)
+2026-01-30 11:06:50 +00:00:     at async c (/var/www/trendyfashions/.next/server/chunks/9443.js:1:9032)
+2026-01-30 11:06:50 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7071)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:06:50 +00:00: Error loading vans products from database: Error: connect ENETUNREACH 2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58:5432 - Local (:::0)
+2026-01-30 11:06:50 +00:00:     at /var/www/trendyfashions/node_modules/pg-pool/index.js:45:11
+2026-01-30 11:06:50 +00:00:     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:1147)
+2026-01-30 11:06:50 +00:00:     at async t (/var/www/trendyfashions/.next/server/chunks/9443.js:1:495)
+2026-01-30 11:06:50 +00:00:     at async l (/var/www/trendyfashions/.next/server/chunks/9443.js:1:7270)
+2026-01-30 11:06:50 +00:00:     at async i (/var/www/trendyfashions/.next/server/pages/index.js:1:15926)
+2026-01-30 11:06:50 +00:00:     at async w (/var/www/trendyfashions/.next/server/pages/index.js:1:16499)
+2026-01-30 11:06:50 +00:00:     at async e3 (/var/www/trendyfashions/node_modules/next/dist/compiled/next-server/pages.runtime.prod.js:25:3930)
+2026-01-30 11:06:50 +00:00:     at async doRender (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1414:30)
+2026-01-30 11:06:50 +00:00:     at async cacheEntry.responseCache.get.routeKind (/var/www/trendyfashions/node_modules/next/dist/server/base-server.js:1588:28) {
+2026-01-30 11:06:50 +00:00:   errno: -101,
+2026-01-30 11:06:50 +00:00:   code: 'ENETUNREACH',
+2026-01-30 11:06:50 +00:00:   syscall: 'connect',
+2026-01-30 11:06:50 +00:00:   address: '2a05:d01c:30c:9d20:cb0f:2c2f:73f3:ca58',
+2026-01-30 11:06:50 +00:00:   port: 5432
+2026-01-30 11:06:50 +00:00: }
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517173-WhatsApp Image 2026-01-28 at 12.39.01 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517204-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517313-WhatsApp Image 2026-01-28 at 12.39.11 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517265-WhatsApp Image 2026-01-28 at 12.38.59 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517422-WhatsApp Image 2026-01-28 at 12.39.14 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517384-WhatsApp Image 2026-01-28 at 12.39.44 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517838-WhatsApp Image 2026-01-28 at 12.39.46 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517865-WhatsApp Image 2026-01-28 at 12.39.50 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517173-WhatsApp Image 2026-01-28 at 12.39.01 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518039-WhatsApp Image 2026-01-28 at 12.39.53 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772517883-WhatsApp Image 2026-01-28 at 12.39.52 PM.webp received null
+2026-01-30 11:28:38 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:39 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518892-WhatsApp Image 2026-01-28 at 12.38.59 PM.webp received null
+2026-01-30 11:28:39 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:39 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772519450-WhatsApp Image 2026-01-28 at 12.39.01 PM.webp received null
+2026-01-30 11:28:40 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:40 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772519887-WhatsApp Image 2026-01-28 at 12.39.11 PM.webp received null
+2026-01-30 11:28:40 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:40 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772520274-WhatsApp Image 2026-01-28 at 12.39.14 PM.webp received null
+2026-01-30 11:28:40 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:41 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772520761-WhatsApp Image 2026-01-28 at 12.39.44 PM.webp received null
+2026-01-30 11:28:41 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:41 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772521160-WhatsApp Image 2026-01-28 at 12.39.46 PM.webp received null
+2026-01-30 11:28:41 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:41 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772521568-WhatsApp Image 2026-01-28 at 12.39.50 PM.webp received null
+2026-01-30 11:28:42 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:42 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772521978-WhatsApp Image 2026-01-28 at 12.39.52 PM.webp received null
+2026-01-30 11:28:42 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:42 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772522384-WhatsApp Image 2026-01-28 at 12.39.53 PM.webp received null
+2026-01-30 11:28:43 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:43 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:52 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:28:55 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/loafers/1769772518007-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:30:52 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772649719-WhatsApp Image 2026-01-28 at 12.38.59 PM.webp received null
+2026-01-30 11:30:52 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772650125-WhatsApp Image 2026-01-28 at 12.39.14 PM.webp received null
+2026-01-30 11:30:52 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772650239-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:30:52 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772650393-WhatsApp Image 2026-01-28 at 12.39.44 PM.webp received null
+2026-01-30 11:30:54 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772650476-WhatsApp Image 2026-01-28 at 12.39.01 PM.webp received null
+2026-01-30 11:30:54 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772650793-WhatsApp Image 2026-01-28 at 12.39.11 PM.webp received null
+2026-01-30 11:30:55 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772653254-WhatsApp Image 2026-01-28 at 12.39.46 PM.webp received null
+2026-01-30 11:30:55 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772653903-WhatsApp Image 2026-01-28 at 12.38.56 PM.webp received null
+2026-01-30 11:30:59 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772657054-WhatsApp Image 2026-01-28 at 12.38.59 PM.webp received null
+2026-01-30 11:31:02 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772660036-WhatsApp Image 2026-01-28 at 12.39.01 PM.webp received null
+2026-01-30 11:31:05 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772663361-WhatsApp Image 2026-01-28 at 12.39.11 PM.webp received null
+2026-01-30 11:31:08 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772666172-WhatsApp Image 2026-01-28 at 12.39.14 PM.webp received null
+2026-01-30 11:31:11 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772669094-WhatsApp Image 2026-01-28 at 12.39.44 PM.webp received null
+2026-01-30 11:31:14 +00:00:  ⨯ The requested resource isn't a valid image for /uploads/officials/1769772672083-WhatsApp Image 2026-01-28 at 12.39.46 PM.webp received null
+2026-01-30 11:39:42 +00:00: All 31 database products were filtered out due to invalid image URLs
+2026-01-30 11:40:49 +00:00: All 31 database products were filtered out due to invalid image URLs
+2026-01-30 11:42:57 +00:00: All 31 database products were filtered out due to invalid image URLs

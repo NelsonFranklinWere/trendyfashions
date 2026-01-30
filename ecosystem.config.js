@@ -13,7 +13,7 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        DATABASE_URL:"postgresql://postgres:TrendyFashions%40254@db.zdeupdkbsueczuoercmm.supabase.co:5432/postgres",
+        DATABASE_URL:"postgresql://trendy:StrongTrendyPass1234!@localhost:5432/trendyfashions",
        DO_SPACES_ENDPOINT:"https://sfo3.digitaloceanspaces.com",
        DO_SPACES_KEY:'DO801PHKGXPLL39YE3ZC',
        DO_SPACES_SECRET:'sQmzYONdRjIRfQrHP2u7e0dF0uOEKO/8mr5DUrFK2Ns',
