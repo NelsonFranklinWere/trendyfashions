@@ -322,14 +322,9 @@ export default function AddProduct() {
         return;
       }
 
-      // Validate all image URLs
+      // Validate all image paths
       const invalidImages = imagesToUse.filter(url => {
-        try {
-          new URL(url);
-          return false;
-        } catch {
-          return true;
-        }
+        return !url.startsWith('/') && !url.startsWith('http://') && !url.startsWith('https://');
       });
 
       if (invalidImages.length > 0) {
