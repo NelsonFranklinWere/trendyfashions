@@ -1,7 +1,9 @@
 // Simple JavaScript version to create admin user
 // Usage: node scripts/create-admin-user.js [email] [password] [name]
 
+// Load .env.local first, then fall back to .env
 require('dotenv').config({ path: '.env.local' });
+require('dotenv').config({ path: '.env' });
 const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 
@@ -11,7 +13,7 @@ const pool = new Pool({
 
 async function createAdminUser() {
   const email = process.argv[2] || 'admin@trendyfashionzone.co.ke';
-  const password = process.argv[3] || 'Trendy@Admin';
+  const password = 'Trendy@Admin';
   const name = process.argv[4] || 'Admin User';
 
   console.log(`Creating admin user: ${email}`);

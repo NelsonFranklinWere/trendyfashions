@@ -108,6 +108,20 @@ export default function AddProduct() {
     setValue('image', url);
   }, [setValue]);
 
+  // Remove specific image from uploaded images
+  const handleRemoveImage = (indexToRemove: number) => {
+    setUploadedImages(prev => {
+      const filtered = prev.filter((_, index) => index !== indexToRemove);
+      // Update form value with new first image or empty string
+      if (filtered.length > 0) {
+        setValue('image', filtered[0], { shouldValidate: true });
+      } else {
+        setValue('image', '', { shouldValidate: true });
+      }
+      return filtered;
+    });
+  };
+
   // Watch for image URL changes to update preview
   useEffect(() => {
     const subscription = watch((value, { name }) => {
@@ -184,9 +198,10 @@ export default function AddProduct() {
       const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
 
       if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
-        // Ensure it's a valid URL
-        try {
-          new URL(imageUrl);
+        // Validate URL format (accept both full URLs and relative paths)
+        const isValidUrl = imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('/');
+
+        if (isValidUrl) {
           if (index !== undefined) {
             // Multiple images mode
             setUploadedImages(prev => {
@@ -204,7 +219,7 @@ export default function AddProduct() {
             setImagePreview(imageUrl);
           }
           setUploadProgress(`Image ${index !== undefined ? `${index + 1}/10` : ''} uploaded successfully!`);
-        } catch (urlError) {
+        } else {
           throw new Error(`Invalid image URL format: ${imageUrl}`);
         }
       } else {
@@ -512,7 +527,7 @@ export default function AddProduct() {
                   {uploadedImages.length > 0 ? (
                     uploadedImages.map((imgUrl, index) => (
                       imgUrl && (
-                        <div key={index} className="relative">
+                        <div key={index} className="relative group">
                           <div className="relative w-full h-32 border-2 border-gray-300 rounded-lg overflow-hidden bg-gray-100">
                             <Image
                               src={imgUrl}
@@ -523,6 +538,17 @@ export default function AddProduct() {
                                 setUploadedImages(prev => prev.filter((_, i) => i !== index));
                               }}
                             />
+                            {/* Remove button */}
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImage(index)}
+                              className="absolute top-1 right-1 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                              title="Remove image"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                              </svg>
+                            </button>
                           </div>
                           <p className="mt-1 text-xs text-gray-500 text-center">Image {index + 1}</p>
                         </div>
@@ -561,23 +587,17 @@ export default function AddProduct() {
                     if (!firstImage || firstImage.trim() === '') {
                       return 'Please wait for image upload to complete';
                     }
-                    try {
-                      new URL(firstImage);
-                      return true;
-                    } catch {
-                      return 'Invalid image URL format';
-                    }
+                    // Accept both full URLs and relative paths
+                    const isValid = firstImage.startsWith('http://') || firstImage.startsWith('https://') || firstImage.startsWith('/');
+                    return isValid || 'Invalid image URL format';
                   }
                   // Otherwise validate the provided value
                   if (!value || value.trim() === '') {
                     return 'Please upload at least one image';
                   }
-                  try {
-                    new URL(value);
-                    return true;
-                  } catch {
-                    return 'Valid image URL is required';
-                  }
+                  // Accept both full URLs and relative paths
+                  const isValid = value.startsWith('http://') || value.startsWith('https://') || value.startsWith('/');
+                  return isValid || 'Valid image URL is required';
                 }
               })}
               value={uploadedImages.length > 0 ? uploadedImages[0] : (imagePreview || selectedImage || '')}
