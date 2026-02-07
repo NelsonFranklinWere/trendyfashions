@@ -75,7 +75,16 @@ export default function AdminImagesPage() {
         body: formData,
       });
 
-      const result = await response.json();
+      // Read response as text first, then parse as JSON
+      const text = await response.text();
+      let result: any = {};
+
+      try {
+        result = JSON.parse(text);
+      } catch (e) {
+        // If not valid JSON, create error object with the text
+        result = { error: text || 'Invalid response from server' };
+      }
 
       if (!response.ok) {
         // Provide detailed error message

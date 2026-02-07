@@ -94,8 +94,21 @@ export default function EditProduct() {
       setLoading(true);
       const response = await fetch(`/api/admin/products/${productId}`);
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to fetch product');
+        let errorMessage = 'Failed to fetch product';
+        try {
+          const text = await response.text();
+          if (text) {
+            try {
+              const error = JSON.parse(text);
+              errorMessage = error.error || errorMessage;
+            } catch {
+              errorMessage = text;
+            }
+          }
+        } catch (e) {
+          console.error('Error reading response:', e);
+        }
+        throw new Error(errorMessage);
       }
       const data = await response.json();
       const product = data.product;
@@ -179,8 +192,21 @@ export default function EditProduct() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to upload image');
+        let errorMessage = 'Failed to upload image';
+        try {
+          const text = await response.text();
+          if (text) {
+            try {
+              const error = JSON.parse(text);
+              errorMessage = error.error || error.details || errorMessage;
+            } catch {
+              errorMessage = text;
+            }
+          }
+        } catch (e) {
+          console.error('Error reading response:', e);
+        }
+        throw new Error(errorMessage);
       }
 
       const result = await response.json();
@@ -243,8 +269,21 @@ export default function EditProduct() {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to update product');
+        let errorMessage = 'Failed to update product';
+        try {
+          const text = await response.text();
+          if (text) {
+            try {
+              const error = JSON.parse(text);
+              errorMessage = error.error || errorMessage;
+            } catch {
+              errorMessage = text;
+            }
+          }
+        } catch (e) {
+          console.error('Error reading response:', e);
+        }
+        throw new Error(errorMessage);
       }
 
       router.push('/admin/products');

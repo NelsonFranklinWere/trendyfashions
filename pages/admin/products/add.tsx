@@ -183,13 +183,19 @@ export default function AddProduct() {
       if (!response.ok) {
         let errorMessage = 'Failed to upload image';
         try {
-          const error = await response.json();
-          errorMessage = error.error || error.details || errorMessage;
-        } catch (e) {
+          // Read as text first, then try to parse as JSON
           const text = await response.text();
           if (text) {
-            errorMessage = text;
+            try {
+              const error = JSON.parse(text);
+              errorMessage = error.error || error.details || errorMessage;
+            } catch {
+              // If not JSON, use the text as is
+              errorMessage = text;
+            }
           }
+        } catch (e) {
+          console.error('Error reading response:', e);
         }
         throw new Error(errorMessage);
       }

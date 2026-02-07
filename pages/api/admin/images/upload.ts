@@ -30,8 +30,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return;
   }
 
-  // Check if CDN credentials are available
-  const hasCdnCredentials = process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET;
+  // Require DigitalOcean Spaces credentials
+  if (!process.env.DO_SPACES_KEY || !process.env.DO_SPACES_SECRET || !process.env.DO_SPACES_BUCKET) {
+    return res.status(500).json({
+      error: 'Server configuration error: DigitalOcean Spaces credentials not configured',
+      help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in environment variables'
+    });
+  }
 
   try {
     const form = formidable({
@@ -40,21 +45,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
 
     const [fields, files] = await form.parse(req);
-    
+
     const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     const optimize = Array.isArray(fields.optimize) ? fields.optimize[0] : fields.optimize;
 
     if (!category || !file) {
-      return res.status(400).json({ 
-        error: 'Missing required fields: category and file are required' 
+      return res.status(400).json({
+        error: 'Missing required fields: category and file are required'
       });
     }
 
     // Validate category length (schema: VARCHAR(50))
     if (category.length > 50) {
-      return res.status(400).json({ 
-        error: 'Category name too long (max 50 characters)' 
+      return res.status(400).json({
+        error: 'Category name too long (max 50 characters)'
       });
     }
 
@@ -86,55 +91,32 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const thumbnail = await createThumbnail(originalBuffer, 200);
     const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
     const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    
+
     // Upload to DigitalOcean Spaces for fast CDN delivery
     const imageKey = `images/${category}/${fileName}`;
     const thumbnailKey = `images/${category}/${thumbnailFileName}`;
 
-    let imageUrl: string;
+    // Import uploadToSpaces function
+    const { uploadToSpaces } = await import('@/lib/storage/spaces');
+
+    // Upload to DigitalOcean Spaces
+    const imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
+      cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
+      metadata: {
+        category,
+        originalFilename: uploadedFile.originalFilename,
+      },
+    });
+
+    // Upload thumbnail to Spaces
     let thumbnailUrl: string;
-
-    if (hasCdnCredentials) {
-      // Import uploadToSpaces function
-      const { uploadToSpaces } = await import('@/lib/storage/spaces');
-      
-      // Upload to DigitalOcean Spaces
-      imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
-        cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
-        metadata: {
-          category,
-          originalFilename: uploadedFile.originalFilename,
-        },
+    try {
+      thumbnailUrl = await uploadToSpaces(thumbnailKey, thumbnail.buffer, 'image/webp', {
+        cacheControl: 'public, max-age=31536000, immutable',
       });
-
-      // Upload thumbnail to Spaces
-      try {
-        thumbnailUrl = await uploadToSpaces(thumbnailKey, thumbnail.buffer, 'image/webp', {
-          cacheControl: 'public, max-age=31536000, immutable',
-        });
-      } catch (thumbnailError) {
-        console.warn('Thumbnail upload error (non-critical):', thumbnailError);
-        thumbnailUrl = imageUrl; // Fallback to main image
-      }
-    } else {
-      // Fallback to local storage
-      const fsPromises = require('fs').promises;
-
-      // Create uploads directory if it doesn't exist
-      const uploadsDir = path.join(process.cwd(), 'public', 'uploads', category);
-      await fsPromises.mkdir(uploadsDir, { recursive: true });
-
-      // Save optimized image
-      const localImagePath = path.join(uploadsDir, fileName);
-      await fsPromises.writeFile(localImagePath, optimizedBuffer);
-      imageUrl = `/uploads/${category}/${fileName}`;
-
-      // Save thumbnail
-      const thumbnailDir = path.join(process.cwd(), 'public', 'uploads', 'thumbnails');
-      await fsPromises.mkdir(thumbnailDir, { recursive: true });
-      const localThumbnailPath = path.join(thumbnailDir, thumbnailFileName);
-      await fsPromises.writeFile(localThumbnailPath, thumbnail.buffer);
-      thumbnailUrl = `/uploads/thumbnails/${thumbnailFileName}`;
+    } catch (thumbnailError) {
+      console.warn('Thumbnail upload error (non-critical):', thumbnailError);
+      thumbnailUrl = imageUrl; // Fallback to main image
     }
 
     // Save metadata to PostgreSQL database
@@ -144,7 +126,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       filename: uploadedFile.originalFilename,
       url: imageUrl,
       thumbnail_url: thumbnailUrl,
-      storage_path: hasCdnCredentials ? imageKey : `uploads/${category}/${fileName}`,
+      storage_path: imageKey,
       file_size: optimizedBuffer.length,
       mime_type: optimizedFormat,
       width: width || undefined,
@@ -169,18 +151,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
   } catch (uploadError: any) {
     console.error('Upload error:', uploadError);
-    const errorMessage = hasCdnCredentials
-      ? 'Failed to upload image to DigitalOcean Spaces'
-      : 'Failed to save image locally';
-
-    const helpMessage = hasCdnCredentials
-      ? 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in .env.local'
-      : 'Please check file permissions and disk space';
 
     return res.status(500).json({
-      error: errorMessage,
+      error: 'Failed to upload image to DigitalOcean Spaces',
       details: uploadError.message,
-      help: helpMessage
+      help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set correctly in environment variables'
     });
   }
 }
