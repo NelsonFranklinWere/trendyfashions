@@ -1,6 +1,6 @@
 /**
  * Database service for products table
- * Replaces Supabase calls with PostgreSQL queries
+ * Uses PostgreSQL queries for product management
  */
 
 import { query } from './postgres';

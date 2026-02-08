@@ -40,7 +40,7 @@ eslint: {
     // Enable image optimization with quality settings
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Remote patterns for DigitalOcean Spaces CDN and Supabase Storage
+    // Remote patterns for DigitalOcean Spaces CDN
     remotePatterns: [
       {
         protocol: 'https',
@@ -53,14 +53,6 @@ eslint: {
       {
         protocol: 'https',
         hostname: '**.online',
-      },
-      {
-        protocol: 'https',
-        hostname: '**.supabase.co',
-      },
-      {
-        protocol: 'https',
-        hostname: 'zdeupdkbsueczuoercmm.supabase.co',
       },
     ],
   },

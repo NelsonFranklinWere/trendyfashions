@@ -14,16 +14,20 @@ const productSchema = z.object({
   price: z.number().min(0.01, 'Price must be greater than 0'),
   image: z.string().min(1, 'Please upload at least one image').refine(
     (url) => {
-      // Allow empty string during upload, but validate URL format if provided
+      // Allow relative paths (starting with /) or absolute URLs
       if (!url || url.trim() === '') return false;
+      const trimmed = url.trim();
+      // Accept relative paths
+      if (trimmed.startsWith('/')) return true;
+      // Accept absolute URLs
       try {
-        new URL(url);
+        new URL(trimmed);
         return true;
       } catch {
         return false;
       }
     },
-    { message: 'Valid image URL is required' }
+    { message: 'Valid image URL or path is required' }
   ),
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().optional(),
@@ -204,11 +208,12 @@ export default function AddProduct() {
       const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
 
       if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
-        // Validate URL format (accept both full URLs and relative paths)
-        const isValidUrl = imageUrl.startsWith('http://') || imageUrl.startsWith('https://') || imageUrl.startsWith('/');
-
-        if (isValidUrl) {
-          if (index !== undefined) {
+        // Validate it's either a relative path or valid absolute URL
+        const isValidPath = imageUrl.startsWith('/') || imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+        if (!isValidPath) {
+          throw new Error(`Invalid image path format: ${imageUrl}`);
+        }
+        if (index !== undefined) {
             // Multiple images mode
             setUploadedImages(prev => {
               const newImages = [...prev];
@@ -225,9 +230,6 @@ export default function AddProduct() {
             setImagePreview(imageUrl);
           }
           setUploadProgress(`Image ${index !== undefined ? `${index + 1}/10` : ''} uploaded successfully!`);
-        } else {
-          throw new Error(`Invalid image URL format: ${imageUrl}`);
-        }
       } else {
         throw new Error('No valid image URL returned from upload');
       }
@@ -235,7 +237,7 @@ export default function AddProduct() {
       setUploadProgress('');
       const errorMessage = error.message || 'Failed to upload image';
       console.error('Upload error:', error);
-      alert(`Upload failed: ${errorMessage}\n\nPlease check:\n1. Supabase environment variables are set\n2. Category is selected\n3. File is a valid image (max 10MB)`);
+      alert(`Upload failed: ${errorMessage}\n\nPlease check:\n1. Category is selected\n2. File is below 10MB\n3. File is a valid image format`);
     } finally {
       setUploadingImage(false);
       setTimeout(() => setUploadProgress(''), 3000);
@@ -260,27 +262,93 @@ export default function AddProduct() {
       return;
     }
 
+    // Pre-validate all files before starting upload
+    const validationErrors: string[] = [];
+    fileArray.forEach((file, index) => {
+      if (!file.type.startsWith('image/')) {
+        validationErrors.push(`File ${index + 1} is not an image`);
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        validationErrors.push(`File ${index + 1} is larger than 10MB`);
+      }
+    });
+
+    if (validationErrors.length > 0) {
+      alert(`Validation errors:\n${validationErrors.join('\n')}\n\nPlease check:\n1. Category is selected\n2. Files are below 10MB\n3. Files are valid image formats`);
+      return;
+    }
+
     setUploadedImages([]);
     setUploadingImage(true);
-    setUploadProgress('Uploading images...');
+    setUploadProgress(`Uploading 0/${fileArray.length} images...`);
 
     try {
-      const uploadPromises = fileArray.map((file, index) => {
-        // Validate file
-        if (!file.type.startsWith('image/')) {
-          throw new Error(`File ${index + 1} is not an image`);
-        }
-        if (file.size > 10 * 1024 * 1024) {
-          throw new Error(`File ${index + 1} is larger than 10MB`);
-        }
-        return handleFileUpload(file, index);
-      });
+      const uploadedUrls: string[] = [];
+      let successCount = 0;
+      let failCount = 0;
 
-      // Upload images sequentially to avoid overwhelming the server
+      // Upload images sequentially for reliability and progress tracking
       for (let i = 0; i < fileArray.length; i++) {
-        await handleFileUpload(fileArray[i], i);
+        try {
+          setUploadProgress(`Uploading ${i + 1}/${fileArray.length} images...`);
+          
+          const formData = new FormData();
+          formData.append('file', fileArray[i]);
+          formData.append('category', selectedCategory);
+
+          const response = await fetch('/api/admin/images/upload', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            let errorMessage = 'Failed to upload image';
+            try {
+              const error = await response.json();
+              errorMessage = error.error || error.details || errorMessage;
+            } catch (e) {
+              const text = await response.text();
+              if (text) {
+                errorMessage = text;
+              }
+            }
+            throw new Error(errorMessage);
+          }
+
+          const result = await response.json();
+          const imageUrl = result.image?.url || result.imageUrl || result.image?.url;
+
+          if (imageUrl && typeof imageUrl === 'string' && imageUrl.trim() !== '') {
+            const isValidPath = imageUrl.startsWith('/') || imageUrl.startsWith('http://') || imageUrl.startsWith('https://');
+            if (isValidPath) {
+              uploadedUrls[i] = imageUrl;
+              successCount++;
+              setUploadedImages([...uploadedUrls.filter(Boolean)]);
+            } else {
+              throw new Error(`Invalid image URL format: ${imageUrl}`);
+            }
+          } else {
+            throw new Error('No valid image URL returned from upload');
+          }
+        } catch (error: any) {
+          failCount++;
+          console.error(`Error uploading image ${i + 1}:`, error);
+          // Continue with next image instead of stopping
+        }
       }
-      setUploadProgress(`Successfully uploaded ${fileArray.length} images!`);
+
+      if (successCount > 0) {
+        setUploadedImages(uploadedUrls.filter(Boolean));
+        setUploadProgress(`Successfully uploaded ${successCount}/${fileArray.length} images!${failCount > 0 ? ` (${failCount} failed)` : ''}`);
+        
+        if (failCount > 0) {
+          setTimeout(() => {
+            alert(`Upload completed: ${successCount} successful, ${failCount} failed. You can proceed with the successful uploads or try uploading the failed images again.`);
+          }, 500);
+        }
+      } else {
+        throw new Error('All uploads failed. Please check:\n1. Category is selected\n2. Files are below 10MB\n3. Files are valid image formats');
+      }
     } catch (error: any) {
       setUploadProgress('');
       alert(`Upload failed: ${error.message}`);
@@ -328,9 +396,11 @@ export default function AddProduct() {
         return;
       }
 
-      // Validate all image paths
+      // Validate all image URLs (accept relative paths starting with / or absolute URLs)
       const invalidImages = imagesToUse.filter(url => {
-        return !url.startsWith('/') && !url.startsWith('http://') && !url.startsWith('https://');
+        if (!url || typeof url !== 'string') return true;
+        const trimmed = url.trim();
+        return !(trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://'));
       });
 
       if (invalidImages.length > 0) {
@@ -588,17 +658,21 @@ export default function AddProduct() {
                     if (!firstImage || firstImage.trim() === '') {
                       return 'Please wait for image upload to complete';
                     }
-                    // Accept both full URLs and relative paths
-                    const isValid = firstImage.startsWith('http://') || firstImage.startsWith('https://') || firstImage.startsWith('/');
-                    return isValid || 'Invalid image URL format';
+                    const trimmed = firstImage.trim();
+                    if (trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+                      return true;
+                    }
+                    return 'Invalid image URL format';
                   }
                   // Otherwise validate the provided value
                   if (!value || value.trim() === '') {
                     return 'Please upload at least one image';
                   }
-                  // Accept both full URLs and relative paths
-                  const isValid = value.startsWith('http://') || value.startsWith('https://') || value.startsWith('/');
-                  return isValid || 'Valid image URL is required';
+                  const trimmed = value.trim();
+                  if (trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+                    return true;
+                  }
+                  return 'Valid image URL is required';
                 }
               })}
               value={uploadedImages.length > 0 ? uploadedImages[0] : (imagePreview || selectedImage || '')}

@@ -1212,8 +1212,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       const imageLower = (p.image || '').toLowerCase();
       // Only include sports category products - STRICT
       return categoryLower === 'sports' ||
-             imageLower.includes('/images/sports/') || imageLower.includes('/images/Sports/') ||
-             (imageLower.includes('supabase.co') && imageLower.includes('/sports/'));
+             imageLower.includes('/images/sports/') || imageLower.includes('/images/Sports/');
     }));
     
     // Vans - STRICT: only from vans category
@@ -1224,8 +1223,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       const imageLower = (p.image || '').toLowerCase();
       // Only include vans category products - STRICT
       return categoryLower === 'vans' ||
-             imageLower.includes('/images/vans/') || imageLower.includes('/images/Vans/') ||
-             (imageLower.includes('supabase.co') && imageLower.includes('/vans/'));
+             imageLower.includes('/images/vans/') || imageLower.includes('/images/Vans/');
     }));
 
     // Filter Clarks products from officials (manually since 'Clarks' is not in official filters)

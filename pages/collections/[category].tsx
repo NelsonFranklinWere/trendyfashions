@@ -774,15 +774,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         }
         
         // Include all airforce, jordan, airmax, newbalance products (legacy filesystem)
-        // Also check Supabase URLs for sneakers category
         return imageLower.includes('/images/airforce/') ||
                imageLower.includes('/images/jordan/') ||
                imageLower.includes('/images/airmax/') ||
                imageLower.includes('/images/newbalance/') ||
                imageLower.includes('/images/sneakers/') ||
-               imageLower.includes('/images/Sneakers/') ||
-               (imageLower.includes('supabase.co') && imageLower.includes('sneakers')) ||
-               (imageLower.includes('supabase.in') && imageLower.includes('sneakers'));
+               imageLower.includes('/images/Sneakers/');
       });
     } else if (categorySlug === 'sports') {
       // Get database products first (priority - keep uploaded names/descriptions/prices)
@@ -853,8 +850,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         // STRICT: Only include sports category products
         return categoryLower === 'sports' ||
                imageLower.includes('/images/sports/') || 
-               imageLower.includes('/images/Sports/') ||
-               (imageLower.includes('supabase.co') && imageLower.includes('/sports/'));
+               imageLower.includes('/images/Sports/');
       });
     } else if (categorySlug === 'nike' || categorySlug === 'mens-nike') {
       // Get all products and filter by name containing "nike"

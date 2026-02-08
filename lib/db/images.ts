@@ -1,6 +1,6 @@
 /**
  * Database service for images table
- * Replaces Supabase calls with PostgreSQL queries
+ * Uses PostgreSQL queries for image management
  */
 
 import { query } from './postgres';

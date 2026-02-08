@@ -16,11 +16,11 @@ const isFormalImage = (product: Product) => {
   }
   
   const imagePath = normalize(product.image);
-  // Check for local filesystem path or Supabase Storage URL with officials category
+  // Check for local filesystem path or storage URL with officials category
   // Also accept products that come from getOfficialImageProducts (they should all be valid)
   return imagePath.includes('/images/officials/') || 
          imagePath.includes('/officials/') ||
-         imagePath.includes('officials'); // Supabase storage path
+         imagePath.includes('officials');
 };
 
 // Helper to check if product has subcategory in tags (from database)

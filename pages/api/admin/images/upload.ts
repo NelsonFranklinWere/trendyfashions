@@ -153,9 +153,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.error('Upload error:', uploadError);
 
     return res.status(500).json({
-      error: 'Failed to upload image to DigitalOcean Spaces',
+      error: 'Failed to save image locally',
       details: uploadError.message,
-      help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set correctly in environment variables'
+      help: 'Please check file permissions, disk space, and ensure the uploads directory is writable'
     });
   }
 }

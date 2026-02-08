@@ -1,0 +1,53 @@
+# ============================================
+# Commands to Run in DigitalOcean Droplet Console
+# ============================================
+# Copy and paste these commands one by one into your Droplet console
+# ============================================
+
+# Step 1: Navigate to application directory
+cd /var/www/trendyfashions
+
+# Step 2: Check if ecosystem.config.js exists
+ls -la ecosystem.config.js
+
+# Step 3: Get environment variables from ecosystem.config.js
+cat ecosystem.config.js | grep -A 30 'env:' | grep -E '^\s+[A-Z_]+:' | sed 's/^\s*//;s/://;s/,$//' | sed "s/'//g"
+
+# Step 4: Check for .env files
+ls -la .env* 2>/dev/null || echo "No .env files found"
+
+# Step 5: Get environment variables from .env file (if exists)
+cat .env 2>/dev/null || cat .env.local 2>/dev/null || cat .env.production 2>/dev/null || echo "# No .env file found"
+
+# Step 6: Get environment variables from PM2 process
+pm2 list
+pm2 env 0 2>/dev/null | grep -E '^[A-Z_]+=' || pm2 show trendy-fashion-zone 2>/dev/null | grep -A 100 'env:'
+
+# Step 7: Get all environment variables and save to file
+{
+  echo "# Environment Variables from Server"
+  echo "# Generated on: $(date)"
+  echo "# Server: $(hostname)"
+  echo ""
+  echo "# ============================================"
+  echo "# From ecosystem.config.js"
+  echo "# ============================================"
+  cat ecosystem.config.js | grep -A 30 'env:' | grep -E '^\s+[A-Z_]+:' | sed 's/^\s*//;s/://;s/,$//' | sed "s/'//g" | sed 's/^/export /'
+  echo ""
+  echo "# ============================================"
+  echo "# From .env file"
+  echo "# ============================================"
+  cat .env 2>/dev/null || cat .env.local 2>/dev/null || echo "# No .env file found"
+  echo ""
+  echo "# ============================================"
+  echo "# From PM2 process environment"
+  echo "# ============================================"
+  pm2 env 0 2>/dev/null | grep -E '^[A-Z_]+=' || echo "# PM2 env not available"
+} > /tmp/server-env-backup.txt
+
+# Step 8: Display the saved file
+cat /tmp/server-env-backup.txt
+
+# Step 9: Copy the output and save it locally as .env.local
+# The file is saved at: /tmp/server-env-backup.txt
+# You can download it or copy the content manually

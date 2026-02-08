@@ -1,6 +1,6 @@
 /**
  * Database service for admin users and sessions
- * Replaces Supabase calls with PostgreSQL queries
+ * Uses PostgreSQL queries for admin user management
  */
 
 import { query, transaction } from './postgres';
