@@ -8,6 +8,7 @@ import { optimizeForWeb, createThumbnail } from '@/lib/utils/imageOptimization';
 export const config = {
   api: {
     bodyParser: false,
+    sizeLimit: '10mb', // Allow up to 10MB uploads
   },
 };
 

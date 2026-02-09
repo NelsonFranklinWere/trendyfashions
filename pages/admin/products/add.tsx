@@ -186,9 +186,17 @@ export default function AddProduct() {
 
       if (!response.ok) {
         let errorMessage = 'Failed to upload image';
+
+        // Handle 413 (file too large) specifically
+        if (response.status === 413) {
+          errorMessage = 'Image file is too large. Please use a smaller image (max 10MB recommended).';
+          throw new Error(errorMessage);
+        }
+
         try {
-          // Read as text first, then try to parse as JSON
-          const text = await response.text();
+          // Clone the response before reading to avoid "body stream already read" error
+          const responseClone = response.clone();
+          const text = await responseClone.text();
           if (text) {
             try {
               const error = JSON.parse(text);
@@ -303,14 +311,28 @@ export default function AddProduct() {
 
           if (!response.ok) {
             let errorMessage = 'Failed to upload image';
+
+            // Handle 413 (file too large) specifically
+            if (response.status === 413) {
+              errorMessage = `Image ${i + 1} is too large. Please use smaller images (max 10MB recommended).`;
+              throw new Error(errorMessage);
+            }
+
             try {
-              const error = await response.json();
-              errorMessage = error.error || error.details || errorMessage;
-            } catch (e) {
-              const text = await response.text();
+              // Clone the response before reading to avoid "body stream already read" error
+              const responseClone = response.clone();
+              const text = await responseClone.text();
               if (text) {
-                errorMessage = text;
+                try {
+                  const error = JSON.parse(text);
+                  errorMessage = error.error || error.details || errorMessage;
+                } catch {
+                  // If not JSON, use the text as is
+                  errorMessage = text;
+                }
               }
+            } catch (e) {
+              console.error('Error reading response:', e);
             }
             throw new Error(errorMessage);
           }
@@ -338,9 +360,16 @@ export default function AddProduct() {
       }
 
       if (successCount > 0) {
-        setUploadedImages(uploadedUrls.filter(Boolean));
+        const validUrls = uploadedUrls.filter(Boolean);
+        setUploadedImages(validUrls);
+
+        // Set the first uploaded image as the form value
+        if (validUrls.length > 0) {
+          setValue('image', validUrls[0], { shouldValidate: true });
+        }
+
         setUploadProgress(`Successfully uploaded ${successCount}/${fileArray.length} images!${failCount > 0 ? ` (${failCount} failed)` : ''}`);
-        
+
         if (failCount > 0) {
           setTimeout(() => {
             alert(`Upload completed: ${successCount} successful, ${failCount} failed. You can proceed with the successful uploads or try uploading the failed images again.`);
@@ -649,38 +678,10 @@ export default function AddProduct() {
             <input
               id="image"
               type="hidden"
-              {...register('image', {
-                required: 'Please upload at least one image',
-                validate: (value) => {
-                  // If we have uploaded images, use those instead
-                  if (uploadedImages.length > 0) {
-                    const firstImage = uploadedImages[0];
-                    if (!firstImage || firstImage.trim() === '') {
-                      return 'Please wait for image upload to complete';
-                    }
-                    const trimmed = firstImage.trim();
-                    if (trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-                      return true;
-                    }
-                    return 'Invalid image URL format';
-                  }
-                  // Otherwise validate the provided value
-                  if (!value || value.trim() === '') {
-                    return 'Please upload at least one image';
-                  }
-                  const trimmed = value.trim();
-                  if (trimmed.startsWith('/') || trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
-                    return true;
-                  }
-                  return 'Valid image URL is required';
-                }
-              })}
+              {...register('image')}
               value={uploadedImages.length > 0 ? uploadedImages[0] : (imagePreview || selectedImage || '')}
             />
             {errors.image && <p className="mt-1 text-sm text-red-600">{errors.image.message}</p>}
-            {uploadedImages.length === 0 && !imagePreview && !selectedImage && (
-              <p className="mt-1 text-sm text-red-600">Please upload at least one image</p>
-            )}
           </div>
 
           {/* Gender */}
