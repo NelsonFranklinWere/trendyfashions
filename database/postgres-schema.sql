@@ -80,7 +80,46 @@ CREATE INDEX IF NOT EXISTS idx_products_featured ON products(featured) WHERE fea
 CREATE INDEX IF NOT EXISTS idx_products_created_at ON products(created_at DESC);
 
 -- ============================================
--- 3. ADMIN USERS TABLE
+-- 3. ORDERS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS orders (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  customer_name VARCHAR(255),
+  customer_email VARCHAR(255),
+  customer_phone VARCHAR(50),
+  shipping_address TEXT,
+  notes TEXT,
+  status VARCHAR(50) DEFAULT 'pending',
+  total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0,
+  currency VARCHAR(10) DEFAULT 'KES',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
+CREATE INDEX IF NOT EXISTS idx_orders_created_at ON orders(created_at DESC);
+
+-- ============================================
+-- 4. PAYMENTS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS payments (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  order_id UUID NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+  provider VARCHAR(50) NOT NULL DEFAULT 'mpesa',
+  amount DECIMAL(10, 2) NOT NULL,
+  currency VARCHAR(10) DEFAULT 'KES',
+  status VARCHAR(50) NOT NULL DEFAULT 'pending',
+  transaction_reference VARCHAR(255),
+  raw_payload JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_payments_order_id ON payments(order_id);
+CREATE INDEX IF NOT EXISTS idx_payments_status ON payments(status);
+CREATE INDEX IF NOT EXISTS idx_payments_created_at ON payments(created_at DESC);
+
+-- ============================================
+-- 5. ADMIN USERS TABLE
 -- ============================================
 CREATE TABLE IF NOT EXISTS admin_users (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -98,7 +137,7 @@ CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users(email);
 CREATE INDEX IF NOT EXISTS idx_admin_users_role ON admin_users(role);
 
 -- ============================================
--- 4. SESSIONS TABLE (for admin sessions)
+-- 6. ADMIN SESSIONS TABLE
 -- ============================================
 CREATE TABLE IF NOT EXISTS admin_sessions (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -121,9 +160,8 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- ============================================
--- 5. TRIGGERS
+-- TRIGGERS (updated_at)
 -- ============================================
--- Updated_at trigger function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -132,13 +170,16 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Drop existing triggers if they exist, then recreate them
 DROP TRIGGER IF EXISTS update_images_updated_at ON images;
 CREATE TRIGGER update_images_updated_at BEFORE UPDATE ON images
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 DROP TRIGGER IF EXISTS update_products_updated_at ON products;
 CREATE TRIGGER update_products_updated_at BEFORE UPDATE ON products
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_orders_updated_at ON orders;
+CREATE TRIGGER update_orders_updated_at BEFORE UPDATE ON orders
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;

@@ -91,6 +91,16 @@
   .product-scroll {
     scrollbar-width: thin;
     scrollbar-color: rgba(26, 26, 46, 0.2) transparent;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Ensure scrolling works on all devices */
+    overflow-x: auto;
+    overflow-y: hidden;
+    /* Prevent vertical scrollbar */
+    overscroll-behavior-x: contain;
+    /* Smooth momentum scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
   }
 
   .product-scroll::-webkit-scrollbar {
@@ -104,10 +114,40 @@
   .product-scroll::-webkit-scrollbar-thumb {
     background-color: rgba(26, 26, 46, 0.2);
     border-radius: 4px;
+    transition: background-color 0.2s ease;
   }
 
   .product-scroll::-webkit-scrollbar-thumb:hover {
     background-color: rgba(26, 26, 46, 0.4);
+  }
+
+  /* Enhanced scrollable container for product categories */
+  .product-scroll > div {
+    display: flex;
+    gap: 0.75rem;
+    min-width: max-content;
+    /* Smooth scrolling */
+    scroll-snap-type: x proximity;
+  }
+
+  /* Optional: Snap scrolling for better UX */
+  @media (prefers-reduced-motion: no-preference) {
+    .product-scroll {
+      scroll-snap-type: x proximity;
+    }
+    
+    .product-scroll > div > div {
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Ensure product card images display in scrollable rows per category */
+  .product-scroll .product-card-container .aspect-square {
+    min-height: 10rem;
+  }
+  .product-scroll .product-card-container img {
+    display: block;
+    object-fit: cover;
   }
 
   .line-clamp-1 {

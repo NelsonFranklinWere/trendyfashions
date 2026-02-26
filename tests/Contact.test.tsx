@@ -32,7 +32,7 @@ describe('Contact page form', () => {
       await act(async () => {
         await user.type(screen.getByLabelText(/name/i), 'Jane Doe');
         await user.type(screen.getByLabelText(/email/i), 'jane@example.com');
-        await user.type(screen.getByLabelText(/whatsapp number/i), '+254743869564');
+        await user.type(screen.getByLabelText(/whatsapp number/i), '+254712417489');
         await user.type(screen.getByLabelText(/alternative phone/i), '+254700000000');
         await user.type(screen.getByLabelText(/what can we prep/i), 'Looking for new arrivals.');
 

@@ -1,7 +1,20 @@
 import { Pool, PoolClient } from 'pg';
 
-// PostgreSQL connection pool
+/**
+ * Database connection: Supabase (PostgreSQL).
+ * DATABASE_URL in .env.local must point to Supabase, e.g.:
+ * postgresql://postgres:PASSWORD@db.PROJECT_REF.supabase.co:5432/postgres
+ */
 let pool: Pool | null = null;
+
+/** Supabase (and most cloud Postgres) require SSL */
+function isSupabaseOrCloud(connectionString: string): boolean {
+  return (
+    connectionString.includes('supabase.co') ||
+    connectionString.includes('supabase.com') ||
+    connectionString.includes('pooler.supabase.com')
+  );
+}
 
 export function getPool(): Pool {
   if (!pool) {
@@ -11,16 +24,17 @@ export function getPool(): Pool {
       throw new Error(
         'DATABASE_URL environment variable is not set. ' +
         'Please set it in your .env.local file. ' +
-        'Format: postgresql://user:password@host:port/database'
+        'For Supabase: postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres (use %40 for @ in password)'
       );
     }
 
+    const useSsl = isSupabaseOrCloud(connectionString) || process.env.NODE_ENV === 'production';
     pool = new Pool({
       connectionString,
-      ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-      max: 20, // Maximum number of clients in the pool
+      ssl: useSsl ? { rejectUnauthorized: false } : false,
+      max: 20,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000,
+      connectionTimeoutMillis: 10000,
     });
 
     // Handle pool errors

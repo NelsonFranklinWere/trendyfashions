@@ -12,7 +12,6 @@
     "compress-images": "node scripts/compress-images.js",
     "reduce-images": "ts-node --esm scripts/reduce-images-to-6-per-subcategory.ts",
     "optimize-images": "ts-node --esm scripts/optimize-existing-images.ts",
-    "migrate:spaces": "ts-node --esm scripts/migrate-local-images-to-spaces.ts",
     "test:spaces": "ts-node --esm scripts/test-spaces-connection.ts",
     "create-admin": "node scripts/create-admin-user.js",
     "create-admin:ts": "ts-node --esm scripts/create-admin-user.ts"
@@ -21,6 +20,7 @@
     "@aws-sdk/client-s3": "^3.956.0",
     "@aws-sdk/lib-storage": "^3.956.0",
     "@sendgrid/mail": "^8.1.6",
+    "@supabase/supabase-js": "^2.97.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/formidable": "^3.4.6",

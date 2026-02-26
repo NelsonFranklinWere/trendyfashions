@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
+import ScrollableProductRow from '@/components/ScrollableProductRow';
 import CircularProductCard from '@/components/CircularProductCard';
 import CircularCategoryCard from '@/components/CircularCategoryCard';
 import { categories, Product } from '@/data/products';
@@ -298,7 +299,7 @@ const Home = ({
                 Explore Collections
               </Link>
               <a
-                href="https://wa.me/254743869564?text=Hello, I'm interested in your products."
+                href="https://wa.me/254712417489?text=Hello, I'm interested in your products."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-body font-bold hover:bg-[#20BA5A] transition-all hover:shadow-2xl text-sm sm:text-lg flex items-center justify-center gap-2 transform hover:scale-105 whitespace-nowrap"
@@ -314,90 +315,30 @@ const Home = ({
         </div>
       </section>
 
-      {/* Featured Officials Section */}
+      {/* Featured Officials Section — scrollable by category */}
       {featuredOfficials.length > 0 && (
-        <section className="py-12 md:py-16 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6 sm:mb-8">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="flex-1 pr-4"
-              >
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
-              Elevate Your Office Style
-            </h2>
-            <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
-              Premium professional shoes that command respect. Quality trusted by thousands of Nairobi professionals.
-            </p>
-              </motion.div>
-              <Link
-                href="/collections/mens-officials"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
-              >
-                View all
-                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
-              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredOfficials.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <ScrollableProductRow
+          title="Elevate Your Office Style"
+          description="Premium professional shoes that command respect. Quality trusted by thousands of Nairobi professionals."
+          viewAllHref="/collections/mens-officials"
+          viewAllLabel="View all"
+          products={featuredOfficials}
+          maxItems={8}
+          className="bg-white"
+        />
       )}
 
-      {/* Featured Clarks Officials Section */}
+      {/* Featured Clarks Officials Section — scrollable by category */}
       {featuredClarks.length > 0 && (
-        <section className="py-12 md:py-16 bg-light/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6 sm:mb-8">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="flex-1 pr-4"
-              >
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
-                  Clarks Officials — Most Trusted Professional Shoes
-                </h2>
-                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
-                  Join 6,500+ professionals who chose Clarks. Timeless style and original quality for your professional journey.
-                </p>
-              </motion.div>
-              <Link
-                href="/collections/mens-officials?filter=Clarks"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
-              >
-                View all
-                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
-              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredClarks.slice(0, 8).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <ScrollableProductRow
+          title="Clarks Officials — Most Trusted Professional Shoes"
+          description="Join 6,500+ professionals who chose Clarks. Timeless style and original quality for your professional journey."
+          viewAllHref="/collections/mens-officials?filter=Clarks"
+          viewAllLabel="View all"
+          products={featuredClarks}
+          maxItems={8}
+          className="bg-light/30"
+        />
       )}
 
       {/* Featured Clarks Officials Section - Separate */}
@@ -1190,14 +1131,9 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
     };
     
     // Get products from each category (database first, fallback to filesystem)
-    // STRICT FILTERING: Only include products that match the exact category
-    // Get officials products - prioritize database products
-    const dbOfficials = await getDbProducts('officials');
-    const officials = filterValidProducts(dbOfficials);
-    
-    // Get casuals products - prioritize database products
-    const dbCasuals = await getDbProducts('casual');
-    const casuals = filterValidProducts(dbCasuals);
+    // Use getters that have FS fallback so scroll sections always get products
+    const officials = filterValidProducts(await getOfficialImageProducts());
+    const casuals = filterValidProducts(await mergeWithDbPriority('casual', getCasualImageProducts()));
     
     // Get loafers products - prioritize database, fallback to filesystem
     const dbLoafers = await getDbProducts('loafers');
@@ -1342,33 +1278,76 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       revalidate: 60,
     };
   } catch (error) {
-    console.error('Error loading products:', error);
-    return {
-      props: {
-        featuredOfficials: [],
-        featuredClarks: [],
-        featuredCasuals: [],
-        featuredLacosteCasuals: [],
-        featuredTimberlandCasuals: [],
-        featuredOfficialCasuals: [],
-        featuredLoafers: [],
-        featuredEmpireOfficials: [],
-        featuredOfficialBoots: [],
-        featuredLacoste: [],
-        featuredLoafersProducts: [],
-        featuredClarksOfficials: [],
-        featuredEmpireOfficialsFiltered: [],
-        featuredOfficialBootsFiltered: [],
-        featuredTimberlandCasualsFiltered: [],
-        featuredOfficialCasualsFiltered: [],
-        featuredSports: [],
-        featuredVans: [],
-        heroClarks: [],
-        heroTimberland: [],
-      },
-      // Enable ISR: regenerate page at most once per 60 seconds
-      revalidate: 60,
-    };
+    // When DB fails, load from filesystem so scrollable sections still show products
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error loading products:', error);
+    }
+    try {
+      const filterValid = (products: Product[]): Product[] =>
+        (products || []).filter(p => p && p.id && p.name && p.image && typeof p.price === 'number' && p.price > 0);
+      const shuffle = <T,>(arr: T[]): T[] => {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      };
+      const officials = filterValid(await getOfficialImageProducts());
+      const casuals = filterValid(getCasualImageProducts());
+      const loafers = filterValid([...getLoafersImageProducts()]);
+      const sports = filterValid(getSportsImageProducts().filter(p => (p?.category || '').toLowerCase() === 'sports' || (p?.image || '').toLowerCase().includes('/images/sports/')));
+      const vans = filterValid(getVansImageProducts().filter(p => (p?.category || '').toLowerCase() === 'vans' || (p?.image || '').toLowerCase().includes('/images/vans/')));
+      const clarks = filterValid(officials.filter(p => `${p.name} ${p.description} ${p.image}`.toLowerCase().includes('clark')));
+      const lacosteCasuals = filterValid(casuals.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('lacoste')));
+      const timberlandCasuals = filterValid(casuals.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('timberland') || (p?.image || '').includes('timberland')));
+      const officialCasuals = filterValid(casuals.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('official casual') || (p?.image || '').includes('official-casuals')));
+      const empireOfficials = filterValid(officials.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('empire')));
+      const officialBoots = filterValid(officials.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('boot')));
+      const lacosteProducts = lacosteCasuals;
+      const loaferProducts = filterValid(loafers.filter(p => (p?.category || '').toLowerCase().includes('loafers') || (p?.image || '').includes('/images/loafers/')));
+      const clarksOfficials = filterValid(officials.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('clarks')));
+      const timberland = filterValid(filterCasualProducts(casuals, 'Timberland'));
+      return {
+        props: {
+          featuredOfficials: shuffle(officials).slice(0, 8),
+          featuredClarks: shuffle(clarks).slice(0, 8),
+          featuredCasuals: shuffle(casuals).slice(0, 8),
+          featuredLacosteCasuals: shuffle(lacosteCasuals).slice(0, 8),
+          featuredTimberlandCasuals: shuffle(timberlandCasuals).slice(0, 8),
+          featuredOfficialCasuals: shuffle(officialCasuals).slice(0, 8),
+          featuredLoafers: shuffle(loafers).slice(0, 10),
+          featuredEmpireOfficials: shuffle(empireOfficials).slice(0, 8),
+          featuredOfficialBoots: shuffle(officialBoots).slice(0, 8),
+          featuredLacoste: shuffle(lacosteProducts).slice(0, 8),
+          featuredLoafersProducts: shuffle(loaferProducts).slice(0, 8),
+          featuredClarksOfficials: shuffle(clarksOfficials).slice(0, 8),
+          featuredEmpireOfficialsFiltered: shuffle(empireOfficials).slice(0, 8),
+          featuredOfficialBootsFiltered: shuffle(officialBoots).slice(0, 8),
+          featuredTimberlandCasualsFiltered: shuffle(timberlandCasuals).slice(0, 8),
+          featuredOfficialCasualsFiltered: shuffle(officialCasuals).slice(0, 8),
+          featuredSports: shuffle(sports).slice(0, 10),
+          featuredVans: shuffle(vans).slice(0, 10),
+          heroClarks: clarks,
+          heroTimberland: timberland,
+        },
+        revalidate: 60,
+      };
+    } catch (fallbackError) {
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Fallback product load failed:', fallbackError);
+      }
+      return {
+        props: {
+          featuredOfficials: [], featuredClarks: [], featuredCasuals: [], featuredLacosteCasuals: [],
+          featuredTimberlandCasuals: [], featuredOfficialCasuals: [], featuredLoafers: [], featuredEmpireOfficials: [],
+          featuredOfficialBoots: [], featuredLacoste: [], featuredLoafersProducts: [], featuredClarksOfficials: [],
+          featuredEmpireOfficialsFiltered: [], featuredOfficialBootsFiltered: [], featuredTimberlandCasualsFiltered: [],
+          featuredOfficialCasualsFiltered: [], featuredSports: [], featuredVans: [], heroClarks: [], heroTimberland: [],
+        },
+        revalidate: 60,
+      };
+    }
   }
 };
 

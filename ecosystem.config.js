@@ -13,13 +13,8 @@ module.exports = {
       env: {
         NODE_ENV: 'production',
         PORT: 3000,
-        DATABASE_URL:"postgresql://trendy:StrongTrendyPass1234!@localhost:5432/trendyfashions",
-       DO_SPACES_ENDPOINT:"https://sfo3.digitaloceanspaces.com",
-       DO_SPACES_KEY:'DO801PHKGXPLL39YE3ZC',
-       DO_SPACES_SECRET:'sQmzYONdRjIRfQrHP2u7e0dF0uOEKO/8mr5DUrFK2Ns',
-       DO_SPACES_BUCKET:'trendyfashion',
-       DO_SPACES_CDN_URL:'https://trendyfashion.sfo3.cdn.digitaloceanspaces.com',
-
+        // Supabase: set DATABASE_URL in server environment (see docs/DATABASE-SUPABASE.md). Do not commit real password here.
+        DATABASE_URL: process.env.DATABASE_URL || "",
       },
       // Logging
        error_file: '/var/www/trendyfashions/logs/err.log',

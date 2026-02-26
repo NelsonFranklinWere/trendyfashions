@@ -1,0 +1,95 @@
+# Server Update Commands - Copy and paste these directly into your server console
+# Server IP: 64.225.112.70
+# App Directory: /var/www/trendyfashions
+# PM2 App Name: trendy-fashion-zone
+
+# ============================================
+# OPTION 1: Quick One-Liner (Copy entire block)
+# ============================================
+# FIRST: Fix Git ownership issue (run once):
+git config --global --add safe.directory /var/www/trendyfashions
+
+# THEN: Run the update command:
+cd /var/www/trendyfashions && git pull origin main && npm install && npm run build && pm2 restart trendy-fashion-zone && pm2 save && pm2 status trendy-fashion-zone
+
+# ============================================
+# OPTION 2: Step-by-Step Commands (Run one at a time)
+# ============================================
+
+# 1. Navigate to app directory
+cd /var/www/trendyfashions
+
+# 2. Pull latest changes from git
+git pull origin main
+
+# 3. Install/update dependencies
+npm install
+
+# 4. Build the application
+npm run build
+
+# 5. Restart PM2 application
+pm2 restart trendy-fashion-zone
+
+# 6. Save PM2 state (so it persists after reboot)
+pm2 save
+
+# 7. Check application status
+pm2 status trendy-fashion-zone
+
+# 8. View recent logs (optional)
+pm2 logs trendy-fashion-zone --lines 20 --nostream
+
+# ============================================
+# OPTION 3: Using the Update Script
+# ============================================
+# First, make the script executable (one time only):
+# chmod +x /var/www/trendyfashions/scripts/update-server-from-git.sh
+
+# Then run it:
+# /var/www/trendyfashions/scripts/update-server-from-git.sh
+
+# ============================================
+# FIX DISK SPACE ISSUE (if you get "no space left on device")
+# ============================================
+
+# Quick cleanup commands:
+npm cache clean --force
+cd /var/www/trendyfashions && rm -rf .next/cache
+apt-get clean && apt-get autoclean
+rm -rf /tmp/* /var/tmp/*
+
+# Check disk space:
+df -h /
+
+# Then retry the update command
+
+# ============================================
+# TROUBLESHOOTING
+# ============================================
+
+# If git pull fails due to uncommitted changes:
+# git status                    # Check what's blocking
+# git stash                     # Save local changes temporarily
+# git pull origin main          # Pull latest
+# git stash pop                 # Restore your changes (if needed)
+
+# If PM2 restart fails:
+# pm2 list                      # Check if app exists
+# pm2 start ecosystem.config.js # Start using config file
+# pm2 save                      # Save the new state
+
+# If build fails:
+# npm run build                 # Try building again
+# Check error messages for missing dependencies or TypeScript errors
+
+# View live logs:
+# pm2 logs trendy-fashion-zone
+
+# View error logs only:
+# pm2 logs trendy-fashion-zone --err
+
+# Restart PM2 completely:
+# pm2 kill
+# pm2 start ecosystem.config.js
+# pm2 save

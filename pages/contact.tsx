@@ -58,7 +58,7 @@ const contactChannels = [
     icon: <span aria-hidden>💬</span>,
     title: "WhatsApp Concierge",
     description: "Instant replies from our Nairobi stylists. Share your size and style mood.",
-    href: "https://wa.me/254743869564?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes.",
+    href: "https://wa.me/254712417489?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes.",
     cta: "Tap to open WhatsApp",
     accent: "secondary" as const,
     external: true,
@@ -76,8 +76,8 @@ const contactChannels = [
     icon: <span aria-hidden>📞</span>,
     title: "Call the Studio",
     description: "Speak to a stylist about sizing, drop-offs, and corporate orders.",
-    href: "tel:+254743869564",
-    cta: "Call +254 743 869 564",
+    href: "tel:+254712417489",
+    cta: "Call +254 712 417 489",
     accent: "primary" as const,
     external: true,
   },
@@ -161,7 +161,7 @@ const Contact = () => {
     <>
       <NextSeo
         title="Contact Us | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Contact Trendy Fashion Zone for best sellers and quality original shoes in Nairobi. WhatsApp +254743869564, call, or visit Moi Avenue. Fast response, expert styling advice, free delivery. Nike Airforce, Jordan, Airmax, Clarks, Vans."
+        description="Contact Trendy Fashion Zone for best sellers and quality original shoes in Nairobi. WhatsApp +254712417489, call, or visit Moi Avenue. Fast response, expert styling advice, free delivery. Nike Airforce, Jordan, Airmax, Clarks, Vans."
         canonical={`${siteConfig.url}/contact`}
         openGraph={{
           url: `${siteConfig.url}/contact`,
@@ -387,7 +387,7 @@ const Contact = () => {
                         aria-invalid={errors.whatsapp ? "true" : "false"}
                         aria-describedby={errors.whatsapp ? "whatsapp-error" : undefined}
                         className="w-full rounded-2xl border border-slate-200 bg-white/60 py-3 pl-12 pr-4 font-body text-slate-900 shadow-inner focus:border-[#1bbfb3] focus:outline-none focus:ring-2 focus:ring-[#1bbfb3]/30"
-                        placeholder="e.g. +254743869564"
+                        placeholder="e.g. +254712417489"
                       />
                     </div>
                     <p className="text-xs text-slate-500">Our concierge replies within minutes, 7 days a week.</p>
@@ -479,7 +479,7 @@ const Contact = () => {
                     </svg>
                   </button>
                   <p className="text-sm text-slate-500">
-                    Prefer faster? <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254743869564?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">WhatsApp us</a> or <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254792264228?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">+254 792 264 228</a>.
+                    Prefer faster? <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254712417489?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">WhatsApp us</a> or <a className="font-semibold text-[#1bbfb3] hover:underline" href="https://wa.me/254792264228?text=Hey%20Trendy%20Fashion%20Zone%2C%20I%27m%20looking%20for%20men%27s%20shoes." target="_blank" rel="noopener noreferrer">+254 792 264 228</a>.
                   </p>
                 </div>
               </form>
@@ -561,7 +561,7 @@ const Contact = () => {
               </svg>
             </a>
             <a
-              href="tel:+254743869564"
+              href="tel:+254712417489"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5"
               aria-label="Call Trendy Fashion Zone"
             >

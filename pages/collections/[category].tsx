@@ -218,7 +218,10 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
       // Return all products without any filtering
       return safeProducts;
     } catch (error) {
-      console.error('Error loading products:', error);
+      // Silently fail in development to prevent Fast Refresh reloads
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Error loading products:', error);
+      }
       return safeProducts; // Return all products as fallback
     }
   }, [safeProducts]);
@@ -1125,7 +1128,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60,
     };
   } catch (error) {
-    console.error('Error in getStaticProps:', error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error in getStaticProps:', error);
+    }
     return {
       notFound: true,
     };

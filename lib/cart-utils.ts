@@ -1,7 +1,7 @@
 import { CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/products';
 
-const WHATSAPP_NUMBER = '254743869564';
+const WHATSAPP_NUMBER = '254712417489';
 
 export const buildWhatsAppOrderMessage = (items: CartItem[], subtotal: number): string => {
   if (!items.length) {

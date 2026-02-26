@@ -38,15 +38,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   console.log('✅ [Upload API] Authentication successful');
 
-  // Check DigitalOcean Spaces credentials
-  const hasSpacesConfig = !!(process.env.DO_SPACES_KEY && process.env.DO_SPACES_SECRET && process.env.DO_SPACES_BUCKET);
-  console.log('🌐 [Upload API] DigitalOcean Spaces configured:', hasSpacesConfig);
-
-  if (!hasSpacesConfig) {
-    console.log('⚠️ [Upload API] DigitalOcean Spaces not configured - this will fail');
+  // Check database (Supabase Postgres) connection
+  if (!process.env.DATABASE_URL) {
+    console.log('⚠️ [Upload API] DATABASE_URL not set');
     return res.status(500).json({
-      error: 'Server configuration error: DigitalOcean Spaces credentials not configured',
-      help: 'Please ensure DO_SPACES_KEY, DO_SPACES_SECRET, and DO_SPACES_BUCKET are set in environment variables'
+      error: 'Server configuration error: Database not configured',
+      help: 'Set DATABASE_URL in .env.local (e.g. postgresql://postgres:[PASSWORD]@db.PROJECT_REF.supabase.co:5432/postgres, use %40 for @ in password)'
+    });
+  }
+
+  // Check Supabase Storage configuration (images bucket)
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.log('⚠️ [Upload API] Supabase Storage not configured');
+    return res.status(500).json({
+      error: 'Server configuration error: Supabase Storage not configured',
+      help: 'Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for the Supabase project'
     });
   }
 
@@ -75,6 +81,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
+    const uploadedFile = file as UploadedFile;
+    const mimetype = (uploadedFile.mimetype || '').toLowerCase();
+    if (!mimetype.startsWith('image/')) {
+      console.log('❌ [Upload API] Invalid file type:', mimetype);
+      return res.status(400).json({
+        error: 'Invalid file type: only images are allowed (e.g. image/jpeg, image/png, image/webp)'
+      });
+    }
+
     // Validate category length (schema: VARCHAR(50))
     if (category.length > 50) {
       console.log('❌ [Upload API] Category name too long:', category.length);
@@ -83,7 +98,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
-    const uploadedFile = file as UploadedFile;
     const originalBuffer = fs.readFileSync(uploadedFile.filepath);
     const originalSize = originalBuffer.length;
 
@@ -133,12 +147,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     console.log('   Image key:', imageKey);
     console.log('   Thumbnail key:', thumbnailKey);
 
-    // Import uploadToSpaces function
-    const { uploadToSpaces } = await import('@/lib/storage/spaces');
+    // Import Supabase storage upload function
+    const { uploadToSupabaseStorage } = await import('@/lib/storage/supabaseStorage');
 
-    // Upload to DigitalOcean Spaces
-    console.log('⬆️ [Upload API] Uploading main image...');
-    const imageUrl = await uploadToSpaces(imageKey, optimizedBuffer, optimizedFormat, {
+    // Upload to Supabase Storage (images bucket)
+    console.log('⬆️ [Upload API] Uploading main image to Supabase Storage...');
+    const imageUrl = await uploadToSupabaseStorage(imageKey, optimizedBuffer, optimizedFormat, {
       cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
       metadata: {
         category,
@@ -147,11 +161,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
     console.log('✅ [Upload API] Main image uploaded:', imageUrl);
 
-    // Upload thumbnail to Spaces
+    // Upload thumbnail to Supabase Storage
     let thumbnailUrl: string;
     try {
-      console.log('⬆️ [Upload API] Uploading thumbnail...');
-      thumbnailUrl = await uploadToSpaces(thumbnailKey, thumbnail.buffer, 'image/webp', {
+      console.log('⬆️ [Upload API] Uploading thumbnail to Supabase Storage...');
+      thumbnailUrl = await uploadToSupabaseStorage(thumbnailKey, thumbnail.buffer, 'image/webp', {
         cacheControl: 'public, max-age=31536000, immutable',
       });
       console.log('✅ [Upload API] Thumbnail uploaded:', thumbnailUrl);

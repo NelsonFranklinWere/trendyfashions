@@ -441,7 +441,11 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     
     return validProducts;
   } catch (error) {
-    console.error(`Error loading ${category} products from database:`, error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    // Database errors are expected if DB is not available locally
+    if (process.env.NODE_ENV === 'production') {
+      console.error(`Error loading ${category} products from database:`, error);
+    }
     return [];
   }
 }
@@ -469,7 +473,10 @@ export async function getDbImageProductsBySubcategory(
 
     return data.map((img, index) => dbImageToProduct(img as DbImage, index));
   } catch (error) {
-    console.error(`Error loading ${category}/${subcategory} products from database:`, error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    if (process.env.NODE_ENV === 'production') {
+      console.error(`Error loading ${category}/${subcategory} products from database:`, error);
+    }
     return [];
   }
 }
@@ -561,7 +568,10 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
     // Filter out products with invalid images
     return filterValidProducts(mappedProducts);
   } catch (error) {
-    console.error('Error loading products from database:', error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error loading products from database:', error);
+    }
     return [];
   }
 }
@@ -582,7 +592,10 @@ export async function getAllDbImageProducts(): Promise<Product[]> {
 
     return data.map((img, index) => dbImageToProduct(img as DbImage, index));
   } catch (error) {
-    console.error('Error loading all products from database:', error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error loading all products from database:', error);
+    }
     return [];
   }
 }

@@ -59,13 +59,13 @@ const SmartImage = ({
   // Optimize sizes for responsive loading - more specific for better performance
   const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
-  // Determine if this is a DigitalOcean Spaces CDN URL (already optimized)
-  const isCdnUrl = typeof props.src === 'string' && 
-    (props.src.includes('digitaloceanspaces.com') || props.src.includes('cdn.digitaloceanspaces.com'));
+  // External URLs (Supabase Storage, CDN) - use unoptimized so they always display
+  const srcStr = typeof props.src === 'string' ? props.src : '';
+  const isExternalUrl = srcStr.startsWith('http://') || srcStr.startsWith('https://');
+  const isCdnUrl = srcStr.includes('digitaloceanspaces.com') || srcStr.includes('cdn.digitaloceanspaces.com') || srcStr.includes('supabase.co');
 
   // Use optimized quality: lower for thumbnails, higher for hero images
   const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 50;
-  // CDN URLs are already optimized, can use lower quality for faster loading
   const optimizedQuality = isCdnUrl ? Math.min(qualityNum, 75) : qualityNum;
   
   // Determine if this should be priority loaded (above the fold)
@@ -93,12 +93,10 @@ const SmartImage = ({
       placeholder={placeholder}
       blurDataURL={fallbackBlur}
       loading={props.loading || (shouldPriority ? 'eager' : 'lazy')}
-      // Lazy load non-priority images for faster initial page load
       sizes={optimizedSizes}
       priority={shouldPriority}
-      // Enable automatic format optimization (WebP/AVIF)
-      // Add fetchpriority for better browser hints
       fetchPriority={shouldPriority ? 'high' : 'auto'}
+      unoptimized={isExternalUrl}
       className={cn(
         'duration-300 ease-out will-change-transform',
         isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]',

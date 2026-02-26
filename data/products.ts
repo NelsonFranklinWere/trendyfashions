@@ -8878,5 +8878,5 @@ export const getWhatsAppLink = (productName: string): string => {
   const message = encodeURIComponent(
     `I'm interested in ${productName} from Trendy Fashion Zone.`
   );
-  return `https://wa.me/254743869564?text=${message}`;
+  return `https://wa.me/254712417489?text=${message}`;
 };

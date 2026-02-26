@@ -266,7 +266,10 @@ export const getStaticProps: GetStaticProps<CollectionsProps> = async () => {
       },
     };
   } catch (error) {
-    console.error('Error loading products:', error);
+    // Silently fail in development to prevent Fast Refresh reloads
+    if (process.env.NODE_ENV === 'production') {
+      console.error('Error loading products:', error);
+    }
     return {
       props: {
         allProducts: [],

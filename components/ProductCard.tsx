@@ -69,7 +69,7 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
         {/* Product Image - Clickable */}
         <div
           className={cn(
-            "relative w-full overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer",
+            "relative w-full overflow-hidden bg-gradient-to-br from-light to-gray-100 cursor-pointer min-h-[10rem]",
             isSpecialCategory 
               ? "aspect-[4/3] p-4" 
               : "aspect-square p-2 sm:p-3"

@@ -1,19 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  webpack: (config, { dev, isServer }) => {
-    if (dev && !isServer) {
-      // Remove React Refresh plugin
-      config.plugins = config.plugins.filter(
-        (plugin) => plugin.constructor.name !== 'ReactRefreshPlugin'
-      );
-    }
-    // Exclude scripts directory from build
-    config.resolve.alias = {
-      ...config.resolve.alias,
-    };
-    return config;
-  },
   // Exclude scripts from TypeScript checking during build
 eslint: {
     ignoreDuringBuilds: true,
@@ -40,8 +27,13 @@ eslint: {
     // Enable image optimization with quality settings
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Remote patterns for DigitalOcean Spaces CDN
+    // Remote patterns for Supabase Storage and legacy CDNs
     remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.supabase.co',
+        pathname: '/storage/v1/object/public/**',
+      },
       {
         protocol: 'https',
         hostname: '**.digitaloceanspaces.com',
