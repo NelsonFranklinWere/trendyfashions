@@ -145,8 +145,8 @@ const Home = ({
             '@id': `${siteConfig.url}#store`,
             name: siteConfig.name,
             url: siteConfig.url,
-            logo: `${siteConfig.url}/images/logos/Logo.jpg`,
-            image: `${siteConfig.url}/images/logos/Logo.jpg`,
+            logo: `${siteConfig.url}/logo/Logo.jpg`,
+            image: `${siteConfig.url}/logo/Logo.jpg`,
             description: 'Nairobi\'s premier destination for best sellers and quality original shoes. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue.',
             address: {
               '@type': 'PostalAddress',

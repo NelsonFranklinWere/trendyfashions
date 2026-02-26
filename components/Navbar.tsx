@@ -56,7 +56,7 @@ const Navbar = () => {
             >
               <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 flex-shrink-0 rounded-lg overflow-hidden bg-light flex items-center justify-center">
                 <SmartImage
-                  src="/images/logos/Logo.jpg"
+                  src="/logo/Logo.jpg"
                   alt="Trendy Fashion Zone Logo"
                   width={64}
                   height={64}

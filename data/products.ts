@@ -1,6 +1,6 @@
 // Complete product data based on collection.html
 // This file contains all products with proper categorization
-// Images are organized in public/images/{category}/
+// Logo: public/logo/Logo.jpg. Category display images: public/categories/{category}/...
 
 export interface Product {
   id: string;
@@ -50,12 +50,12 @@ function getDefaultDescription(id: string): string {
 
 function getDefaultImage(id: string): string {
   const images: Record<string, string> = {
-    officials: '/images/officials/clarks-officials/ClarksOfficials1.jpg',
-    casual: '/images/casual/lacoste-casuals/LacosteCassual1.jpg',
-    sneakers: '/images/casual/lacoste-casuals/LacosteCassual2.jpg',
-    sports: '/images/casual/timberland-casuals/TimbaCasual1.jpg',
+    officials: '/categories/officials/clarks-officials/ClarksOfficials1.jpg',
+    casual: '/categories/casual/lacoste-casuals/LacosteCassual1.jpg',
+    sneakers: '/categories/casual/lacoste-casuals/LacosteCassual2.jpg',
+    sports: '/categories/casual/timberland-casuals/TimbaCasual1.jpg',
   };
-  return images[id] || '/images/logos/Logo.jpg';
+  return images[id] || '/logo/Logo.jpg';
 }
 export const products: Product[] = [
   {

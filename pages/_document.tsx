@@ -5,9 +5,9 @@ export default function Document() {
     <Html lang="en-KE">
       <Head>
         {/* Favicon / header icon using site logo */}
-        <link rel="icon" href="/images/logos/Logo.jpg" />
-        <link rel="apple-touch-icon" href="/images/logos/Logo.jpg" />
-        <link rel="shortcut icon" href="/images/logos/Logo.jpg" />
+        <link rel="icon" href="/logo/Logo.jpg" />
+        <link rel="apple-touch-icon" href="/logo/Logo.jpg" />
+        <link rel="shortcut icon" href="/logo/Logo.jpg" />
         <meta name="theme-color" content="#2c3e50" />
         <meta name="application-name" content="Trendy Fashion Zone" />
         

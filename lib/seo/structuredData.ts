@@ -61,7 +61,7 @@ export function getOrganizationSchema(): OrganizationSchema {
     '@type': 'Store',
     name: 'Trendy Fashion Zone',
     url: 'https://trendyfashionzone.co.ke',
-    logo: 'https://trendyfashionzone.co.ke/images/logos/Logo.jpg',
+    logo: 'https://trendyfashionzone.co.ke/logo/Logo.jpg',
     description: 'Nairobi\'s premier destination for quality original shoes, best sellers, sneakers, officials, casuals, Airforce, Airmax, and Jordans. 5+ years of trusted fashion.',
     address: {
       '@type': 'PostalAddress',
@@ -297,7 +297,7 @@ export function getArticleSchema(data: {
       name: 'Trendy Fashion Zone',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://trendyfashionzone.co.ke/images/logos/Logo.jpg',
+        url: 'https://trendyfashionzone.co.ke/logo/Logo.jpg',
       },
     },
     datePublished: data.datePublished || new Date().toISOString(),

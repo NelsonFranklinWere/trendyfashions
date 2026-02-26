@@ -19,7 +19,7 @@ interface CircularCategoryCardProps {
 
 const CircularCategoryCard = memo(({ category, className, delay = 0 }: CircularCategoryCardProps) => {
   const categoryLink = `/collections/${category.slug}`;
-  const categoryImage = category.image || `/images/${category.slug}/category.jpg`;
+  const categoryImage = category.image || '/logo/Logo.jpg';
 
   return (
     <motion.div
