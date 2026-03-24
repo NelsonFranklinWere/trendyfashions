@@ -15,7 +15,7 @@ interface CheckoutFormData {
   deliveryZone: 'cbd' | 'near_cbd' | 'outside_cbd';
 }
 
-type PaymentMethod = 'whatsapp' | 'mpesa' | 'pesapal';
+type PaymentMethod = 'whatsapp' | 'pay';
 
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCart();
@@ -29,7 +29,7 @@ const CheckoutPage = () => {
     shoeSize: '',
     deliveryZone: 'cbd',
   });
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('pesapal');
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('pay');
   const [processingPayment, setProcessingPayment] = useState(false);
   const [paymentError, setPaymentError] = useState<string | null>(null);
   
@@ -111,31 +111,6 @@ const CheckoutPage = () => {
       const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
       clearCart();
-      return;
-    }
-
-    if (paymentMethod === 'mpesa') {
-      setProcessingPayment(true);
-      try {
-        const res = await fetch('/api/mpesa/stk-push', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            phoneNumber: formData.phone,
-            amount: totalWithDelivery,
-            items,
-          }),
-        });
-        const data = await res.json();
-        if (!res.ok || !data.success) {
-          throw new Error(data.message || 'Failed to start M-Pesa payment.');
-        }
-        alert(data.message || 'M-Pesa request sent. Confirm on your phone.');
-      } catch (error: any) {
-        setPaymentError(error?.message || 'Unable to process M-Pesa payment.');
-      } finally {
-        setProcessingPayment(false);
-      }
       return;
     }
 
@@ -345,25 +320,14 @@ const CheckoutPage = () => {
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   <button
                     type="button"
-                    onClick={() => setPaymentMethod('pesapal')}
+                    onClick={() => setPaymentMethod('pay')}
                     className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                      paymentMethod === 'pesapal'
+                      paymentMethod === 'pay'
                         ? 'border-primary bg-primary text-white'
                         : 'border-primary/20 bg-white text-primary'
                     }`}
                   >
-                    Pesapal
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod('mpesa')}
-                    className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
-                      paymentMethod === 'mpesa'
-                        ? 'border-primary bg-primary text-white'
-                        : 'border-primary/20 bg-white text-primary'
-                    }`}
-                  >
-                    M-Pesa
+                    Pay Now
                   </button>
                   <button
                     type="button"
@@ -395,19 +359,15 @@ const CheckoutPage = () => {
                 </svg>
                 {processingPayment
                   ? 'Processing payment...'
-                  : paymentMethod === 'pesapal'
-                    ? 'Pay with Pesapal'
-                    : paymentMethod === 'mpesa'
-                      ? 'Pay with M-Pesa'
-                      : 'Submit Order via WhatsApp'}
+                  : paymentMethod === 'pay'
+                    ? 'Proceed to Pay'
+                    : 'Submit Order via WhatsApp'}
               </button>
               
               <p className="text-xs font-body text-text/60 text-center">
-                {paymentMethod === 'pesapal'
-                  ? 'You will be redirected to Pesapal secure checkout.'
-                  : paymentMethod === 'mpesa'
-                    ? 'You will receive an M-Pesa prompt on your phone.'
-                    : 'Clicking the button opens WhatsApp with your order details.'}
+                {paymentMethod === 'pay'
+                  ? 'You will be redirected to secure checkout.'
+                  : 'Clicking the button opens WhatsApp with your order details.'}
               </p>
             </form>
           </div>

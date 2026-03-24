@@ -1162,6 +1162,22 @@ const Home = ({
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
+    const getImageIdentityKey = (image: string | undefined | null): string => {
+      if (!image) return '';
+      const normalized = String(image).trim().toLowerCase();
+      if (!normalized) return '';
+      try {
+        if (normalized.startsWith('http://') || normalized.startsWith('https://')) {
+          const url = new URL(normalized);
+          return decodeURIComponent(url.pathname).replace(/\/+/g, '/');
+        }
+      } catch {
+        // Ignore parse errors and fallback to string-based normalization.
+      }
+      const withoutQuery = normalized.split('?')[0].split('#')[0];
+      return decodeURIComponent(withoutQuery).replace(/\/+/g, '/');
+    };
+
     const fs = await import('fs');
     const path = await import('path');
     
@@ -1190,14 +1206,18 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         // Add database products first (priority)
         [...dbProducts, ...dbImageProducts].forEach(p => {
           if (p && p.image) {
-            productMap.set(p.image, p);
+            const key = getImageIdentityKey(p.image);
+            if (key) productMap.set(key, p);
           }
         });
         
         // Add filesystem products only if image doesn't exist in database
         fsProducts.forEach(p => {
-          if (p && p.image && !productMap.has(p.image)) {
-            productMap.set(p.image, p);
+          if (p && p.image) {
+            const key = getImageIdentityKey(p.image);
+            if (key && !productMap.has(key)) {
+              productMap.set(key, p);
+            }
           }
         });
         

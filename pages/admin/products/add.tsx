@@ -82,6 +82,9 @@ export default function AddProduct() {
   const selectedCategory = watch('category');
   const selectedSubcategory = watch('subcategory');
   const selectedImage = watch('image');
+  const productName = watch('name');
+  const productDescription = watch('description');
+  const productPrice = watch('price');
 
   // Fetch available images when category changes
   const fetchAvailableImages = useCallback(async () => {
@@ -625,6 +628,23 @@ export default function AddProduct() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Image Previews ({uploadedImages.length > 0 ? uploadedImages.length : 1} image{uploadedImages.length > 1 ? 's' : ''})
                 </label>
+                <div className="mb-3 rounded-md border border-blue-100 bg-blue-50 px-3 py-2 text-xs text-blue-700">
+                  Each image will be saved with:
+                  {' '}
+                  <span className="font-semibold">{productName?.trim() || 'No name yet'}</span>
+                  {' | '}
+                  <span className="font-semibold">
+                    {typeof productPrice === 'number' && !Number.isNaN(productPrice) && productPrice > 0
+                      ? `KES ${productPrice.toLocaleString()}`
+                      : 'No price yet'}
+                  </span>
+                  {' | '}
+                  <span className="font-semibold">
+                    {productDescription?.trim()
+                      ? `${productDescription.trim().slice(0, 80)}${productDescription.trim().length > 80 ? '...' : ''}`
+                      : 'No description yet'}
+                  </span>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {uploadedImages.length > 0 ? (
                     uploadedImages.map((imgUrl, index) => (
@@ -652,7 +672,21 @@ export default function AddProduct() {
                               </svg>
                             </button>
                           </div>
-                          <p className="mt-1 text-xs text-gray-500 text-center">Image {index + 1}</p>
+                          <div className="mt-1 rounded border border-gray-200 bg-white p-1.5 text-[11px] leading-tight text-gray-700">
+                            <p className="font-semibold truncate" title={productName || `Image ${index + 1}`}>
+                              {productName?.trim() || `Image ${index + 1}`}
+                            </p>
+                            <p className="text-gray-600">
+                              {typeof productPrice === 'number' && !Number.isNaN(productPrice) && productPrice > 0
+                                ? `KES ${productPrice.toLocaleString()}`
+                                : 'Set price'}
+                            </p>
+                            <p className="truncate text-gray-500" title={productDescription || 'Set description'}>
+                              {productDescription?.trim()
+                                ? `${productDescription.trim().slice(0, 40)}${productDescription.trim().length > 40 ? '...' : ''}`
+                                : 'Set description'}
+                            </p>
+                          </div>
                         </div>
                       )
                     ))
@@ -668,7 +702,21 @@ export default function AddProduct() {
                             onError={() => setImagePreview('')}
                           />
                         </div>
-                        <p className="mt-1 text-xs text-gray-500 text-center">Single Image</p>
+                        <div className="mt-1 rounded border border-gray-200 bg-white p-1.5 text-[11px] leading-tight text-gray-700">
+                          <p className="font-semibold truncate" title={productName || 'Single Image'}>
+                            {productName?.trim() || 'Single Image'}
+                          </p>
+                          <p className="text-gray-600">
+                            {typeof productPrice === 'number' && !Number.isNaN(productPrice) && productPrice > 0
+                              ? `KES ${productPrice.toLocaleString()}`
+                              : 'Set price'}
+                          </p>
+                          <p className="truncate text-gray-500" title={productDescription || 'Set description'}>
+                            {productDescription?.trim()
+                              ? `${productDescription.trim().slice(0, 40)}${productDescription.trim().length > 40 ? '...' : ''}`
+                              : 'Set description'}
+                          </p>
+                        </div>
                       </div>
                     )
                   )}

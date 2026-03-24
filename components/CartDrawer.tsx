@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import useCart from '@/hooks/useCart';
 import CartItemRow from '@/components/CartItemRow';
 import { createWhatsAppCheckoutLink, getCartAnalyticsPayload } from '@/lib/cart-utils';
@@ -20,7 +21,8 @@ interface CartDrawerProps {
 }
 
 const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
-  const { items, subtotal, itemsCount, incrementItem, decrementItem, removeItem, clearCart } = useCart();
+  const router = useRouter();
+  const { items, subtotal, itemsCount, incrementItem, decrementItem, removeItem } = useCart();
   const panelRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const lastFocusedElement = useRef<HTMLElement | null>(null);
@@ -77,12 +79,16 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
   const whatsappLink = createWhatsAppCheckoutLink(items, subtotal);
 
   const handleCheckoutClick = () => {
-    if (typeof window !== 'undefined') {
-      const payload = getCartAnalyticsPayload(items, subtotal);
-      window.dispatchEvent(new CustomEvent('tfz.cart.checkout', { detail: payload }));
-      if (typeof window?.dataLayer !== 'undefined' && Array.isArray(window.dataLayer)) {
-        window.dataLayer.push({ event: 'cart_checkout', payload });
+    try {
+      if (typeof window !== 'undefined') {
+        const payload = getCartAnalyticsPayload(items, subtotal);
+        window.dispatchEvent(new CustomEvent('tfz.cart.checkout', { detail: payload }));
+        if (typeof window?.dataLayer !== 'undefined' && Array.isArray(window.dataLayer)) {
+          window.dataLayer.push({ event: 'cart_checkout', payload });
+        }
       }
+    } catch {
+      // Never block checkout navigation because of analytics.
     }
   };
 
@@ -160,6 +166,13 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                   <p className="mt-2 text-sm font-body text-text/70">
                     Add styles you love and send them to us via WhatsApp to place your order.
                   </p>
+                  <button
+                    type="button"
+                    onClick={handleContinueShopping}
+                    className="mt-4 w-full rounded-full border border-primary/20 bg-white px-6 py-3 text-sm font-heading text-primary shadow-soft transition-all hover:border-secondary/50 hover:text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+                  >
+                    Continue Shopping
+                  </button>
                 </motion.div>
               )}
 
@@ -174,43 +187,31 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                     <span className="text-xl font-heading font-semibold text-primary">{formatPrice(subtotal)}</span>
                   </div>
 
-                  <div className="space-y-3">
-                    <Link
-                      href="/checkout"
-                      onClick={handleCheckoutClick}
-                      className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-center font-heading text-white shadow-medium transition-all hover:bg-secondary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleCheckoutClick();
+                        onClose();
+                        router.push('/checkout');
+                      }}
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-4 py-3 text-center text-sm font-heading text-white shadow-medium transition-all hover:bg-secondary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
                     >
-                      Pay with Pesapal
-                    </Link>
+                      Proceed to Pay
+                    </button>
 
                     <a
                       href={whatsappLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-6 py-3 text-center font-heading text-white shadow-medium transition-all hover:bg-[#20BA5A] focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
+                      className="flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-center text-sm font-heading text-white shadow-medium transition-all hover:bg-[#20BA5A] focus:outline-none focus-visible:ring-2 focus-visible:ring-whatsapp focus-visible:ring-offset-2"
                       onClick={handleCheckoutClick}
                     >
                       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.051 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884" />
                       </svg>
-                      Order via WhatsApp
+                      WhatsApp
                     </a>
-
-                    <button
-                      type="button"
-                      onClick={handleContinueShopping}
-                      className="w-full rounded-full border border-primary/20 bg-white px-6 py-3 text-sm font-heading text-primary shadow-soft transition-all hover:border-secondary/50 hover:text-secondary focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
-                    >
-                      Continue Shopping
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={clearCart}
-                      className="w-full rounded-full border border-red-200 bg-white px-6 py-3 text-xs font-body font-medium text-red-500 transition-colors hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400 focus-visible:ring-offset-2"
-                    >
-                      Clear cart
-                    </button>
                   </div>
                 </motion.div>
               )}

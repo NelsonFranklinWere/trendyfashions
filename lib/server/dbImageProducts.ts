@@ -23,6 +23,35 @@ interface DbImage {
   description?: string;
 }
 
+function getImageIdentityKey(image: string | undefined | null): string {
+  if (!image) return '';
+  const normalized = String(image).trim().toLowerCase();
+  if (!normalized) return '';
+  try {
+    if (normalized.startsWith('http://') || normalized.startsWith('https://')) {
+      const url = new URL(normalized);
+      return decodeURIComponent(url.pathname).replace(/\/+/g, '/');
+    }
+  } catch {
+    // Ignore parse errors and fallback to string-based normalization.
+  }
+  const withoutQuery = normalized.split('?')[0].split('#')[0];
+  return decodeURIComponent(withoutQuery).replace(/\/+/g, '/');
+}
+
+function dedupeProductsByImageIdentity(products: Product[]): Product[] {
+  const seen = new Set<string>();
+  const deduped: Product[] = [];
+  for (const product of products) {
+    const key = getImageIdentityKey(product?.image) || `${product?.id || ''}:${product?.name || ''}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      deduped.push(product);
+    }
+  }
+  return deduped;
+}
+
 // Map category slugs to database category values
 // All working categories: officials, casual, loafers, sandals, sports, vans, sneakers
 const categoryMapping: Record<string, string> = {
@@ -440,7 +469,7 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
       console.warn(`All ${data.length} database products were filtered out due to invalid image URLs`);
     }
     
-    return validProducts;
+    return dedupeProductsByImageIdentity(validProducts);
   } catch (error) {
     // Silently fail in development to prevent Fast Refresh reloads
     // Database errors are expected if DB is not available locally
@@ -567,7 +596,7 @@ export async function getDbProducts(category?: string): Promise<Product[]> {
       });
     
     // Filter out products with invalid images
-    return filterValidProducts(mappedProducts);
+    return dedupeProductsByImageIdentity(filterValidProducts(mappedProducts));
   } catch (error) {
     // Silently fail in development to prevent Fast Refresh reloads
     if (process.env.NODE_ENV === 'production') {
