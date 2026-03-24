@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
 import ScrollableProductRow from '@/components/ScrollableProductRow';
@@ -66,6 +66,42 @@ const Home = ({
   heroClarks,
   heroTimberland,
 }: HomeProps) => {
+  const priceValidUntil = useMemo(() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 6);
+    return d.toISOString().split('T')[0];
+  }, []);
+
+  const seoProducts = useMemo(
+    () =>
+      [
+        ...featuredOfficials,
+        ...featuredClarks,
+        ...featuredCasuals,
+        ...featuredSports,
+        ...featuredVans,
+      ]
+        .filter((p) => p && p.id && p.name && p.price && p.image)
+        .slice(0, 24),
+    [featuredOfficials, featuredClarks, featuredCasuals, featuredSports, featuredVans]
+  );
+  const seoProductsForSchema = useMemo(() => {
+    if (seoProducts.length > 0) return seoProducts;
+    const fallback = [...heroClarks, ...heroTimberland]
+      .filter((p) => p && p.id && p.name && p.price && p.image)
+      .slice(0, 24);
+    if (fallback.length > 0) return fallback;
+    return [
+      {
+        id: 'featured-store-product',
+        name: 'Premium Original Shoes',
+        description: 'Quality original shoes in Nairobi from trusted global brands.',
+        price: 3200,
+        image: '/logo/Logo.jpg',
+        category: 'collections',
+      } as Product,
+    ];
+  }, [seoProducts, heroClarks, heroTimberland]);
 
   return (
     <>
@@ -266,6 +302,47 @@ const Home = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getSpeakableSchema(['h1', 'h2', '.hero-description'])),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'ItemList',
+            name: 'Trendy Fashion Zone Featured Products',
+            numberOfItems: seoProductsForSchema.length,
+            itemListElement: seoProductsForSchema.map((product, index) => ({
+              '@type': 'ListItem',
+              position: index + 1,
+              item: {
+                '@type': 'Product',
+                name: product.name,
+                description: product.description,
+                image: product.image.startsWith('http') ? product.image : `${siteConfig.url}${product.image}`,
+                sku: product.id,
+                category: product.category,
+                brand: {
+                  '@type': 'Brand',
+                  name: 'Trendy Fashion Zone',
+                },
+                offers: {
+                  '@type': 'Offer',
+                  url: `${siteConfig.url}/collections/${product.category}`,
+                  price: product.price.toString(),
+                  priceCurrency: 'KES',
+                  availability: 'https://schema.org/InStock',
+                  itemCondition: 'https://schema.org/NewCondition',
+                  priceValidUntil,
+                  seller: {
+                    '@type': 'Organization',
+                    name: siteConfig.name,
+                    url: siteConfig.url,
+                  },
+                },
+              },
+            })),
+          }),
         }}
       />
 

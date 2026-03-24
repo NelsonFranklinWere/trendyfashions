@@ -252,7 +252,7 @@ const Contact = () => {
               <div className="relative h-full min-h-[320px] overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
                 <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-800">
                   <SmartImage
-                    src="/images/officials/ClarksContact.jpg"
+                    src="/categories/casual/timberland-casuals/TimberlandCasual1.jpg"
                     alt="Trendy Fashion Zone premium men's footwear display"
                     fill
                     className="object-cover rounded-3xl"

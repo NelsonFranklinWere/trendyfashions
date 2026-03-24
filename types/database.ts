@@ -48,3 +48,30 @@ export interface ProductFormData {
   tags?: string[];
   featured?: boolean;
 }
+
+export interface BlogPostRecord {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  cover_image: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CaseStudyRecord {
+  id: string;
+  title: string;
+  slug: string;
+  client_name: string | null;
+  summary: string | null;
+  challenge: string | null;
+  solution: string | null;
+  outcome: string | null;
+  cover_image: string | null;
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+}

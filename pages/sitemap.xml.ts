@@ -76,6 +76,18 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       changefreq: 'monthly',
       priority: '0.7',
     },
+    {
+      loc: `${baseUrl}/blogs`,
+      lastmod: currentDate,
+      changefreq: 'weekly',
+      priority: '0.7',
+    },
+    {
+      loc: `${baseUrl}/case-studies`,
+      lastmod: currentDate,
+      changefreq: 'weekly',
+      priority: '0.7',
+    },
   ];
 
   const sitemap = generateSitemap(urls);

@@ -5,28 +5,33 @@ import { useRouter } from 'next/router';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useState } from 'react';
 
-interface BlogPost {
+interface CaseStudy {
   id: string;
   title: string;
   slug: string;
-  excerpt: string | null;
-  content: string;
+  client_name: string | null;
+  summary: string | null;
+  challenge: string | null;
+  solution: string | null;
+  outcome: string | null;
   cover_image: string | null;
   published: boolean;
-  created_at: string;
 }
 
-export default function ManageBlogs() {
+export default function ManageCaseStudies() {
   const { user, loading } = useAdminAuth();
   const router = useRouter();
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [items, setItems] = useState<CaseStudy[]>([]);
+  const [loadingItems, setLoadingItems] = useState(true);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState({
     title: '',
     slug: '',
-    excerpt: '',
-    content: '',
+    client_name: '',
+    summary: '',
+    challenge: '',
+    solution: '',
+    outcome: '',
     cover_image: '',
     published: false,
   });
@@ -40,11 +45,11 @@ export default function ManageBlogs() {
   useEffect(() => {
     if (!user) return;
     const load = async () => {
-      setLoadingPosts(true);
-      const res = await fetch('/api/admin/blogs');
+      setLoadingItems(true);
+      const res = await fetch('/api/admin/case-studies');
       const data = await res.json();
-      setPosts(data.posts || []);
-      setLoadingPosts(false);
+      setItems(data.caseStudies || []);
+      setLoadingItems(false);
     };
     load();
   }, [user]);
@@ -69,8 +74,11 @@ export default function ManageBlogs() {
     setForm({
       title: '',
       slug: '',
-      excerpt: '',
-      content: '',
+      client_name: '',
+      summary: '',
+      challenge: '',
+      solution: '',
+      outcome: '',
       cover_image: '',
       published: false,
     });
@@ -79,39 +87,42 @@ export default function ManageBlogs() {
   const submitForm = async (e: React.FormEvent) => {
     e.preventDefault();
     const method = editingId ? 'PUT' : 'POST';
-    const url = editingId ? `/api/admin/blogs/${editingId}` : '/api/admin/blogs';
+    const url = editingId ? `/api/admin/case-studies/${editingId}` : '/api/admin/case-studies';
     const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
     if (!res.ok) {
-      alert('Failed to save blog post');
+      alert('Failed to save case study');
       return;
     }
-    const refresh = await fetch('/api/admin/blogs');
+    const refresh = await fetch('/api/admin/case-studies');
     const data = await refresh.json();
-    setPosts(data.posts || []);
+    setItems(data.caseStudies || []);
     resetForm();
   };
 
-  const startEdit = (post: BlogPost) => {
-    setEditingId(post.id);
+  const startEdit = (item: CaseStudy) => {
+    setEditingId(item.id);
     setForm({
-      title: post.title,
-      slug: post.slug,
-      excerpt: post.excerpt || '',
-      content: post.content,
-      cover_image: post.cover_image || '',
-      published: post.published,
+      title: item.title,
+      slug: item.slug,
+      client_name: item.client_name || '',
+      summary: item.summary || '',
+      challenge: item.challenge || '',
+      solution: item.solution || '',
+      outcome: item.outcome || '',
+      cover_image: item.cover_image || '',
+      published: item.published,
     });
   };
 
-  const removePost = async (id: string) => {
-    if (!confirm('Delete this blog post?')) return;
-    const res = await fetch(`/api/admin/blogs/${id}`, { method: 'DELETE' });
-    if (!res.ok) return alert('Failed to delete blog post');
-    setPosts((prev) => prev.filter((p) => p.id !== id));
+  const removeItem = async (id: string) => {
+    if (!confirm('Delete this case study?')) return;
+    const res = await fetch(`/api/admin/case-studies/${id}`, { method: 'DELETE' });
+    if (!res.ok) return alert('Failed to delete case study');
+    setItems((prev) => prev.filter((p) => p.id !== id));
   };
 
   return (
@@ -131,25 +142,28 @@ export default function ManageBlogs() {
             </svg>
             Back to Dashboard
           </Link>
-          <h1 className="text-3xl font-bold text-slate-900">Manage Blogs</h1>
-          <p className="text-slate-600 mt-1">Create polished blog content for your storefront SEO and trust.</p>
+          <h1 className="text-3xl font-bold text-slate-900">Manage Case Studies</h1>
+          <p className="text-slate-600 mt-1">Publish polished customer success stories with measurable outcomes.</p>
         </motion.div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           <form onSubmit={submitForm} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm space-y-4">
-            <h3 className="text-xl font-semibold text-slate-900">{editingId ? 'Edit blog post' : 'Create blog post'}</h3>
+            <h3 className="text-xl font-semibold text-slate-900">{editingId ? 'Edit case study' : 'Create case study'}</h3>
             <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} placeholder="Title" className="w-full rounded-lg border border-slate-300 px-3 py-2" required />
-            <input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} placeholder="Slug (e.g. shoe-care-guide)" className="w-full rounded-lg border border-slate-300 px-3 py-2" required />
+            <input value={form.slug} onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))} placeholder="Slug (e.g. cbd-corporate-footwear)" className="w-full rounded-lg border border-slate-300 px-3 py-2" required />
+            <input value={form.client_name} onChange={(e) => setForm((f) => ({ ...f, client_name: e.target.value }))} placeholder="Client name (optional)" className="w-full rounded-lg border border-slate-300 px-3 py-2" />
             <input value={form.cover_image} onChange={(e) => setForm((f) => ({ ...f, cover_image: e.target.value }))} placeholder="Cover image URL (optional)" className="w-full rounded-lg border border-slate-300 px-3 py-2" />
-            <textarea value={form.excerpt} onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))} placeholder="Short excerpt" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-20" />
-            <textarea value={form.content} onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))} placeholder="Full content" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-48" required />
+            <textarea value={form.summary} onChange={(e) => setForm((f) => ({ ...f, summary: e.target.value }))} placeholder="Summary" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-20" />
+            <textarea value={form.challenge} onChange={(e) => setForm((f) => ({ ...f, challenge: e.target.value }))} placeholder="Challenge" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-20" />
+            <textarea value={form.solution} onChange={(e) => setForm((f) => ({ ...f, solution: e.target.value }))} placeholder="Solution" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-20" />
+            <textarea value={form.outcome} onChange={(e) => setForm((f) => ({ ...f, outcome: e.target.value }))} placeholder="Outcome" className="w-full rounded-lg border border-slate-300 px-3 py-2 min-h-20" />
             <label className="inline-flex items-center gap-2 text-sm text-slate-700">
               <input type="checkbox" checked={form.published} onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))} />
               Published
             </label>
             <div className="flex gap-2">
               <button type="submit" className="rounded-lg bg-primary px-4 py-2 text-white font-medium hover:bg-primary/90">
-                {editingId ? 'Update post' : 'Create post'}
+                {editingId ? 'Update case study' : 'Create case study'}
               </button>
               {editingId && (
                 <button type="button" onClick={resetForm} className="rounded-lg border border-slate-300 px-4 py-2 text-slate-700">
@@ -161,22 +175,22 @@ export default function ManageBlogs() {
 
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
             <h3 className="text-lg font-semibold text-slate-900 mb-3">Published and drafts</h3>
-            {loadingPosts ? (
-              <p className="text-slate-500">Loading posts...</p>
-            ) : posts.length === 0 ? (
-              <p className="text-slate-500">No blog posts yet.</p>
+            {loadingItems ? (
+              <p className="text-slate-500">Loading case studies...</p>
+            ) : items.length === 0 ? (
+              <p className="text-slate-500">No case studies yet.</p>
             ) : (
               <div className="space-y-3">
-                {posts.map((post) => (
-                  <div key={post.id} className="rounded-xl border border-slate-200 p-4">
+                {items.map((item) => (
+                  <div key={item.id} className="rounded-xl border border-slate-200 p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-semibold text-slate-900">{post.title}</p>
-                        <p className="text-xs text-slate-500 mt-1">/{post.slug} • {post.published ? 'Published' : 'Draft'}</p>
+                        <p className="font-semibold text-slate-900">{item.title}</p>
+                        <p className="text-xs text-slate-500 mt-1">/{item.slug} • {item.published ? 'Published' : 'Draft'}</p>
                       </div>
                       <div className="flex gap-2">
-                        <button onClick={() => startEdit(post)} className="text-xs rounded-md bg-blue-600 px-3 py-1.5 text-white">Edit</button>
-                        <button onClick={() => removePost(post.id)} className="text-xs rounded-md bg-red-600 px-3 py-1.5 text-white">Delete</button>
+                        <button onClick={() => startEdit(item)} className="text-xs rounded-md bg-blue-600 px-3 py-1.5 text-white">Edit</button>
+                        <button onClick={() => removeItem(item.id)} className="text-xs rounded-md bg-red-600 px-3 py-1.5 text-white">Delete</button>
                       </div>
                     </div>
                   </div>

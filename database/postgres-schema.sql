@@ -186,3 +186,52 @@ DROP TRIGGER IF EXISTS update_admin_users_updated_at ON admin_users;
 CREATE TRIGGER update_admin_users_updated_at BEFORE UPDATE ON admin_users
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- ============================================
+-- 7. BLOG POSTS TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS blog_posts (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  excerpt TEXT,
+  content TEXT NOT NULL,
+  cover_image TEXT,
+  published BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_published ON blog_posts(published);
+CREATE INDEX IF NOT EXISTS idx_blog_posts_created_at ON blog_posts(created_at DESC);
+
+DROP TRIGGER IF EXISTS update_blog_posts_updated_at ON blog_posts;
+CREATE TRIGGER update_blog_posts_updated_at BEFORE UPDATE ON blog_posts
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- ============================================
+-- 8. CASE STUDIES TABLE
+-- ============================================
+CREATE TABLE IF NOT EXISTS case_studies (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) UNIQUE NOT NULL,
+  client_name VARCHAR(255),
+  summary TEXT,
+  challenge TEXT,
+  solution TEXT,
+  outcome TEXT,
+  cover_image TEXT,
+  published BOOLEAN DEFAULT false,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_case_studies_slug ON case_studies(slug);
+CREATE INDEX IF NOT EXISTS idx_case_studies_published ON case_studies(published);
+CREATE INDEX IF NOT EXISTS idx_case_studies_created_at ON case_studies(created_at DESC);
+
+DROP TRIGGER IF EXISTS update_case_studies_updated_at ON case_studies;
+CREATE TRIGGER update_case_studies_updated_at BEFORE UPDATE ON case_studies
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+

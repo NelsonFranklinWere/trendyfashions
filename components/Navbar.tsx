@@ -130,6 +130,20 @@ const Navbar = () => {
                 Contact
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
               </Link>
+              <Link
+                href="/blogs"
+                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+              >
+                Blog
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
+              </Link>
+              <Link
+                href="/case-studies"
+                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+              >
+                Case Studies
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
+              </Link>
               
               <CartBadge count={itemsCount} onClick={openCart} />
             </div>
@@ -204,6 +218,20 @@ const Navbar = () => {
                   className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Contact
+                </Link>
+                <Link
+                  href="/blogs"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                >
+                  Blog
+                </Link>
+                <Link
+                  href="/case-studies"
+                  onClick={() => setIsOpen(false)}
+                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                >
+                  Case Studies
                 </Link>
               </div>
             </motion.div>

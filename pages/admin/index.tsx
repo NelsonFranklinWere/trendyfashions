@@ -32,6 +32,19 @@ const adminCards = [
     hoverColor: 'hover:bg-green-600',
   },
   {
+    id: 'case-studies',
+    title: 'Manage Case Studies',
+    description: 'Create and manage customer success stories',
+    href: '/admin/case-studies',
+    icon: (
+      <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2a4 4 0 014-4h8M3 7h18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z" />
+      </svg>
+    ),
+    color: 'bg-amber-500',
+    hoverColor: 'hover:bg-amber-600',
+  },
+  {
     id: 'payments',
     title: 'Manage Payments',
     description: 'View and manage payment transactions',

@@ -208,6 +208,11 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
   const isJordan = safeCategory?.slug === 'jordan';
   const isAirmax = safeCategory?.slug === 'airmax';
   const isMensOfficials = safeCategory?.slug === 'mens-officials';
+  const priceValidUntil = useMemo(() => {
+    const d = new Date();
+    d.setMonth(d.getMonth() + 6);
+    return d.toISOString().split('T')[0];
+  }, []);
 
   // Show all products in category - no filtering applied
   const filteredProducts = useMemo(() => {
@@ -225,6 +230,23 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
       return safeProducts; // Return all products as fallback
     }
   }, [safeProducts]);
+  const schemaProducts = useMemo(() => {
+    if (safeProducts.length > 0) return safeProducts.slice(0, 10);
+    const fallback = safeAllProducts
+      .filter((product) => product?.category === safeCategory.slug)
+      .slice(0, 10);
+    if (fallback.length > 0) return fallback;
+    return [
+      {
+        id: `${safeCategory.slug}-featured`,
+        name: `${safeCategory.name} Collection`,
+        description: safeCategory.description,
+        image: '/logo/Logo.jpg',
+        price: 3200,
+        category: safeCategory.slug,
+      } as Product,
+    ];
+  }, [safeProducts, safeAllProducts, safeCategory.slug]);
 
   // Safety check - ensure we have valid data
   if (!safeCategory || !safeCategory.name) {
@@ -306,8 +328,8 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             mainEntity: {
               '@type': 'ItemList',
               name: `${safeCategory.name} Products`,
-              numberOfItems: products.length,
-              itemListElement: products.slice(0, 10).map((product, index) => ({
+              numberOfItems: schemaProducts.length,
+              itemListElement: schemaProducts.map((product, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
                 item: {
@@ -315,12 +337,25 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
                   name: product.name,
                   description: product.description,
                   image: product.image.startsWith('http') ? product.image : `${siteConfig.url}${product.image}`,
+                  sku: product.id,
+                  category: safeCategory.name,
+                  brand: {
+                    '@type': 'Brand',
+                    name: 'Trendy Fashion Zone',
+                  },
                   offers: {
                     '@type': 'Offer',
-                    price: product.price,
+                    price: product.price.toString(),
                     priceCurrency: 'KES',
                     availability: 'https://schema.org/InStock',
                     url: `${siteConfig.url}/collections/${safeCategory.slug}`,
+                    itemCondition: 'https://schema.org/NewCondition',
+                    priceValidUntil,
+                    seller: {
+                      '@type': 'Organization',
+                      name: siteConfig.name,
+                      url: siteConfig.url,
+                    },
                   },
                 },
               })),
