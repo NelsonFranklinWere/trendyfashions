@@ -33,11 +33,15 @@ export default async function handler(
 
     const resend = new Resend(apiKey);
     const fromEmail = process.env.RESEND_FROM || 'StriveGo <onboarding@resend.dev>';
+    const toEmail = process.env.RESEND_TO_EMAIL || 'nelsonochieng516@gmail.com';
+    const replyToEmail = process.env.RESEND_REPLY_TO || email;
+    const subjectPrefix = process.env.RESEND_SUBJECT_PREFIX || 'Contact/Call Request';
 
     const { data, error } = await resend.emails.send({
       from: fromEmail,
-      to: 'nelsonochieng516@gmail.com',
-      subject: `New Contact Form Submission from ${name}`,
+      to: toEmail,
+      replyTo: replyToEmail,
+      subject: `${subjectPrefix}: ${name}`,
       text: `
 New contact form submission from Trendy Fashion Zone website:
 

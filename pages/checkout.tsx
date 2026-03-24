@@ -13,6 +13,8 @@ interface CheckoutFormData {
   deliveryNotes: string;
 }
 
+type PaymentMethod = 'whatsapp' | 'mpesa' | 'pesapal';
+
 const CheckoutPage = () => {
   const { items, subtotal, clearCart } = useCart();
   const [formData, setFormData] = useState<CheckoutFormData>({
@@ -23,16 +25,20 @@ const CheckoutPage = () => {
     city: '',
     deliveryNotes: '',
   });
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('pesapal');
+  const [processingPayment, setProcessingPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
   
   // Get base URL for product links
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://trendyfashionzone.co.ke';
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     
     if (!items.length || !subtotal) {
       return;
     }
+    setPaymentError(null);
 
     // Build WhatsApp message with order details including product image links
     const orderItems = items.map((item) => {
@@ -84,13 +90,66 @@ const CheckoutPage = () => {
       .filter(Boolean)
       .join('\n');
 
-    const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    
-    // Open WhatsApp
-    window.open(whatsappLink, '_blank');
-    
-    // Clear cart after opening WhatsApp
-    clearCart();
+    if (paymentMethod === 'whatsapp') {
+      const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappLink, '_blank');
+      clearCart();
+      return;
+    }
+
+    if (paymentMethod === 'mpesa') {
+      setProcessingPayment(true);
+      try {
+        const res = await fetch('/api/mpesa/stk-push', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            phoneNumber: formData.phone,
+            amount: subtotal,
+            items,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || 'Failed to start M-Pesa payment.');
+        }
+        alert(data.message || 'M-Pesa request sent. Confirm on your phone.');
+      } catch (error: any) {
+        setPaymentError(error?.message || 'Unable to process M-Pesa payment.');
+      } finally {
+        setProcessingPayment(false);
+      }
+      return;
+    }
+
+    setProcessingPayment(true);
+    try {
+      const res = await fetch('/api/pesapal/submit-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: subtotal,
+          currency: 'KES',
+          description: `Order payment for ${items.length} item(s)`,
+          customer: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            city: formData.city,
+          },
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success || !data.redirectUrl) {
+        throw new Error(data.message || 'Failed to initialize Pesapal payment.');
+      }
+      window.location.href = data.redirectUrl as string;
+    } catch (error: any) {
+      setPaymentError(error?.message || 'Unable to process Pesapal payment.');
+    } finally {
+      setProcessingPayment(false);
+    }
   };
 
   return (
@@ -216,19 +275,74 @@ const CheckoutPage = () => {
                 />
               </div>
 
+              <div>
+                <p className="mb-2 text-sm font-body font-medium text-text">Payment Method *</p>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('pesapal')}
+                    className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                      paymentMethod === 'pesapal'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-primary/20 bg-white text-primary'
+                    }`}
+                  >
+                    Pesapal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('mpesa')}
+                    className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                      paymentMethod === 'mpesa'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-primary/20 bg-white text-primary'
+                    }`}
+                  >
+                    M-Pesa
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPaymentMethod('whatsapp')}
+                    className={`rounded-xl border px-3 py-2 text-sm font-semibold transition ${
+                      paymentMethod === 'whatsapp'
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-primary/20 bg-white text-primary'
+                    }`}
+                  >
+                    WhatsApp
+                  </button>
+                </div>
+              </div>
+
+              {paymentError && (
+                <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  {paymentError}
+                </p>
+              )}
+
               <button
                 type="submit"
-                disabled={!items.length}
+                disabled={!items.length || processingPayment}
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3 text-sm font-heading font-semibold text-white shadow-medium transition hover:bg-[#20BA5A] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#25D366] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-400"
               >
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347M12.051 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884" />
                 </svg>
-                Submit Order via WhatsApp
+                {processingPayment
+                  ? 'Processing payment...'
+                  : paymentMethod === 'pesapal'
+                    ? 'Pay with Pesapal'
+                    : paymentMethod === 'mpesa'
+                      ? 'Pay with M-Pesa'
+                      : 'Submit Order via WhatsApp'}
               </button>
               
               <p className="text-xs font-body text-text/60 text-center">
-                Clicking the button will open WhatsApp with your order details. Please complete the conversation to finalize your order.
+                {paymentMethod === 'pesapal'
+                  ? 'You will be redirected to Pesapal secure checkout.'
+                  : paymentMethod === 'mpesa'
+                    ? 'You will receive an M-Pesa prompt on your phone.'
+                    : 'Clicking the button opens WhatsApp with your order details.'}
               </p>
             </form>
           </div>

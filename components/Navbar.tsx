@@ -73,7 +73,7 @@ const Navbar = () => {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-6 relative">
+            <div className="hidden md:flex items-center space-x-4 lg:space-x-5 relative">
               {mainCategories.map((category) => (
                 <div
                   key={category.id}
@@ -83,7 +83,7 @@ const Navbar = () => {
                 >
                   <Link
                     href={category.href}
-                    className="text-text font-body font-medium hover:text-secondary transition-colors relative group flex items-center gap-1"
+                    className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group flex items-center gap-1"
                   >
                     {category.name}
                     {category.hasSubcategories && (
@@ -125,21 +125,21 @@ const Navbar = () => {
               
               <Link
                 href="/contact"
-                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+                className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Contact
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
                 href="/blogs"
-                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+                className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Blog
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
               </Link>
               <Link
                 href="/case-studies"
-                className="text-text font-body font-medium hover:text-secondary transition-colors relative group"
+                className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Case Studies
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
@@ -192,7 +192,7 @@ const Navbar = () => {
                     <Link
                       href={category.href}
                       onClick={() => setIsOpen(false)}
-                      className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                      className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                     >
                       {category.name}
                     </Link>
@@ -215,21 +215,21 @@ const Navbar = () => {
                 <Link
                   href="/contact"
                   onClick={() => setIsOpen(false)}
-                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                  className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Contact
                 </Link>
                 <Link
                   href="/blogs"
                   onClick={() => setIsOpen(false)}
-                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                  className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Blog
                 </Link>
                 <Link
                   href="/case-studies"
                   onClick={() => setIsOpen(false)}
-                  className="block text-text font-body font-medium hover:text-secondary transition-colors py-2"
+                  className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Case Studies
                 </Link>

@@ -252,8 +252,8 @@ const Contact = () => {
               <div className="relative h-full min-h-[320px] overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
                 <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden bg-slate-800">
                   <SmartImage
-                    src="/categories/casual/timberland-casuals/TimberlandCasual1.jpg"
-                    alt="Trendy Fashion Zone premium men's footwear display"
+                    src="https://zdeupdkbsueczuoercmm.supabase.co/storage/v1/object/public/images/officials/Empire/1764999606360-Empire-at-Officials12.webp"
+                    alt="Trendy Fashion Zone premium men's official shoes display"
                     fill
                     className="object-cover rounded-3xl"
                     sizes="(max-width: 768px) 100vw, 50vw"

@@ -180,7 +180,7 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
                       onClick={handleCheckoutClick}
                       className="flex w-full items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-center font-heading text-white shadow-medium transition-all hover:bg-secondary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
                     >
-                      Pay with M-Pesa
+                      Pay with Pesapal
                     </Link>
 
                     <a
