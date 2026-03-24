@@ -27,7 +27,7 @@ interface DbImage {
 // All working categories: officials, casual, loafers, sandals, sports, vans, sneakers
 const categoryMapping: Record<string, string> = {
   // Working categories
-  'officials': 'officials',
+  'officials': 'mens-officials',
   'casual': 'casual',
   'loafers': 'loafers',
   'sandals': 'sandals',
@@ -35,9 +35,9 @@ const categoryMapping: Record<string, string> = {
   'vans': 'vans',
   'sneakers': 'sneakers',
   // Legacy mappings for backward compatibility
-  'mens-officials': 'officials',
-  'mens-official': 'officials',
-  formal: 'officials',
+  'mens-officials': 'mens-officials',
+  'mens-official': 'mens-officials',
+  formal: 'mens-officials',
   casuals: 'casual',
   'mens-casuals': 'casual',
   'mens-loafers': 'loafers',
@@ -52,7 +52,7 @@ const formatProductName = (filename: string, category: string): string => {
   const lowerFilename = filename.toLowerCase();
 
   // For officials category, check filename for specific brands
-  if (category === 'officials') {
+  if (category === 'officials' || category === 'mens-officials') {
     // Check filename for Dr. Martens first
     if (lowerFilename.includes('dr.martens') || lowerFilename.includes('drmartens') || lowerFilename.includes('dr martens') ||
         lowerFilename.includes('martens') || lowerFilename.includes('dr martin')) {
@@ -148,7 +148,7 @@ const formatProductName = (filename: string, category: string): string => {
 
 // Helper to generate product description (no subcategory)
 const generateDescription = (name: string, category: string): string => {
-  if (category === 'officials') {
+  if (category === 'officials' || category === 'mens-officials') {
     const nameLower = name.toLowerCase();
     if (nameLower.includes('empire')) {
       return 'Premium Empire leather shoes for the sophisticated professional. Classic elegance meets modern comfort.';
@@ -169,7 +169,7 @@ const getPrice = (category: string, name?: string): number => {
   const categoryLower = (category || '').toLowerCase();
   
   // Check for officials category (both 'officials' and 'mens-officials')
-  if (category === 'officials') {
+  if (category === 'officials' || category === 'mens-officials') {
     // Check for Dr. Martens first (by name)
     if (nameLower.includes('dr.martens') || nameLower.includes('drmartens') || nameLower.includes('dr martens') ||
         nameLower.includes('martens') || nameLower.includes('dr martin')) {
@@ -224,7 +224,7 @@ const getPrice = (category: string, name?: string): number => {
 
 // Helper to determine gender based on category
 const getGender = (category: string): 'Men' | 'Unisex' => {
-  if (category === 'officials') return 'Men';
+  if (category === 'officials' || category === 'mens-officials') return 'Men';
   return 'Unisex';
 };
 
@@ -239,6 +239,7 @@ const mapToProductCategory = (category: string): string => {
   // Legacy mapping for old categories
   const mapping: Record<string, string> = {
     officials: 'officials',
+    'mens-officials': 'officials',
     formal: 'officials',
     casuals: 'casual',
     'mens-casuals': 'casual',
@@ -326,7 +327,7 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     price,
     image: imageUrl, // Use thumbnail for faster loading, full URL for high-res
     // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
-    category: category === 'officials' ? 'officials' : productCategory,
+    category: category === 'officials' || category === 'mens-officials' ? 'officials' : productCategory,
     gender: getGender(category),
     // No tags - we don't use subcategories anymore
     // Store full URL separately for high-res display when needed
