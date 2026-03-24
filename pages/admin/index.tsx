@@ -56,7 +56,6 @@ const adminCards = [
     ),
     color: 'bg-purple-500',
     hoverColor: 'hover:bg-purple-600',
-    comingSoon: true,
   },
 ];
 

@@ -11,6 +11,8 @@ interface CheckoutFormData {
   address: string;
   city: string;
   deliveryNotes: string;
+  shoeSize: string;
+  deliveryZone: 'cbd' | 'near_cbd' | 'outside_cbd';
 }
 
 type PaymentMethod = 'whatsapp' | 'mpesa' | 'pesapal';
@@ -24,6 +26,8 @@ const CheckoutPage = () => {
     address: '',
     city: '',
     deliveryNotes: '',
+    shoeSize: '',
+    deliveryZone: 'cbd',
   });
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('pesapal');
   const [processingPayment, setProcessingPayment] = useState(false);
@@ -31,6 +35,9 @@ const CheckoutPage = () => {
   
   // Get base URL for product links
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://trendyfashionzone.co.ke';
+  const deliveryFee =
+    formData.deliveryZone === 'cbd' ? 0 : formData.deliveryZone === 'near_cbd' ? 300 : 500;
+  const totalWithDelivery = subtotal + deliveryFee;
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -77,11 +84,21 @@ const CheckoutPage = () => {
       '*Delivery Address:*',
       formData.address,
       formData.city ? `City: ${formData.city}` : '',
+      `Shoe Size: ${formData.shoeSize || 'Not specified'}`,
+      `Delivery Zone: ${
+        formData.deliveryZone === 'cbd'
+          ? 'Within CBD (Free)'
+          : formData.deliveryZone === 'near_cbd'
+            ? 'Near CBD (KES 300)'
+            : 'Outside CBD (KES 500)'
+      }`,
+      `Delivery Fee: ${formatPrice(deliveryFee)}`,
       '',
       '*Order Items:*',
       orderItems,
       '',
-      `*Total: ${formatPrice(subtotal)}*`,
+      `*Subtotal: ${formatPrice(subtotal)}*`,
+      `*Total: ${formatPrice(totalWithDelivery)}*`,
       '',
       formData.deliveryNotes ? `*Delivery Notes:*\n${formData.deliveryNotes}` : '',
       '',
@@ -105,7 +122,7 @@ const CheckoutPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             phoneNumber: formData.phone,
-            amount: subtotal,
+            amount: totalWithDelivery,
             items,
           }),
         });
@@ -128,7 +145,7 @@ const CheckoutPage = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: subtotal,
+          amount: totalWithDelivery,
           currency: 'KES',
           description: `Order payment for ${items.length} item(s)`,
           customer: {
@@ -137,7 +154,16 @@ const CheckoutPage = () => {
             phone: formData.phone,
             address: formData.address,
             city: formData.city,
+            shoeSize: formData.shoeSize,
+            deliveryOption:
+              formData.deliveryZone === 'cbd'
+                ? 'Within CBD (Free)'
+                : formData.deliveryZone === 'near_cbd'
+                  ? 'Near CBD (KES 300)'
+                  : 'Outside CBD (KES 500)',
+            deliveryFee,
           },
+          items,
         }),
       });
       const data = await res.json();
@@ -260,6 +286,45 @@ const CheckoutPage = () => {
 
               <div>
                 <label
+                  htmlFor="shoeSize"
+                  className="mb-1 block text-sm font-body font-medium text-text"
+                >
+                  Shoe Size *
+                </label>
+                <input
+                  id="shoeSize"
+                  type="text"
+                  placeholder="e.g. 42 / 9 UK"
+                  className="block w-full rounded-xl border border-primary/20 bg-light/40 px-4 py-3 text-sm font-body text-text outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/40"
+                  value={formData.shoeSize}
+                  onChange={(event) => setFormData({ ...formData, shoeSize: event.target.value })}
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="deliveryZone"
+                  className="mb-1 block text-sm font-body font-medium text-text"
+                >
+                  Delivery Zone *
+                </label>
+                <select
+                  id="deliveryZone"
+                  className="block w-full rounded-xl border border-primary/20 bg-light/40 px-4 py-3 text-sm font-body text-text outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/40"
+                  value={formData.deliveryZone}
+                  onChange={(event) =>
+                    setFormData({ ...formData, deliveryZone: event.target.value as CheckoutFormData['deliveryZone'] })
+                  }
+                >
+                  <option value="cbd">Within CBD (Free)</option>
+                  <option value="near_cbd">Near CBD (KES 300)</option>
+                  <option value="outside_cbd">Outside CBD (KES 500)</option>
+                </select>
+              </div>
+
+              <div>
+                <label
                   htmlFor="deliveryNotes"
                   className="mb-1 block text-sm font-body font-medium text-text"
                 >
@@ -376,6 +441,16 @@ const CheckoutPage = () => {
                   <span className="text-sm font-body text-text/70">Subtotal</span>
                   <span className="text-lg font-heading font-semibold text-primary">
                     {formatPrice(subtotal)}
+                  </span>
+                </div>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-sm font-body text-text/70">Delivery</span>
+                  <span className="text-base font-heading text-primary">{formatPrice(deliveryFee)}</span>
+                </div>
+                <div className="mt-2 flex items-center justify-between border-t border-primary/10 pt-2">
+                  <span className="text-sm font-body text-text/70">Total</span>
+                  <span className="text-xl font-heading font-semibold text-primary">
+                    {formatPrice(totalWithDelivery)}
                   </span>
                 </div>
               </>

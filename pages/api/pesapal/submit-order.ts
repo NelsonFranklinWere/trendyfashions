@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { createOrder, createPayment, updatePaymentByOrderId } from '@/lib/db/orders';
 
 interface PesapalBillingAddress {
   email_address?: string;
@@ -20,7 +21,11 @@ interface SubmitOrderBody {
     phone?: string;
     address?: string;
     city?: string;
+    shoeSize?: string;
+    deliveryOption?: string;
+    deliveryFee?: number;
   };
+  items?: Array<{ id: string; name: string; image: string; quantity: number; price: number; category?: string }>;
 }
 
 function getPesapalBaseUrl() {
@@ -57,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
-  const { amount, currency = 'KES', description, customer } = (req.body || {}) as SubmitOrderBody;
+  const { amount, currency = 'KES', description, customer, items = [] } = (req.body || {}) as SubmitOrderBody;
 
   if (!amount || amount <= 0 || !customer?.name || !customer?.phone) {
     return res.status(400).json({
@@ -81,6 +86,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const baseUrl = getPesapalBaseUrl();
 
   try {
+    const order = await createOrder({
+      customer_name: customer.name,
+      customer_email: customer.email,
+      customer_phone: customer.phone,
+      shipping_address: `${customer.address || ''}${customer.city ? `, ${customer.city}` : ''}`,
+      notes: `Shoe size: ${customer.shoeSize || 'Not specified'} | Delivery: ${customer.deliveryOption || 'Not specified'} | Delivery fee: KES ${customer.deliveryFee || 0}`,
+      status: 'pending',
+      total_amount: Math.round(amount),
+      currency,
+    });
+
+    await createPayment({
+      order_id: order.id,
+      provider: 'pesapal',
+      amount: Math.round(amount),
+      currency,
+      status: 'pending',
+      raw_payload: { customer, items, stage: 'initialized' },
+    });
+
     const token = await requestPesapalToken(baseUrl, consumerKey, consumerSecret);
     const [firstName, ...rest] = customer.name.trim().split(' ');
     const lastName = rest.join(' ').trim();
@@ -96,6 +121,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       country_code: 'KE',
     };
 
+    const callbackWithOrder = `${callbackUrl}${callbackUrl.includes('?') ? '&' : '?'}orderId=${encodeURIComponent(
+      order.id
+    )}`;
+
     const submitRes = await fetch(`${baseUrl}/Transactions/SubmitOrderRequest`, {
       method: 'POST',
       headers: {
@@ -103,11 +132,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        id: orderTrackingId,
+        id: order.id,
         currency,
         amount: Math.round(amount),
         description: description || 'Trendy Fashion Zone order payment',
-        callback_url: callbackUrl,
+        callback_url: callbackWithOrder,
         notification_id: notificationId,
         billing_address: billingAddress,
       }),
@@ -122,6 +151,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     };
 
     if (!submitRes.ok || !submitData.redirect_url) {
+      await updatePaymentByOrderId(order.id, {
+        status: 'failed',
+        raw_payload: { customer, items, pesapal: submitData, stage: 'submit_failed' },
+      });
       return res.status(502).json({
         success: false,
         message:
@@ -136,6 +169,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       redirectUrl: submitData.redirect_url,
       orderTrackingId: submitData.order_tracking_id,
       merchantReference: submitData.merchant_reference || orderTrackingId,
+      orderId: order.id,
     });
   } catch (error: any) {
     return res.status(500).json({
