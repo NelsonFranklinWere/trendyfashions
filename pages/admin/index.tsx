@@ -85,74 +85,83 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12 flex items-center justify-between"
-        >
-          <div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-            <p className="text-lg text-gray-600">Manage your store content and settings</p>
-            <p className="text-sm text-gray-500 mt-1">Logged in as: {user.email}</p>
-          </div>
+    <div className="min-h-screen bg-slate-100">
+      <div className="mx-auto flex max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:px-8">
+        <aside className="hidden w-72 shrink-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:block">
+          <h2 className="text-lg font-semibold text-slate-900">Admin Panel</h2>
+          <p className="mt-1 text-xs text-slate-500 truncate">{user.email}</p>
+          <nav className="mt-5 space-y-2">
+            {adminCards.map((card) => (
+              <Link
+                key={card.id}
+                href={card.href}
+                className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 hover:text-slate-900 transition-colors"
+              >
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-700">
+                  {card.icon}
+                </span>
+                <span>{card.title}</span>
+              </Link>
+            ))}
+          </nav>
           <button
             onClick={logout}
-            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+            className="mt-6 w-full rounded-xl bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 transition-colors"
           >
             Logout
           </button>
-        </motion.div>
+        </aside>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {adminCards.map((card, index) => (
-            <motion.div
-              key={card.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              {card.comingSoon ? (
-                <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-gray-200 relative overflow-hidden">
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-gray-200 text-gray-600 text-xs font-semibold px-2 py-1 rounded">Coming Soon</span>
-                  </div>
-                  <div className={`${card.color} text-white rounded-lg p-4 mb-4 inline-block`}>
-                    {card.icon}
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{card.title}</h3>
-                  <p className="text-gray-600 mb-4">{card.description}</p>
-                  <button
-                    disabled
-                    className="w-full bg-gray-200 text-gray-500 py-2 px-4 rounded-md font-medium cursor-not-allowed"
-                  >
-                    Coming Soon
-                  </button>
-                </div>
-              ) : (
+        <main className="min-w-0 flex-1">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+                <p className="mt-1 text-slate-600">Manage products, blogs, case studies, and payments</p>
+              </div>
+              <button
+                onClick={logout}
+                className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600 transition-colors lg:hidden"
+              >
+                Logout
+              </button>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {adminCards.map((card, index) => (
+              <motion.div
+                key={card.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
                 <Link href={card.href}>
-                  <div className="bg-white rounded-lg shadow-lg p-6 border-2 border-transparent hover:border-primary transition-all duration-200 cursor-pointer h-full flex flex-col group">
-                    <div className={`${card.color} ${card.hoverColor} text-white rounded-lg p-4 mb-4 inline-block transition-colors duration-200`}>
+                  <div className="group h-full cursor-pointer rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md">
+                    <div className={`${card.color} ${card.hoverColor} mb-4 inline-flex rounded-xl p-3 text-white transition-colors duration-200`}>
                       {card.icon}
                     </div>
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-primary transition-colors">
+                    <h3 className="mb-2 text-xl font-semibold text-slate-900 group-hover:text-primary transition-colors">
                       {card.title}
                     </h3>
-                    <p className="text-gray-600 mb-4 flex-grow">{card.description}</p>
-                    <div className="flex items-center text-primary font-medium group-hover:translate-x-1 transition-transform">
-                      <span>Go to {card.title}</span>
-                      <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <p className="mb-4 text-slate-600">{card.description}</p>
+                    <div className="flex items-center text-sm font-medium text-primary">
+                      <span>Open section</span>
+                      <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
                   </div>
                 </Link>
-              )}
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        </main>
       </div>
     </div>
   );

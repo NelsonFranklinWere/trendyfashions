@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { mainCategories } from '@/data/categories-structure';
 
+const MAX_BULK_IMAGE_UPLOAD = 30;
+
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
   description: z.string().min(1, 'Description is required'),
@@ -172,7 +174,7 @@ export default function AddProduct() {
     }
 
     setUploadingImage(true);
-    setUploadProgress(`Uploading image ${index !== undefined ? `${index + 1}/10` : ''}...`);
+    setUploadProgress(`Uploading image ${index !== undefined ? `${index + 1}/${MAX_BULK_IMAGE_UPLOAD}` : ''}...`);
 
     try {
       const formData = new FormData();
@@ -237,7 +239,7 @@ export default function AddProduct() {
             setValue('image', imageUrl, { shouldValidate: true });
             setImagePreview(imageUrl);
           }
-          setUploadProgress(`Image ${index !== undefined ? `${index + 1}/10` : ''} uploaded successfully!`);
+          setUploadProgress(`Image ${index !== undefined ? `${index + 1}/${MAX_BULK_IMAGE_UPLOAD}` : ''} uploaded successfully!`);
       } else {
         throw new Error('No valid image URL returned from upload');
       }
@@ -258,15 +260,15 @@ export default function AddProduct() {
       return;
     }
 
-    const fileArray = Array.from(files).slice(0, 10); // Limit to 10 images
+    const fileArray = Array.from(files).slice(0, MAX_BULK_IMAGE_UPLOAD);
     
     if (fileArray.length === 0) {
       alert('Please select at least one image');
       return;
     }
 
-    if (fileArray.length > 10) {
-      alert('Maximum 10 images allowed');
+    if (fileArray.length > MAX_BULK_IMAGE_UPLOAD) {
+      alert(`Maximum ${MAX_BULK_IMAGE_UPLOAD} images allowed`);
       return;
     }
 
@@ -590,10 +592,10 @@ export default function AddProduct() {
           {/* Image Upload */}
           <div>
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
-              Product Images * (Upload 1-10 images)
+              Product Images * (Upload 1-{MAX_BULK_IMAGE_UPLOAD} images)
             </label>
             <p className="text-xs text-gray-500 mb-2">
-              Upload up to 10 images. All images will create separate products with the same name, description, and price.
+              Upload up to {MAX_BULK_IMAGE_UPLOAD} images. All images will create separate products with the same name, description, and price.
             </p>
             <div className="mb-4">
               <input
@@ -608,7 +610,7 @@ export default function AddProduct() {
               {!selectedCategory ? (
                 <p className="mt-1 text-xs text-gray-500">Please select category first</p>
               ) : (
-                <p className="mt-1 text-xs text-gray-500">You can select 1-10 images at once</p>
+                <p className="mt-1 text-xs text-gray-500">You can select 1-{MAX_BULK_IMAGE_UPLOAD} images at once</p>
               )}
               {uploadProgress && (
                 <p className={`mt-1 text-sm ${uploadProgress.includes('successfully') ? 'text-green-600' : 'text-blue-600'}`}>

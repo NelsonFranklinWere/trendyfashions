@@ -20,6 +20,22 @@ interface UploadedFile {
   size: number;
 }
 
+const uploadCategoryMapping: Record<string, string> = {
+  officials: 'mens-officials',
+  'mens-officials': 'mens-officials',
+  casuals: 'casual',
+  'mens-casuals': 'casual',
+  casual: 'casual',
+  loafers: 'loafers',
+  'mens-loafers': 'loafers',
+  nike: 'nike',
+  'mens-nike': 'nike',
+  sports: 'sports',
+  vans: 'vans',
+  sneakers: 'sneakers',
+  'mens-style': 'mens-style',
+};
+
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   console.log('📤 [Upload API] Request received:', req.method);
 
@@ -67,7 +83,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const [fields, files] = await form.parse(req);
     console.log('✅ [Upload API] Form parsed successfully');
 
-    const category = Array.isArray(fields.category) ? fields.category[0] : fields.category;
+    const rawCategory = Array.isArray(fields.category) ? fields.category[0] : fields.category;
+    const category = rawCategory ? (uploadCategoryMapping[String(rawCategory)] || String(rawCategory)) : rawCategory;
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     const optimize = Array.isArray(fields.optimize) ? fields.optimize[0] : fields.optimize;
 

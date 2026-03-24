@@ -49,6 +49,21 @@ eslint: {
     ],
   },
   compress: true,
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'www.trendyfashionzone.co.ke',
+          },
+        ],
+        destination: 'https://trendyfashionzone.co.ke/:path*',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
