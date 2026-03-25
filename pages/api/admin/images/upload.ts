@@ -87,6 +87,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const category = rawCategory ? (uploadCategoryMapping[String(rawCategory)] || String(rawCategory)) : rawCategory;
     const file = Array.isArray(files.file) ? files.file[0] : files.file;
     const optimize = Array.isArray(fields.optimize) ? fields.optimize[0] : fields.optimize;
+    const rawName = Array.isArray(fields.name) ? fields.name[0] : fields.name;
+    const rawDescription = Array.isArray(fields.description) ? fields.description[0] : fields.description;
+    const rawPrice = Array.isArray(fields.price) ? fields.price[0] : fields.price;
+
+    const imageName = rawName ? String(rawName) : undefined;
+    const imageDescription = rawDescription ? String(rawDescription) : undefined;
+    const parsedPrice = rawPrice !== undefined && rawPrice !== null && String(rawPrice).trim() !== '' ? Number.parseFloat(String(rawPrice)) : NaN;
+    const imagePrice = Number.isFinite(parsedPrice) && parsedPrice > 0 ? parsedPrice : undefined;
 
     console.log('📁 [Upload API] Category:', category);
     console.log('📄 [Upload API] File received:', file ? 'Yes' : 'No');
@@ -205,6 +213,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       width: width || undefined,
       height: height || undefined,
       uploaded_by: 'admin',
+      name: imageName,
+      description: imageDescription,
+      price: imagePrice,
     });
 
     console.log('✅ [Upload API] Database saved:', dbData.id);

@@ -62,12 +62,16 @@ export async function createImage(data: {
   mime_type?: string;
   width?: number;
   height?: number;
+  name?: string;
+  price?: number;
+  description?: string;
 }): Promise<ImageRecord> {
   const result = await query<ImageRecord>(
     `INSERT INTO images (
       category, subcategory, filename, url, storage_path, thumbnail_url,
+      name, price, description,
       uploaded_by, file_size, mime_type, width, height
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
     RETURNING *`,
     [
       data.category,
@@ -76,6 +80,9 @@ export async function createImage(data: {
       data.url,
       data.storage_path,
       data.thumbnail_url || null,
+      data.name || null,
+      data.price || null,
+      data.description || null,
       data.uploaded_by || null,
       data.file_size || null,
       data.mime_type || null,

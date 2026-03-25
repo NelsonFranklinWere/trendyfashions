@@ -183,6 +183,12 @@ export default function AddProduct() {
       const formData = new FormData();
       formData.append('file', file);
       formData.append('category', selectedCategory);
+      // Store admin-entered details on the image record
+      if (productName?.trim()) formData.append('name', productName.trim());
+      if (productDescription?.trim()) formData.append('description', productDescription.trim());
+      if (typeof productPrice === 'number' && !Number.isNaN(productPrice)) {
+        formData.append('price', String(productPrice));
+      }
 
       const response = await fetch('/api/admin/images/upload', {
         method: 'POST',
@@ -308,6 +314,12 @@ export default function AddProduct() {
           const formData = new FormData();
           formData.append('file', fileArray[i]);
           formData.append('category', selectedCategory);
+          // Store admin-entered details on each image record
+          if (productName?.trim()) formData.append('name', productName.trim());
+          if (productDescription?.trim()) formData.append('description', productDescription.trim());
+          if (typeof productPrice === 'number' && !Number.isNaN(productPrice)) {
+            formData.append('price', String(productPrice));
+          }
 
           const response = await fetch('/api/admin/images/upload', {
             method: 'POST',

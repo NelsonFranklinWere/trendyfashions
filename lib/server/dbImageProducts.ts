@@ -517,21 +517,33 @@ export async function getDbImageProductsBySubcategory(
  */
 export async function getDbProducts(category?: string): Promise<Product[]> {
   try {
-    let dbCategory: string | undefined;
+    const categoriesToTry = new Set<string>();
     if (category) {
-      dbCategory = categoryMapping[category] || category;
+      // `officials` and `mens-officials` are stored inconsistently in the `products` table.
+      // Try both so the frontend uses the admin-entered product name/price/description.
+      if (category === 'officials' || category === 'mens-officials') {
+        categoriesToTry.add('officials');
+        categoriesToTry.add('mens-officials');
+      } else {
+        categoriesToTry.add(categoryMapping[category] || category);
+      }
     }
 
-    let data = await getProducts({
-      category: dbCategory,
-      orderBy: 'created_at',
-      order: 'desc',
-    });
+    const queryCategories = category ? Array.from(categoriesToTry) : [undefined];
 
+    const allDataArrays = await Promise.all(
+      queryCategories.map((cat) =>
+        getProducts({
+          category: cat as string | undefined,
+          orderBy: 'created_at',
+          order: 'desc',
+        }),
+      ),
+    );
 
-    if (!data || data.length === 0) {
-      return [];
-    }
+    const data = allDataArrays.flat();
+
+    if (!data || data.length === 0) return [];
 
     // Convert database products to Product format and filter out Jordan 11, Dr. Martens, and invalid products
     const mappedProducts = data
