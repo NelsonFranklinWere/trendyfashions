@@ -39,6 +39,7 @@ interface HomeProps {
   featuredOfficialCasualsFiltered: Product[];
   featuredSports: Product[];
   featuredVans: Product[];
+  featuredSandals: Product[];
   heroClarks: Product[];
   heroTimberland: Product[];
 }
@@ -63,6 +64,7 @@ const Home = ({
   featuredOfficialCasualsFiltered,
   featuredSports,
   featuredVans,
+  featuredSandals,
   heroClarks,
   heroTimberland,
 }: HomeProps) => {
@@ -1077,48 +1079,27 @@ const Home = ({
         </section>
       )}
 
-      {/* Featured Vans Section */}
-      {featuredVans.length > 0 && (
-        <section className="py-12 md:py-16 bg-light/30">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between mb-6 sm:mb-8">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="flex-1 pr-4"
-              >
-                <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
-                  Vans Collection — Express Your Style
-                </h2>
-                <p className="text-xs sm:text-sm md:text-base text-text font-body leading-relaxed">
-                  Original Vans in classic & custom designs. Styles that stand out and reflect your unique personality.
-                </p>
-              </motion.div>
-              <Link
-                href="/collections/vans"
-                className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
-              >
-                View all
-                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-            </div>
-            <div className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0">
-              <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-                {featuredVans.slice(0, 10).filter(p => p && p.id && p.name && p.image && p.price).map((product) => (
-                  <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
-                    <ProductCard product={product} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Scrollable Vans Row (uploaded products prioritized) */}
+      <ScrollableProductRow
+        title="Vans Collection — Express Your Style"
+        description="Original Vans in classic & custom designs. Styles that stand out and reflect your unique personality."
+        viewAllHref="/collections/vans"
+        viewAllLabel="View all"
+        products={featuredVans}
+        maxItems={10}
+        className="bg-light/30"
+      />
+
+      {/* Scrollable Sandals Row */}
+      <ScrollableProductRow
+        title="Sandals Collection — Comfortable Style"
+        description="Stay cool with breathable sandals and everyday comfort for Nairobi shoppers."
+        viewAllHref="/collections/sandals"
+        viewAllLabel="View all sandals"
+        products={featuredSandals}
+        maxItems={10}
+        className="bg-white"
+      />
 
       {/* Main Categories Section - Circular Cards */}
       <section className="py-12 md:py-16 bg-white">
@@ -1259,6 +1240,17 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
              imageLower.includes('/images/vans/') || imageLower.includes('/images/Vans/');
     }));
 
+    // Sandals - use uploaded products prioritized from DB
+    const allSandals = await mergeWithDbPriority('sandals', []);
+    const sandals = filterValidProducts(
+      allSandals.filter((p) => {
+        if (!p || !p.image) return false;
+        const categoryLower = (p.category || '').toLowerCase();
+        const imageLower = (p.image || '').toLowerCase();
+        return categoryLower === 'sandals' || imageLower.includes('/images/sandals/') || imageLower.includes('/images/Sandals/');
+      }),
+    );
+
     // Filter Clarks products from officials (manually since 'Clarks' is not in official filters)
     const clarks = filterValidProducts(officials.filter(p => {
       if (p.tags && p.tags.length > 0) {
@@ -1367,6 +1359,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
         featuredOfficialCasualsFiltered: shuffle(officialCasualsFiltered).slice(0, 8),
         featuredSports: shuffle(sports).slice(0, 10),
         featuredVans: shuffle(vans).slice(0, 10),
+        featuredSandals: shuffle(sandals).slice(0, 10),
         heroClarks: clarks,
         heroTimberland: timberland,
       },
@@ -1405,6 +1398,8 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       const loaferProducts = filterValid(loafers.filter(p => (p?.category || '').toLowerCase().includes('loafers') || (p?.image || '').includes('/images/loafers/')));
       const clarksOfficials = filterValid(officials.filter(p => `${p.name} ${p.image}`.toLowerCase().includes('clarks')));
       const timberland = filterValid(filterCasualProducts(casuals, 'Timberland'));
+      // No filesystem fallback for sandals (uploaded items come from DB).
+      const sandals: Product[] = [];
       return {
         props: {
           featuredOfficials: shuffle(officials).slice(0, 8),
@@ -1425,6 +1420,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
           featuredOfficialCasualsFiltered: shuffle(officialCasuals).slice(0, 8),
           featuredSports: shuffle(sports).slice(0, 10),
           featuredVans: shuffle(vans).slice(0, 10),
+          featuredSandals: shuffle(sandals).slice(0, 10),
           heroClarks: clarks,
           heroTimberland: timberland,
         },
@@ -1440,7 +1436,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
           featuredTimberlandCasuals: [], featuredOfficialCasuals: [], featuredLoafers: [], featuredEmpireOfficials: [],
           featuredOfficialBoots: [], featuredLacoste: [], featuredLoafersProducts: [], featuredClarksOfficials: [],
           featuredEmpireOfficialsFiltered: [], featuredOfficialBootsFiltered: [], featuredTimberlandCasualsFiltered: [],
-          featuredOfficialCasualsFiltered: [], featuredSports: [], featuredVans: [], heroClarks: [], heroTimberland: [],
+          featuredOfficialCasualsFiltered: [], featuredSports: [], featuredVans: [], featuredSandals: [], heroClarks: [], heroTimberland: [],
         },
         revalidate: 60,
       };
