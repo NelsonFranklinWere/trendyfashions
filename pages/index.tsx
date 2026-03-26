@@ -364,7 +364,7 @@ const Home = ({
               <span className="text-secondary">Trendy Fashion Zone</span>
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl text-white font-body max-w-3xl mx-auto mb-6 md:mb-8 font-medium">
-              Discover authentic Nike, Jordan, Airmax, Clarks, and Vans. Join thousands of Nairobi shoppers who found exactly what they were looking for — original quality that lasts. 
+              Discover authentic Nike, Jordan, Airmax, Clarks, and Vans. Join thousands of Nairobi shoppers who found exactly what they were looking for original quality that lasts. 
               <span className="block mt-2 text-base md:text-lg">📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!</span>
             </p>
             
