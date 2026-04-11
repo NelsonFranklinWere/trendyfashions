@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ContactChannelCard from "@/components/contact/ContactChannelCard";
 import ContactStat from "@/components/contact/ContactStat";
 import SmartImage from "@/components/SmartImage";
-import { siteConfig, nairobiKeywords } from "@/lib/seo/config";
+import { siteConfig, nairobiKeywords, nairobiSearchPhrases, contactPageSeo } from "@/lib/seo/config";
 
 const contactFormSchema = z.object({
   name: z
@@ -160,13 +160,13 @@ const Contact = () => {
   return (
     <>
       <NextSeo
-        title="Contact Us | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Contact Trendy Fashion Zone for best sellers and quality original shoes in Nairobi. WhatsApp +254712417489, call, or visit Moi Avenue. Fast response, expert styling advice, free delivery. Nike Airforce, Jordan, Airmax, Clarks, Vans."
+        title={contactPageSeo.title}
+        description={contactPageSeo.description}
         canonical={`${siteConfig.url}/contact`}
         openGraph={{
           url: `${siteConfig.url}/contact`,
-          title: "Contact Us | Quality Original Shoes Nairobi | Trendy Fashion Zone",
-          description: "Contact Trendy Fashion Zone for best sellers and quality original shoes. WhatsApp, call, or visit Moi Avenue Nairobi. Fast response, expert styling advice, free delivery.",
+          title: contactPageSeo.title,
+          description: contactPageSeo.description.slice(0, 220),
           type: "website",
           locale: "en_KE",
         }}
@@ -178,10 +178,11 @@ const Contact = () => {
           {
             name: "keywords",
             content: [
+              ...nairobiSearchPhrases.slice(0, 10),
               "contact Trendy Fashion Zone",
               "shoe shop Moi Avenue",
               "WhatsApp shoe shop Nairobi",
-              ...nairobiKeywords.location.slice(0, 3),
+              ...nairobiKeywords.location.slice(0, 4),
               "shoe store contact Nairobi",
             ].join(", "),
           },
@@ -219,7 +220,7 @@ const Contact = () => {
               </span>
               <div className="space-y-6">
                 <h1 className="text-4xl font-heading font-bold text-white sm:text-5xl lg:text-[3.5rem] lg:leading-[1.1]">
-                  Step into Nairobi&apos;s most personal men&apos;s shoe experience
+                  {contactPageSeo.h1}
                 </h1>
                 <p className="max-w-2xl text-lg text-white/80 sm:text-xl">
                   From boardroom classics to weekend street heat, our stylists in Moi Avenue curate the perfect pair for your city hustle. Book a fitting, drop your size, and we handle the rest.

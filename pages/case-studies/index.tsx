@@ -1,7 +1,7 @@
 import type { GetServerSideProps } from 'next';
 import { NextSeo } from 'next-seo';
 import { CaseStudyRecord, getCaseStudies } from '@/lib/db/content';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, caseStudiesIndexSeo } from '@/lib/seo/config';
 
 interface CaseStudiesPageProps {
   caseStudies: CaseStudyRecord[];
@@ -11,8 +11,8 @@ export default function CaseStudiesPage({ caseStudies }: CaseStudiesPageProps) {
   return (
     <>
       <NextSeo
-        title="Case Studies | Trendy Fashion Zone Nairobi"
-        description="See real customer outcomes from Trendy Fashion Zone footwear styling, delivery, and fit consultations."
+        title={caseStudiesIndexSeo.title}
+        description={caseStudiesIndexSeo.description}
         canonical={`${siteConfig.url}/case-studies`}
       />
       <script

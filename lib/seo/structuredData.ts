@@ -2,6 +2,8 @@
  * Structured Data (JSON-LD) for SEO
  */
 
+import { siteConfig } from '@/lib/seo/config';
+
 export interface OrganizationSchema {
   '@context': string;
   '@type': string;
@@ -62,7 +64,7 @@ export function getOrganizationSchema(): OrganizationSchema {
     name: 'Trendy Fashion Zone',
     url: 'https://trendyfashionzone.co.ke',
     logo: 'https://trendyfashionzone.co.ke/logo/Logo.jpg',
-    description: 'Nairobi\'s premier destination for quality original shoes, best sellers, sneakers, officials, casuals, Airforce, Airmax, and Jordans. 5+ years of trusted fashion.',
+    description: siteConfig.description,
     address: {
       '@type': 'PostalAddress',
       streetAddress: 'Moi Avenue',

@@ -70,37 +70,14 @@ import { getNikeImageProducts } from '@/lib/server/nikeImageProducts';
 import { getSportsImageProducts } from '@/lib/server/sportsImageProducts';
 import { getRandomProductsFromAllCategories } from '@/lib/server/getRandomProductsFromAllCategories';
 import RandomProductsCarousel from '@/components/RandomProductsCarousel';
-import { siteConfig, getCategoryKeywords, getCategoryTitle, getCategoryDescription } from '@/lib/seo/config';
-
-// Get customer-focused header text for each category (2 lines max)
-function getCategorySalesHeader(categorySlug: string): string {
-  const headers: Record<string, string> = {
-    'mens-officials': 'Find Your Perfect Office Shoes',
-    'mens-nike': 'Discover Authentic Nike Styles',
-    'sports': 'Choose Your Athletic Footwear',
-    'vans': 'Browse Customized Vans Collection',
-    'sneakers': 'Find Your Ideal Sneakers',
-    'mens-casuals': 'Select Your Casual Footwear',
-    'loafers': 'Discover Elegant Loafers Collection',
-    'sandals': 'Find Comfortable Sandals for Every Occasion',
-  };
-  return headers[categorySlug] || `Browse ${categorySlug.replace(/-/g, ' ')} Collection`;
-}
-
-// Get customer-focused description text for each category (2 lines max, guiding tone)
-function getCategorySalesDescription(categorySlug: string): string {
-  const descriptions: Record<string, string> = {
-    'mens-officials': 'Quality office shoes that match your professional needs. Find comfort and style for your workday.',
-    'mens-nike': 'Original Nike shoes from Air Force to Air Max. Browse styles that fit your lifestyle.',
-    'sports': 'Performance footwear for your active pursuits. Choose what works for your training and games.',
-    'vans': 'Customized Vans that express your individuality. See designs that match your style.',
-    'sneakers': 'Classic and modern sneakers in various styles. Find the pair that feels right for you.',
-    'mens-casuals': 'Comfortable casual shoes for everyday wear. Select what fits your daily routine.',
-    'loafers': 'Elegant loafers for professional and casual occasions. Discover timeless style and comfort.',
-    'sandals': 'Comfortable sandals perfect for warm weather. Find the ideal pair for your casual needs.',
-  };
-  return descriptions[categorySlug] || `Browse quality ${categorySlug.replace(/-/g, ' ')} options that suit your needs.`;
-}
+import {
+  siteConfig,
+  getCategoryKeywords,
+  getCategorySeoTitle,
+  getCategorySeoDescription,
+  getCategoryPageH1,
+  getCategoryPageSubheading,
+} from '@/lib/seo/config';
 
 function getImageIdentityKey(image: string | undefined | null): string {
   if (!image) return '';
@@ -280,13 +257,13 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
   return (
     <>
       <NextSeo
-        title={`${safeCategory.name} | Quality Original Shoes Nairobi | Trendy Fashion Zone`}
-        description={`Shop best sellers and quality original ${safeCategory.name.toLowerCase()} in Nairobi. ${safeCategory.description} Authentic brands, premium quality, trusted by thousands. Located on Moi Avenue. Free delivery available. Best prices in Nairobi.`}
+        title={getCategorySeoTitle(safeCategory.slug, safeCategory.name)}
+        description={getCategorySeoDescription(safeCategory.slug, safeCategory.name, safeCategory.description)}
         canonical={`https://trendyfashionzone.co.ke/collections/${safeCategory.slug}`}
         openGraph={{
           url: `https://trendyfashionzone.co.ke/collections/${safeCategory.slug}`,
-          title: `${safeCategory.name} | Quality Original Shoes Nairobi | Trendy Fashion Zone`,
-          description: `Shop best sellers and quality original ${safeCategory.name.toLowerCase()} in Nairobi. ${safeCategory.description} Located on Moi Avenue.`,
+          title: getCategorySeoTitle(safeCategory.slug, safeCategory.name),
+          description: getCategorySeoDescription(safeCategory.slug, safeCategory.name, safeCategory.description).slice(0, 200),
           type: 'website',
           locale: 'en_KE',
           images: safeCategory && 'image' in safeCategory ? [
@@ -328,8 +305,8 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             '@id': `${siteConfig.url}/collections/${safeCategory.slug}#webpage`,
-            name: `${safeCategory.name} Collection - Best Sellers`,
-            description: getCategoryDescription(safeCategory.name, safeCategory.description),
+            name: `${safeCategory.name} Collection - Best Sellers Nairobi`,
+            description: getCategorySeoDescription(safeCategory.slug, safeCategory.name, safeCategory.description),
             url: `${siteConfig.url}/collections/${safeCategory.slug}`,
             inLanguage: 'en-KE',
             isPartOf: {
@@ -425,10 +402,10 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
               {/* Center-aligned Header */}
               <div className="text-center md:text-left flex-1">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-2">
-                  {getCategorySalesHeader(safeCategory.slug)}
+                  {getCategoryPageH1(safeCategory.slug, safeCategory.name)}
                 </h1>
                 <p className="text-base md:text-lg text-text font-body max-w-3xl leading-relaxed">
-                  {getCategorySalesDescription(safeCategory.slug)}
+                  {getCategoryPageSubheading(safeCategory.slug, safeCategory.name)}
                 </p>
               </div>
               

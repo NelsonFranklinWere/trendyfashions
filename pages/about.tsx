@@ -1,20 +1,20 @@
 import { NextSeo } from 'next-seo';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
+import { siteConfig, nairobiKeywords, nairobiSearchPhrases, aboutPageSeo } from '@/lib/seo/config';
 import { getArticleSchema, getSpeakableSchema } from '@/lib/seo/structuredData';
 
 const About = () => {
   return (
     <>
       <NextSeo
-        title="About Us | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Founded in 2020, Trendy Fashion Zone has served Nairobi's fashion lovers for over five years. Best sellers and quality original shoes - Nike Airforce, Jordan, Airmax, Clarks, Vans. Located on Moi Avenue. Trusted by thousands."
+        title={aboutPageSeo.title}
+        description={aboutPageSeo.description}
         canonical={`${siteConfig.url}/about`}
         openGraph={{
           url: `${siteConfig.url}/about`,
-          title: 'About Us | Quality Original Shoes Nairobi | Trendy Fashion Zone',
-          description: 'Founded in 2020, Trendy Fashion Zone has served Nairobi\'s fashion lovers for over five years. Best sellers and quality original shoes. Located on Moi Avenue.',
+          title: aboutPageSeo.title,
+          description: aboutPageSeo.description.slice(0, 220),
           type: 'website',
           locale: 'en_KE',
         }}
@@ -26,10 +26,11 @@ const About = () => {
           {
             name: 'keywords',
             content: [
+              ...nairobiSearchPhrases.slice(0, 10),
               'about Trendy Fashion Zone',
               'shoe store Nairobi',
               'Moi Avenue shoe shop',
-              ...nairobiKeywords.location.slice(0, 3),
+              ...nairobiKeywords.location.slice(0, 4),
               'trusted shoe retailer Nairobi',
               'quality original shoes Kenya',
             ].join(', '),
@@ -82,7 +83,7 @@ const About = () => {
             className="text-center mb-12"
           >
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-4">
-              Our Story — Best Sellers & Quality Original Shoes Since 2020
+              {aboutPageSeo.h1}
             </h1>
           </motion.div>
 

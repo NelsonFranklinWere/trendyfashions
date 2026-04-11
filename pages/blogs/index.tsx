@@ -2,7 +2,7 @@ import type { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { NextSeo } from 'next-seo';
 import { getBlogPosts, BlogPostRecord } from '@/lib/db/content';
-import { siteConfig } from '@/lib/seo/config';
+import { siteConfig, blogsIndexSeo } from '@/lib/seo/config';
 
 interface BlogsPageProps {
   posts: BlogPostRecord[];
@@ -12,8 +12,8 @@ export default function BlogsPage({ posts }: BlogsPageProps) {
   return (
     <>
       <NextSeo
-        title="Most Trusted Shoe Blog | Trendy Fashion Zone Nairobi"
-        description="Read trusted Trendy Fashion Zone stories on cool shoes, original quality, and bespoke footwear varieties for Nairobi shoppers."
+        title={blogsIndexSeo.title}
+        description={blogsIndexSeo.description}
         canonical={`${siteConfig.url}/blogs`}
       />
       <script

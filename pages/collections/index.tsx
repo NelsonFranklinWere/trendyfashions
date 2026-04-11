@@ -7,7 +7,7 @@ import { useState, useMemo } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import { categories, Product } from '@/data/products';
 import { getAllProducts } from '@/lib/server/getAllProducts';
-import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
+import { siteConfig, nairobiKeywords, nairobiSearchPhrases, collectionsIndexSeo } from '@/lib/seo/config';
 
 interface CollectionsProps {
   allProducts: Product[];
@@ -49,13 +49,13 @@ const Collections = ({ allProducts }: CollectionsProps) => {
   return (
     <>
       <NextSeo
-        title="Shoe Collections | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Quality original shoes, authentic brands. Located on Moi Avenue. Free delivery."
+        title={collectionsIndexSeo.title}
+        description={collectionsIndexSeo.description}
         canonical={`${siteConfig.url}/collections`}
         openGraph={{
           url: `${siteConfig.url}/collections`,
-          title: 'Shoe Collections | Quality Original Shoes Nairobi | Trendy Fashion Zone',
-          description: 'Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Located on Moi Avenue.',
+          title: collectionsIndexSeo.title,
+          description: collectionsIndexSeo.description.slice(0, 220),
           type: 'website',
           locale: 'en_KE',
         }}
@@ -67,9 +67,10 @@ const Collections = ({ allProducts }: CollectionsProps) => {
           {
             name: 'keywords',
             content: [
-              ...nairobiKeywords.brands.slice(0, 6),
+              ...nairobiSearchPhrases,
+              ...nairobiKeywords.brands.slice(0, 8),
               ...nairobiKeywords.categories,
-              ...nairobiKeywords.quality.slice(0, 3),
+              ...nairobiKeywords.quality.slice(0, 6),
               'shoe collections Nairobi',
               'all shoe categories Nairobi',
             ].join(', '),
@@ -95,8 +96,8 @@ const Collections = ({ allProducts }: CollectionsProps) => {
             '@context': 'https://schema.org',
             '@type': 'CollectionPage',
             '@id': `${siteConfig.url}/collections#webpage`,
-            name: 'Shoe Collections - Quality Original Shoes Nairobi',
-            description: 'Browse all shoe collections in Nairobi. Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, sports shoes. Quality original shoes, authentic brands.',
+            name: collectionsIndexSeo.h1,
+            description: collectionsIndexSeo.description,
             url: `${siteConfig.url}/collections`,
             inLanguage: 'en-KE',
             isPartOf: {
@@ -234,10 +235,10 @@ const Collections = ({ allProducts }: CollectionsProps) => {
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-primary mb-3 sm:mb-4">
-              Best Sellers & Quality Original Shoes Collections
+              {collectionsIndexSeo.h1}
             </h1>
             <p className="text-base sm:text-lg md:text-xl text-text font-body max-w-3xl mx-auto font-medium">
-              Browse best sellers and quality original shoes. Authentic brands, premium quality, trending footwear - trusted by thousands in Nairobi.
+              {collectionsIndexSeo.subheading}
             </p>
           </motion.div>
 

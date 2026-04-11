@@ -3,6 +3,7 @@ import { NextSeo } from 'next-seo';
 import useCart from '@/hooks/useCart';
 import { formatPrice } from '@/data/products';
 import { WHATSAPP_NUMBER } from '@/lib/cart-utils';
+import { checkoutPageSeo } from '@/lib/seo/config';
 
 interface CheckoutFormData {
   name: string;
@@ -155,7 +156,10 @@ const CheckoutPage = () => {
 
   return (
     <>
-      <NextSeo title="Checkout | Submit Order via WhatsApp" />
+      <NextSeo
+        title={checkoutPageSeo.title}
+        description={checkoutPageSeo.description}
+      />
       <section className="bg-light/40 py-16">
         <div className="mx-auto flex max-w-5xl flex-col gap-10 px-4 sm:px-6 lg:px-8 lg:flex-row">
           <div className="w-full rounded-2xl border border-primary/10 bg-white p-6 shadow-soft lg:w-7/12">

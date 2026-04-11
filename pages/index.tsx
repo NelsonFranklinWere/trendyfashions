@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { GetStaticProps } from 'next';
 import { NextSeo } from 'next-seo';
-import { motion } from 'framer-motion';
-import { useMemo, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useMemo, useState } from 'react';
 import CategoryCard from '@/components/CategoryCard';
 import ProductCard from '@/components/ProductCard';
 import ScrollableProductRow from '@/components/ScrollableProductRow';
@@ -17,7 +17,7 @@ import { getSportsImageProducts } from '@/lib/server/sportsImageProducts';
 import { getVansImageProducts } from '@/lib/server/vansImageProducts';
 import { filterOfficialsProducts } from '@/lib/filters/officials';
 import { filterCasualProducts } from '@/lib/filters/casuals';
-import { siteConfig, nairobiKeywords } from '@/lib/seo/config';
+import { siteConfig, nairobiKeywords, nairobiSearchPhrases, homePageSeo } from '@/lib/seo/config';
 import { getFAQSchema, getDefaultStoreFAQs, getAggregateReviewSchema, getSpeakableSchema } from '@/lib/seo/structuredData';
 
 interface HomeProps {
@@ -44,6 +44,59 @@ interface HomeProps {
   heroTimberland: Product[];
 }
 
+interface HeroCta {
+  href: string;
+  label: string;
+  variant: 'primary' | 'glass';
+}
+
+interface HeroSlide {
+  image: string;
+  title: string;
+  accent: string;
+  description: string;
+  footer: string;
+  ctas: [HeroCta, HeroCta];
+}
+
+const HERO_SLIDES: HeroSlide[] = [
+  {
+    image: '/categories/officials/clarks-officials/ClarksContact.jpg',
+    title: 'Clarks Originals — Step Into Office-Ready Comfort',
+    accent: 'Trendy Fashion Zone',
+    description:
+      'Authentic Clarks officials and timeless leather style. Trusted quality for Nairobi professionals who want originals that last.',
+    footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
+    ctas: [
+      { href: '/collections/mens-officials', label: 'Shop Officials', variant: 'primary' },
+      { href: '/collections/casual', label: 'Casuals', variant: 'glass' },
+    ],
+  },
+  {
+    image: '/categories/officials/clarks-officials/ClarksOfficials100.jpg',
+    title: 'Polished Officials — Boardroom to Client Dinners',
+    accent: 'Trendy Fashion Zone',
+    description:
+      'Premium leather loafers and formal pairs. Look sharp every day with Nike, Jordan, Airmax, Clarks, and Vans — all under one roof.',
+    footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
+    ctas: [
+      { href: '/collections/mens-officials?filter=Clarks', label: 'Clarks Officials', variant: 'primary' },
+      { href: '/collections/sneakers', label: 'Sneakers', variant: 'glass' },
+    ],
+  },
+  {
+    image: '/categories/officials/other-official-shoes/Officialboots2.jpg',
+    title: 'Official Boots & Rugged Soles — Built for the Grind',
+    accent: 'Trendy Fashion Zone',
+    description:
+      'Ankle boots and official footwear with grip and comfort. Balance workweek polish with sports and casuals for your off-duty style.',
+    footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
+    ctas: [
+      { href: '/collections/mens-officials?filter=Boots', label: 'Official Boots', variant: 'primary' },
+      { href: '/collections/sports', label: 'Sports', variant: 'glass' },
+    ],
+  },
+];
 
 const Home = ({
   featuredOfficials,
@@ -68,6 +121,21 @@ const Home = ({
   heroClarks,
   heroTimberland,
 }: HomeProps) => {
+  const [heroSlide, setHeroSlide] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setHeroSlide((s) => (s + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const heroCurrent = HERO_SLIDES[heroSlide];
+  const heroThumbImages = useMemo(() => {
+    const others = HERO_SLIDES.map((s) => s.image).filter((_, i) => i !== heroSlide);
+    return others.slice(0, 2);
+  }, [heroSlide]);
+
   const priceValidUntil = useMemo(() => {
     const d = new Date();
     d.setMonth(d.getMonth() + 6);
@@ -108,19 +176,19 @@ const Home = ({
   return (
     <>
       <NextSeo
-        title="Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone"
-        description="Shop best sellers and quality original shoes in Nairobi. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue. 5+ years trusted. Free delivery available. Best prices in Nairobi."
+        title={homePageSeo.title}
+        description={homePageSeo.description}
         canonical={siteConfig.url}
         openGraph={{
           url: siteConfig.url,
-          title: 'Best Sellers | Quality Original Shoes Nairobi | Trendy Fashion Zone',
-          description: 'Shop best sellers and quality original shoes in Nairobi. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue.',
+          title: homePageSeo.openGraphTitle,
+          description: homePageSeo.openGraphDescription,
           images: [
             {
               url: `${siteConfig.url}/images/featured-banner.jpg`,
               width: 1200,
               height: 630,
-              alt: 'Best Sellers - Quality Original Shoes Nairobi - Trendy Fashion Zone',
+              alt: 'Best original shoes Nairobi CBD — Trendy Fashion Zone Moi Avenue',
             },
           ],
           siteName: siteConfig.name,
@@ -135,10 +203,11 @@ const Home = ({
           {
             name: 'keywords',
             content: [
-              ...nairobiKeywords.brands.slice(0, 8),
-              ...nairobiKeywords.categories.slice(0, 6),
-              ...nairobiKeywords.quality.slice(0, 4),
-              ...nairobiKeywords.location.slice(0, 4),
+              ...nairobiSearchPhrases,
+              ...nairobiKeywords.brands.slice(0, 10),
+              ...nairobiKeywords.categories.slice(0, 10),
+              ...nairobiKeywords.quality.slice(0, 8),
+              ...nairobiKeywords.location.slice(0, 6),
               'best sellers shoes Nairobi',
               'affordable shoes Nairobi',
               'shoe shop near me Nairobi',
@@ -185,7 +254,7 @@ const Home = ({
             url: siteConfig.url,
             logo: `${siteConfig.url}/logo/Logo.jpg`,
             image: `${siteConfig.url}/logo/Logo.jpg`,
-            description: 'Nairobi\'s premier destination for best sellers and quality original shoes. Authentic Nike Airforce, Jordan shoes, Airmax, Clarks officials, Vans, sneakers, casuals, loafers, and sports shoes. Located on Moi Avenue.',
+            description: homePageSeo.description,
             address: {
               '@type': 'PostalAddress',
               streetAddress: siteConfig.location.area,
@@ -348,49 +417,155 @@ const Home = ({
         }}
       />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary via-primary to-primary/95 text-white py-12 md:py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-5 z-[1]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="text-center mb-8 md:mb-12"
-          >
-            <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6">
-              Your Perfect Pair Awaits — Original Quality That Matches Your Style
-              <br />
-              <span className="text-secondary">Trendy Fashion Zone</span>
-            </h1>
-            <p className="text-lg md:text-xl lg:text-2xl text-white font-body max-w-3xl mx-auto mb-6 md:mb-8 font-medium">
-              Discover authentic Nike, Jordan, Airmax, Clarks, and Vans. Join thousands of Nairobi shoppers who found exactly what they were looking for original quality that lasts. 
-              <span className="block mt-2 text-base md:text-lg">📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!</span>
-            </p>
-            
-            <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
-              <Link
-                href="/collections"
-                className="bg-secondary text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-body font-bold hover:bg-[#d35400] transition-all hover:shadow-2xl text-sm sm:text-lg transform hover:scale-105 whitespace-nowrap"
-              >
-                Explore Collections
-              </Link>
-              <a
-                href="https://wa.me/254712417489?text=Hello, I'm interested in your products."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-whatsapp text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-body font-bold hover:bg-[#20BA5A] transition-all hover:shadow-2xl text-sm sm:text-lg flex items-center justify-center gap-2 transform hover:scale-105 whitespace-nowrap"
-              >
-                <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                </svg>
-                <span className="hidden sm:inline">Chat on WhatsApp</span>
-                <span className="sm:hidden">WhatsApp</span>
-              </a>
+      {/* Hero Section — background image carousel */}
+      <section className="relative text-white py-12 md:py-20 overflow-hidden min-h-[420px] md:min-h-[480px]">
+        <div className="absolute inset-0 z-0">
+          {HERO_SLIDES.map((slide, i) => (
+            <div
+              key={slide.image}
+              className={`absolute inset-0 transition-opacity duration-[1200ms] ease-in-out ${
+                i === heroSlide ? 'opacity-100 z-[1]' : 'opacity-0 z-0'
+              }`}
+            >
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                className="object-cover object-center"
+                sizes="100vw"
+                priority={i === 0}
+                aria-hidden
+              />
             </div>
-          </motion.div>
+          ))}
+          <div
+            className="absolute inset-0 z-[2] bg-gradient-to-br from-primary/55 via-primary/45 to-black/50"
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-[0.05] z-[3]" aria-hidden />
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-14">
+            <div className="flex-1 text-left max-w-2xl xl:max-w-3xl min-h-[280px] md:min-h-[240px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroSlide}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="rounded-2xl border border-white/25 bg-black/35 px-5 py-6 sm:px-7 sm:py-8 md:px-8 md:py-9 shadow-xl backdrop-blur-md"
+                >
+                  <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-heading font-bold mb-4 md:mb-6 text-white drop-shadow-sm">
+                    {heroCurrent.title}
+                    <br />
+                    <span className="text-secondary">{heroCurrent.accent}</span>
+                  </h1>
+                  <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/95 font-body font-medium leading-relaxed">
+                    {heroCurrent.description}
+                    <span className="block mt-3 text-sm sm:text-base md:text-lg text-white/90">
+                      {heroCurrent.footer}
+                    </span>
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+              <div
+                className="flex flex-wrap gap-2 mt-5"
+                role="tablist"
+                aria-label="Hero slides"
+              >
+                {HERO_SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === heroSlide}
+                    aria-label={`Slide ${i + 1}`}
+                    onClick={() => setHeroSlide(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === heroSlide ? 'w-8 bg-secondary' : 'w-2 bg-white/40 hover:bg-white/60'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.08 }}
+              className="flex flex-col items-center lg:items-end gap-5 shrink-0 w-full lg:w-auto"
+            >
+              <div
+                className="relative h-[7.5rem] w-[9.75rem] sm:h-[8rem] sm:w-[11rem] mb-1"
+                aria-hidden
+              >
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={heroSlide}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.35 }}
+                    className="absolute inset-0"
+                  >
+                    <div className="absolute left-0 top-0 z-10">
+                      <div className="relative h-[5.25rem] w-[5.25rem] sm:h-24 sm:w-24 rounded-md overflow-hidden shadow-xl ring-2 ring-white/35 -rotate-6">
+                        {heroThumbImages[0] && (
+                          <Image
+                            src={heroThumbImages[0]}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="96px"
+                          />
+                        )}
+                      </div>
+                    </div>
+                    <div className="absolute left-14 top-7 z-20 sm:left-[4.25rem] sm:top-8">
+                      <div className="relative h-[5.25rem] w-[5.25rem] sm:h-24 sm:w-24 rounded-md overflow-hidden shadow-xl ring-2 ring-white/35 rotate-[8deg]">
+                        {heroThumbImages[1] && (
+                          <Image
+                            src={heroThumbImages[1]}
+                            alt=""
+                            fill
+                            className="object-cover"
+                            sizes="96px"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={heroSlide}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="flex flex-row flex-wrap gap-2 sm:gap-3 justify-center lg:justify-end items-center max-w-[20rem] lg:max-w-none"
+                >
+                  {heroCurrent.ctas.map((cta, i) => (
+                    <Link
+                      key={`cta-${heroSlide}-${cta.href}-${i}`}
+                      href={cta.href}
+                      className={
+                        cta.variant === 'primary'
+                          ? 'bg-secondary text-white px-5 py-2.5 sm:px-7 sm:py-3 rounded-full font-body font-bold hover:bg-[#d35400] transition-all hover:shadow-2xl text-sm sm:text-base transform hover:scale-105 whitespace-nowrap'
+                          : 'bg-white/10 backdrop-blur-sm border border-white/35 text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-full font-body font-semibold hover:bg-white/20 transition-all text-sm sm:text-base whitespace-nowrap'
+                      }
+                    >
+                      {cta.label}
+                    </Link>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          </div>
         </div>
       </section>
 
