@@ -142,13 +142,29 @@ const CheckoutPage = () => {
           items,
         }),
       });
-      const data = await res.json();
+
+      const raw = await res.text();
+      let data: { success?: boolean; message?: string; redirectUrl?: string } = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        throw new Error(
+          raw?.slice(0, 180) ||
+            `Payment service returned an invalid response (HTTP ${res.status}). Check server logs.`
+        );
+      }
+
       if (!res.ok || !data.success || !data.redirectUrl) {
-        throw new Error(data.message || 'Failed to initialize Pesapal payment.');
+        throw new Error(
+          data.message ||
+            `Could not start payment (HTTP ${res.status}). Try WhatsApp checkout or try again later.`
+        );
       }
       window.location.href = data.redirectUrl as string;
-    } catch (error: any) {
-      setPaymentError(error?.message || 'Unable to process Pesapal payment.');
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : 'Unable to process Pesapal payment.';
+      setPaymentError(message);
     } finally {
       setProcessingPayment(false);
     }
@@ -348,9 +364,17 @@ const CheckoutPage = () => {
               </div>
 
               {paymentError && (
-                <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-                  {paymentError}
-                </p>
+                <div className="space-y-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                  <p>{paymentError}</p>
+                  {paymentMethod === 'pay' && (
+                    <p className="text-xs text-red-600/90">
+                      Tip: Red console messages for <code className="rounded bg-red-100 px-1">googleads</code> or{' '}
+                      <code className="rounded bg-red-100 px-1">doubleclick</code> are usually an ad blocker — they
+                      do not block Pesapal. If payment keeps failing, use <strong>WhatsApp</strong> or ask support to
+                      confirm Pesapal and database settings on the server.
+                    </p>
+                  )}
+                </div>
               )}
 
               <button
