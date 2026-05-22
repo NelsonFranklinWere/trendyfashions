@@ -33,13 +33,18 @@ const config: Config = {
         'large': '0 12px 32px rgba(44, 62, 80, 0.18), 0 2px 8px rgba(230, 103, 34, 0.15)',
       },
       animation: {
-        'fade-in': 'fadeIn 0.8s ease-out',
-        'slide-up': 'slideUp 0.8s ease-out',
+        'fade-in': 'fadeIn 0.2s ease-out',
+        'fade-in-fast': 'fadeInFast 0.12s ease-out',
+        'slide-up': 'slideUp 0.35s ease-out',
       },
       keyframes: {
         fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(30px)' },
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        fadeInFast: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         },
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },

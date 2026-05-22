@@ -1,15 +1,12 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import NextImage, { ImageProps } from 'next/image';
 import { cn } from '@/lib/utils';
 
 type SmartImageProps = ImageProps & {
-  /**
-   * Optional width/height values for the shimmer placeholder.
-   * Useful when the rendered image is dramatically smaller or larger
-   * than the default shimmer dimensions.
-   */
+  /** Retry with this URL if the primary src fails (e.g. full image when thumb 404s) */
+  fallbackSrc?: string;
   shimmerWidth?: number;
   shimmerHeight?: number;
 };
@@ -36,17 +33,26 @@ const toBase64 = (str: string) =>
 
 const SmartImage = ({
   className,
-  quality = 65, // Balanced quality for above-fold content
+  quality = 65,
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
   blurDataURL,
+  fallbackSrc,
   onLoadingComplete,
   onLoad,
+  src,
   ...props
 }: SmartImageProps) => {
+  const [activeSrc, setActiveSrc] = useState(src);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    setActiveSrc(src);
+    setIsLoaded(false);
+    setHasError(false);
+  }, [src]);
 
   const fallbackBlur = useMemo(() => {
     if (placeholder !== 'blur') return undefined;
@@ -56,22 +62,20 @@ const SmartImage = ({
     return `data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`;
   }, [placeholder, blurDataURL, shimmerWidth, shimmerHeight]);
 
-  // Optimize sizes for responsive loading - more specific for better performance
   const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
 
-  // External URLs (Supabase Storage, CDN) - use unoptimized so they always display
-  const srcStr = typeof props.src === 'string' ? props.src : '';
+  const srcStr = typeof activeSrc === 'string' ? activeSrc : '';
   const isExternalUrl = srcStr.startsWith('http://') || srcStr.startsWith('https://');
-  const isCdnUrl = srcStr.includes('digitaloceanspaces.com') || srcStr.includes('cdn.digitaloceanspaces.com') || srcStr.includes('supabase.co');
+  const isCdnUrl =
+    srcStr.includes('digitaloceanspaces.com') ||
+    srcStr.includes('cdn.digitaloceanspaces.com') ||
+    srcStr.includes('supabase.co');
 
-  // Use optimized quality: lower for thumbnails, higher for hero images
   const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 50;
   const optimizedQuality = isCdnUrl ? Math.min(qualityNum, 75) : qualityNum;
-  
-  // Determine if this should be priority loaded (above the fold)
   const shouldPriority = props.priority || false;
+  const effectivePlaceholder = isExternalUrl ? 'empty' : placeholder;
 
-  // Handle missing images gracefully
   if (hasError) {
     return (
       <div
@@ -89,17 +93,18 @@ const SmartImage = ({
   return (
     <NextImage
       {...props}
+      src={activeSrc}
       quality={optimizedQuality}
-      placeholder={placeholder}
-      blurDataURL={fallbackBlur}
+      placeholder={effectivePlaceholder}
+      blurDataURL={effectivePlaceholder === 'blur' ? fallbackBlur : undefined}
       loading={props.loading || (shouldPriority ? 'eager' : 'lazy')}
       sizes={optimizedSizes}
       priority={shouldPriority}
       fetchPriority={shouldPriority ? 'high' : 'auto'}
       unoptimized={isExternalUrl}
       className={cn(
-        'duration-300 ease-out will-change-transform',
-        isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-[1.02]',
+        shouldPriority ? 'opacity-100' : 'duration-150 ease-out',
+        !shouldPriority && (isLoaded ? 'opacity-100' : 'opacity-0'),
         className,
       )}
       onLoad={(event) => {
@@ -108,6 +113,15 @@ const SmartImage = ({
         onLoadingComplete?.(event.currentTarget);
       }}
       onError={() => {
+        if (
+          fallbackSrc &&
+          typeof fallbackSrc === 'string' &&
+          fallbackSrc !== activeSrc
+        ) {
+          setActiveSrc(fallbackSrc);
+          setIsLoaded(false);
+          return;
+        }
         setHasError(true);
       }}
     />
@@ -115,5 +129,3 @@ const SmartImage = ({
 };
 
 export default SmartImage;
-
-

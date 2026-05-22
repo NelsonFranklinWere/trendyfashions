@@ -1,24 +1,22 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { LEGACY_COLLECTION_REDIRECTS } from '@/lib/routes/collectionLinks';
 
 export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
 
-  // Redirect legacy/non-existent pages
-  const redirects: Record<string, string> = {
-    '/collections/mens-shoes': '/collections/officials',
-    '/collections/casuals': '/collections/casual',
-    '/collections/mens-casuals': '/collections/casual',
-    '/collections/mens-nike': '/collections/nike',
-    '/collections/new-arrivals': '/collections?filter=New Arrivals',
-    '/collections/best-sellers': '/collections?filter=Best Sellers',
-    '/collections/offers-discounts': '/collections?filter=Offers',
-    '/collections/unisex-collection': '/collections',
-  };
-
-  if (redirects[pathname]) {
+  const target = LEGACY_COLLECTION_REDIRECTS[pathname];
+  if (target) {
     const url = request.nextUrl.clone();
-    url.pathname = redirects[pathname];
+    const [destPath, destQuery] = target.split('?');
+    url.pathname = destPath;
+    if (destQuery) {
+      url.search = `?${destQuery}`;
+    } else if (search) {
+      url.search = search;
+    } else {
+      url.search = '';
+    }
     return NextResponse.redirect(url, 301);
   }
 
@@ -26,15 +24,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/collections/mens-shoes',
-    '/collections/casuals',
-    '/collections/mens-casuals',
-    '/collections/mens-nike',
-    '/collections/new-arrivals',
-    '/collections/best-sellers',
-    '/collections/offers-discounts',
-    '/collections/unisex-collection',
-  ],
+  matcher: ['/collections/:path*'],
 };
-

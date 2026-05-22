@@ -1,7 +1,80 @@
 import { getImages } from '@/lib/db/images';
 import { getProducts } from '@/lib/db/products';
 import type { Product } from '@/data/products';
+import type { ProductRecord, ImageRecord } from '@/types/database';
 import { filterValidProducts } from './validateProduct';
+
+/** In-memory catalog loaded once per static build / ISR (see buildProductCache.ts) */
+let bulkProductRows: ProductRecord[] | null = null;
+let bulkImageRows: ImageRecord[] | null = null;
+
+export function setBulkCatalogData(
+  products: ProductRecord[] | null,
+  images: ImageRecord[] | null,
+): void {
+  bulkProductRows = products;
+  bulkImageRows = images;
+}
+
+/** Group bulk rows by DB category in one pass (no extra queries). */
+export function buildCategoryBucketsFromBulk(): {
+  products: Map<string, Product[]>;
+  images: Map<string, Product[]>;
+} | null {
+  if (!bulkProductRows || !bulkImageRows) return null;
+
+  const products = new Map<string, Product[]>();
+  for (const row of bulkProductRows) {
+    if (
+      shouldExcludeCatalogProduct({
+        name: row.name,
+        description: row.description,
+        image: row.image,
+      })
+    ) {
+      continue;
+    }
+    const mapped = mapProductRecord(row);
+    const list = products.get(row.category) || [];
+    list.push(mapped);
+    products.set(row.category, list);
+  }
+  for (const [, list] of products) {
+    const deduped = dedupeProductsByImageIdentity(filterValidProducts(list));
+    list.length = 0;
+    list.push(...deduped);
+  }
+
+  const images = new Map<string, Product[]>();
+  for (const row of bulkImageRows) {
+    if (
+      shouldExcludeCatalogProduct({
+        name: row.name,
+        description: row.description,
+        image: row.url,
+        filename: row.filename,
+        subcategory: row.subcategory,
+      })
+    ) {
+      continue;
+    }
+    try {
+      const mapped = dbImageToProduct(row as DbImage, 0);
+      const list = images.get(row.category) || [];
+      list.push(mapped);
+      images.set(row.category, list);
+    } catch {
+      // skip invalid image row
+    }
+  }
+  for (const [, list] of images) {
+    const deduped = dedupeProductsByImageIdentity(filterValidProducts(list));
+    list.length = 0;
+    list.push(...deduped);
+  }
+
+  return { products, images };
+}
 
 interface DbImage {
   id: string;
@@ -325,7 +398,7 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     }
   }
   
-  // Use thumbnail URL if available for faster initial load, fallback to full URL
+  // Thumbnail first for fast grid load; full URL kept for modal / fallback
   let imageUrl = dbImage.thumbnail_url || dbImage.url;
   
   // Validate URL - ensure it's a valid string and not empty
@@ -360,88 +433,135 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     gender: getGender(category),
     // No tags - we don't use subcategories anymore
     // Store full URL separately for high-res display when needed
-    ...(dbImage.thumbnail_url && { fullImageUrl: dbImage.url }),
+    ...(dbImage.url && dbImage.url !== imageUrl ? { fullImageUrl: dbImage.url } : {}),
   } as Product & { fullImageUrl?: string };
 };
 
+function shouldExcludeCatalogProduct(fields: {
+  name?: string;
+  description?: string;
+  image?: string;
+  filename?: string;
+  subcategory?: string;
+}): boolean {
+  const nameLower = (fields.name || '').toLowerCase();
+  const descLower = (fields.description || '').toLowerCase();
+  const imageLower = (fields.image || '').toLowerCase();
+  const filenameLower = (fields.filename || '').toLowerCase();
+  const subcategoryLower = (fields.subcategory || '').toLowerCase();
+
+  const isJordan11 =
+    nameLower.includes('jordan 11') ||
+    nameLower.includes('jordan11') ||
+    nameLower.includes('j11') ||
+    descLower.includes('jordan 11') ||
+    descLower.includes('jordan11') ||
+    descLower.includes('j11') ||
+    imageLower.includes('jordan 11') ||
+    imageLower.includes('jordan11') ||
+    imageLower.includes('j11') ||
+    filenameLower.includes('jordan 11') ||
+    filenameLower.includes('jordan11') ||
+    filenameLower.includes('j11');
+
+  const isDrMartens =
+    nameLower.includes('dr.martens') ||
+    nameLower.includes('drmartens') ||
+    nameLower.includes('dr martens') ||
+    nameLower.includes('martens') ||
+    nameLower.includes('dr martin') ||
+    descLower.includes('dr.martens') ||
+    descLower.includes('drmartens') ||
+    descLower.includes('dr martens') ||
+    descLower.includes('martens') ||
+    imageLower.includes('dr.martens') ||
+    imageLower.includes('drmartens') ||
+    imageLower.includes('dr martens') ||
+    imageLower.includes('martens') ||
+    subcategoryLower.includes('dr.martens') ||
+    subcategoryLower.includes('drmartens') ||
+    subcategoryLower.includes('dr martens') ||
+    subcategoryLower.includes('martens');
+
+  return isJordan11 || isDrMartens;
+}
+
+function resolveCategoriesForQuery(category: string): string[] {
+  if (category === 'officials' || category === 'mens-officials') {
+    return ['officials', 'mens-officials'];
+  }
+  return [categoryMapping[category] || category];
+}
+
+function mapProductRecord(product: ProductRecord): Product {
+  const price =
+    product.price !== undefined && product.price !== null && product.price > 0
+      ? Number(product.price)
+      : getPrice(product.category, product.name);
+
+  return {
+    id: `product-${product.id}`,
+    name: product.name,
+    description:
+      product.description ||
+      `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
+    price,
+    image: product.image,
+    category: mapToProductCategory(product.category) || product.category,
+    gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
+    tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
+    featured: product.featured || false,
+  } satisfies Product;
+}
+
 /**
- * Get products from database for a specific category
- * PRIORITY: Try products table first (has exact names/prices), fallback to images table
+ * Get products from the images table for a category.
+ * Callers merge with getDbProducts() — products table wins on duplicate image paths.
  */
 export async function getDbImageProducts(category: string): Promise<Product[]> {
   try {
-    const dbCategory = categoryMapping[category] || category;
-    
-    // FIRST: Try products table (same as admin section - has exact names and prices)
-    const productsFromTable = await getDbProducts(category);
-    if (productsFromTable.length > 0) {
-      console.log(`Found ${productsFromTable.length} products from products table for category: ${category}`);
-      if (productsFromTable.length > 0) {
-        console.log(`Sample product: "${productsFromTable[0].name}" (KES ${productsFromTable[0].price})`);
-      }
-      return productsFromTable;
-    }
-    
-    // FALLBACK: Try images table (legacy)
-    let categories = [dbCategory];
-    const data = await getImages({
-      category: dbCategory,
-      orderBy: 'uploaded_at',
-      order: 'desc',
-    });
+    const categoriesToQuery = resolveCategoriesForQuery(category);
+    const allowed = new Set(categoriesToQuery);
 
-    // Filter by category
-    const filteredData = data.filter(img => img.category === dbCategory);
+    let filteredData: ImageRecord[];
+
+    if (bulkImageRows) {
+      filteredData = bulkImageRows.filter((img) => allowed.has(img.category));
+    } else {
+      const dataArrays = await Promise.all(
+        categoriesToQuery.map((cat) =>
+          getImages({
+            category: cat,
+            orderBy: 'uploaded_at',
+            order: 'desc',
+          }),
+        ),
+      );
+      filteredData = dataArrays.flat().filter((img) => allowed.has(img.category));
+    }
 
     if (!filteredData || filteredData.length === 0) {
-      console.log(`No database products found for category: ${category} (mapped to: ${dbCategory})`);
+      console.log(`No database images found for category: ${category} (${categoriesToQuery.join(', ')})`);
       return [];
     }
 
-    console.log(`Found ${filteredData.length} database images for category: ${category} (fallback to images table)`);
+    console.log(`Found ${filteredData.length} database images for category: ${category}`);
     const products: Product[] = [];
     
     for (const img of filteredData) {
       try {
-        const nameLower = ((img as DbImage).name || '').toLowerCase();
-        const descLower = ((img as DbImage).description || '').toLowerCase();
-        const filenameLower = ((img as DbImage).filename || '').toLowerCase();
-        const subcategoryLower = ((img as DbImage).subcategory || '').toLowerCase();
-        
-        // Filter out Jordan 11 products
-        const isJordan11 = nameLower.includes('jordan 11') || 
-                          nameLower.includes('jordan11') || 
-                          nameLower.includes('j11') ||
-                          descLower.includes('jordan 11') || 
-                          descLower.includes('jordan11') || 
-                          descLower.includes('j11') ||
-                          filenameLower.includes('jordan 11') || 
-                          filenameLower.includes('jordan11') || 
-                          filenameLower.includes('j11');
-        
-        // Filter out Dr. Martens products (will be uploaded fresh via admin)
-        const isDrMartens = nameLower.includes('dr.martens') || 
-                           nameLower.includes('drmartens') || 
-                           nameLower.includes('dr martens') ||
-                           nameLower.includes('martens') ||
-                           nameLower.includes('dr martin') ||
-                           descLower.includes('dr.martens') || 
-                           descLower.includes('drmartens') || 
-                           descLower.includes('dr martens') ||
-                           descLower.includes('martens') ||
-                           filenameLower.includes('dr.martens') || 
-                           filenameLower.includes('drmartens') || 
-                           filenameLower.includes('dr martens') ||
-                           filenameLower.includes('martens') ||
-                           subcategoryLower.includes('dr.martens') || 
-                           subcategoryLower.includes('drmartens') || 
-                           subcategoryLower.includes('dr martens') ||
-                           subcategoryLower.includes('martens');
-        
-        if (isJordan11 || isDrMartens) {
-          continue; // Skip Jordan 11 and Dr. Martens products
+        if (
+          shouldExcludeCatalogProduct({
+            name: img.name,
+            description: img.description,
+            image: img.url,
+            filename: img.filename,
+            subcategory: img.subcategory,
+          })
+        ) {
+          continue;
         }
-        
+
         const product = dbImageToProduct(img as DbImage, 0);
         products.push(product);
       } catch (error) {
@@ -453,20 +573,9 @@ export async function getDbImageProducts(category: string): Promise<Product[]> {
     // Filter out products with invalid images
     const validProducts = filterValidProducts(products);
     
-    // Log first product for debugging
-    if (validProducts.length > 0) {
+    if (process.env.NODE_ENV === 'development' && validProducts.length > 0) {
       const sample = validProducts[0];
-      console.log(`Sample database product: "${sample.name}" (KES ${sample.price}), image: ${sample.image}`);
-      // Log if using database name/price vs calculated
-      const firstDbImage = data[0] as DbImage;
-      if (firstDbImage.name) {
-        console.log(`  ✓ Using database name: "${firstDbImage.name}"`);
-      }
-      if (firstDbImage.price !== undefined && firstDbImage.price !== null) {
-        console.log(`  ✓ Using database price: KES ${firstDbImage.price}`);
-      }
-    } else if (data.length > 0) {
-      console.warn(`All ${data.length} database products were filtered out due to invalid image URLs`);
+      console.log(`[images/${category}] ${validProducts.length} products, sample: "${sample.name}"`);
     }
     
     return dedupeProductsByImageIdentity(validProducts);
@@ -517,95 +626,45 @@ export async function getDbImageProductsBySubcategory(
  */
 export async function getDbProducts(category?: string): Promise<Product[]> {
   try {
-    const categoriesToTry = new Set<string>();
-    if (category) {
-      // `officials` and `mens-officials` are stored inconsistently in the `products` table.
-      // Try both so the frontend uses the admin-entered product name/price/description.
-      if (category === 'officials' || category === 'mens-officials') {
-        categoriesToTry.add('officials');
-        categoriesToTry.add('mens-officials');
+    let data: ProductRecord[];
+
+    if (bulkProductRows) {
+      if (!category) {
+        data = bulkProductRows;
       } else {
-        categoriesToTry.add(categoryMapping[category] || category);
+        const categoriesToTry = new Set(resolveCategoriesForQuery(category));
+        data = bulkProductRows.filter((p) => categoriesToTry.has(p.category));
       }
+    } else {
+      const categoriesToTry = new Set<string>();
+      if (category) {
+        resolveCategoriesForQuery(category).forEach((c) => categoriesToTry.add(c));
+      }
+      const queryCategories = category ? Array.from(categoriesToTry) : [undefined];
+      const allDataArrays = await Promise.all(
+        queryCategories.map((cat) =>
+          getProducts({
+            category: cat as string | undefined,
+            orderBy: 'created_at',
+            order: 'desc',
+          }),
+        ),
+      );
+      data = allDataArrays.flat();
     }
-
-    const queryCategories = category ? Array.from(categoriesToTry) : [undefined];
-
-    const allDataArrays = await Promise.all(
-      queryCategories.map((cat) =>
-        getProducts({
-          category: cat as string | undefined,
-          orderBy: 'created_at',
-          order: 'desc',
-        }),
-      ),
-    );
-
-    const data = allDataArrays.flat();
 
     if (!data || data.length === 0) return [];
 
-    // Convert database products to Product format and filter out Jordan 11, Dr. Martens, and invalid products
     const mappedProducts = data
-      .filter((product: any) => {
-        const nameLower = (product.name || '').toLowerCase();
-        const descLower = (product.description || '').toLowerCase();
-        const imageLower = (product.image || '').toLowerCase();
-        
-        // Filter out Jordan 11 products
-        const isJordan11 = nameLower.includes('jordan 11') || 
-                          nameLower.includes('jordan11') || 
-                          nameLower.includes('j11') ||
-                          descLower.includes('jordan 11') || 
-                          descLower.includes('jordan11') || 
-                          descLower.includes('j11') ||
-                          imageLower.includes('jordan 11') || 
-                          imageLower.includes('jordan11') || 
-                          imageLower.includes('j11');
-        
-        // Filter out Dr. Martens products (will be uploaded fresh via admin)
-        const isDrMartens = nameLower.includes('dr.martens') || 
-                           nameLower.includes('drmartens') || 
-                           nameLower.includes('dr martens') ||
-                           nameLower.includes('martens') ||
-                           nameLower.includes('dr martin') ||
-                           descLower.includes('dr.martens') || 
-                           descLower.includes('drmartens') || 
-                           descLower.includes('dr martens') ||
-                           descLower.includes('martens') ||
-                           imageLower.includes('dr.martens') || 
-                           imageLower.includes('drmartens') || 
-                           imageLower.includes('dr martens') ||
-                           imageLower.includes('martens');
-        
-        // Filter out screenshot images
-        // Log bank robbers products for debugging
-        if (nameLower.includes('bank robber') || nameLower.includes('bankrobber') || 
-            descLower.includes('bank robber') || descLower.includes('bankrobber') ||
-            imageLower.includes('bank robber') || imageLower.includes('bankrobber')) {
-          console.log(`[Bank Robbers] Found product: "${product.name}" in category: "${product.category}"`);
-        }
-        
-        return !isJordan11 && !isDrMartens;
-      })
-      .map((product: any) => {
-        // Use the exact price from database (no overrides)
-        const price = product.price !== undefined && product.price !== null && product.price > 0 
-          ? Number(product.price) 
-          : getPrice(product.category, product.name);
-        
-        return {
-          id: `product-${product.id}`,
-          name: product.name,
-          description: product.description || `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
-          price,
-          image: product.image,
-          category: mapToProductCategory(product.category) || product.category,
-          gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
-          tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
-          featured: product.featured || false,
-        } satisfies Product;
-      });
+      .filter(
+        (product) =>
+          !shouldExcludeCatalogProduct({
+            name: product.name,
+            description: product.description,
+            image: product.image,
+          }),
+      )
+      .map((product) => mapProductRecord(product));
     
     // Filter out products with invalid images
     return dedupeProductsByImageIdentity(filterValidProducts(mappedProducts));

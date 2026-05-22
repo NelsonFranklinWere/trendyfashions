@@ -260,22 +260,28 @@ const Collections = ({ allProducts }: CollectionsProps) => {
 
 export const getStaticProps: GetStaticProps<CollectionsProps> = async () => {
   try {
+    const { primeBuildProductCache } = await import('@/lib/server/buildProductCache');
+    const { STATIC_REVALIDATE_SECONDS } = await import('@/lib/server/staticConfig');
+    await primeBuildProductCache();
+
     const allProducts = await getAllProducts();
     return {
       props: {
         allProducts,
       },
+      revalidate: STATIC_REVALIDATE_SECONDS,
     };
   } catch (error) {
     // Silently fail in development to prevent Fast Refresh reloads
     if (process.env.NODE_ENV === 'production') {
       console.error('Error loading products:', error);
     }
+    const { STATIC_REVALIDATE_SECONDS } = await import('@/lib/server/staticConfig');
     return {
       props: {
         allProducts: [],
       },
-      // Enable ISR even on error to allow recovery
+      revalidate: STATIC_REVALIDATE_SECONDS,
     };
   }
 };

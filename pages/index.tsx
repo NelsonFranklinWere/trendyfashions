@@ -68,7 +68,7 @@ const HERO_SLIDES: HeroSlide[] = [
       'Authentic Clarks officials and timeless leather style. Trusted quality for Nairobi professionals who want originals that last.',
     footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
     ctas: [
-      { href: '/collections/mens-officials', label: 'Shop Officials', variant: 'primary' },
+      { href: '/collections/officials', label: 'Shop Officials', variant: 'primary' },
       { href: '/collections/casual', label: 'Casuals', variant: 'glass' },
     ],
   },
@@ -80,7 +80,7 @@ const HERO_SLIDES: HeroSlide[] = [
       'Premium leather loafers and formal pairs. Look sharp every day with Nike, Jordan, Airmax, Clarks, and Vans — all under one roof.',
     footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
     ctas: [
-      { href: '/collections/mens-officials?filter=Clarks', label: 'Clarks Officials', variant: 'primary' },
+      { href: '/collections/officials?filter=Clarks', label: 'Clarks Officials', variant: 'primary' },
       { href: '/collections/sneakers', label: 'Sneakers', variant: 'glass' },
     ],
   },
@@ -92,7 +92,7 @@ const HERO_SLIDES: HeroSlide[] = [
       'Ankle boots and official footwear with grip and comfort. Balance workweek polish with sports and casuals for your off-duty style.',
     footer: '📍 Moi Avenue, Nairobi CBD | 🚚 Free delivery | 💬 WhatsApp us now!',
     ctas: [
-      { href: '/collections/mens-officials?filter=Boots', label: 'Official Boots', variant: 'primary' },
+      { href: '/collections/officials?filter=Boots', label: 'Official Boots', variant: 'primary' },
       { href: '/collections/sports', label: 'Sports', variant: 'glass' },
     ],
   },
@@ -318,7 +318,7 @@ const Home = ({
                 {
                   '@type': 'OfferCatalog',
                   name: 'Official Shoes',
-                  url: `${siteConfig.url}/collections/mens-officials`,
+                  url: `${siteConfig.url}/collections/officials`,
                 },
                 {
                   '@type': 'OfferCatalog',
@@ -574,7 +574,7 @@ const Home = ({
         <ScrollableProductRow
           title="Elevate Your Office Style"
           description="Premium professional shoes that command respect. Quality trusted by thousands of Nairobi professionals."
-          viewAllHref="/collections/mens-officials"
+          viewAllHref="/collections/officials"
           viewAllLabel="View all"
           products={featuredOfficials}
           maxItems={8}
@@ -587,7 +587,7 @@ const Home = ({
         <ScrollableProductRow
           title="Clarks Officials — Most Trusted Professional Shoes"
           description="Join 6,500+ professionals who chose Clarks. Timeless style and original quality for your professional journey."
-          viewAllHref="/collections/mens-officials?filter=Clarks"
+          viewAllHref="/collections/officials?filter=Clarks"
           viewAllLabel="View all"
           products={featuredClarks}
           maxItems={8}
@@ -616,7 +616,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-officials"
+                href="/collections/officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all officials
@@ -659,7 +659,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-officials"
+                href="/collections/officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all officials
@@ -702,7 +702,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-officials"
+                href="/collections/officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all officials
@@ -917,7 +917,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-loafers"
+                href="/collections/loafers"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all
@@ -1017,7 +1017,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-officials"
+                href="/collections/officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all officials
@@ -1060,7 +1060,7 @@ const Home = ({
                 </p>
               </motion.div>
               <Link
-                href="/collections/mens-officials"
+                href="/collections/officials"
                 className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
               >
                 View all officials
@@ -1318,6 +1318,10 @@ const Home = ({
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   try {
+    const { primeBuildProductCache } = await import('@/lib/server/buildProductCache');
+    const { STATIC_REVALIDATE_SECONDS } = await import('@/lib/server/staticConfig');
+    await primeBuildProductCache();
+
     const getImageIdentityKey = (image: string | undefined | null): string => {
       if (!image) return '';
       const normalized = String(image).trim().toLowerCase();
@@ -1540,9 +1544,10 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
       },
       // Enable ISR: regenerate page at most once per 60 seconds
       // This ensures database updates show up on home page
-      revalidate: 60,
+      revalidate: STATIC_REVALIDATE_SECONDS,
     };
   } catch (error) {
+    const { STATIC_REVALIDATE_SECONDS } = await import('@/lib/server/staticConfig');
     // When DB fails, load from filesystem so scrollable sections still show products
     if (process.env.NODE_ENV === 'production') {
       console.error('Error loading products:', error);
@@ -1599,7 +1604,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
           heroClarks: clarks,
           heroTimberland: timberland,
         },
-        revalidate: 60,
+        revalidate: STATIC_REVALIDATE_SECONDS,
       };
     } catch (fallbackError) {
       if (process.env.NODE_ENV === 'production') {
@@ -1613,7 +1618,7 @@ export const getStaticProps: GetStaticProps<HomeProps> = async () => {
           featuredEmpireOfficialsFiltered: [], featuredOfficialBootsFiltered: [], featuredTimberlandCasualsFiltered: [],
           featuredOfficialCasualsFiltered: [], featuredSports: [], featuredVans: [], featuredSandals: [], heroClarks: [], heroTimberland: [],
         },
-        revalidate: 60,
+        revalidate: STATIC_REVALIDATE_SECONDS,
       };
     }
   }

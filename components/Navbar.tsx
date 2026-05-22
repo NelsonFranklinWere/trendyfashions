@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import FastLink from '@/components/FastLink';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import CartBadge from '@/components/CartBadge';
@@ -49,7 +49,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link
+            <FastLink
               href="/"
               className="flex items-center space-x-2 sm:space-x-3 group min-w-0"
               aria-label="Trendy Fashion Zone Home"
@@ -70,7 +70,7 @@ const Navbar = () => {
               <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-heading font-bold text-primary group-hover:text-secondary transition-colors whitespace-nowrap truncate">
                 Trendy Fashion Zone
               </span>
-            </Link>
+            </FastLink>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-4 lg:space-x-5 relative">
@@ -81,8 +81,9 @@ const Navbar = () => {
                   onMouseEnter={() => category.hasSubcategories && setHoveredCategory(category.id)}
                   onMouseLeave={() => setHoveredCategory(null)}
                 >
-                  <Link
+                  <FastLink
                     href={category.href}
+                    prefetch={true}
                     className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group flex items-center gap-1"
                   >
                     {category.name}
@@ -92,7 +93,7 @@ const Navbar = () => {
                       </svg>
                     )}
                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-                  </Link>
+                  </FastLink>
                   
                   {/* Dropdown Menu */}
                   <AnimatePresence>
@@ -108,13 +109,14 @@ const Navbar = () => {
                       >
                         <div className="max-h-96 overflow-y-auto">
                           {category.subcategories?.map((subcat) => (
-                            <Link
+                            <FastLink
                               key={subcat.id}
                               href={subcat.href}
+                              prefetch={true}
                               className="block px-4 py-2 text-sm text-text hover:bg-light hover:text-secondary transition-colors"
                             >
                               {subcat.name}
-                            </Link>
+                            </FastLink>
                           ))}
                         </div>
                       </motion.div>
@@ -123,27 +125,27 @@ const Navbar = () => {
                 </div>
               ))}
               
-              <Link
+                            <FastLink
                 href="/contact"
                 className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Contact
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-              </Link>
-              <Link
+              </FastLink>
+                            <FastLink
                 href="/blogs"
                 className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Blog
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-              </Link>
-              <Link
+              </FastLink>
+                            <FastLink
                 href="/case-studies"
                 className="text-xs lg:text-sm text-text font-body font-medium hover:text-secondary transition-colors relative group"
               >
                 Case Studies
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-secondary group-hover:w-full transition-all duration-300" />
-              </Link>
+              </FastLink>
               
               <CartBadge count={itemsCount} onClick={openCart} />
             </div>
@@ -189,50 +191,50 @@ const Navbar = () => {
               <div className="px-4 py-4 space-y-2">
                 {mainCategories.map((category) => (
                   <div key={category.id}>
-                    <Link
+                    <FastLink
                       href={category.href}
                       onClick={() => setIsOpen(false)}
                       className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                     >
                       {category.name}
-                    </Link>
+                    </FastLink>
                     {category.hasSubcategories && category.subcategories && (
                       <div className="pl-4 space-y-1 border-l-2 border-light">
                         {category.subcategories.slice(0, 6).map((subcat) => (
-                          <Link
+                          <FastLink
                             key={subcat.id}
                             href={subcat.href}
                             onClick={() => setIsOpen(false)}
                             className="block text-sm text-text/70 hover:text-secondary transition-colors py-1"
                           >
                             {subcat.name}
-                          </Link>
+                          </FastLink>
                         ))}
                       </div>
                     )}
                   </div>
                 ))}
-                <Link
+                            <FastLink
                   href="/contact"
                   onClick={() => setIsOpen(false)}
                   className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Contact
-                </Link>
-                <Link
+                </FastLink>
+                            <FastLink
                   href="/blogs"
                   onClick={() => setIsOpen(false)}
                   className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Blog
-                </Link>
-                <Link
+                </FastLink>
+                            <FastLink
                   href="/case-studies"
                   onClick={() => setIsOpen(false)}
                   className="block text-sm text-text font-body font-medium hover:text-secondary transition-colors py-2"
                 >
                   Case Studies
-                </Link>
+                </FastLink>
               </div>
             </motion.div>
           )}

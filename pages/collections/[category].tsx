@@ -1,14 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import { NextSeo } from 'next-seo';
-import Link from 'next/link';
+import FastLink from '@/components/FastLink';
 import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '@/components/ProductCard';
-import { getAllProducts } from '@/lib/server/getAllProducts';
 import {
-  getProductsByCategory,
   getCategoryBySlug,
   categories,
   Product,
@@ -55,21 +54,8 @@ import {
   filterAirmaxProducts,
   hasAirmaxMatches,
 } from '@/lib/filters/airmax';
-import { getCasualImageProducts } from '@/lib/server/casualImageProducts';
-import { getOfficialImageProducts } from '@/lib/server/officialImageProducts';
-import { getVansImageProducts } from '@/lib/server/vansImageProducts';
-import { getAirmaxImageProducts } from '@/lib/server/airmaxImageProducts';
-import { getAirforceImageProducts } from '@/lib/server/airforceImageProducts';
-import { getJordanImageProducts } from '@/lib/server/jordanImageProducts';
-import { getSneakersImageProducts } from '@/lib/server/sneakersImageProducts';
-import { getNewBalanceImageProducts } from '@/lib/server/newbalanceImageProducts';
-import { getCustomizedImageProducts } from '@/lib/server/customizedImageProducts';
-import { getTimberlandImageProducts } from '@/lib/server/timberlandImageProducts';
-import { getLoafersImageProducts } from '@/lib/server/loafersImageProducts';
-import { getNikeImageProducts } from '@/lib/server/nikeImageProducts';
-import { getSportsImageProducts } from '@/lib/server/sportsImageProducts';
-import { getRandomProductsFromAllCategories } from '@/lib/server/getRandomProductsFromAllCategories';
 import RandomProductsCarousel from '@/components/RandomProductsCarousel';
+import { filterProductsByNavQuery } from '@/lib/filters/navQueryFilter';
 import {
   siteConfig,
   getCategoryKeywords,
@@ -78,51 +64,6 @@ import {
   getCategoryPageH1,
   getCategoryPageSubheading,
 } from '@/lib/seo/config';
-
-function getImageIdentityKey(image: string | undefined | null): string {
-  if (!image) return '';
-  const normalized = String(image).trim().toLowerCase();
-  if (!normalized) return '';
-  try {
-    if (normalized.startsWith('http://') || normalized.startsWith('https://')) {
-      const url = new URL(normalized);
-      return decodeURIComponent(url.pathname).replace(/\/+/g, '/');
-    }
-  } catch {
-    // Ignore parse errors and fallback to string-based normalization.
-  }
-  const withoutQuery = normalized.split('?')[0].split('#')[0];
-  return decodeURIComponent(withoutQuery).replace(/\/+/g, '/');
-}
-
-/**
- * Helper function to merge products with database products taking priority
- * Database products (uploaded via admin) keep their uploaded name, description, and price
- * Filesystem products are used as fallback for images not in database
- */
-function mergeProductsWithDbPriority(dbProducts: Product[], fsProducts: Product[]): Product[] {
-  const productMap = new Map<string, Product>();
-  
-  // First, add all database products (they have priority)
-  dbProducts.forEach(p => {
-    if (p && p.image) {
-      const key = getImageIdentityKey(p.image);
-      if (key) productMap.set(key, p);
-    }
-  });
-  
-  // Then, add filesystem products only if image doesn't exist in database
-  fsProducts.forEach(p => {
-    if (p && p.image) {
-      const key = getImageIdentityKey(p.image);
-      if (key && !productMap.has(key)) {
-        productMap.set(key, p);
-      }
-    }
-  });
-  
-  return Array.from(productMap.values());
-}
 
 interface CategoryPageProps {
   category: {
@@ -133,7 +74,7 @@ interface CategoryPageProps {
   };
   products: Product[];
   randomProducts: Product[];
-  allProducts: Product[];
+  allProducts: Pick<Product, 'id' | 'name' | 'image' | 'category' | 'price'>[];
 }
 
 const CategoryPage = ({ category, products, randomProducts, allProducts }: CategoryPageProps) => {
@@ -147,21 +88,11 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
   const safeProducts = products || [];
   const safeAllProducts = allProducts || [];
 
-  // Filter products based on query parameter
   const queryFilteredProducts = useMemo(() => {
     if (!filter || !Array.isArray(safeProducts)) {
       return safeProducts;
     }
-
-    const filterValue = filter.toString().toLowerCase().trim();
-    return safeProducts.filter((product) => {
-      if (!product) return false;
-      const nameMatch = product.name?.toLowerCase().includes(filterValue) || false;
-      const descMatch = product.description?.toLowerCase().includes(filterValue) || false;
-      const imageMatch = product.image?.toLowerCase().includes(filterValue.replace(/\s+/g, '-')) || false;
-      const subcategoryMatch = product.subcategory?.toLowerCase().includes(filterValue) || false;
-      return nameMatch || descMatch || imageMatch || subcategoryMatch;
-    });
+    return filterProductsByNavQuery(safeProducts, filter.toString());
   }, [filter, safeProducts]);
 
   const searchResults = useMemo(() => {
@@ -254,8 +185,18 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
     );
   }
 
+  const lcpPreloadImages = queryFilteredProducts
+    .slice(0, 12)
+    .map((p) => p.image)
+    .filter((src): src is string => typeof src === 'string' && src.startsWith('http'));
+
   return (
     <>
+      <Head>
+        {lcpPreloadImages.map((src) => (
+          <link key={src} rel="preload" as="image" href={src} fetchPriority="high" />
+        ))}
+      </Head>
       <NextSeo
         title={getCategorySeoTitle(safeCategory.slug, safeCategory.name)}
         description={getCategorySeoDescription(safeCategory.slug, safeCategory.name, safeCategory.description)}
@@ -370,7 +311,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             transition={{ duration: 0.4 }}
             className="mb-6"
           >
-            <Link
+            <FastLink
               href="/collections"
               className="inline-flex items-center gap-2 text-text hover:text-primary font-body font-medium transition-colors duration-200 group"
             >
@@ -388,7 +329,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
                 />
               </svg>
               <span>Back to Collections</span>
-            </Link>
+            </FastLink>
           </motion.div>
 
           {/* Header */}
@@ -452,7 +393,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
                         </p>
                         <div className="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto">
                           {searchResults.slice(0, 10).map((product) => (
-                            <Link
+                            <FastLink
                               key={product.id}
                               href={`/collections/${product.category}`}
                               className="flex items-center gap-3 p-3 hover:bg-light/50 rounded-lg transition-colors"
@@ -471,7 +412,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
                                 <p className="text-xs text-text/70 truncate">{product.description}</p>
                                 <p className="text-xs font-bold text-secondary">KES {product.price.toLocaleString()}</p>
                               </div>
-                            </Link>
+                            </FastLink>
                           ))}
                         </div>
                         {searchResults.length > 10 && (
@@ -498,7 +439,16 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
             </div>
           </motion.div>
 
-          {/* Filters removed - all products display openly */}
+          {filter && (
+            <p className="mb-6 text-sm text-text font-body">
+              Showing results for:{' '}
+              <span className="font-semibold text-primary">{filter.toString()}</span>
+              {' · '}
+              <FastLink href={`/collections/${safeCategory.slug}`} className="text-secondary hover:underline">
+                View all in {safeCategory.name}
+              </FastLink>
+            </p>
+          )}
 
           {/* Products Grid */}
           {queryFilteredProducts.length > 0 ? (
@@ -507,6 +457,7 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
                 <ProductCard
                   key={product.id}
                   product={product}
+                  priority={index < 8}
                   className="animate-fade-in"
                 />
               ))}
@@ -514,8 +465,18 @@ const CategoryPage = ({ category, products, randomProducts, allProducts }: Categ
           ) : (
             <div className="text-center py-12">
               <p className="text-text font-body text-lg">
-                No products found in this category.
+                {filter
+                  ? `No products match "${filter.toString()}" in ${safeCategory.name}.`
+                  : `No products found in this category.`}
               </p>
+              {filter && (
+                <FastLink
+                  href={`/collections/${safeCategory.slug}`}
+                  className="inline-block mt-4 text-secondary font-semibold hover:underline"
+                >
+                  View all {safeCategory.name}
+                </FastLink>
+              )}
             </div>
           )}
         </div>
@@ -542,606 +503,18 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const categorySlug = params?.category as string;
-    
-    const category = getCategoryBySlug(categorySlug);
+    const { STATIC_REVALIDATE_SECONDS } = await import('@/lib/server/staticConfig');
+    const { resolveCollectionSlug } = await import('@/lib/routes/collectionLinks');
+    const rawSlug = params?.category as string;
+    const categorySlug = resolveCollectionSlug(rawSlug);
+    const category = categorySlug ? getCategoryBySlug(categorySlug) : undefined;
 
-    if (!category) {
-      return {
-        notFound: true,
-      };
+    if (!category || !categorySlug) {
+      return { notFound: true };
     }
 
-    let products: Product[] = [];
-
-    // Try database first, fallback to filesystem
-    const { getDbImageProducts, getDbProducts } = await import('@/lib/server/dbImageProducts');
-    
-    // New collection structure - fetch from database with uploaded names/descriptions
-    if (categorySlug === 'officials' || categorySlug === 'mens-officials') {
-      // Get ALL officials products from database (Boots, Empire, Mules, Casuals, Clarks, etc.)
-      // No subcategory filtering - all official shoes display together
-      // Try both 'officials' and 'mens-officials' to catch all uploaded products
-      const dbProductsOfficials = await getDbProducts('officials');
-      const dbImageProductsOfficials = await getDbImageProducts('officials');
-      const dbProductsMensOfficials = await getDbProducts('mens-officials');
-      const dbImageProductsMensOfficials = await getDbImageProducts('mens-officials');
-      const autoProducts = await getOfficialImageProducts();
-      
-      // Combine all database sources
-      const dbProducts = [...dbProductsOfficials, ...dbProductsMensOfficials];
-      const dbImageProducts = [...dbImageProductsOfficials, ...dbImageProductsMensOfficials];
-      
-      // Log for debugging
-      console.log(`[Officials Category] Found ${dbProducts.length} products from products table`);
-      console.log(`[Officials Category] Found ${dbImageProducts.length} products from images table`);
-      if (dbProducts.length > 0) {
-        console.log(`[Officials Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
-      }
-      
-      // Combine all sources - database products take priority (keep uploaded names/descriptions/prices)
-      const allProducts = mergeProductsWithDbPriority(
-        [...dbProducts, ...dbImageProducts],
-        autoProducts
-      );
-      
-      // Remove first two products permanently
-      products = allProducts.slice(2);
-      
-      // Final fallback to static products if database is empty
-      if (products.length === 0) {
-        products = getProductsByCategory('officials');
-      }
-    } else if (categorySlug === 'casual' || categorySlug === 'mens-casuals') {
-      // Get all casuals products: Lacoste, Timberland, Boss, casuals images, Puma shoes, and Sandals
-      // Use 'casual' for database queries (admin uploads use 'casual')
-      const casualsDbProducts = await getDbProducts('casual');
-      const casualsDbImageProducts = await getDbImageProducts('casual');
-      
-      // Log for debugging
-      console.log(`[Casual Category] Found ${casualsDbProducts.length} products from products table`);
-      console.log(`[Casual Category] Found ${casualsDbImageProducts.length} products from images table`);
-      if (casualsDbProducts.length > 0) {
-        console.log(`[Casual Category] Sample product: "${casualsDbProducts[0].name}" (category: ${casualsDbProducts[0].category})`);
-      }
-      const casualsFsProducts = getCasualImageProducts();
-      
-      // Get Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
-      const timberlandProducts = getTimberlandImageProducts().filter(p => {
-        if (!p) return false;
-        const nameLower = (p.name || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
-        const imageLower = (p.image || '').toLowerCase();
-        return !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme');
-      });
-      
-      
-      
-      // Get Puma products from sneakers category
-      const sneakersDbProducts = await getDbProducts('sneakers');
-      const sneakersDbImageProducts = await getDbImageProducts('sneakers');
-      const sneakersFsProducts = getSneakersImageProducts();
-      const allSneakers = [...sneakersDbProducts, ...sneakersDbImageProducts, ...sneakersFsProducts];
-      const pumaProducts = allSneakers.filter(p => {
-        if (!p) return false;
-        const nameLower = (p.name || '').toLowerCase();
-        return nameLower.includes('puma');
-      });
-      
-      // Combine all products - database products take priority
-      const allCasuals = mergeProductsWithDbPriority(
-        [...casualsDbProducts, ...casualsDbImageProducts],
-        [...casualsFsProducts, ...timberlandProducts, ...pumaProducts]
-      );
-      
-      // Filter to include only: Lacoste, Timberland, Boss, casuals, Puma, and Sandals
-      // Also set price to 3200 for Timberland, Lacoste, Puma, and Boss products
-      const seen = new Set<string>();
-      products = allCasuals.filter(p => {
-        if (!p || !p.image) return false;
-        if (seen.has(p.image)) return false;
-        seen.add(p.image);
-        
-        const nameLower = (p.name || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
-        const categoryLower = (p.category || '').toLowerCase();
-        const imageLower = (p.image || '').toLowerCase();
-        
-        // Include Sandals products
-        if (nameLower.includes('sandal') || descLower.includes('sandal') || imageLower.includes('sandal')) {
-          return true;
-        }
-        
-        // Include Lacoste products
-        if (nameLower.includes('lacoste')) {
-          return true;
-        }
-        
-        // Include Timberland products (EXCLUDE Timberland Extreme - those go to mens-style)
-        if ((nameLower.includes('timberland') || nameLower.includes('timba') || categoryLower === 'timberland') &&
-            !nameLower.includes('extreme') && !descLower.includes('extreme') && !imageLower.includes('extreme')) {
-          return true;
-        }
-        
-        // Include Boss products
-        if (nameLower.includes('boss')) {
-          return true;
-        }
-        
-        // Include Puma products
-        if (nameLower.includes('puma')) {
-          return true;
-        }
-        
-        // Include all casuals category products
-        if (categoryLower === 'casuals' || categoryLower === 'casual') {
-          return true;
-        }
-        
-        return false;
-      })
-      .map(p => {
-        if (!p) return p;
-        
-        // Set price to 3200 for Timberland, Lacoste, Puma, and Boss products
-        const nameLower = (p.name || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
-        
-        const isTimberland = nameLower.includes('timberland') || nameLower.includes('timba') || 
-                           descLower.includes('timberland') || descLower.includes('timba');
-        const isLacoste = nameLower.includes('lacoste') || descLower.includes('lacoste');
-        const isPuma = nameLower.includes('puma') || descLower.includes('puma');
-        const isBoss = nameLower.includes('boss') || descLower.includes('boss');
-        
-        if (isTimberland || isLacoste || isPuma || isBoss) {
-          return {
-            ...p,
-            price: 3200
-          };
-        }
-        
-        return p;
-      });
-      
-      // Move the last 20 products from mens-casuals to mens-style
-      // Remove them from mens-casuals (they will be added to mens-style in that section)
-      if (products.length > 20) {
-        products = products.slice(0, -20);
-      }
-      
-      if (products.length === 0) {
-        products = getProductsByCategory('casuals');
-      }
-    } else if (categorySlug === 'sneakers') {
-      // Get database products FIRST (priority - these have uploaded names, descriptions, prices)
-      const sneakersDbProducts = await getDbProducts('sneakers');
-      const sneakersDbImageProducts = await getDbImageProducts('sneakers');
-      const airforceDbProducts = await getDbProducts('airforce');
-      const airforceDbImageProducts = await getDbImageProducts('airforce');
-      const jordanDbProducts = await getDbProducts('jordan');
-      const jordanDbImageProducts = await getDbImageProducts('jordan');
-      const airmaxDbProducts = await getDbProducts('airmax');
-      const airmaxDbImageProducts = await getDbImageProducts('airmax');
-      
-      // Log for debugging
-      console.log(`[Sneakers Category] Found ${sneakersDbProducts.length} products from products table`);
-      console.log(`[Sneakers Category] Found ${sneakersDbImageProducts.length} products from images table`);
-      if (sneakersDbProducts.length > 0) {
-        console.log(`[Sneakers Category] Sample product: "${sneakersDbProducts[0].name}" (category: ${sneakersDbProducts[0].category})`);
-      }
-      
-      // Get filesystem products (fallback - auto-generated names/prices)
-      const airforceFsProducts = getAirforceImageProducts();
-      const jordanFsProducts = getJordanImageProducts();
-      const airmaxFsProducts = getAirmaxImageProducts();
-      const newbalanceFsProducts = getNewBalanceImageProducts();
-      const sneakersFsProducts = getSneakersImageProducts();
-      
-      // Combine all products - database products take priority (keep uploaded names/descriptions/prices)
-      const allSneakersDb = [
-        ...sneakersDbProducts,
-        ...sneakersDbImageProducts,
-        ...airforceDbProducts,
-        ...airforceDbImageProducts,
-        ...jordanDbProducts,
-        ...jordanDbImageProducts,
-        ...airmaxDbProducts,
-        ...airmaxDbImageProducts,
-      ];
-      const allSneakersFs = [
-        ...airforceFsProducts,
-        ...jordanFsProducts,
-        ...airmaxFsProducts,
-        ...newbalanceFsProducts,
-        ...sneakersFsProducts,
-      ];
-      
-      const mergedProducts = mergeProductsWithDbPriority(allSneakersDb, allSneakersFs);
-      
-      // Filter to only include products from these categories with valid images
-      const fs = await import('fs');
-      const path = await import('path');
-      products = mergedProducts.filter(p => {
-        if (!p || !p.image || !p.id || !p.name || !p.price) return false;
-        if (p.image === 'null' || p.image.trim() === '') return false;
-        
-        // Validate image - allow CDN URLs even if local file doesn't exist
-        if (p.image.startsWith('/images/')) {
-          // Try both lowercase and capitalized paths for case sensitivity
-          try {
-            const imagePath = path.join(process.cwd(), 'public', p.image);
-            const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
-              const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
-              return `/images/${capitalized}`;
-            });
-            // Allow if either path exists, or allow for CDN fallback
-            if (!fs.existsSync(imagePath) && !fs.existsSync(imagePathAlt)) {
-              // Don't filter out - might be on DigitalOcean Spaces CDN
-              console.warn(`Local image not found: ${p.image}, allowing for CDN fallback`);
-            }
-          } catch {
-            // Allow on error - might be CDN URL
-          }
-        } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-          // Validate URL format for external images (DigitalOcean Spaces, etc.)
-          try {
-            new URL(p.image);
-            // Allow all valid URLs
-          } catch {
-            return false;
-          }
-        } else {
-          return false;
-        }
-        
-        const nameLower = (p.name || '').toLowerCase();
-        const imageLower = (p.image || '').toLowerCase();
-        const categoryLower = (p.category || '').toLowerCase();
-        
-        // PRIORITY: Include products with category='sneakers' (directly uploaded via admin)
-        if (categoryLower === 'sneakers') {
-          return true;
-        }
-        
-        // Include Converse products
-        if (nameLower.includes('converse') || imageLower.includes('converse')) {
-          return true;
-        }
-        
-        // Include all airforce, jordan, airmax, newbalance products (legacy filesystem)
-        return imageLower.includes('/images/airforce/') ||
-               imageLower.includes('/images/jordan/') ||
-               imageLower.includes('/images/airmax/') ||
-               imageLower.includes('/images/newbalance/') ||
-               imageLower.includes('/images/sneakers/') ||
-               imageLower.includes('/images/Sneakers/');
-      });
-    } else if (categorySlug === 'sports') {
-      // Get database products first (priority - keep uploaded names/descriptions/prices)
-      const sportsDbProducts = await getDbProducts('sports');
-      const sportsDbImageProducts = await getDbImageProducts('sports');
-      
-      // Log for debugging
-      console.log(`[Sports Category] Found ${sportsDbProducts.length} products from products table`);
-      console.log(`[Sports Category] Found ${sportsDbImageProducts.length} products from images table`);
-      if (sportsDbProducts.length > 0) {
-        console.log(`[Sports Category] Sample product: "${sportsDbProducts[0].name}" (category: ${sportsDbProducts[0].category})`);
-      }
-      
-      // Get all products from sports folder
-      const sportsFsProducts = getSportsImageProducts().filter(p => 
-        p.image && (p.image.startsWith('/images/sports/') || p.image.startsWith('/images/Sports/'))
-      );
-      
-      // STRICT: Only include products from sports category
-      // Combine sports database products with filesystem products (database priority)
-      const mergedSports = mergeProductsWithDbPriority(
-        [...sportsDbProducts, ...sportsDbImageProducts],
-        sportsFsProducts
-      );
-      
-      // Filter to ensure all products are from sports category
-      const fs = await import('fs');
-      const path = await import('path');
-      const seen = new Set<string>();
-      products = mergedSports.filter(p => {
-        if (!p || !p.image || !p.id || !p.name || !p.price) return false;
-        if (p.image === 'null' || p.image.trim() === '') return false;
-        if (seen.has(p.image)) return false;
-        seen.add(p.image);
-        
-        // Validate image - allow CDN URLs even if local file doesn't exist
-        if (p.image.startsWith('/images/')) {
-          // Try both lowercase and capitalized paths for case sensitivity
-          try {
-            const imagePath = path.join(process.cwd(), 'public', p.image);
-            const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
-              const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
-              return `/images/${capitalized}`;
-            });
-            // Allow if either path exists, or allow for CDN fallback
-            if (!fs.existsSync(imagePath) && !fs.existsSync(imagePathAlt)) {
-              // Don't filter out - might be on DigitalOcean Spaces CDN
-              console.warn(`Local image not found: ${p.image}, allowing for CDN fallback`);
-            }
-          } catch {
-            // Allow on error - might be CDN URL
-          }
-        } else if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-          // Validate URL format for external images (DigitalOcean Spaces, etc.)
-          try {
-            new URL(p.image);
-            // Allow all valid URLs
-          } catch {
-            return false;
-          }
-        } else {
-          return false;
-        }
-        
-        const categoryLower = (p.category || '').toLowerCase();
-        const imageLower = (p.image || '').toLowerCase();
-        
-        // STRICT: Only include sports category products
-        return categoryLower === 'sports' ||
-               imageLower.includes('/images/sports/') || 
-               imageLower.includes('/images/Sports/');
-      });
-    } else if (categorySlug === 'nike' || categorySlug === 'mens-nike') {
-      // Get all products and filter by name containing "nike"
-      const allProductsList = await getAllProducts();
-      // Also get from nike category (admin uploads use 'nike')
-      const nikeDbProducts = await getDbProducts('nike');
-      const nikeDbImageProducts = await getDbImageProducts('nike');
-      
-      // Log for debugging
-      console.log(`[Nike Category] Found ${nikeDbProducts.length} products from products table`);
-      console.log(`[Nike Category] Found ${nikeDbImageProducts.length} products from images table`);
-      if (nikeDbProducts.length > 0) {
-        console.log(`[Nike Category] Sample product: "${nikeDbProducts[0].name}" (category: ${nikeDbProducts[0].category})`);
-      }
-      // Also get from sneakers, airforce, airmax categories (legacy)
-      const sneakersDbProducts = await getDbProducts('sneakers');
-      const sneakersDbImageProducts = await getDbImageProducts('sneakers');
-      const sneakersFsProducts = getSneakersImageProducts();
-      const airforceDbProducts = await getDbProducts('airforce');
-      const airforceDbImageProducts = await getDbImageProducts('airforce');
-      const airmaxDbProducts = await getDbProducts('airmax');
-      const airmaxDbImageProducts = await getDbImageProducts('airmax');
-      const nikeFsProducts = getNikeImageProducts();
-      
-      // Combine all Nike-related products - database products take priority
-      // Prioritize nike category products first
-      const allNikeDb = [
-        ...nikeDbProducts,
-        ...nikeDbImageProducts,
-        ...sneakersDbProducts,
-        ...sneakersDbImageProducts,
-        ...airforceDbProducts,
-        ...airforceDbImageProducts,
-        ...airmaxDbProducts,
-        ...airmaxDbImageProducts,
-      ];
-      const allNikeFs = [
-        ...sneakersFsProducts,
-        ...nikeFsProducts,
-      ];
-      const mergedNike = mergeProductsWithDbPriority(allNikeDb, allNikeFs);
-      
-      // Combine with allProductsList (which already has database priority)
-      const allNikeProducts = [...allProductsList, ...mergedNike];
-      
-      // Remove duplicates by image URL - database products already prioritized
-      const seen = new Set<string>();
-      products = allNikeProducts.filter(p => {
-        if (!p || !p.image) return false;
-        if (seen.has(p.image)) return false;
-        seen.add(p.image);
-        
-        const nameLower = (p.name || '').toLowerCase();
-        const imageLower = (p.image || '').toLowerCase();
-        const descLower = (p.description || '').toLowerCase();
-        
-        // STRICT: Exclude non-Nike products
-        // Exclude New Balance
-        if (nameLower.includes('new balance') || nameLower.includes('newbalance') || 
-            nameLower.includes('nb ') || nameLower.includes(' nb') ||
-            descLower.includes('new balance') || descLower.includes('newbalance') ||
-            imageLower.includes('newbalance') || imageLower.includes('new-balance')) {
-          return false;
-        }
-        
-        // Exclude Adidas/Addidas
-        if (nameLower.includes('adidas') || nameLower.includes('addidas') ||
-            descLower.includes('adidas') || descLower.includes('addidas') ||
-            imageLower.includes('adidas') || imageLower.includes('addidas')) {
-          return false;
-        }
-        
-        // Exclude Converse
-        if (nameLower.includes('converse') || descLower.includes('converse') || imageLower.includes('converse')) {
-          return false;
-        }
-        
-        // Exclude Puma
-        if (nameLower.includes('puma') || descLower.includes('puma') || imageLower.includes('puma')) {
-          return false;
-        }
-        
-        // Exclude Valentino
-        if (nameLower.includes('valentino') || descLower.includes('valentino') || imageLower.includes('valentino')) {
-          return false;
-        }
-        
-        // Exclude Dior products (migrate to mens-style)
-        if (nameLower.includes('dior') || imageLower.includes('dior')) {
-          return false;
-        }
-        
-        // STRICT: Only include products with "nike" in name, description, or from Nike folder
-        // Check if image is from Nike folder (capitalized or lowercase)
-        const isFromNikeFolder = imageLower.includes('/images/nike/') || imageLower.includes('/images/nike/');
-        
-        // Must have "nike" in name OR description OR be from Nike folder OR category is 'nike'
-        const hasNikeInName = nameLower.includes('nike');
-        const hasNikeInDesc = descLower.includes('nike');
-        const isNikeCategory = p.category === 'nike';
-        const isFromNikeFolderStrict = isFromNikeFolder;
-        
-        // Allow airforce/airmax categories ONLY if they explicitly have "nike" in name
-        const isAirforceAirmax = (p.category === 'airforce' || p.category === 'airmax') && hasNikeInName;
-        
-        // DO NOT include general 'sneakers' category products - they might be New Balance, Adidas, etc.
-        // Only include if explicitly from Nike folder or has Nike in name
-        if (p.category === 'sneakers' && !hasNikeInName && !isFromNikeFolderStrict) {
-          return false;
-        }
-        
-        // Final check: Must have Nike in name/desc OR be from Nike folder OR be Nike category OR be airforce/airmax with Nike
-        return hasNikeInName || hasNikeInDesc || isNikeCategory || isFromNikeFolderStrict || isAirforceAirmax;
-      });
-    }
- else if (categorySlug === 'loafers' || categorySlug === 'mens-loafers') {
-      // Get database products first (priority - keep uploaded names/descriptions/prices)
-      // Use 'loafers' for database queries (admin uploads use 'loafers')
-      const dbProducts = await getDbProducts('loafers');
-      const dbImageProducts = await getDbImageProducts('loafers');
-      
-      // Log for debugging
-      console.log(`[Loafers Category] Found ${dbProducts.length} products from products table`);
-      console.log(`[Loafers Category] Found ${dbImageProducts.length} products from images table`);
-      if (dbProducts.length > 0) {
-        console.log(`[Loafers Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
-      }
-      
-      // Get products directly from loafers folder
-      const fsProducts = getLoafersImageProducts().filter(p => 
-        p.image && p.image.startsWith('/images/loafers/')
-      );
-      
-      // Combine - database products take priority
-      products = mergeProductsWithDbPriority(
-        [...dbProducts, ...dbImageProducts],
-        fsProducts
-      );
-    } else if (categorySlug === 'sandals') {
-      // Get database products first (priority - keep uploaded names/descriptions/prices)
-      const dbProducts = await getDbProducts('sandals');
-      const dbImageProducts = await getDbImageProducts('sandals');
-
-      // Log for debugging
-      console.log(`[Sandals Category] Found ${dbProducts.length} products from products table`);
-      console.log(`[Sandals Category] Found ${dbImageProducts.length} products from images table`);
-      if (dbProducts.length > 0) {
-        console.log(`[Sandals Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
-      }
-
-      // Get products directly from sandals folder (using casual images as fallback)
-      const fsProducts = getCasualImageProducts().filter(p =>
-        p.image && p.image.startsWith('/images/sandals/')
-      );
-
-      // Combine - database products take priority
-      products = mergeProductsWithDbPriority(
-        [...dbProducts, ...dbImageProducts],
-        fsProducts
-      );
-    } else if (categorySlug === 'vans') {
-      // Get database products first (priority - keep uploaded names/descriptions/prices)
-      const dbProducts = await getDbProducts('vans');
-      const dbImageProducts = await getDbImageProducts('vans');
-      
-      // Log for debugging
-      console.log(`[Vans Category] Found ${dbProducts.length} products from products table`);
-      console.log(`[Vans Category] Found ${dbImageProducts.length} products from images table`);
-      if (dbProducts.length > 0) {
-        console.log(`[Vans Category] Sample product: "${dbProducts[0].name}" (category: ${dbProducts[0].category})`);
-      }
-      
-      // Get products directly from vans folder
-      const fsProducts = getVansImageProducts().filter(p => 
-        p.image && p.image.startsWith('/images/vans/')
-      );
-      
-      // Combine - database products take priority
-      products = mergeProductsWithDbPriority(
-        [...dbProducts, ...dbImageProducts],
-        fsProducts
-      );
-    } else {
-      // Legacy categories - keep existing logic with database priority
-      if (categorySlug === 'casuals') {
-        const dbProducts = await getDbProducts('casuals');
-        const dbImageProducts = await getDbImageProducts('casuals');
-        const fsProducts = getCasualImageProducts();
-        products = mergeProductsWithDbPriority(
-          [...dbProducts, ...dbImageProducts],
-          fsProducts
-        );
-        if (products.length === 0) {
-          products = getProductsByCategory(categorySlug);
-        }
-      } else {
-        // For other legacy categories, try to get database products first
-        try {
-          const dbProducts = await getDbProducts(categorySlug);
-          const dbImageProducts = await getDbImageProducts(categorySlug);
-          const staticProducts = getProductsByCategory(categorySlug);
-          products = mergeProductsWithDbPriority(
-            [...dbProducts, ...dbImageProducts],
-            staticProducts
-          );
-        } catch {
-          products = getProductsByCategory(categorySlug);
-        }
-      }
-    }
-
-    // Get random products from all categories for the carousel
-    const randomProducts = await getRandomProductsFromAllCategories(30);
-    
-    // Get all products for search
-    const allProducts = await getAllProducts();
-    
-    // Filter out products with invalid or missing images
-    const fs = await import('fs');
-    const path = await import('path');
-    products = products.filter(p => {
-      if (!p || !p.id || !p.name || !p.image || !p.price) return false;
-      if (p.image === 'null' || p.image.trim() === '') return false;
-      
-      // For local images, verify file exists (allow CDN fallback)
-      if (p.image.startsWith('/images/')) {
-        try {
-          const imagePath = path.join(process.cwd(), 'public', p.image);
-          const imagePathAlt = imagePath.replace(/\/images\/([^/]+)/, (match, folder) => {
-            const capitalized = folder.charAt(0).toUpperCase() + folder.slice(1).toLowerCase();
-            return `/images/${capitalized}`;
-          });
-          // Allow if either path exists, or allow for CDN fallback
-          if (fs.existsSync(imagePath) || fs.existsSync(imagePathAlt)) {
-            return true;
-          }
-          // Don't filter out - might be on DigitalOcean Spaces CDN
-          return true; // Allow CDN URLs even if local file doesn't exist
-        } catch {
-          // Allow on error - might be CDN URL
-          return true;
-        }
-      }
-      
-      // For external URLs, validate URL format
-      if (p.image.startsWith('http://') || p.image.startsWith('https://')) {
-        try {
-          new URL(p.image);
-          return true;
-        } catch {
-          return false;
-        }
-      }
-      
-      return false;
-    });
+    const { loadCategoryPageProps } = await import('@/lib/server/getCategoryStaticProps');
+    const { products, randomProducts, allProducts } = await loadCategoryPageProps(categorySlug);
 
     return {
       props: {
@@ -1155,20 +528,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         randomProducts,
         allProducts,
       },
-      // Enable ISR: regenerate page at most once per 60 seconds
-      // This ensures database updates show up on Nike and Sneakers pages
-      revalidate: 60,
+      revalidate: STATIC_REVALIDATE_SECONDS,
     };
   } catch (error) {
-    // Silently fail in development to prevent Fast Refresh reloads
     if (process.env.NODE_ENV === 'production') {
       console.error('Error in getStaticProps:', error);
     }
-    return {
-      notFound: true,
-    };
+    return { notFound: true };
   }
 };
+
 
 export default CategoryPage;
 

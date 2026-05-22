@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import FastLink from '@/components/FastLink';
 import { categories } from '@/data/products';
 
 const Footer = () => {
@@ -109,76 +109,76 @@ const Footer = () => {
               </h4>
               <ul className="space-y-2 md:space-y-3">
               <li>
-                <Link
+                <FastLink
                   href="/"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Home
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/collections"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   All Collections
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/about"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   About Us
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
-                  href="/collections/mens-officials"
+                <FastLink
+                  href="/collections/officials"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Officials
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/collections/casual"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Casuals
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/contact"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Contact Us
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/blogs"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Blog
-                </Link>
+                </FastLink>
               </li>
               <li>
-                <Link
+                <FastLink
                   href="/case-studies"
                   className="text-light/80 hover:text-secondary transition-colors font-body text-xs md:text-sm inline-flex items-center group"
                 >
                   <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-secondary opacity-0 group-hover:opacity-100 mr-1.5 md:mr-2 transition-opacity" />
                   Case Studies
-                </Link>
+                </FastLink>
               </li>
             </ul>
           </div>
@@ -303,12 +303,12 @@ const Footer = () => {
               </a>
             </p>
             <div className="flex items-center gap-4 md:gap-6 text-xs md:text-sm text-light/70 font-body">
-              <Link href="/contact" className="hover:text-secondary transition-colors">
+              <FastLink href="/contact" className="hover:text-secondary transition-colors">
                 Privacy Policy
-              </Link>
-              <Link href="/contact" className="hover:text-secondary transition-colors">
+              </FastLink>
+              <FastLink href="/contact" className="hover:text-secondary transition-colors">
                 Terms of Service
-              </Link>
+              </FastLink>
             </div>
           </div>
         </div>

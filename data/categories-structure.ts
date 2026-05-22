@@ -116,7 +116,7 @@ export const mainCategories: MainCategory[] = [
         id: 'official-casual',
         name: 'Official Casuals',
         slug: 'official-casual',
-        href: '/collections/casual?filter=official',
+        href: '/collections/casual?filter=Official',
         parentCategory: 'casual',
       },
       {
@@ -164,6 +164,13 @@ export const mainCategories: MainCategory[] = [
         parentCategory: 'sneakers',
       },
     ],
+  },
+  {
+    id: 'vans',
+    name: 'Vans',
+    slug: 'vans',
+    href: '/collections/vans',
+    hasSubcategories: false,
   },
   {
     id: 'sports',
@@ -235,5 +242,10 @@ export const categoryGroups = {
     name: 'Sports & Running',
     slug: 'sports',
     subcategories: ['Running Shoes', 'Training / Gym Shoes', 'Football Boots', 'Outdoor Trail Sneakers'],
+  },
+  vans: {
+    name: 'Vans',
+    slug: 'vans',
+    subcategories: [],
   },
 };

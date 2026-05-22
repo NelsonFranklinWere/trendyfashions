@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, memo } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import { Product, formatPrice, getWhatsAppLink } from '@/data/products';
 import { cn } from '@/lib/utils';
 import ImageModal from './ImageModal';
@@ -12,9 +11,11 @@ import SmartImage from './SmartImage';
 interface ProductCardProps {
   product: Product;
   className?: string;
+  /** Above-the-fold images load eagerly for faster LCP */
+  priority?: boolean;
 }
 
-const ProductCard = memo(({ product, className }: ProductCardProps) => {
+const ProductCard = memo(({ product, className, priority = false }: ProductCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const feedbackTimeout = useRef<NodeJS.Timeout | null>(null);
@@ -50,21 +51,11 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
+      <div
         className={cn(
           'bg-white rounded-lg overflow-hidden shadow-soft hover:shadow-large transition-shadow duration-200 group product-card-container',
           className
         )}
-        style={{ 
-          willChange: 'opacity',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden'
-        }}
       >
         {/* Product Image - Clickable */}
         <div
@@ -138,6 +129,7 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             src={product.image}
             alt={product.name}
             fill
+            priority={priority}
             className={cn(
               "group-hover:scale-105 transition-transform duration-300 ease-out",
               isSpecialCategory ? "object-contain" : "object-cover"
@@ -145,8 +137,8 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
             sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
             shimmerWidth={isSpecialCategory ? 800 : 600}
             shimmerHeight={isSpecialCategory ? 600 : 600}
-            quality={50}
-            {...((product as any).fullImageUrl && { fullImageUrl: (product as any).fullImageUrl })}
+            quality={priority ? 60 : 50}
+            fallbackSrc={(product as Product & { fullImageUrl?: string }).fullImageUrl}
           />
           {product.tags?.includes('New Arrivals') && (
             <div className="absolute top-3 left-3 bg-secondary text-white px-3 py-1.5 rounded-full text-xs font-body font-bold z-10 shadow-lg">
@@ -190,12 +182,12 @@ const ProductCard = memo(({ product, className }: ProductCardProps) => {
           )}
         </div>
       </div>
-    </motion.div>
+      </div>
 
     {/* Image Modal */}
     <ImageModal
       isOpen={isModalOpen}
-      imageSrc={product.image}
+      imageSrc={(product as Product & { fullImageUrl?: string }).fullImageUrl || product.image}
       imageAlt={product.name}
       onClose={() => setIsModalOpen(false)}
     />

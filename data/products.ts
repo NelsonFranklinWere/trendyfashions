@@ -8867,7 +8867,15 @@ export const getFeaturedProducts = (): Product[] => {
 };
 
 export const getCategoryBySlug = (slug: string): Category | undefined => {
-  return categories.find((category) => category.slug === slug);
+  // Sync import avoided in client bundle — slug aliases resolved in getStaticProps / middleware
+  const aliases: Record<string, string> = {
+    'mens-officials': 'officials',
+    'mens-casuals': 'casual',
+    casuals: 'casual',
+    'mens-loafers': 'loafers',
+  };
+  const resolved = aliases[slug] || slug;
+  return categories.find((category) => category.slug === resolved);
 };
 
 export const formatPrice = (price: number): string => {

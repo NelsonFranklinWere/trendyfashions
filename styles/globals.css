@@ -224,6 +224,39 @@ section {
   @apply outline-2 outline-offset-2 outline-secondary;
 }
 
+/* Instant feedback while Next.js loads the next page */
+.route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 99999;
+  pointer-events: none;
+  background: linear-gradient(90deg, #e67e22, #2980b9);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.route-progress--active {
+  opacity: 1;
+  animation: routeProgress 0.9s ease-out forwards;
+}
+
+@keyframes routeProgress {
+  0% {
+    transform: scaleX(0.08);
+  }
+  50% {
+    transform: scaleX(0.55);
+  }
+  100% {
+    transform: scaleX(0.92);
+  }
+}
+
 /* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -32,9 +32,9 @@ export function getPool(): Pool {
     pool = new Pool({
       connectionString,
       ssl: useSsl ? { rejectUnauthorized: false } : false,
-      max: 20,
+      max: 5,
       idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 10000,
+      connectionTimeoutMillis: 5000,
     });
 
     // Handle pool errors

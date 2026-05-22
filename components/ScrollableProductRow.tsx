@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+import FastLink from '@/components/FastLink';
 import ProductCard from '@/components/ProductCard';
 import type { Product } from '@/data/products';
 
@@ -45,14 +44,7 @@ export default function ScrollableProductRow({
     <section className={`py-12 md:py-16 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-6 sm:mb-8">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-50px' }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="flex-1 pr-4"
-          >
+          <div className="flex-1 pr-4">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-heading font-bold text-primary mb-1 sm:mb-2 leading-tight">
               {title}
             </h2>
@@ -61,8 +53,8 @@ export default function ScrollableProductRow({
                 {description}
               </p>
             )}
-          </motion.div>
-          <Link
+          </div>
+          <FastLink
             href={viewAllHref}
             className="text-secondary font-body font-semibold hover:underline flex items-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base flex-shrink-0"
           >
@@ -70,7 +62,7 @@ export default function ScrollableProductRow({
             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </Link>
+          </FastLink>
         </div>
         <div
           className="overflow-x-auto pb-4 product-scroll -mx-4 px-4 sm:mx-0 sm:px-0"
