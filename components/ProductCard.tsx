@@ -7,6 +7,9 @@ import { cn } from '@/lib/utils';
 import ImageModal from './ImageModal';
 import useCart from '@/hooks/useCart';
 import SmartImage from './SmartImage';
+import { productToLineItem } from '@/lib/analytics/items';
+import { trackAddToCart } from '@/lib/analytics/google';
+import { trackMetaAddToCart } from '@/lib/analytics/meta';
 
 interface ProductCardProps {
   product: Product;
@@ -47,6 +50,10 @@ const ProductCard = memo(({ product, className, priority = false }: ProductCardP
       clearTimeout(feedbackTimeout.current);
     }
     feedbackTimeout.current = setTimeout(() => setIsAdded(false), 1600);
+
+    const line = productToLineItem(product);
+    trackAddToCart([line]);
+    trackMetaAddToCart([line]);
   };
 
   return (

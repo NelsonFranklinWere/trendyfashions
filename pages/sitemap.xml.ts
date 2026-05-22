@@ -1,6 +1,8 @@
 import { GetServerSideProps } from 'next';
 import { categories } from '@/data/products';
 import { siteConfig } from '@/lib/seo/config';
+import { loadFeedProducts } from '@/lib/catalog/loadFeedProducts';
+import { productPageUrl } from '@/lib/catalog/feedUtils';
 
 interface SitemapUrl {
   loc: string;
@@ -89,6 +91,20 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       priority: '0.7',
     },
   ];
+
+  try {
+    const feedProducts = await loadFeedProducts();
+    for (const p of feedProducts.slice(0, 800)) {
+      urls.push({
+        loc: productPageUrl(p.id),
+        lastmod: currentDate,
+        changefreq: 'weekly',
+        priority: '0.6',
+      });
+    }
+  } catch (e) {
+    console.error('[sitemap] product URLs skipped:', e);
+  }
 
   const sitemap = generateSitemap(urls);
 

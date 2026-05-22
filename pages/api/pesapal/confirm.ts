@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { randomUUID } from 'crypto';
 import { Resend } from 'resend';
 import { updateOrderStatus, getPaymentByOrderId, updatePaymentByOrderId } from '@/lib/db/orders';
 import { WHATSAPP_NUMBER } from '@/lib/cart-utils';
+import type { AnalyticsLineItem } from '@/lib/analytics/items';
+import { lineItemsValue } from '@/lib/analytics/items';
+import { sendMetaCapiEvent } from '@/lib/analytics/server/metaCapi';
 
 function getPesapalBaseUrl() {
   return process.env.PESAPAL_ENV === 'production'
@@ -52,6 +56,19 @@ function createWhatsAppMessage(payment: any): string {
       ...lines,
     ].join('\n')
   );
+}
+
+function extractAnalyticsItems(payment: { raw_payload?: { items?: Array<Record<string, unknown>> } }): AnalyticsLineItem[] {
+  const items = payment?.raw_payload?.items || [];
+  return items
+    .map((item) => ({
+      id: String(item.id || ''),
+      name: String(item.name || ''),
+      price: Number(item.price) || 0,
+      quantity: Number(item.quantity) || 1,
+      category: item.category ? String(item.category) : undefined,
+    }))
+    .filter((i) => i.id && i.name);
 }
 
 async function sendOrderEmail(payment: any) {
@@ -119,8 +136,51 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     });
     await updateOrderStatus(orderId, mapped === 'success' ? 'paid' : mapped);
 
+    const analyticsItems = extractAnalyticsItems(existingPayment || {});
+    const payload = existingPayment?.raw_payload || {};
+    const customer = payload.customer || {};
+    let analytics: {
+      eventId: string;
+      items: AnalyticsLineItem[];
+      value: number;
+      email?: string;
+      phone?: string;
+    } | null = null;
+
     if (mapped === 'success' && existingPayment?.status !== 'success') {
       await sendOrderEmail(existingPayment);
+    }
+
+    if (mapped === 'success' && analyticsItems.length > 0) {
+      const eventId = `purchase_${orderId}_${randomUUID()}`;
+      const value =
+        Number(payload.amount) ||
+        Number(existingPayment?.amount) ||
+        lineItemsValue(analyticsItems);
+      analytics = {
+        eventId,
+        items: analyticsItems,
+        value,
+        email: customer.email,
+        phone: customer.phone,
+      };
+      await sendMetaCapiEvent({
+        eventName: 'Purchase',
+        eventId,
+        orderId,
+        items: analyticsItems,
+        value,
+        currency: 'KES',
+        eventSourceUrl: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://trendyfashionzone.co.ke'}/checkout/complete`,
+        userData: {
+          email: customer.email,
+          phone: customer.phone,
+          clientIpAddress:
+            (req.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
+            req.socket.remoteAddress,
+          clientUserAgent: req.headers['user-agent'],
+        },
+      });
     }
 
     const whatsappUrl =
@@ -128,7 +188,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ? `https://wa.me/${WHATSAPP_NUMBER}?text=${createWhatsAppMessage(existingPayment)}`
         : null;
 
-    return res.status(200).json({ success: true, status: mapped, whatsappUrl });
+    return res.status(200).json({ success: true, status: mapped, whatsappUrl, analytics });
   } catch (error: any) {
     await updatePaymentByOrderId(orderId, { status: 'pending' });
     return res.status(500).json({ success: false, message: error?.message || 'Failed to confirm payment' });

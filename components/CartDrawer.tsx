@@ -8,6 +8,9 @@ import useCart from '@/hooks/useCart';
 import CartItemRow from '@/components/CartItemRow';
 import { createWhatsAppCheckoutLink, getCartAnalyticsPayload } from '@/lib/cart-utils';
 import { formatPrice } from '@/data/products';
+import { cartToLineItems } from '@/lib/analytics/items';
+import { trackBeginCheckout } from '@/lib/analytics/google';
+import { trackMetaInitiateCheckout } from '@/lib/analytics/meta';
 
 declare global {
   interface Window {
@@ -80,6 +83,9 @@ const CartDrawer = ({ isOpen, onClose }: CartDrawerProps) => {
 
   const handleCheckoutClick = () => {
     try {
+      const lineItems = cartToLineItems(items);
+      trackBeginCheckout(lineItems);
+      trackMetaInitiateCheckout(lineItems);
       if (typeof window !== 'undefined') {
         const payload = getCartAnalyticsPayload(items, subtotal);
         window.dispatchEvent(new CustomEvent('tfz.cart.checkout', { detail: payload }));

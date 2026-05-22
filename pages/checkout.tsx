@@ -1,9 +1,12 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useEffect, useRef } from 'react';
 import { NextSeo } from 'next-seo';
 import useCart from '@/hooks/useCart';
 import { formatPrice } from '@/data/products';
 import { WHATSAPP_NUMBER } from '@/lib/cart-utils';
 import { checkoutPageSeo } from '@/lib/seo/config';
+import { cartToLineItems } from '@/lib/analytics/items';
+import { trackBeginCheckout } from '@/lib/analytics/google';
+import { trackMetaInitiateCheckout } from '@/lib/analytics/meta';
 
 interface CheckoutFormData {
   name: string;
@@ -39,6 +42,16 @@ const CheckoutPage = () => {
   const deliveryFee =
     formData.deliveryZone === 'cbd' ? 0 : formData.deliveryZone === 'near_cbd' ? 300 : 500;
   const totalWithDelivery = subtotal + deliveryFee;
+
+  const checkoutTracked = useRef(false);
+  useEffect(() => {
+    if (items.length > 0 && !checkoutTracked.current) {
+      checkoutTracked.current = true;
+      const lineItems = cartToLineItems(items);
+      trackBeginCheckout(lineItems);
+      trackMetaInitiateCheckout(lineItems);
+    }
+  }, [items]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

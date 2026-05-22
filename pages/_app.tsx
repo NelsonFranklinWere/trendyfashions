@@ -7,6 +7,8 @@ import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 import WhatsAppFloatButton from '@/components/WhatsAppFloatButton';
 import RouteProgress from '@/components/RouteProgress';
+import AnalyticsScripts from '@/components/AnalyticsScripts';
+import RouteAnalytics from '@/components/RouteAnalytics';
 import { useRoutePrefetch } from '@/hooks/useRoutePrefetch';
 
 function AppShell({ Component, pageProps }: AppProps): ReactElement {
@@ -26,8 +28,10 @@ function AppShell({ Component, pageProps }: AppProps): ReactElement {
           crossOrigin="anonymous"
         />
       </Head>
+      <AnalyticsScripts />
       <CartProvider>
       <RouteProgress />
+      <RouteAnalytics />
       <Navbar />
       <main className="min-h-screen pt-16 md:pt-20">
         <Component {...pageProps} />

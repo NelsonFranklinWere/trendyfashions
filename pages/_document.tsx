@@ -24,39 +24,6 @@ export default function Document() {
         <meta name="geo.position" content="-1.2921;36.8219" />
         <meta name="ICBM" content="-1.2921, 36.8219" />
 
-        {/* Google Tag Manager & Analytics - Load gracefully */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                
-                // Load scripts with error handling to prevent console errors
-                const loadScript = (src, id) => {
-                  try {
-                    const script = document.createElement('script');
-                    script.async = true;
-                    script.src = src;
-                    script.onerror = () => {}; // Silently handle errors
-                    script.onload = () => {
-                      if (id) gtag('config', id);
-                    };
-                    document.head.appendChild(script);
-                  } catch(e) {}
-                };
-                
-                // Load Google Tag Manager (silently fail if blocked)
-                loadScript('https://www.googletagmanager.com/gtag/js?id=AW-17914939782', 'AW-17914939782');
-                
-                // Load Google Analytics (silently fail if blocked)
-                loadScript('https://www.googletagmanager.com/gtag/js?id=G-36T41E7M8B', 'G-36T41E7M8B');
-              })();
-            `,
-          }}
-        />
-
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

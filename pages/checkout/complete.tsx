@@ -1,5 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { trackPurchase } from '@/lib/analytics/google';
+import { trackMetaPurchase } from '@/lib/analytics/meta';
+import type { AnalyticsLineItem } from '@/lib/analytics/items';
+
+type ConfirmAnalytics = {
+  eventId: string;
+  items: AnalyticsLineItem[];
+  value: number;
+  email?: string;
+  phone?: string;
+};
 
 export default function CheckoutCompletePage() {
   const router = useRouter();
@@ -27,6 +38,14 @@ export default function CheckoutCompletePage() {
         );
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || 'Payment confirmation failed');
+        if (data.status === 'success' && data.analytics) {
+          const a = data.analytics as ConfirmAnalytics;
+          trackPurchase(a.items, orderId, a.value, {
+            email: a.email,
+            phone: a.phone,
+          });
+          trackMetaPurchase(a.items, orderId, a.value, a.eventId);
+        }
         if (data.status === 'success' && data.whatsappUrl) {
           setMessage('Payment successful. Redirecting to WhatsApp...');
           window.location.href = data.whatsappUrl;
@@ -37,8 +56,9 @@ export default function CheckoutCompletePage() {
           return;
         }
         setMessage('Payment is pending. We will update you shortly.');
-      } catch (error: any) {
-        setMessage(error?.message || 'Unable to verify payment.');
+      } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : 'Unable to verify payment.';
+        setMessage(msg);
       }
     })();
   }, [router.isReady, router.query]);
@@ -52,4 +72,3 @@ export default function CheckoutCompletePage() {
     </div>
   );
 }
-
