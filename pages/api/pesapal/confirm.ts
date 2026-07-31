@@ -134,7 +134,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       transaction_reference: orderTrackingId,
       raw_payload: { ...(existingPayment?.raw_payload || {}), pesapalStatus: statusData },
     });
-    await updateOrderStatus(orderId, mapped === 'success' ? 'paid' : mapped);
+    await updateOrderStatus(
+      orderId,
+      mapped === 'success' ? 'paid' : mapped === 'failed' ? 'failed' : 'payment_pending'
+    );
 
     const analyticsItems = extractAnalyticsItems(existingPayment || {});
     const payload = existingPayment?.raw_payload || {};

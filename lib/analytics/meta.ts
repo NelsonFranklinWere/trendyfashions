@@ -76,3 +76,15 @@ export function trackMetaPurchase(
     fbq('track', 'Purchase', payload);
   }
 }
+
+/** WhatsApp / click-to-message — Meta standard Contact event. */
+export function trackMetaContact(source = 'whatsapp'): void {
+  fbq('track', 'Contact', {
+    content_category: source,
+  });
+}
+
+/** Alias for messaging CTAs (float button, cart WhatsApp, footer). */
+export function trackMetaMessaging(source = 'whatsapp'): void {
+  trackMetaContact(source);
+}

@@ -7,6 +7,7 @@ import { checkoutPageSeo } from '@/lib/seo/config';
 import { cartToLineItems } from '@/lib/analytics/items';
 import { trackBeginCheckout } from '@/lib/analytics/google';
 import { trackMetaInitiateCheckout } from '@/lib/analytics/meta';
+import { recordOrderIntent } from '@/lib/orders/recordIntent';
 
 interface CheckoutFormData {
   name: string;
@@ -50,8 +51,9 @@ const CheckoutPage = () => {
       const lineItems = cartToLineItems(items);
       trackBeginCheckout(lineItems);
       trackMetaInitiateCheckout(lineItems);
+      recordOrderIntent({ stage: 'checkout', items, subtotal });
     }
-  }, [items]);
+  }, [items, subtotal]);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -122,6 +124,30 @@ const CheckoutPage = () => {
       .join('\n');
 
     if (paymentMethod === 'whatsapp') {
+      recordOrderIntent({
+        stage: 'whatsapp',
+        items,
+        subtotal,
+        deliveryFee,
+        total: totalWithDelivery,
+        paymentMethod: 'whatsapp',
+        customer: {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          shoeSize: formData.shoeSize,
+          deliveryZone: formData.deliveryZone,
+          deliveryNotes: formData.deliveryNotes,
+        },
+      });
+      try {
+        const { trackMetaMessaging } = await import('@/lib/analytics/meta');
+        trackMetaMessaging('whatsapp_checkout');
+      } catch {
+        // ignore
+      }
       const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
       clearCart();

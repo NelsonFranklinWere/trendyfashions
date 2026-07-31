@@ -92,9 +92,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       customer_phone: customer.phone,
       shipping_address: `${customer.address || ''}${customer.city ? `, ${customer.city}` : ''}`,
       notes: `Shoe size: ${customer.shoeSize || 'Not specified'} | Delivery: ${customer.deliveryOption || 'Not specified'} | Delivery fee: KES ${customer.deliveryFee || 0}`,
-      status: 'pending',
+      status: 'payment_pending',
       total_amount: Math.round(amount),
       currency,
+      line_items: items,
+      payment_method: 'pesapal',
+      delivery_fee: customer.deliveryFee || 0,
+      shoe_size: customer.shoeSize,
+      city: customer.city,
     });
 
     await createPayment({
@@ -155,6 +160,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         status: 'failed',
         raw_payload: { customer, items, pesapal: submitData, stage: 'submit_failed' },
       });
+      const { updateOrderStatus } = await import('@/lib/db/orders');
+      await updateOrderStatus(order.id, 'failed');
       return res.status(502).json({
         success: false,
         message:

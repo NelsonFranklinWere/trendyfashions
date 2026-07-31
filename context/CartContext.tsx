@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { recordOrderIntent } from '@/lib/orders/recordIntent';
 
 export interface CartItem {
   id: string;
@@ -138,6 +139,19 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
       console.error('Failed to persist cart to storage', error);
     }
   }, [state]);
+
+  const cartRecordTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!isHydrated || state.items.length === 0) return;
+    if (cartRecordTimer.current) clearTimeout(cartRecordTimer.current);
+    cartRecordTimer.current = setTimeout(() => {
+      const sub = state.items.reduce((t, i) => t + i.price * i.quantity, 0);
+      recordOrderIntent({ stage: 'cart', items: state.items, subtotal: sub });
+    }, 1200);
+    return () => {
+      if (cartRecordTimer.current) clearTimeout(cartRecordTimer.current);
+    };
+  }, [state.items, isHydrated]);
 
   const addItem = useCallback((item: Omit<CartItem, 'quantity'>) => {
     dispatch({ type: 'ADD_ITEM', payload: item });
