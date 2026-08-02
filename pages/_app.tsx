@@ -6,9 +6,11 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { CartProvider } from '@/context/CartContext';
 import WhatsAppFloatButton from '@/components/WhatsAppFloatButton';
+import SocialFloatButtons from '@/components/SocialFloatButtons';
 import RouteProgress from '@/components/RouteProgress';
 import AnalyticsScripts from '@/components/AnalyticsScripts';
 import RouteAnalytics from '@/components/RouteAnalytics';
+import SiteViewTracker from '@/components/SiteViewTracker';
 import { useRoutePrefetch } from '@/hooks/useRoutePrefetch';
 
 function AppShell({ Component, pageProps }: AppProps): ReactElement {
@@ -32,10 +34,12 @@ function AppShell({ Component, pageProps }: AppProps): ReactElement {
       <CartProvider>
       <RouteProgress />
       <RouteAnalytics />
+      <SiteViewTracker />
       <Navbar />
       <main className="min-h-screen pt-16 md:pt-20">
         <Component {...pageProps} />
       </main>
+      <SocialFloatButtons />
       <WhatsAppFloatButton />
       <Footer />
     </CartProvider>

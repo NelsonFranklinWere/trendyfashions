@@ -14,6 +14,23 @@ vi.mock('next/image', () => ({
   },
 }));
 
+vi.mock('@/components/FastLink', () => ({
+  default: ({ children, href, ...props }: any) => (
+    <a href={href} {...props}>
+      {children}
+    </a>
+  ),
+}));
+
+vi.mock('@/lib/analytics/google', () => ({
+  trackAddToCart: vi.fn(),
+}));
+vi.mock('@/lib/analytics/meta', () => ({
+  trackMetaAddToCart: vi.fn(),
+  trackMetaMessaging: vi.fn(),
+  trackMetaViewContent: vi.fn(),
+}));
+
 const renderWithCart = (ui: ReactElement) => {
   return render(<CartProvider>{ui}</CartProvider>);
 };

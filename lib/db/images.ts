@@ -125,3 +125,13 @@ export async function deleteImage(id: string): Promise<boolean> {
   return result.rowCount > 0;
 }
 
+let imageTagsReady = false;
+
+/** Ensure images.tags exists for Sale / Meta Ads on image-backed catalog items. */
+export async function ensureImageTagsColumn(): Promise<void> {
+  if (imageTagsReady) return;
+  await query(`ALTER TABLE images ADD COLUMN IF NOT EXISTS tags TEXT[] DEFAULT '{}'`);
+  imageTagsReady = true;
+}
+
+

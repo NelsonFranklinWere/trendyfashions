@@ -33,8 +33,8 @@ eslint: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**.supabase.co',
-        pathname: '/storage/v1/object/public/**',
+        hostname: 'trendyfashionzone.co.ke',
+        pathname: '/uploads/**',
       },
       {
         protocol: 'https',
@@ -53,6 +53,33 @@ eslint: {
   compress: true,
   async headers() {
     return [
+      {
+        source: '/uploads/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/categories/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/image',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/',
         headers: [
@@ -94,6 +121,19 @@ eslint: {
         ],
         destination: 'https://trendyfashionzone.co.ke/:path*',
         permanent: true,
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      // Meta Commerce Manager prefers a URL that ends in .csv
+      {
+        source: '/api/feeds/meta-sale.csv',
+        destination: '/api/feeds/meta-sale',
+      },
+      {
+        source: '/api/feeds/meta.csv',
+        destination: '/api/feeds/meta?format=csv',
       },
     ];
   },

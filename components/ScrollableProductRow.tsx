@@ -70,9 +70,9 @@ export default function ScrollableProductRow({
           aria-label={`${title} products`}
         >
           <div className="flex gap-3 sm:gap-4 md:gap-6 min-w-max">
-            {valid.map((product) => (
+            {valid.map((product, index) => (
               <div key={product.id} className="flex-shrink-0 w-40 sm:w-48 md:w-56 lg:w-64">
-                <ProductCard product={product} />
+                <ProductCard product={product} priority={index < 2} />
               </div>
             ))}
           </div>

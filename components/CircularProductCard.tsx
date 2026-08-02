@@ -52,7 +52,7 @@ const CircularProductCard = memo(({ product, className, delay = 0 }: CircularPro
         className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto rounded-full overflow-hidden bg-gradient-to-br from-light to-gray-100 shadow-soft hover:shadow-large transition-all duration-300 group-hover:scale-105"
       >
         <SmartImage
-          src={product.image}
+          src={product.fullImageUrl || product.image}
           alt={product.name}
           fill
           priority={delay === 0}
@@ -60,8 +60,8 @@ const CircularProductCard = memo(({ product, className, delay = 0 }: CircularPro
           sizes="(max-width: 640px) 128px, (max-width: 1024px) 144px, 160px"
           shimmerWidth={400}
           shimmerHeight={400}
-          quality={65}
-          fallbackSrc={(product as Product & { fullImageUrl?: string }).fullImageUrl}
+          quality={72}
+          fallbackSrc={product.image}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
       </Link>

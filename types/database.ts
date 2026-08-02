@@ -14,6 +14,10 @@ export interface ImageRecord {
   height?: number;
   created_at: string;
   updated_at: string;
+  name?: string | null;
+  price?: number | null;
+  description?: string | null;
+  tags?: string[] | null;
 }
 
 export interface ImageUpload {

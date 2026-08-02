@@ -1,69 +1,75 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ProductCard from './ProductCard';
 import { Product } from '@/data/products';
 
 interface LazyProductGridProps {
   products: Product[];
   className?: string;
+  /** How many cards to paint initially (above the fold) */
+  initialCount?: number;
+  /** Batch size when scrolling near the bottom */
+  batchSize?: number;
+  variant?: 'default' | 'sale';
 }
 
-// Virtual scrolling for large product lists
-const LazyProductGrid = ({ products, className }: LazyProductGridProps) => {
-  const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
-  const [startIndex, setStartIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  const ITEMS_PER_LOAD = 20;
-  const BUFFER = 10;
+/**
+ * Renders product cards in batches so the browser isn't asked to fetch
+ * every image on a large collection at once.
+ */
+const LazyProductGrid = ({
+  products,
+  className,
+  initialCount = 12,
+  batchSize = 16,
+  variant = 'default',
+}: LazyProductGridProps) => {
+  const [visibleCount, setVisibleCount] = useState(() =>
+    Math.min(initialCount, products.length),
+  );
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load initial products
-    setVisibleProducts(products.slice(0, ITEMS_PER_LOAD + BUFFER));
-    setStartIndex(ITEMS_PER_LOAD + BUFFER);
-  }, [products]);
+    setVisibleCount(Math.min(initialCount, products.length));
+  }, [products, initialCount]);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const node = sentinelRef.current;
+    if (!node || visibleCount >= products.length) return;
 
-    // Intersection Observer for infinite scroll
-    observerRef.current = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && startIndex < products.length) {
-            const nextIndex = Math.min(
-              startIndex + ITEMS_PER_LOAD,
-              products.length
-            );
-            setVisibleProducts(products.slice(0, nextIndex + BUFFER));
-            setStartIndex(nextIndex);
-          }
-        });
+        if (entries.some((e) => e.isIntersecting)) {
+          setVisibleCount((prev) => Math.min(prev + batchSize, products.length));
+        }
       },
-      { rootMargin: '200px' }
+      { rootMargin: '400px 0px' },
     );
 
-    // Observe the last product card
-    const lastCard = containerRef.current.lastElementChild;
-    if (lastCard) {
-      observerRef.current.observe(lastCard);
-    }
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [visibleCount, products.length, batchSize]);
 
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [startIndex, products]);
+  const visible = products.slice(0, visibleCount);
 
   return (
-    <div ref={containerRef} className={className}>
-      {visibleProducts.map((product) => (
-        <ProductCard key={product.id} product={product} />
-      ))}
-    </div>
+    <>
+      <div className={className}>
+        {visible.map((product, index) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            priority={index < 4}
+            variant={variant}
+            className="animate-fade-in"
+          />
+        ))}
+      </div>
+      {visibleCount < products.length && (
+        <div ref={sentinelRef} className="h-8 w-full" aria-hidden />
+      )}
+    </>
   );
 };
 

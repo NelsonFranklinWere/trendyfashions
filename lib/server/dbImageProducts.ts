@@ -3,6 +3,13 @@ import { getProducts } from '@/lib/db/products';
 import type { Product } from '@/data/products';
 import type { ProductRecord, ImageRecord } from '@/types/database';
 import { filterValidProducts } from './validateProduct';
+import {
+  getUploadIdentityKey,
+  toFullUploadSrc,
+  toLocalImageSrc,
+  preferProductImageSrc,
+  toThumbnailSrc,
+} from '@/lib/images/uploadUrls';
 
 /** In-memory catalog loaded once per static build / ISR (see buildProductCache.ts) */
 let bulkProductRows: ProductRecord[] | null = null;
@@ -94,22 +101,12 @@ interface DbImage {
   name?: string;
   price?: number;
   description?: string;
+  tags?: string[] | null;
+  updated_at?: string;
 }
 
 function getImageIdentityKey(image: string | undefined | null): string {
-  if (!image) return '';
-  const normalized = String(image).trim().toLowerCase();
-  if (!normalized) return '';
-  try {
-    if (normalized.startsWith('http://') || normalized.startsWith('https://')) {
-      const url = new URL(normalized);
-      return decodeURIComponent(url.pathname).replace(/\/+/g, '/');
-    }
-  } catch {
-    // Ignore parse errors and fallback to string-based normalization.
-  }
-  const withoutQuery = normalized.split('?')[0].split('#')[0];
-  return decodeURIComponent(withoutQuery).replace(/\/+/g, '/');
+  return getUploadIdentityKey(image);
 }
 
 function dedupeProductsByImageIdentity(products: Product[]): Product[] {
@@ -332,13 +329,13 @@ const getGender = (category: string): 'Men' | 'Unisex' => {
 
 // Helper to map category to product category format
 const mapToProductCategory = (category: string): string => {
-  // Preserve the 8 new categories as-is
-  const newCategories = ['officials', 'casual', 'loafers', 'sports', 'vans'];
-  if (newCategories.includes(category)) {
+  if (
+    ['officials', 'casual', 'sneakers', 'sports', 'loafers', 'sandals', 'vans', 'clothing', 'sale'].includes(
+      category,
+    )
+  ) {
     return category;
   }
-  
-  // Legacy mapping for old categories
   const mapping: Record<string, string> = {
     officials: 'officials',
     'mens-officials': 'officials',
@@ -346,10 +343,12 @@ const mapToProductCategory = (category: string): string => {
     casuals: 'casual',
     'mens-casuals': 'casual',
     'mens-loafers': 'loafers',
-    'mens-nike': 'nike',
+    'mens-nike': 'sneakers',
     airmax: 'sneakers',
     airforce: 'sneakers',
     jordan: 'sneakers',
+    clothes: 'clothing',
+    apparel: 'clothing',
   };
   return mapping[category] || category;
 };
@@ -398,19 +397,19 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     }
   }
   
-  // Thumbnail first for fast grid load; full URL kept for modal / fallback
-  let imageUrl = dbImage.thumbnail_url || dbImage.url;
-  
-  // Validate URL - ensure it's a valid string and not empty
-  if (!imageUrl || typeof imageUrl !== 'string' || imageUrl.trim() === '') {
+  const fullUrl = toLocalImageSrc(dbImage.url) || (dbImage.url || '').trim();
+  const thumbUrl =
+    toLocalImageSrc(dbImage.thumbnail_url) ||
+    toThumbnailSrc(dbImage.url) ||
+    fullUrl;
+  // Cards used to prefer 150–200px thumbs (soft on retina). Serve the full encode instead.
+  const displayUrl = preferProductImageSrc(fullUrl, fullUrl) || fullUrl || thumbUrl;
+
+  if (!displayUrl) {
     console.warn(`Invalid image URL for product ${dbImage.id} (${dbImage.filename}): URL is missing or invalid`);
     throw new Error(`Invalid image URL for product ${dbImage.id}`);
   }
-  
-  // DigitalOcean Spaces CDN URLs are already optimized and public
-  // No special handling needed - they work directly with Next.js Image
-  imageUrl = imageUrl.trim();
-  
+
   // PRIORITY: Use description from database if available (the exact description user uploaded)
   // Otherwise, generate from name and category
   let description: string;
@@ -421,20 +420,30 @@ const dbImageToProduct = (dbImage: DbImage, index: number): Product => {
     // Fallback to generated description
     description = generateDescription(name, category);
   }
-  
-  return {
+
+  const product: Product = {
     id: `db-${dbImage.id}`,
     name,
     description,
     price,
-    image: imageUrl, // Use thumbnail for faster loading, full URL for high-res
+    image: displayUrl,
     // For officials category, keep it as 'officials' for filtering, not mapped to 'formal'
     category: category === 'officials' || category === 'mens-officials' ? 'officials' : productCategory,
     gender: getGender(category),
-    // No tags - we don't use subcategories anymore
-    // Store full URL separately for high-res display when needed
-    ...(dbImage.url && dbImage.url !== imageUrl ? { fullImageUrl: dbImage.url } : {}),
-  } as Product & { fullImageUrl?: string };
+  };
+
+  const tags = Array.isArray(dbImage.tags)
+    ? dbImage.tags.filter(Boolean).map(String)
+    : undefined;
+  if (tags?.length) product.tags = tags;
+
+  const listedAt = dbImage.updated_at || dbImage.uploaded_at || undefined;
+  if (listedAt) product.listedAt = listedAt;
+
+  if (fullUrl && fullUrl !== displayUrl) product.fullImageUrl = fullUrl;
+  else if (fullUrl) product.fullImageUrl = fullUrl;
+
+  return product as Product & { fullImageUrl?: string };
 };
 
 function shouldExcludeCatalogProduct(fields: {
@@ -464,6 +473,16 @@ function shouldExcludeCatalogProduct(fields: {
     filenameLower.includes('jordan11') ||
     filenameLower.includes('j11');
 
+  // Camera-export names like "Img 20260304 Wa0005" / null name + IMG-2026… filename
+  const isImgDumpName =
+    /^img([\s\-_0-9]|$)/i.test((fields.name || '').trim()) ||
+    /^image[\s\-_0-9]/i.test((fields.name || '').trim()) ||
+    /img-20\d{2}/i.test(fields.name || '') ||
+    /^img[\s\-_]/i.test(filenameLower.replace(/^thumb-/, '')) ||
+    /^img-20\d{2}/i.test(filenameLower) ||
+    ((!(fields.name || '').trim() || /^img\b/i.test((fields.name || '').trim())) &&
+      /img-20\d{2}/i.test(filenameLower));
+
   const isDrMartens =
     nameLower.includes('dr.martens') ||
     nameLower.includes('drmartens') ||
@@ -483,7 +502,7 @@ function shouldExcludeCatalogProduct(fields: {
     subcategoryLower.includes('dr martens') ||
     subcategoryLower.includes('martens');
 
-  return isJordan11 || isDrMartens;
+  return isJordan11 || isDrMartens || isImgDumpName;
 }
 
 function resolveCategoriesForQuery(category: string): string[] {
@@ -499,19 +518,42 @@ function mapProductRecord(product: ProductRecord): Product {
       ? Number(product.price)
       : getPrice(product.category, product.name);
 
-  return {
+  const fullImage =
+    toFullUploadSrc(product.image) || toLocalImageSrc(product.image) || product.image;
+  const displayImage = preferProductImageSrc(product.image, fullImage) || fullImage;
+
+  const category = mapToProductCategory(product.category) || product.category;
+  const subcategory = product.subcategory?.trim() || '';
+  const tags = product.tags || (subcategory ? [subcategory] : undefined);
+
+  const brandLabel = subcategory
+    ? subcategory
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ')
+    : '';
+
+  const mapped: Product = {
     id: `product-${product.id}`,
     name: product.name,
     description:
       product.description ||
-      `${product.name} — Quality ${product.category} shoes from Trendy Fashion Zone`,
+      `${product.name} — Quality ${product.category} from Trendy Fashion Zone`,
     price,
-    image: product.image,
-    category: mapToProductCategory(product.category) || product.category,
-    gender: (product.gender as 'Men' | 'Unisex') || 'Unisex',
-    tags: product.tags || (product.subcategory ? [product.subcategory] : undefined),
+    image: displayImage,
+    category,
+    gender: (product.gender as 'Men' | 'Women' | 'Unisex') || 'Unisex',
     featured: product.featured || false,
-  } satisfies Product;
+  };
+
+  if (subcategory) mapped.subcategory = subcategory;
+  if (tags && tags.length) mapped.tags = tags;
+  if (brandLabel && brandLabel.toLowerCase() !== 'other') mapped.brand = brandLabel;
+  if (fullImage) mapped.fullImageUrl = fullImage;
+  const listedAt = product.updated_at || product.created_at || undefined;
+  if (listedAt) mapped.listedAt = listedAt;
+
+  return mapped;
 }
 
 /**

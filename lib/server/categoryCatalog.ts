@@ -1,20 +1,10 @@
 import type { Product } from '@/data/products';
 import { buildCategoryBucketsFromBulk } from '@/lib/server/dbImageProducts';
+import { getUploadIdentityKey } from '@/lib/images/uploadUrls';
+import { isSaleProduct } from '@/lib/products/flags';
 
 function getImageIdentityKey(image: string | undefined | null): string {
-  if (!image) return '';
-  const normalized = String(image).trim().toLowerCase();
-  if (!normalized) return '';
-  try {
-    if (normalized.startsWith('http://') || normalized.startsWith('https://')) {
-      const url = new URL(normalized);
-      return decodeURIComponent(url.pathname).replace(/\/+/g, '/');
-    }
-  } catch {
-    // ignore
-  }
-  const withoutQuery = normalized.split('?')[0].split('#')[0];
-  return decodeURIComponent(withoutQuery).replace(/\/+/g, '/');
+  return getUploadIdentityKey(image);
 }
 
 function mergeDbPriority(dbProducts: Product[]): Product[] {
@@ -41,15 +31,17 @@ function isValidDisplayProduct(p: Product | null | undefined): boolean {
   if (!p?.id || !p?.name || !p?.image || p.price == null) return false;
   if (p.image === 'null' || !String(p.image).trim()) return false;
   const img = p.image.trim();
-  if (img.startsWith('http://') || img.startsWith('https://')) {
-    try {
-      new URL(img);
-      return true;
-    } catch {
-      return false;
+  if (img.startsWith('http://') || img.startsWith('https://') || img.startsWith('/')) {
+    if (img.startsWith('http://') || img.startsWith('https://')) {
+      try {
+        new URL(img);
+        return true;
+      } catch {
+        return false;
+      }
     }
+    return true;
   }
-  if (img.startsWith('/')) return true;
   return false;
 }
 
@@ -142,7 +134,7 @@ export function rebuildCategoryCatalog(): void {
       const imageLower = (p.image || '').toLowerCase();
       if (categoryLower === 'sneakers') return true;
       if (nameLower.includes('converse') || imageLower.includes('converse')) return true;
-      if (p.image.startsWith('http'))
+      if (p.image.startsWith('http') || p.image.startsWith('/uploads/'))
         return ['sneakers', 'airforce', 'jordan', 'airmax'].includes(categoryLower);
       return (
         imageLower.includes('/images/airforce/') ||
@@ -165,6 +157,48 @@ export function rebuildCategoryCatalog(): void {
   const loafers = filterValid(mergeCategories(['loafers']));
   const sandals = filterValid(mergeCategories(['sandals']));
   const vans = filterValid(mergeCategories(['vans']));
+  const clothing = filterValid(mergeCategories(['clothing']));
+
+  // Full catalog union for sale / new
+  const provisionalAll: Product[] = [];
+  const seenKeys = new Set<string>();
+  for (const list of [officials, casual, sneakers, sports, loafers, sandals, vans, clothing]) {
+    for (const p of list) {
+      const key = getImageIdentityKey(p.image) || p.id;
+      if (!seenKeys.has(key)) {
+        seenKeys.add(key);
+        provisionalAll.push(p);
+      }
+    }
+  }
+
+  let sale: Product[] = [];
+  // Sale must come from raw product/image buckets (not category lists), because
+  // image rows often share a path with product rows and would drop Sale tags.
+  {
+    const saleSeen = new Set<string>();
+    const pushSale = (list: Product[]) => {
+      for (const p of list) {
+        if (!isSaleProduct(p)) continue;
+        const key = getImageIdentityKey(p.image) || p.id;
+        if (saleSeen.has(key)) continue;
+        saleSeen.add(key);
+        sale.push(p);
+      }
+    };
+    for (const list of categoryBuckets.products.values()) pushSale(list);
+    for (const list of categoryBuckets.images.values()) pushSale(list);
+  }
+  // New Arrivals = most recently uploaded / updated catalog items (newest first)
+  const NEW_ARRIVALS_LIMIT = 72;
+  const newArrivals = [...provisionalAll]
+    .sort((a, b) => {
+      const ta = a.listedAt ? Date.parse(a.listedAt) : 0;
+      const tb = b.listedAt ? Date.parse(b.listedAt) : 0;
+      if (tb !== ta) return tb - ta;
+      return String(b.id).localeCompare(String(a.id));
+    })
+    .slice(0, NEW_ARRIVALS_LIMIT);
 
   catalogBySlug = new Map([
     ['officials', officials],
@@ -178,16 +212,12 @@ export function rebuildCategoryCatalog(): void {
     ['mens-loafers', loafers],
     ['sandals', sandals],
     ['vans', vans],
+    ['clothing', clothing],
+    ['sale', sale],
+    ['new-arrivals', newArrivals],
   ]);
 
-  const allMap = new Map<string, Product>();
-  for (const list of catalogBySlug.values()) {
-    for (const p of list) {
-      const key = getImageIdentityKey(p.image);
-      if (key && !allMap.has(key)) allMap.set(key, p);
-    }
-  }
-  catalogAllProducts = filterValid(Array.from(allMap.values()));
+  catalogAllProducts = filterValid(provisionalAll);
   catalogBuilt = true;
 }
 

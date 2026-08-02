@@ -54,21 +54,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
   console.log('✅ [Upload API] Authentication successful');
 
-  // Check database (Supabase Postgres) connection
+  // Check database connection
   if (!process.env.DATABASE_URL) {
     console.log('⚠️ [Upload API] DATABASE_URL not set');
     return res.status(500).json({
       error: 'Server configuration error: Database not configured',
-      help: 'Set DATABASE_URL in .env.local (e.g. postgresql://postgres:[PASSWORD]@db.PROJECT_REF.supabase.co:5432/postgres, use %40 for @ in password)'
-    });
-  }
-
-  // Check Supabase Storage configuration (images bucket)
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    console.log('⚠️ [Upload API] Supabase Storage not configured');
-    return res.status(500).json({
-      error: 'Server configuration error: Supabase Storage not configured',
-      help: 'Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for the Supabase project'
+      help: 'Set DATABASE_URL in .env.local (e.g. postgresql://trendy:PASSWORD@127.0.0.1:5432/trendyfashionzone)'
     });
   }
 
@@ -157,46 +148,38 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       console.log('⏭️ [Upload API] Optimization skipped');
     }
 
-    // Generate ultra-small thumbnail for instant loading
+    // Card-sized thumb (linked name) — sharp enough for grid + retina, still tiny vs originals
     console.log('🖼️ [Upload API] Creating thumbnail...');
-    const thumbnail = await createThumbnail(originalBuffer, 200);
-    const thumbnailFileName = `thumb-${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
-    const fileName = `${Date.now()}-${path.parse(uploadedFile.originalFilename).name}.webp`;
+    const baseName = path.parse(uploadedFile.originalFilename).name.replace(/[^\w.-]+/g, '-');
+    const stamp = Date.now();
+    const fileName = `${stamp}-${baseName}.webp`;
+    const thumbnail = await createThumbnail(originalBuffer, 720);
+    // Same stem as full file so toThumbnailSrc(full) resolves correctly
+    const thumbnailFileName = `thumb-${fileName}`;
     console.log('✅ [Upload API] Thumbnail created');
 
     // Upload to DigitalOcean Spaces for fast CDN delivery
     const imageKey = `images/${category}/${fileName}`;
     const thumbnailKey = `images/${category}/${thumbnailFileName}`;
 
-    console.log('☁️ [Upload API] Uploading to DigitalOcean Spaces...');
+    console.log('☁️ [Upload API] Saving image files locally...');
     console.log('   Image key:', imageKey);
     console.log('   Thumbnail key:', thumbnailKey);
 
-    // Import Supabase storage upload function
-    const { uploadToSupabaseStorage } = await import('@/lib/storage/supabaseStorage');
+    const { uploadToLocalStorage } = await import('@/lib/storage/localStorage');
 
-    // Upload to Supabase Storage (images bucket)
-    console.log('⬆️ [Upload API] Uploading main image to Supabase Storage...');
-    const imageUrl = await uploadToSupabaseStorage(imageKey, optimizedBuffer, optimizedFormat, {
-      cacheControl: 'public, max-age=31536000, immutable', // 1 year cache
-      metadata: {
-        category,
-        originalFilename: uploadedFile.originalFilename,
-      },
-    });
-    console.log('✅ [Upload API] Main image uploaded:', imageUrl);
+    console.log('⬆️ [Upload API] Writing main image...');
+    const imageUrl = await uploadToLocalStorage(imageKey, optimizedBuffer, optimizedFormat);
+    console.log('✅ [Upload API] Main image saved:', imageUrl);
 
-    // Upload thumbnail to Supabase Storage
     let thumbnailUrl: string;
     try {
-      console.log('⬆️ [Upload API] Uploading thumbnail to Supabase Storage...');
-      thumbnailUrl = await uploadToSupabaseStorage(thumbnailKey, thumbnail.buffer, 'image/webp', {
-        cacheControl: 'public, max-age=31536000, immutable',
-      });
-      console.log('✅ [Upload API] Thumbnail uploaded:', thumbnailUrl);
+      console.log('⬆️ [Upload API] Writing thumbnail...');
+      thumbnailUrl = await uploadToLocalStorage(thumbnailKey, thumbnail.buffer, 'image/webp');
+      console.log('✅ [Upload API] Thumbnail saved:', thumbnailUrl);
     } catch (thumbnailError) {
       console.warn('⚠️ [Upload API] Thumbnail upload error (non-critical):', thumbnailError);
-      thumbnailUrl = imageUrl; // Fallback to main image
+      thumbnailUrl = imageUrl;
     }
 
     // Save metadata to PostgreSQL database

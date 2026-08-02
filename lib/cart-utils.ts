@@ -1,11 +1,10 @@
 import { CartItem } from '@/context/CartContext';
 import { formatPrice } from '@/data/products';
-
-const WHATSAPP_NUMBER = '254712417489';
+import { WHATSAPP_NUMBER } from '@/lib/contact/whatsapp';
 
 export const buildWhatsAppOrderMessage = (items: CartItem[], subtotal: number): string => {
   if (!items.length) {
-    return `Hello Trendy Fashion Zone,%0A%0AI'd like to know more about your footwear collection.`;
+    return `Hello Trendy Fashion Zone,%0A%0AI'd like to know more about your collection.`;
   }
 
   const lines = items.map((item) => {
@@ -45,5 +44,3 @@ export const getCartAnalyticsPayload = (items: CartItem[], subtotal: number) => 
 });
 
 export { WHATSAPP_NUMBER };
-
-

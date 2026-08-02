@@ -6,7 +6,11 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { mainCategories } from '@/data/categories-structure';
+import {
+  adminProductCategories,
+  ADMIN_SUBCATEGORY_OPTIONS,
+} from '@/data/categories-structure';
+import { ensureNewArrivalTag, ensureSaleTag, isNewArrivalProduct, isSaleProduct } from '@/lib/products/flags';
 
 const productSchema = z.object({
   name: z.string().min(1, 'Product name is required'),
@@ -28,27 +32,23 @@ const productSchema = z.object({
   ),
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().optional(),
-  gender: z.enum(['Men', 'Unisex']).optional(),
+  gender: z.enum(['Men', 'Women', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
+  onSale: z.boolean().default(false),
+  isNewArrival: z.boolean().default(false),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
 
 // Generate categories and subcategories from single source of truth
-const CATEGORIES = mainCategories
-  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
-  .map(cat => ({ value: cat.id, label: cat.name }));
+const CATEGORIES = adminProductCategories.map((cat) => ({
+  value: cat.value,
+  label: `${cat.group}: ${cat.label}`,
+}));
 
-const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> = {};
-mainCategories.forEach(cat => {
-  if (cat.hasSubcategories && cat.subcategories) {
-    SUBCATEGORIES[cat.id] = cat.subcategories.map(sub => ({
-      value: sub.slug,
-      label: sub.name
-    }));
-  }
-});
+const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> =
+  ADMIN_SUBCATEGORY_OPTIONS;
 
 export default function EditProduct() {
   const router = useRouter();
@@ -122,6 +122,30 @@ export default function EditProduct() {
       setValue('gender', product.gender || undefined);
       setValue('tags', product.tags?.join(', ') || '');
       setValue('featured', product.featured || false);
+      setValue(
+        'onSale',
+        isSaleProduct({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          tags: product.tags || undefined,
+        }),
+      );
+      setValue(
+        'isNewArrival',
+        isNewArrivalProduct({
+          id: product.id,
+          name: product.name,
+          description: product.description || '',
+          price: product.price,
+          image: product.image,
+          category: product.category,
+          tags: product.tags || undefined,
+        }),
+      );
 
       setImagePreview(product.image);
     } catch (error: any) {
@@ -255,7 +279,13 @@ export default function EditProduct() {
 
     setSubmitting(true);
     try {
-      const tagsArray = data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [];
+      const tagsArray = ensureNewArrivalTag(
+        ensureSaleTag(
+          data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
+          data.onSale,
+        ),
+        data.isNewArrival,
+      );
 
       const response = await fetch(`/api/admin/products/${id}`, {
         method: 'PUT',
@@ -504,6 +534,7 @@ export default function EditProduct() {
             >
               <option value="">Select gender</option>
               <option value="Men">Men</option>
+              <option value="Women">Women</option>
               <option value="Unisex">Unisex</option>
             </select>
           </div>
@@ -531,6 +562,30 @@ export default function EditProduct() {
             />
             <label htmlFor="featured" className="ml-2 block text-sm text-gray-700">
               Mark as featured product
+            </label>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="onSale"
+              className="h-4 w-4 text-secondary focus:ring-secondary border-gray-300 rounded"
+              {...register('onSale')}
+            />
+            <label htmlFor="onSale" className="ml-2 block text-sm text-gray-700">
+              On Sale / Meta Ads (Sale page + WhatsApp order)
+            </label>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="isNewArrival"
+              className="h-4 w-4 text-secondary focus:ring-secondary border-gray-300 rounded"
+              {...register('isNewArrival')}
+            />
+            <label htmlFor="isNewArrival" className="ml-2 block text-sm text-gray-700">
+              New Arrivals
             </label>
           </div>
 

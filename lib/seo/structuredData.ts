@@ -73,7 +73,7 @@ export function getOrganizationSchema(): OrganizationSchema {
     },
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+254712417489',
+      telephone: '+254790314739',
       contactType: 'Customer Service',
     },
   };

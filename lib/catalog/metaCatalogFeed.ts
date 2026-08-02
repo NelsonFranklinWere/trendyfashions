@@ -38,3 +38,53 @@ export function buildMetaCatalogJson(products: FeedProduct[]): MetaCatalogPayloa
     })),
   };
 }
+
+function csvEscape(value: string): string {
+  const s = String(value ?? '');
+  if (/[",\n\r]/.test(s)) {
+    return `"${s.replace(/"/g, '""')}"`;
+  }
+  return s;
+}
+
+/**
+ * Meta Commerce Manager catalogue CSV (use URL upload → CSV).
+ * Required columns per Meta product feed spec.
+ */
+export function buildMetaCatalogCsv(products: FeedProduct[]): string {
+  const headers = [
+    'id',
+    'title',
+    'description',
+    'availability',
+    'condition',
+    'price',
+    'link',
+    'image_link',
+    'brand',
+    'google_product_category',
+    'product_type',
+  ];
+
+  const lines = [headers.join(',')];
+  for (const p of products) {
+    lines.push(
+      [
+        csvEscape(p.id),
+        csvEscape(p.title),
+        csvEscape(p.description),
+        csvEscape(p.availability),
+        csvEscape(p.condition),
+        csvEscape(formatMetaPrice(p.price, p.currency)),
+        csvEscape(p.link),
+        csvEscape(p.imageLink),
+        csvEscape(p.brand),
+        csvEscape(p.googleProductCategory),
+        csvEscape(p.category),
+      ].join(','),
+    );
+  }
+
+  // BOM helps Excel open UTF-8 correctly when you download, Meta ignores it fine
+  return `\uFEFF${lines.join('\n')}\n`;
+}

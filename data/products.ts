@@ -8,11 +8,16 @@ export interface Product {
   description: string;
   price: number;
   image: string;
-  category: string; // Maps to: casual, customized, officials, running, sports
-  subcategory?: string; // Maps to subcategories like clarks-official, empire-official, etc.
-  gender?: 'Men' | 'Unisex';
+  category: string; // Maps to: casual, customized, officials, running, sports, clothing, sale
+  subcategory?: string; // Brand or clothing type
+  brand?: string;
+  gender?: 'Men' | 'Women' | 'Unisex';
   tags?: string[];
   featured?: boolean;
+  /** Full-resolution image for modal / PDP zoom */
+  fullImageUrl?: string;
+  /** ISO timestamp for sorting New Arrivals (uploaded/updated) — server only */
+  listedAt?: string;
 }
 
 export interface Category {
@@ -24,39 +29,18 @@ export interface Category {
   featured: boolean;
 }
 
-import { mainCategories } from '@/data/categories-structure';
+import { storefrontCollectionMeta } from '@/data/categories-structure';
 
-// Generate categories from single source of truth
-export const categories: Category[] = mainCategories
-  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
-  .map(cat => ({
-    id: cat.id,
-    name: cat.name,
-    slug: cat.slug,
-    description: getDefaultDescription(cat.id),
-    image: getDefaultImage(cat.id),
-    featured: true,
-  }));
+// Generate categories from single source of truth (shop collections)
+export const categories: Category[] = storefrontCollectionMeta.map((cat) => ({
+  id: cat.id,
+  name: cat.name,
+  slug: cat.slug,
+  description: cat.description,
+  image: cat.image,
+  featured: true,
+}));
 
-function getDefaultDescription(id: string): string {
-  const descriptions: Record<string, string> = {
-    officials: 'Professional office and formal shoes for men',
-    casual: 'Casual shoes for everyday comfort and style',
-    sneakers: 'Modern sneakers for style and comfort',
-    sports: 'Sports and athletic footwear for active lifestyle',
-  };
-  return descriptions[id] || 'Quality shoes from Trendy Fashion Zone';
-}
-
-function getDefaultImage(id: string): string {
-  const images: Record<string, string> = {
-    officials: '/categories/officials/clarks-officials/ClarksOfficials1.jpg',
-    casual: '/categories/casual/lacoste-casuals/LacosteCassual1.jpg',
-    sneakers: '/categories/casual/lacoste-casuals/LacosteCassual2.jpg',
-    sports: '/categories/casual/timberland-casuals/TimbaCasual1.jpg',
-  };
-  return images[id] || '/logo/Logo.jpg';
-}
 export const products: Product[] = [
   {
     id: 'casual-1',
@@ -8882,9 +8866,8 @@ export const formatPrice = (price: number): string => {
   return `KES ${price.toLocaleString('en-KE')}`;
 };
 
-export const getWhatsAppLink = (productName: string): string => {
-  const message = encodeURIComponent(
-    `I'm interested in ${productName} from Trendy Fashion Zone.`
-  );
-  return `https://wa.me/254712417489?text=${message}`;
+import { getProductWhatsAppLink as waLink } from '@/lib/contact/whatsapp';
+
+export const getWhatsAppLink = (productName: string, price?: number): string => {
+  return waLink(productName, price);
 };

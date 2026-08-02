@@ -4,11 +4,15 @@
  */
 export const VALID_COLLECTION_SLUGS = [
   'officials',
-  'loafers',
-  'sandals',
   'casual',
   'sneakers',
   'sports',
+  'clothing',
+  'sale',
+  'new-arrivals',
+  // legacy / extra shoe types still sold
+  'loafers',
+  'sandals',
   'vans',
 ] as const;
 
@@ -25,6 +29,11 @@ export const COLLECTION_SLUG_ALIASES: Record<string, CollectionSlug> = {
   airforce: 'sneakers',
   jordan: 'sneakers',
   airmax: 'sneakers',
+  clothes: 'clothing',
+  menswear: 'clothing',
+  offers: 'sale',
+  'offers-discounts': 'sale',
+  'best-sellers': 'sale',
 };
 
 export function resolveCollectionSlug(slug: string): CollectionSlug | null {
@@ -51,8 +60,7 @@ export const LEGACY_COLLECTION_REDIRECTS: Record<string, string> = {
   '/collections/mens-shoes': '/collections/officials',
   '/collections/mens-nike': '/collections/sneakers?filter=Nike',
   '/collections/nike': '/collections/sneakers?filter=Nike',
-  '/collections/new-arrivals': '/collections',
-  '/collections/best-sellers': '/collections',
-  '/collections/offers-discounts': '/collections',
+  '/collections/offers-discounts': '/collections/sale',
+  '/collections/best-sellers': '/collections/sale',
   '/collections/unisex-collection': '/collections',
 };

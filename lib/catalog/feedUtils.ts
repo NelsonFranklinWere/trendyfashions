@@ -22,9 +22,10 @@ const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || siteConfig.url).replace(/\
 
 const BRAND_PATTERNS: [RegExp, string][] = [
   [/nike/i, 'Nike'],
-  [/adidas/i, 'Adidas'],
+  [/adidas|addidas/i, 'Adidas'],
   [/puma/i, 'Puma'],
   [/clarks/i, 'Clarks'],
+  [/john\s*foster/i, 'John Fosters'],
   [/timberland|timba/i, 'Timberland'],
   [/lacoste/i, 'Lacoste'],
   [/converse/i, 'Converse'],
@@ -32,7 +33,7 @@ const BRAND_PATTERNS: [RegExp, string][] = [
   [/vans/i, 'Vans'],
   [/empire/i, 'Empire'],
   [/boss/i, 'Hugo Boss'],
-  [/new balance/i, 'New Balance'],
+  [/new balance|newbalance/i, 'New Balance'],
 ];
 
 export function getSiteUrl(): string {
@@ -78,13 +79,15 @@ export function toFeedProduct(product: Product): FeedProduct | null {
   const collectionSlug = resolveCollectionSlugForProduct(product) || product.category || 'collections';
   const description =
     (product.description || product.name).trim().slice(0, 5000) || product.name;
+  const image =
+    product.fullImageUrl || product.image;
 
   return {
     id: product.id,
     title: product.name.slice(0, 150),
     description,
     link: productPageUrl(product.id),
-    imageLink: absoluteImageUrl(product.image),
+    imageLink: absoluteImageUrl(image),
     price: Number(product.price),
     currency: 'KES',
     availability: 'in stock',

@@ -12,9 +12,11 @@ interface CategoryCardProps {
   category: Category;
   className?: string;
   delay?: number;
+  /** Only first visible cards should be priority for LCP */
+  priority?: boolean;
 }
 
-const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => {
+const CategoryCard = ({ category, className, delay = 0, priority = false }: CategoryCardProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   // No special categories currently
@@ -54,12 +56,12 @@ const CategoryCard = ({ category, className, delay = 0 }: CategoryCardProps) => 
               src={category.image}
               alt={category.name}
               fill
-              priority
+              priority={priority}
               className={cn(
                 "group-hover:scale-110 transition-transform duration-700 ease-out",
                 isSpecialCategory ? "object-contain" : "object-cover"
               )}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 25vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 40vw, 280px"
               shimmerWidth={isSpecialCategory ? 800 : 600}
               shimmerHeight={isSpecialCategory ? 600 : 600}
               quality={50}

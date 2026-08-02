@@ -19,17 +19,16 @@ export interface OptimizedImageResult {
 }
 
 /**
- * Optimize image for web/mobile - first level optimization
- * Reduces file size while maintaining visual quality
+ * Optimize image for web/mobile — sharp resize + encode.
  */
 export async function optimizeImage(
   inputBuffer: Buffer,
-  options: ImageOptimizationOptions = {}
+  options: ImageOptimizationOptions = {},
 ): Promise<OptimizedImageResult> {
   const {
-    maxWidth = 1920,
-    maxHeight = 1920,
-    quality = 85,
+    maxWidth = 1600,
+    maxHeight = 1600,
+    quality = 78,
     format = 'webp',
     progressive = true,
   } = options;
@@ -38,13 +37,12 @@ export async function optimizeImage(
   let image = sharp(inputBuffer);
   const metadata = await image.metadata();
 
-  // Calculate optimal dimensions (maintain aspect ratio)
   let width = metadata.width || maxWidth;
   let height = metadata.height || maxHeight;
 
   if (width > maxWidth || height > maxHeight) {
     const aspectRatio = width / height;
-    if (width > height) {
+    if (width >= height) {
       width = maxWidth;
       height = Math.round(maxWidth / aspectRatio);
     } else {
@@ -53,8 +51,7 @@ export async function optimizeImage(
     }
   }
 
-  // Resize and optimize based on format
-  image = image.resize(width, height, {
+  image = image.rotate().resize(width, height, {
     fit: 'inside',
     withoutEnlargement: true,
   });
@@ -66,44 +63,38 @@ export async function optimizeImage(
       optimizedBuffer = await image
         .webp({
           quality,
-          effort: 2, // Minimal effort for fastest encoding
-          smartSubsample: false, // Disable for faster processing
-          nearLossless: false, // Disable for better compression
+          effort: 4,
+          smartSubsample: true,
         })
         .toBuffer();
       break;
-
     case 'avif':
       optimizedBuffer = await image
         .avif({
           quality,
-          effort: 4, // AVIF encoding is slower, use lower effort
+          effort: 4,
         })
         .toBuffer();
       break;
-
     case 'jpeg':
       optimizedBuffer = await image
         .jpeg({
           quality,
           progressive,
-          mozjpeg: true, // Use mozjpeg for better compression
+          mozjpeg: true,
         })
         .toBuffer();
       break;
-
     case 'png':
       optimizedBuffer = await image
         .png({
-          quality,
-          compressionLevel: 9,
+          compressionLevel: 8,
           adaptiveFiltering: true,
         })
         .toBuffer();
       break;
-
     default:
-      optimizedBuffer = await image.webp({ quality }).toBuffer();
+      optimizedBuffer = await image.webp({ quality, effort: 4 }).toBuffer();
   }
 
   const compressionRatio = ((originalSize - optimizedBuffer.length) / originalSize) * 100;
@@ -112,7 +103,12 @@ export async function optimizeImage(
     buffer: optimizedBuffer,
     width,
     height,
-    format: format === 'webp' ? 'image/webp' : format === 'avif' ? 'image/avif' : `image/${format}`,
+    format:
+      format === 'webp'
+        ? 'image/webp'
+        : format === 'avif'
+          ? 'image/avif'
+          : `image/${format}`,
     size: optimizedBuffer.length,
     originalSize,
     compressionRatio: Math.round(compressionRatio * 100) / 100,
@@ -120,77 +116,83 @@ export async function optimizeImage(
 }
 
 /**
- * Generate multiple sizes for responsive images
+ * Multiple widths for responsive delivery (optional pipeline).
  */
 export async function generateResponsiveSizes(
   inputBuffer: Buffer,
-  sizes: number[] = [640, 768, 1024, 1280, 1920]
+  sizes: number[] = [480, 720, 1080, 1440],
 ): Promise<Array<{ width: number; buffer: Buffer; format: string }>> {
-  const results = await Promise.all(
-    sizes.map(async (width) => {
+  return Promise.all(
+    sizes.map(async (w) => {
       const optimized = await optimizeImage(inputBuffer, {
-        maxWidth: width,
-        quality: 85,
+        maxWidth: w,
+        maxHeight: w,
+        quality: w <= 480 ? 72 : 78,
         format: 'webp',
       });
       return {
-        width,
+        width: w,
         buffer: optimized.buffer,
         format: optimized.format,
       };
-    })
+    }),
   );
-
-  return results;
 }
 
-/**
- * Optimize image for mobile (ultra-compressed for slow connections)
- */
+/** Compact icons / search chips (not product cards). */
 export async function optimizeForMobile(inputBuffer: Buffer): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
-    maxWidth: 500, // Ultra-small for mobile to load instantly
-    maxHeight: 500, // Ultra-small for mobile to load instantly
-    quality: 45, // Very low quality for smallest files
+    maxWidth: 360,
+    maxHeight: 360,
+    quality: 68,
     format: 'webp',
   });
 }
 
 /**
- * Optimize image for web (ultra-aggressive compression for instant loading)
- * Maximum speed optimization
+ * Full product image stored for PDP + grid.
+ * ~1200px keeps retina product tiles sharp while staying web-friendly.
  */
 export async function optimizeForWeb(inputBuffer: Buffer): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
-    maxWidth: 600, // Ultra-reduced for instant loading
-    maxHeight: 600, // Ultra-reduced for instant loading
-    quality: 50, // Very low quality for smallest file sizes
+    maxWidth: 1200,
+    maxHeight: 1200,
+    quality: 78,
     format: 'webp',
   });
 }
 
 /**
- * Create thumbnail (ultra-small preview for instant loading)
+ * Card / grid thumbnail — wide enough for 2–3x mobile columns (not 200px stubs).
  */
 export async function createThumbnail(
   inputBuffer: Buffer,
-  size: number = 200 // Ultra-small thumbnails for instant loading
+  size: number = 720,
 ): Promise<OptimizedImageResult> {
   return optimizeImage(inputBuffer, {
     maxWidth: size,
     maxHeight: size,
-    quality: 45, // Very low quality for tiny file sizes
+    quality: 74,
     format: 'webp',
   });
 }
 
-/**
- * Detect if image should be optimized (check if already optimized)
- * Ultra-low threshold to optimize ALL images for maximum speed
- */
+/** Tiny blur / admin list only */
+export async function createTinyThumb(
+  inputBuffer: Buffer,
+  size: number = 160,
+): Promise<OptimizedImageResult> {
+  return optimizeImage(inputBuffer, {
+    maxWidth: size,
+    maxHeight: size,
+    quality: 55,
+    format: 'webp',
+  });
+}
+
 export function shouldOptimize(
   buffer: Buffer,
-  maxSize: number = 50 * 1024 // 50KB - optimize all images above this size
+  maxSize: number = 40 * 1024,
 ): boolean {
   return buffer.length > maxSize;
 }

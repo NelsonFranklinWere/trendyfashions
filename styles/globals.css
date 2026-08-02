@@ -13,13 +13,52 @@
   pointer-events: auto !important;
 }
 
-/* WhatsApp Float Button - Ensure it's always floating */
-.whatsapp-float-button {
+/* Bottom-left social stack (Instagram + Facebook) */
+.social-float-stack {
   position: fixed !important;
+  left: 16px !important;
   bottom: 24px !important;
-  right: 24px !important;
-  z-index: 999999 !important;
+  z-index: 999998 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  pointer-events: none !important;
+}
+
+.social-float-btn {
   pointer-events: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+  text-decoration: none !important;
+}
+
+.social-float-btn:hover {
+  transform: scale(1.08) !important;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28) !important;
+}
+
+.social-float-btn:focus-visible {
+  outline: 2px solid #fff !important;
+  outline-offset: 2px !important;
+}
+
+@media (max-width: 640px) {
+  .social-float-stack {
+    left: 12px !important;
+    bottom: 88px !important; /* sit above mobile browser chrome / near WA range */
+  }
+
+  .social-float-btn {
+    width: 44px !important;
+    height: 44px !important;
+  }
 }
 
 @layer base {

@@ -27,8 +27,6 @@ export default function Document() {
         {/* Preconnect for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://jlidiwzvdbaiepapzmxj.supabase.co" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://jlidiwzvdbaiepapzmxj.supabase.co" />
         
         {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="https://trendyfashionzone.co.ke" />

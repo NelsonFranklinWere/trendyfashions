@@ -7,12 +7,21 @@ import { Pool, PoolClient } from 'pg';
  */
 let pool: Pool | null = null;
 
-/** Supabase (and most cloud Postgres) require SSL */
-function isSupabaseOrCloud(connectionString: string): boolean {
+/** Cloud Postgres (Supabase etc.) requires SSL; local Postgres does not. */
+function shouldUseSsl(connectionString: string): boolean {
+  if (process.env.DATABASE_SSL === 'true') return true;
+  if (process.env.DATABASE_SSL === 'false') return false;
+  const local =
+    connectionString.includes('127.0.0.1') ||
+    connectionString.includes('localhost') ||
+    connectionString.includes('@postgres:') ||
+    connectionString.includes('@/');
+  if (local) return false;
   return (
     connectionString.includes('supabase.co') ||
     connectionString.includes('supabase.com') ||
-    connectionString.includes('pooler.supabase.com')
+    connectionString.includes('pooler.supabase.com') ||
+    process.env.NODE_ENV === 'production'
   );
 }
 
@@ -24,11 +33,11 @@ export function getPool(): Pool {
       throw new Error(
         'DATABASE_URL environment variable is not set. ' +
         'Please set it in your .env.local file. ' +
-        'For Supabase: postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres (use %40 for @ in password)'
+        'Example: postgresql://user:password@127.0.0.1:5432/trendyfashionzone'
       );
     }
 
-    const useSsl = isSupabaseOrCloud(connectionString) || process.env.NODE_ENV === 'production';
+    const useSsl = shouldUseSsl(connectionString);
     pool = new Pool({
       connectionString,
       ssl: useSsl ? { rejectUnauthorized: false } : false,
@@ -40,7 +49,6 @@ export function getPool(): Pool {
     // Handle pool errors
     pool.on('error', (err) => {
       console.error('Unexpected error on idle client', err);
-      process.exit(-1);
     });
   }
 

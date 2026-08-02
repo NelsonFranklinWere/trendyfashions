@@ -3,6 +3,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import NextImage, { ImageProps } from 'next/image';
 import { cn } from '@/lib/utils';
+import {
+  isPreoptimizedUpload,
+  toLocalImageSrc,
+} from '@/lib/images/uploadUrls';
 
 type SmartImageProps = ImageProps & {
   /** Retry with this URL if the primary src fails (e.g. full image when thumb 404s) */
@@ -31,9 +35,15 @@ const toBase64 = (str: string) =>
     ? Buffer.from(str).toString('base64')
     : window.btoa(str);
 
+function normalizeSrc(src: ImageProps['src']): ImageProps['src'] {
+  if (typeof src !== 'string') return src;
+  const local = toLocalImageSrc(src);
+  return local || src;
+}
+
 const SmartImage = ({
   className,
-  quality = 65,
+  quality = 75,
   placeholder = 'blur',
   shimmerWidth = 700,
   shimmerHeight = 475,
@@ -42,17 +52,22 @@ const SmartImage = ({
   onLoadingComplete,
   onLoad,
   src,
+  decoding = 'async',
   ...props
 }: SmartImageProps) => {
-  const [activeSrc, setActiveSrc] = useState(src);
+  const normalizedSrc = useMemo(() => normalizeSrc(src), [src]);
+  const normalizedFallback =
+    typeof fallbackSrc === 'string' ? toLocalImageSrc(fallbackSrc) || fallbackSrc : undefined;
+
+  const [activeSrc, setActiveSrc] = useState(normalizedSrc);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
-    setActiveSrc(src);
+    setActiveSrc(normalizedSrc);
     setIsLoaded(false);
     setHasError(false);
-  }, [src]);
+  }, [normalizedSrc]);
 
   const fallbackBlur = useMemo(() => {
     if (placeholder !== 'blur') return undefined;
@@ -62,19 +77,26 @@ const SmartImage = ({
     return `data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`;
   }, [placeholder, blurDataURL, shimmerWidth, shimmerHeight]);
 
-  const optimizedSizes = props.sizes || '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw';
+  const optimizedSizes = props.sizes || '(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 240px';
 
   const srcStr = typeof activeSrc === 'string' ? activeSrc : '';
-  const isExternalUrl = srcStr.startsWith('http://') || srcStr.startsWith('https://');
-  const isCdnUrl =
-    srcStr.includes('digitaloceanspaces.com') ||
-    srcStr.includes('cdn.digitaloceanspaces.com') ||
-    srcStr.includes('supabase.co');
+  const isRemoteHttp =
+    srcStr.startsWith('http://') || srcStr.startsWith('https://');
+  // Local /uploads WebP is already encoded for the network — skip CPU re-encode on the VPS.
+  // Remote CDNs: also skip the optimizer.
+  const skipOptimizer =
+    (typeof activeSrc === 'string' && isPreoptimizedUpload(activeSrc)) ||
+    (isRemoteHttp &&
+      (srcStr.includes('digitaloceanspaces.com') ||
+        srcStr.includes('cdn.digitaloceanspaces.com') ||
+        srcStr.includes('supabase.co')));
 
-  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 50;
-  const optimizedQuality = isCdnUrl ? Math.min(qualityNum, 75) : qualityNum;
+  const qualityNum = typeof quality === 'number' ? quality : Number(quality) || 75;
+  // Quality only applied when Next optimizes; keep as-is for pre-encoded WebPs.
+  const optimizedQuality = qualityNum;
   const shouldPriority = props.priority || false;
-  const effectivePlaceholder = isExternalUrl ? 'empty' : placeholder;
+  const effectivePlaceholder =
+    isRemoteHttp && !srcStr.includes('trendyfashionzone.co.ke') ? 'empty' : placeholder;
 
   if (hasError) {
     return (
@@ -98,10 +120,11 @@ const SmartImage = ({
       placeholder={effectivePlaceholder}
       blurDataURL={effectivePlaceholder === 'blur' ? fallbackBlur : undefined}
       loading={props.loading || (shouldPriority ? 'eager' : 'lazy')}
+      decoding={decoding}
       sizes={optimizedSizes}
       priority={shouldPriority}
       fetchPriority={shouldPriority ? 'high' : 'auto'}
-      unoptimized={isExternalUrl}
+      unoptimized={skipOptimizer || isRemoteHttp}
       className={cn(
         shouldPriority ? 'opacity-100' : 'duration-150 ease-out',
         !shouldPriority && (isLoaded ? 'opacity-100' : 'opacity-0'),
@@ -114,11 +137,11 @@ const SmartImage = ({
       }}
       onError={() => {
         if (
-          fallbackSrc &&
-          typeof fallbackSrc === 'string' &&
-          fallbackSrc !== activeSrc
+          normalizedFallback &&
+          typeof normalizedFallback === 'string' &&
+          normalizedFallback !== activeSrc
         ) {
-          setActiveSrc(fallbackSrc);
+          setActiveSrc(normalizedFallback);
           setIsLoaded(false);
           return;
         }

@@ -6,7 +6,11 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { mainCategories } from '@/data/categories-structure';
+import {
+  adminProductCategories,
+  ADMIN_SUBCATEGORY_OPTIONS,
+} from '@/data/categories-structure';
+import { ensureNewArrivalTag, ensureSaleTag } from '@/lib/products/flags';
 
 const MAX_BULK_IMAGE_UPLOAD = 30;
 
@@ -33,27 +37,23 @@ const productSchema = z.object({
   ),
   category: z.string().min(1, 'Category is required'),
   subcategory: z.string().optional(),
-  gender: z.enum(['Men', 'Unisex']).optional(),
+  gender: z.enum(['Men', 'Women', 'Unisex']).optional(),
   tags: z.string().optional(),
   featured: z.boolean().default(false),
+  onSale: z.boolean().default(false),
+  isNewArrival: z.boolean().default(false),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
 
 // Generate categories and subcategories from single source of truth
-const CATEGORIES = mainCategories
-  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
-  .map(cat => ({ value: cat.id, label: cat.name }));
+const CATEGORIES = adminProductCategories.map((cat) => ({
+  value: cat.value,
+  label: `${cat.group}: ${cat.label}`,
+}));
 
-const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> = {};
-mainCategories.forEach(cat => {
-  if (cat.hasSubcategories && cat.subcategories) {
-    SUBCATEGORIES[cat.id] = cat.subcategories.map(sub => ({
-      value: sub.slug,
-      label: sub.name
-    }));
-  }
-});
+const SUBCATEGORIES: Record<string, Array<{ value: string; label: string }>> =
+  ADMIN_SUBCATEGORY_OPTIONS;
 
 export default function AddProduct() {
   const router = useRouter();
@@ -76,6 +76,8 @@ export default function AddProduct() {
     resolver: zodResolver(productSchema),
     defaultValues: {
       featured: false,
+      onSale: false,
+      isNewArrival: false,
     },
   });
 
@@ -429,7 +431,13 @@ export default function AddProduct() {
   const onSubmit = async (data: ProductFormData) => {
     setSubmitting(true);
     try {
-      const tagsArray = data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [];
+      const tagsArray = ensureNewArrivalTag(
+        ensureSaleTag(
+          data.tags ? data.tags.split(',').map((t) => t.trim()).filter(Boolean) : [],
+          data.onSale,
+        ),
+        data.isNewArrival,
+      );
       
       // Determine which images to use - prioritize uploadedImages
       const imagesToUse = uploadedImages.length > 0 
@@ -758,6 +766,7 @@ export default function AddProduct() {
             >
               <option value="">Select gender</option>
               <option value="Men">Men</option>
+              <option value="Women">Women</option>
               <option value="Unisex">Unisex</option>
             </select>
           </div>
@@ -787,6 +796,30 @@ export default function AddProduct() {
             />
             <label htmlFor="featured" className="ml-2 block text-sm text-gray-700">
               Mark as featured product
+            </label>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="onSale"
+              className="h-4 w-4 text-secondary focus:ring-secondary border-gray-300 rounded"
+              {...register('onSale')}
+            />
+            <label htmlFor="onSale" className="ml-2 block text-sm text-gray-700">
+              On Sale / Meta Ads (shows on Sale page with WhatsApp order)
+            </label>
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="isNewArrival"
+              className="h-4 w-4 text-secondary focus:ring-secondary border-gray-300 rounded"
+              {...register('isNewArrival')}
+            />
+            <label htmlFor="isNewArrival" className="ml-2 block text-sm text-gray-700">
+              New Arrivals
             </label>
           </div>
 

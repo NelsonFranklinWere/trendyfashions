@@ -5,12 +5,13 @@ import { motion } from 'framer-motion';
 import { ProductRecord } from '@/types/database';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useRouter } from 'next/router';
-import { mainCategories } from '@/data/categories-structure';
+import { adminProductCategories } from '@/data/categories-structure';
 
 // Generate categories from single source of truth
-const CATEGORIES = mainCategories
-  .filter(cat => !['new-arrivals', 'best-sellers'].includes(cat.id))
-  .map(cat => ({ value: cat.id, label: cat.name }));
+const CATEGORIES = adminProductCategories.map((cat) => ({
+  value: cat.value,
+  label: `${cat.group}: ${cat.label}`,
+}));
 
 export default function ManageProducts() {
   const { user, loading: authLoading } = useAdminAuth();

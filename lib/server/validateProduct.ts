@@ -1,5 +1,3 @@
-import fs from 'fs';
-import path from 'path';
 import { Product } from '@/data/products';
 
 /**
@@ -13,40 +11,43 @@ export function isValidProduct(product: Product | null | undefined): boolean {
     return false;
   }
 
+  // Camera dump names (WhatsApp IMG exports shown as "Img 2026…")
+  const name = String(product.name || '').trim();
+  if (/^img([\s\-_0-9]|$)/i.test(name) || /^image[\s\-_0-9]/i.test(name) || /img-20\d{2}/i.test(name)) {
+    return false;
+  }
+
   // Check if image is null, undefined, or empty
   if (!product.image || product.image === 'null' || product.image.trim() === '') {
     return false;
   }
 
-  // For local images (starting with /images/), verify file exists
-  if (product.image.startsWith('/images/')) {
-    try {
-      const imagePath = path.join(process.cwd(), 'public', product.image);
-      if (!fs.existsSync(imagePath)) {
-        // If file doesn't exist locally, it might be on DigitalOcean Spaces
-        // Allow it to pass validation - the browser will handle 404s
-        console.warn(`Local image not found: ${product.image}, but allowing for CDN fallback`);
-        return true; // Allow CDN URLs even if local file doesn't exist
-      }
-    } catch (error) {
-      // On error, still allow the product (might be CDN URL)
+  const image = product.image.trim();
+
+  // Local public assets (uploads, categories, legacy /images)
+  if (image.startsWith('/')) {
+    if (
+      image.startsWith('/uploads/') ||
+      image.startsWith('/categories/') ||
+      image.startsWith('/images/') ||
+      image.startsWith('/logo/')
+    ) {
       return true;
     }
-  } else if (product.image.startsWith('http://') || product.image.startsWith('https://')) {
-    // For external URLs (DigitalOcean Spaces CDN, etc.), validate URL format
-    try {
-      new URL(product.image);
-      // Allow all valid URLs (DigitalOcean Spaces, etc.)
-      return true;
-    } catch (error) {
-      return false;
-    }
-  } else {
-    // Invalid image path format
-    return false;
+    // Other root-relative paths still allowed for storefront assets
+    return true;
   }
 
-  return true;
+  if (image.startsWith('http://') || image.startsWith('https://')) {
+    try {
+      new URL(image);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  return false;
 }
 
 /**

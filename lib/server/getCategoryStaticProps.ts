@@ -19,6 +19,11 @@ export type CategoryPageData = {
  * Load category page data: 2 bulk DB queries + in-memory grouping (no per-photo queries).
  */
 export async function loadCategoryPageProps(categorySlug: string): Promise<CategoryPageData> {
+  // Sale list changes via admin — always reload DB catalog for this slug
+  if (categorySlug === 'sale') {
+    const { clearBuildProductCache } = await import('@/lib/server/buildProductCache');
+    clearBuildProductCache();
+  }
   await primeBuildProductCache();
 
   const products = slimProductList(getCategoryPageProducts(categorySlug));
